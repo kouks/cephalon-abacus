@@ -20,6 +20,8 @@ export const moduleInstanceSchema = object({
 
 const buildSchema = object({
   weaponId: slugSchema,
+  /** The firing mode the headline numbers are for. Absent: the weapon's first. */
+  attackId: slugSchema.exactOptional(),
   modules: list(moduleInstanceSchema),
   conditionals: conditionalsSchema,
   /** Ids of the elemental modules, first slot first (BIBLE §6). The rest follow as listed above. */

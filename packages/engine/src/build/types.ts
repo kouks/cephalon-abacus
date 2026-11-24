@@ -23,6 +23,9 @@ export type Conditional = {
   readonly stacks: number;
 };
 
+/** What the weapon does that the metrics don't count. */
+export type LeftOut = 'beamRamp' | 'spoolUp' | 'falloff' | 'sniperCombo' | 'zoom';
+
 /** Something about the build that doesn't work as written. The result is still usable. */
 export type Warning =
   | { readonly code: 'unknownModule'; readonly moduleId: string }
@@ -49,7 +52,10 @@ export type Warning =
     }
   | { readonly code: 'unusedOverride'; readonly sourceId: string; readonly trigger: Trigger }
   | { readonly code: 'unusedElement'; readonly sourceId: string }
-  | { readonly code: 'noProgenitor'; readonly weaponId: string };
+  | { readonly code: 'noProgenitor'; readonly weaponId: string }
+  | { readonly code: 'unknownAttack'; readonly attackId: string }
+  | { readonly code: 'unknownPart'; readonly part: string }
+  | { readonly code: 'leftOut'; readonly attackId: string; readonly what: LeftOut };
 
 /** Everything a build's modules bring, before stacks, filters and sums. */
 export type Collected = {
