@@ -81,6 +81,7 @@ describe('as measured in the game', () => {
     };
     expect(rounds('nagantaka-prime', 'semi-auto', 5)).toBe(14);
     expect(rounds('braton', 'normal', 5)).toBe(58);
+    expect(rounds('braton', 'normal', 1)).toBe(50);
     expect(rounds('vectis-prime', 'normal', 4)).toBe(3);
   });
 
