@@ -47,7 +47,9 @@ export type Warning =
       readonly stacks: number;
       readonly max: number;
     }
-  | { readonly code: 'unusedOverride'; readonly sourceId: string; readonly trigger: Trigger };
+  | { readonly code: 'unusedOverride'; readonly sourceId: string; readonly trigger: Trigger }
+  | { readonly code: 'unusedElement'; readonly sourceId: string }
+  | { readonly code: 'noProgenitor'; readonly weaponId: string };
 
 /** Everything a build's modules bring, before stacks, filters and sums. */
 export type Collected = {

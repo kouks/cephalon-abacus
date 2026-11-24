@@ -10,6 +10,7 @@ import {
   positiveInt,
   slugSchema,
 } from './primitives';
+import { progenitorSchema } from './progenitor';
 
 /** An equipped module. Without a rank it is at its max. */
 export const moduleInstanceSchema = object({
@@ -21,8 +22,10 @@ const buildSchema = object({
   weaponId: slugSchema,
   modules: list(moduleInstanceSchema),
   conditionals: conditionalsSchema,
-  /** Ids of the elemental sources, first slot first (BIBLE §6). */
+  /** Ids of the elemental modules, first slot first (BIBLE §6). The rest follow as listed above. */
   elementOrder: list(z.string().min(1)),
+  /** Replaces the progenitor bonus of a weapon that has one. */
+  progenitor: progenitorSchema.exactOptional(),
 });
 
 const targetSchema = object({

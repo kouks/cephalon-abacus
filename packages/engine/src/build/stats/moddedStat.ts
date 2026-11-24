@@ -1,7 +1,7 @@
 import { invariant } from '@abacus/data/assert';
 
 import type { BucketTotal } from '@/build/aggregate';
-import { aggregate } from '@/build/aggregate';
+import { aggregate, totalOf } from '@/build/aggregate';
 import type { BucketTotals } from '@/build/totalBuckets';
 
 /** A stat before and after mods, and the bucket totals that changed it. */
@@ -16,6 +16,10 @@ export const totalIn = (totals: BucketTotals, bucket: string): BucketTotal => {
   invariant(total !== undefined, `buckets.json has no "${bucket}"`);
   return total;
 };
+
+/** The total of a family's member, which has none until something adds to it. */
+export const memberTotal = (totals: BucketTotals, bucket: string): BucketTotal =>
+  totals.get(bucket) ?? totalOf(bucket, [], {});
 
 /** A stat run through its bucket, then through each of the others: flat bonuses come last. */
 export const modStat = (

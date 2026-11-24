@@ -182,11 +182,15 @@ describe('conditionals of one item', () => {
 });
 
 describe('scenarios', () => {
+  const withProgenitor = (progenitor: object) => ({ build: { ...scenario.build, progenitor } });
+
   it.each([
     ['as they are', {}, true],
     ['with fractions that add up in floating point', { aim: { head: 0.7 + 0.2, body: 0.1 } }, true],
     ['that aim at 110%', { aim: { head: 0.6, body: 0.5 } }, false],
     ['with a seed', { mode: 'montecarlo', seed: 7, runs: 100 }, true],
+    ['with another progenitor', withProgenitor({ element: 'toxin', pct: 0.4 }), true],
+    ['with a progenitor above 60%', withProgenitor({ element: 'toxin', pct: 0.7 }), false],
     ['in another mode', { mode: 'average' }, false],
     ['above the level cap', { enemy: { ...scenario.enemy, level: 10_000 } }, false],
   ])('%s', (_name, change, isValid) => {

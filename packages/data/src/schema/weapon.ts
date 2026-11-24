@@ -2,7 +2,6 @@ import { z } from 'zod';
 
 import type { Attack } from './attack';
 import { attackSchema } from './attack';
-import { damageTypeSchema } from './damageType';
 import { effectSchema } from './effect';
 import { moduleSchema } from './module';
 import {
@@ -14,6 +13,7 @@ import {
   positive,
   positiveInt,
 } from './primitives';
+import { progenitorSchema } from './progenitor';
 import { checkSharedStacks } from './sharedStacks';
 import { compatTagSchema, slotSchema, weaponClassSchema } from './weaponClass';
 
@@ -35,12 +35,6 @@ const ammoSchema = z.discriminatedUnion('reloadStyle', [
     regenDelay: nonNegative,
   }),
 ]);
-
-const progenitorSchema = object({
-  element: damageTypeSchema,
-  /** Share of base damage. Valence Fusion caps it at 60%. */
-  pct: z.number().min(0.25).max(0.6),
-});
 
 /** The shot combo. Every sniper rifle uses one formula; these are its inputs (BIBLE §4). */
 const sniperComboSchema = object({

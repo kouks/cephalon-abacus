@@ -30,14 +30,22 @@ export const startOf = (collected: Collected): Moment => ({
   variables: NO_VARIABLES,
 });
 
-/** Every bucket's total for a selection at a moment, with the effects that made it. */
-export const totalBuckets = (
+type When = { readonly selection: Selection; readonly moment?: Moment };
+
+/** What reaches a selection at a moment, in the order the build lists it. */
+export const contributionsTo = (
   collected: Collected,
   reference: Buckets,
-  { selection, moment = startOf(collected) }: { selection: Selection; moment?: Moment },
+  { selection, moment = startOf(collected) }: When,
+): readonly Contribution[] =>
+  contributionsOf(selectEffects(collected.effects, selection, reference), collected, moment);
+
+/** Every bucket's total, with the effects that made it. */
+export const sumBuckets = (
+  contributions: readonly Contribution[],
+  reference: Buckets,
 ): BucketTotals => {
-  const selected = selectEffects(collected.effects, selection, reference);
-  const groups = groupByBucket(contributionsOf(selected, collected, moment));
+  const groups = groupByBucket(contributions);
   const plain = [...reference.buckets.values()]
     .filter(({ members }) => members === undefined)
     .map(({ id }) => id);
@@ -50,3 +58,7 @@ export const totalBuckets = (
     ]),
   );
 };
+
+/** Every bucket's total for a selection at a moment. */
+export const totalBuckets = (collected: Collected, reference: Buckets, when: When): BucketTotals =>
+  sumBuckets(contributionsTo(collected, reference, when), reference);

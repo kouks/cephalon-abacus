@@ -17,6 +17,8 @@ export const ASSUMPTIONS = {
   headcritScalesFlat: { default: true, test: 'T-5', bible: '§7' },
   /** Cold's +0.1x is added to the crit multiplier. If not: it is 10% of the base. */
   coldCritDamageAbsolute: { default: true, test: 'T-5', bible: '§7' },
+  /** Procs pick their type by quantized damage, so a type at zero never procs. Confirmed. */
+  procWeightsQuantized: { default: true, test: 'T-14', bible: '§6' },
 } as const satisfies Readonly<Record<string, Assumption>>;
 
 export type Assumptions = Readonly<Record<keyof typeof ASSUMPTIONS, boolean>>;
@@ -26,4 +28,5 @@ export const DEFAULT_ASSUMPTIONS: Assumptions = {
   headcritScalesModded: ASSUMPTIONS.headcritScalesModded.default,
   headcritScalesFlat: ASSUMPTIONS.headcritScalesFlat.default,
   coldCritDamageAbsolute: ASSUMPTIONS.coldCritDamageAbsolute.default,
+  procWeightsQuantized: ASSUMPTIONS.procWeightsQuantized.default,
 };
