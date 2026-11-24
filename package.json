@@ -12,7 +12,7 @@
   },
   "imports": {
     "#data/*": "./packages/data/src/*",
-    "#engine/assumptions.ts": "./packages/engine/src/assumptions.ts",
+    "#engine/*": "./packages/engine/src/*",
     "#eslint/*": "./eslint/*"
   },
   "scripts": {

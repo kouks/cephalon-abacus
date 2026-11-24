@@ -1,17 +1,14 @@
 import { describe, expect, it } from 'vitest';
 
 import { must } from '#data/assert.ts';
-import { formatError } from '#data/load/libraryError.ts';
-import { loadLibrary } from '#data/load/loadLibrary.ts';
 import type { Attack } from '#data/schema/attack.ts';
 import { attackTriggerSchema } from '#data/schema/attack.ts';
 import type { Weapon } from '#data/schema/weapon.ts';
 
-import { readLibrary } from './readLibrary.ts';
+import { loadRealLibrary } from './loadRealLibrary.ts';
 
-const result = loadLibrary(readLibrary());
-if (!result.ok) throw new Error(result.errors.map(formatError).join('\n'));
-const weapons = [...result.library.weapons.values()];
+const library = loadRealLibrary();
+const weapons = [...library.weapons.values()];
 
 const sum = (values: readonly number[]) => values.reduce((total, value) => total + value, 0);
 
@@ -73,7 +70,7 @@ const describeWhole = ({ id, slot, class: classes, compatTags, zoomLevels = [] }
 
 const attacks = weapons.flatMap((weapon) => weapon.attacks);
 
-const find = (id: string) => must(result.library.weapons.get(id), `No weapon "${id}"`);
+const find = (id: string) => must(library.weapons.get(id), `No weapon "${id}"`);
 
 describe('the seed weapons', () => {
   it('have the unmodded stats of the wiki', () => {

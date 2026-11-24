@@ -1,18 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import { formatError } from '#data/load/libraryError.ts';
-import { loadLibrary } from '#data/load/loadLibrary.ts';
 import { STAGES } from '#data/schema/bucket.ts';
 
-import { readLibrary } from './readLibrary.ts';
+import { loadRealLibrary } from './loadRealLibrary.ts';
 
-const load = () => {
-  const result = loadLibrary(readLibrary());
-  if (!result.ok) throw new Error(result.errors.map(formatError).join('\n'));
-  return result.library;
-};
-
-const { damageTypes, buckets, factions } = load();
+const { damageTypes, buckets, factions } = loadRealLibrary();
 
 /** "impact 1.5, heat 0.5" */
 const describeMap = (map: object) =>

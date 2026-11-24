@@ -256,4 +256,5 @@ Split long files by concern, extract helpers, and use early returns and lookup t
 - **Faction bonuses double-dip** in proc DoTs and extra hits, and triple-dip in an extra hit's DoT. That is the game, not a bug.
 - **Heat merges** into one instance per enemy that keeps the first proc's bonuses, so an unmodded first proc drags the whole stack down.
 - **Arsenal percentages are relative to the base stat:** +150% crit chance on a 20% weapon is 50%. Flat sources (Arcane Avenger, Puncture stacks) add points afterwards.
+- **A mod's displayed maximum can be rounded.** The game keeps a rank-0 value: Acuity's 350% is 11 × 31.8% = 349.8%. Check new mods against DE's number at every rank.
 - **GunCO isn't always additive.** Galvanized mods multiply with Serration on some weapons; that is the per-weapon `gunCOMode`, never a special case in code.

@@ -51,6 +51,8 @@ export const moduleSchema = object({
   compat: compatSchema,
   /** Modules of one group exclude each other, e.g. Serration and Amalgam Serration. */
   exclusiveGroup: slugSchema.exactOptional(),
+  /** The mod set it counts toward. Set bonuses come with ABA-38. */
+  set: slugSchema.exactOptional(),
   effects: list(effectSchema),
   /** Buckets nothing may change while this is equipped. Acuity locks multishot. */
   locks: list(bucketNameSchema).exactOptional(),
