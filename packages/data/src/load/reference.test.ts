@@ -118,6 +118,7 @@ describe('buckets and factions', () => {
     ['a confidence', { confidence: 'X' }],
     ['members', { members: 'faction' }],
     ['a max', { max: 0 }],
+    ['a body part', { bodyPart: 'tail' }],
   ])('refuse %s they do not know', (key, change) => {
     const [field = ''] = Object.keys(change);
     const errors = errorsOf(withFiles(libraryFile('buckets.json', { ...bucket, ...change })));

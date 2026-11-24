@@ -164,6 +164,7 @@
         "direct": 1
       },
       "stage": "crit",
+      "bodyPart": "weakPoint",
       "confidence": "W"
     },
     {
@@ -187,7 +188,8 @@
       "gameVersion": "44.1.4.1",
       "op": "ADD",
       "scope": {
-        "direct": 1
+        "direct": 1,
+        "aoe": 1
       },
       "stage": "crit",
       "confidence": "W"
@@ -342,6 +344,7 @@
         "direct": 1
       },
       "stage": "hit",
+      "bodyPart": "weakPoint",
       "confidence": "W"
     },
     {
@@ -354,6 +357,7 @@
         "direct": 1
       },
       "stage": "hit",
+      "bodyPart": "head",
       "confidence": "W"
     },
     {

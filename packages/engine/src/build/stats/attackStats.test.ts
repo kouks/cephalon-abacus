@@ -4,6 +4,8 @@ import { add } from '@/testing/build';
 import { measure } from '@/testing/stats';
 
 const AMMO = { magazine: 45, maxAmmo: 540, reloadStyle: 'magazine', reloadTime: 2 };
+/** 2x as the game stores it. */
+const TWO = (256 * 32) / 4095;
 const AOE = { radius: 4, centerPct: 1, edgePct: 0.5, losRequired: false };
 
 const statsWith = (...effects: readonly object[]) => measure({ effects }).stats;
@@ -12,12 +14,12 @@ describe('attack stats', () => {
   it('are the weapon’s own without mods', () => {
     const { critChance, critMultiplier, statusChance, multishot, fireRate } = measure().stats;
     const values = [critChance, critMultiplier, statusChance, multishot, fireRate];
-    expect(values.map(({ value }) => value)).toEqual([0.2, 2, 0.1, 1, 8]);
+    expect(values.map(({ value }) => value)).toEqual([0.2, TWO, 0.1, 1, 8]);
   });
 
   it.each([
     ['critChance', 'crit.chance', 1.5, 0.5],
-    ['critMultiplier', 'crit.damage', 1.2, 4.4],
+    ['critMultiplier', 'crit.damage', 1.2, TWO * 2.2],
     ['statusChance', 'status.chance', 0.9, 0.19],
     ['statusDuration', 'status.duration', 0.9, 1.9],
     ['multishot', 'multishot', 0.9, 1.9],
@@ -52,6 +54,15 @@ describe('attack stats', () => {
     expect(stats.magazine?.value).toBe(expected);
   });
 
+  it('include flat crit bonuses: Arcane Avenger and Tenacious Bond', () => {
+    const { critChance, critMultiplier } = statsWith(
+      add('crit.chanceFlat', 0.45, { op: 'ADD' }),
+      add('crit.damageFlat', 1.2, { op: 'ADD' }),
+    );
+    expect(critChance.value).toBeCloseTo(0.65, 12);
+    expect(critMultiplier.value).toBeCloseTo(TWO + 1.2, 12);
+  });
+
   it('add punch through in metres', () => {
     const flat = add('punchThrough', 1.2, { op: 'ADD' });
     expect(statsWith(flat).punchThrough.value).toBeCloseTo(1.2, 12);
@@ -80,7 +91,7 @@ describe('attack stats', () => {
   it('of an explosion leave out bonuses for direct hits only', () => {
     const effects = [add('crit.chance', 1, { scope: ['direct'] }), add('crit.chance', 0.5)];
     expect(measure({ effects }).stats.critChance.value).toBeCloseTo(0.5, 12);
-    const explosion = { shotType: 'aoe', aoe: AOE, flags: ['isAoE'] };
+    const explosion = { shotType: 'aoe', aoe: AOE, flags: ['canCrit', 'isAoE'] };
     const { critChance } = measure({ effects, attack: explosion }).stats;
     expect(critChance.value).toBeCloseTo(0.3, 12);
   });

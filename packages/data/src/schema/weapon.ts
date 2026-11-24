@@ -103,6 +103,8 @@ export const weaponSchema = object({
   maxRank: z.union([z.literal(30), z.literal(40)], { error: 'Expected 30 or 40' }),
   /** What fire rate bonuses are multiplied by: 2 on bows and what counts as one (BIBLE §9). */
   fireRateBonusScale: positive.exactOptional(),
+  /** How weak point crit chance joins the rest. Absent: it adds up (BIBLE §7). */
+  critStacking: z.enum(['additive', 'multiplicative']).exactOptional(),
   progenitor: progenitorSchema.exactOptional(),
   innatePassives: list(effectSchema).exactOptional(),
   perkHooks: list(hookRefSchema).exactOptional(),

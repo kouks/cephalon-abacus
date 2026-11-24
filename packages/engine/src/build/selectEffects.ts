@@ -3,12 +3,10 @@ import type { Reference } from '@abacus/data/load/library';
 import type { Attack } from '@abacus/data/schema/attack';
 import type { Bucket } from '@abacus/data/schema/bucket';
 import type { DamageType } from '@abacus/data/schema/damageType';
-import type { Scope } from '@abacus/data/schema/effect';
+import type { BodyPart, Scope } from '@abacus/data/schema/effect';
 import type { Weapon } from '@abacus/data/schema/weapon';
 
 import type { CollectedEffect } from './types';
-
-export type BodyPart = 'head' | 'weakPoint';
 
 /** What a number is being worked out for. Effects whose filters don't match it are left out. */
 export type Selection = {
@@ -29,8 +27,10 @@ export const selectionOf = (weapon: Weapon, attack: Attack): Selection => ({
 });
 
 /** A bucket without a scope (fire rate, magazine) is not about damage, so it reaches everything. */
-const reaches = ({ scope: reach }: Bucket, scope: Scope) =>
-  Object.keys(reach).length === 0 || reach[scope] !== undefined;
+const reaches = ({ scope: reach, bodyPart }: Bucket, { scope, bodyParts }: Selection) => {
+  const isInScope = Object.keys(reach).length === 0 || reach[scope] !== undefined;
+  return isInScope && (bodyPart === undefined || bodyParts?.has(bodyPart) === true);
+};
 
 const matches = <Value>(wanted: readonly Value[] | undefined, has: (value: Value) => boolean) =>
   wanted?.some(has) ?? true;
@@ -52,7 +52,7 @@ export const selectEffects = (
 ): readonly CollectedEffect[] =>
   effects.filter((effect) => {
     const bucket = findBucket(effect.bucket, reference);
-    if (bucket === undefined || !reaches(bucket, selection.scope)) return false;
+    if (bucket === undefined || !reaches(bucket, selection)) return false;
     const isInScope = effect.scope?.includes(selection.scope) ?? true;
     return isInScope && passesFilter(effect, selection);
   });

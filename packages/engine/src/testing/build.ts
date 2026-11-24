@@ -25,10 +25,15 @@ const buckets = libraryFile(
   family,
   stat('multishot', { scope: { direct: 1, aoe: 1 } }),
   stat('crit.chance', { scope: { direct: 1, proc: 1, aoe: 1 } }),
-  stat('crit.chanceWeakPoint', { scope: { direct: 1 } }),
+  stat('crit.chanceCombo', { scope: { direct: 1, aoe: 1 } }),
+  stat('crit.chanceWeakPoint', { scope: { direct: 1 }, bodyPart: 'weakPoint' }),
+  stat('crit.chanceFlat', { scope: { direct: 1, aoe: 1 }, op: 'ADD' }),
+  stat('crit.damage', { scope: { direct: 1, proc: 1, aoe: 1 } }),
+  stat('crit.damageFlat', { scope: { direct: 1, aoe: 1 }, op: 'ADD' }),
+  stat('crit.damageFinal', { scope: { direct: 1, aoe: 1 }, op: 'MULTIPLY' }),
   stat('status.chance', { scope: { direct: 1 } }),
   stat('fireRate', { scope: {} }),
-  ...['crit.damage', 'status.chanceFlat', 'status.duration', 'magazine', 'ammoMax'].map((id) =>
+  ...['status.chanceFlat', 'status.duration', 'magazine', 'ammoMax'].map((id) =>
     stat(id, { scope: {} }),
   ),
   ...['reload', 'punchThrough', 'range', 'projectileSpeed', 'aoeRadius'].map((id) =>
@@ -102,11 +107,9 @@ export const GALVANIZED_APTITUDE = mod('galvanized-aptitude', [
   ),
 ]);
 
-export const PRIMARY_ACUITY = mod(
-  'primary-acuity',
-  [add('crit.chanceWeakPoint', 3.5, { filter: { bodyPart: 'weakPoint' } })],
-  { locks: ['multishot'] },
-);
+export const PRIMARY_ACUITY = mod('primary-acuity', [add('crit.chanceWeakPoint', 3.5)], {
+  locks: ['multishot'],
+});
 
 export const makeLibrary = (modules: readonly object[], weaponChange: object = {}): Library => {
   const result = loadLibrary([

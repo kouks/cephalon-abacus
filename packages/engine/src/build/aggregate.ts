@@ -39,6 +39,14 @@ export const totalOf = (
   };
 };
 
+/** Buckets whose bonuses add up with each other, as one. */
+export const joinTotals = (first: BucketTotal, ...others: readonly BucketTotal[]): BucketTotal =>
+  totalOf(
+    first.bucket,
+    [first, ...others].flatMap(({ contributions }) => contributions),
+    first,
+  );
+
 /** base × (1 + Σ STACKING_MULTIPLY) × Π (1 + MULTIPLY) + Σ ADD, or the override (BIBLE §5). */
 export const aggregate = (total: BucketTotal, base: number): number => {
   const { stacking, multiply, add, override, max = Number.POSITIVE_INFINITY } = total;

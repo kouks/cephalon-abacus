@@ -4,14 +4,17 @@ import type { Weapon } from '@abacus/data/schema/weapon';
 import type { Assumptions } from '@/assumptions';
 import type { BucketTotals } from '@/build/totalBuckets';
 
+import { modCritChance } from './critChance';
+import type { CritMultiplier } from './critMultiplier';
+import { modCritMultiplier } from './critMultiplier';
 import { fireRateTotal, modBurstDelay, modChargeTime, modFireRate } from './fireRate';
 import type { ModdedStat } from './moddedStat';
 import { modStat, modTime, totalIn } from './moddedStat';
 
-/** An attack's stats with the build applied (BIBLE §3, step 3). Crit and status are still raw. */
+/** An attack's stats with the build applied (BIBLE §3, step 3). Status is still raw. */
 export type AttackStats = {
   readonly critChance: ModdedStat;
-  readonly critMultiplier: ModdedStat;
+  readonly critMultiplier: CritMultiplier;
   readonly statusChance: ModdedStat;
   readonly statusDuration: ModdedStat;
   readonly multishot: ModdedStat;
@@ -78,8 +81,8 @@ export type Build = { readonly totals: BucketTotals; readonly assumptions: Assum
 export const attackStats = (weapon: Weapon, attack: Attack, build: Build): AttackStats => {
   const { totals } = build;
   return {
-    critChance: modStat(totals, attack.critChance, ['crit.chance']),
-    critMultiplier: modStat(totals, attack.critMultiplier, ['crit.damage']),
+    critChance: modCritChance(weapon, attack, totals),
+    critMultiplier: modCritMultiplier(attack, build),
     statusChance: modStat(totals, attack.statusChance, ['status.chance', 'status.chanceFlat']),
     statusDuration: modStat(totals, 1, ['status.duration']),
     multishot: modStat(totals, attack.multishot, ['multishot']),
