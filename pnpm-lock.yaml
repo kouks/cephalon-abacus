@@ -91,7 +91,11 @@ importers:
         specifier: ^6.3.0
         version: 6.3.0(vite@8.3.8(@types/node@24.19.2)(jiti@2.7.0))
 
-  packages/data: {}
+  packages/data:
+    dependencies:
+      zod:
+        specifier: ^4.6.7
+        version: 4.6.7
 
   packages/engine:
     dependencies:

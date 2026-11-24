@@ -11,6 +11,7 @@
     }
   },
   "imports": {
+    "#data/*": "./packages/data/src/*",
     "#engine/assumptions.ts": "./packages/engine/src/assumptions.ts",
     "#eslint/*": "./eslint/*"
   },
@@ -25,7 +26,7 @@
     "test": "vitest run --project '!golden'",
     "test:coverage": "vitest run --project '!golden' --coverage",
     "test:golden": "vitest run --project golden --passWithNoTests",
-    "data:validate": "node tools/data/validateLibrary.ts",
+    "data:validate": "node tools/run.ts tools/data/validateLibrary.ts",
     "deps:audit": "pnpm audit --audit-level high",
     "commit:check": "node tools/git/commitCheck.ts",
     "branch:check": "node tools/git/branchCheck.ts"

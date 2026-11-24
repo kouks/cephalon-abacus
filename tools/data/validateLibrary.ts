@@ -1,13 +1,17 @@
-/**
- * Fails while library files exist that nothing validates. ABA-6 replaces this with the loader.
- */
-import { globSync } from 'node:fs';
+import { formatError } from '#data/load/libraryError.ts';
+import { loadLibrary } from '#data/load/loadLibrary.ts';
 
-const files = globSync('packages/data/library/**/*.json');
+import { readLibrary } from './readLibrary.ts';
 
-if (files.length > 0) {
-  console.error(`No loader yet (ABA-6), so these files are unchecked:\n${files.join('\n')}`);
-  process.exitCode = 1;
+const files = readLibrary();
+const result = loadLibrary(files);
+
+if (result.ok) {
+  const { weapons, modules, enemies } = result.library;
+  const counts = `${weapons.size} weapons, ${modules.size} modules, ${enemies.size} enemies`;
+  console.log(`The library is valid: ${files.length} files, ${counts}.`);
 } else {
-  console.log('The library has no files yet.');
+  for (const error of result.errors) console.error(formatError(error));
+  console.error(`\n${result.errors.length} errors in the library.`);
+  process.exitCode = 1;
 }
