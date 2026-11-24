@@ -40,6 +40,7 @@ const TOLERANCE = 1e-9;
 const aimSchema = object({
   head: nonNegative,
   body: nonNegative,
+  /** The part that the head's share hits instead. */
   weakPoint: slugSchema.exactOptional(),
 }).refine(({ head, body }) => Math.abs(head + body - 1) < TOLERANCE, 'head and body add up to 1');
 

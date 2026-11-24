@@ -25,6 +25,8 @@ export type TypeDamage = {
   readonly quantized: number;
   /** quantized × modded base damage, before anything the target does. */
   readonly damage: number;
+  /** The physical or elemental bonuses behind it. */
+  readonly effects: readonly Contribution[];
 };
 
 type ByType<Value> = ReadonlyMap<DamageType, Value>;
@@ -71,6 +73,16 @@ const physicalShares = (
   );
 };
 
+const physicalTypes = (physical: ByType<ModdedStat>) =>
+  [...physical].map(([type, { value, totals }]) => {
+    return { type, ratio: value, effects: totals.flatMap(({ contributions }) => contributions) };
+  });
+
+const elementalType = ({ element, ratio, parts }: FinalElement) => {
+  const sources = parts.flatMap((part) => part.sources);
+  return { type: element, ratio, effects: sources.flatMap((source) => source.contribution ?? []) };
+};
+
 const modBase = (base: number, totals: BucketTotals): ModdedStat => {
   const bonus = totalIn(totals, 'damage.base');
   return { base, value: Math.max(aggregate(bonus, base), 0), totals: [bonus] };
@@ -91,18 +103,18 @@ export const composeDamage = (weapon: Weapon, attack: Attack, context: Context):
   const base = baseDamage(attack, progenitorOf(weapon, context.build));
   const moddedBase = modBase(base.total, context.totals);
   const physical = physicalShares(base, context);
-  const { ratios, explanation } = combineElements(
+  const { explanation: elements } = combineElements(
     elementSources(weapon, base, context),
     context.library.damageTypes,
   );
 
-  const shares = [...[...physical].map(([type, { value }]) => [type, value] as const), ...ratios];
+  const shares = [...physicalTypes(physical), ...elements.map(elementalType)];
   const types = new Map(
-    shares.map(([type, ratio]) => {
+    shares.map(({ type, ratio, effects }) => {
       const quantized = quantize(ratio);
-      return [type, { ratio, quantized, damage: quantized * moddedBase.value }];
+      return [type, { ratio, quantized, damage: quantized * moddedBase.value, effects }];
     }),
   );
   const procWeights = weigh(types, context.assumptions);
-  return { moddedBase, types, physical, elements: explanation, procWeights };
+  return { moddedBase, types, physical, elements, procWeights };
 };
