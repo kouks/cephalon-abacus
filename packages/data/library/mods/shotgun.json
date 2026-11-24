@@ -1,0 +1,481 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Module:Mods/data",
+  "items": [
+    {
+      "id": "point-blank",
+      "name": "Point Blank",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponDamageAmountMod",
+      "source": "https://wiki.warframe.com/w/Point_Blank",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "exclusiveGroup": "point-blank",
+      "effects": [
+        {
+          "bucket": "damage.base",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "primed-point-blank",
+      "name": "Primed Point Blank",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/Expert/WeaponDamageAmountModExpert",
+      "source": "https://wiki.warframe.com/w/Primed_Point_Blank",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 10,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "exclusiveGroup": "point-blank",
+      "effects": [
+        {
+          "bucket": "damage.base",
+          "op": "STACKING_MULTIPLY",
+          "value": 1.65
+        }
+      ]
+    },
+    {
+      "id": "hells-chamber",
+      "name": "Hell's Chamber",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponFireIterationsMod",
+      "source": "https://wiki.warframe.com/w/Hell's_Chamber",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "exclusiveGroup": "hells-chamber",
+      "effects": [
+        {
+          "bucket": "multishot",
+          "op": "STACKING_MULTIPLY",
+          "value": 1.2
+        }
+      ]
+    },
+    {
+      "id": "blunderbuss",
+      "name": "Blunderbuss",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponCritChanceMod",
+      "source": "https://wiki.warframe.com/w/Blunderbuss",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "exclusiveGroup": "blunderbuss",
+      "effects": [
+        {
+          "bucket": "crit.chance",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "ravage",
+      "name": "Ravage",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponCritDamageMod",
+      "source": "https://wiki.warframe.com/w/Ravage",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "exclusiveGroup": "ravage",
+      "effects": [
+        {
+          "bucket": "crit.damage",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.6
+        }
+      ]
+    },
+    {
+      "id": "primed-ravage",
+      "name": "Primed Ravage",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/Expert/WeaponCritDamageModExpert",
+      "source": "https://wiki.warframe.com/w/Primed_Ravage",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 10,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "exclusiveGroup": "ravage",
+      "effects": [
+        {
+          "bucket": "crit.damage",
+          "op": "STACKING_MULTIPLY",
+          "value": 1.1
+        }
+      ]
+    },
+    {
+      "id": "shotgun-barrage",
+      "name": "Shotgun Barrage",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponFireRateMod",
+      "source": "https://wiki.warframe.com/w/Shotgun_Barrage",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "exclusiveGroup": "shotgun-barrage",
+      "effects": [
+        {
+          "bucket": "fireRate",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "shotgun-savvy",
+      "name": "Shotgun Savvy",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponStunChanceMod",
+      "source": "https://wiki.warframe.com/w/Shotgun_Savvy",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "exclusiveGroup": "shotgun-savvy",
+      "effects": [
+        {
+          "bucket": "status.chance",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "lingering-torment",
+      "name": "Lingering Torment",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponProcTimeMod",
+      "source": "https://wiki.warframe.com/w/Lingering_Torment",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "effects": [
+        {
+          "bucket": "status.duration",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "incendiary-coat",
+      "name": "Incendiary Coat",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponFireDamageMod",
+      "source": "https://wiki.warframe.com/w/Incendiary_Coat",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "effects": [
+        {
+          "bucket": "damage.element.heat",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "chilling-grasp",
+      "name": "Chilling Grasp",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponFreezeDamageMod",
+      "source": "https://wiki.warframe.com/w/Chilling_Grasp",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "exclusiveGroup": "chilling-grasp",
+      "effects": [
+        {
+          "bucket": "damage.element.cold",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "primed-chilling-grasp",
+      "name": "Primed Chilling Grasp",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/Expert/WeaponFreezeDamageModExpert",
+      "source": "https://wiki.warframe.com/w/Primed_Chilling_Grasp",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 10,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "exclusiveGroup": "chilling-grasp",
+      "effects": [
+        {
+          "bucket": "damage.element.cold",
+          "op": "STACKING_MULTIPLY",
+          "value": 1.65
+        }
+      ]
+    },
+    {
+      "id": "charged-shell",
+      "name": "Charged Shell",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponElectricityDamageMod",
+      "source": "https://wiki.warframe.com/w/Charged_Shell",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "exclusiveGroup": "charged-shell",
+      "effects": [
+        {
+          "bucket": "damage.element.electricity",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "primed-charged-shell",
+      "name": "Primed Charged Shell",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/Expert/WeaponElectricityDamageModExpert",
+      "source": "https://wiki.warframe.com/w/Primed_Charged_Shell",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 10,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "exclusiveGroup": "charged-shell",
+      "effects": [
+        {
+          "bucket": "damage.element.electricity",
+          "op": "STACKING_MULTIPLY",
+          "value": 1.65
+        }
+      ]
+    },
+    {
+      "id": "contagious-spread",
+      "name": "Contagious Spread",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponToxinDamageMod",
+      "source": "https://wiki.warframe.com/w/Contagious_Spread",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "effects": [
+        {
+          "bucket": "damage.element.toxin",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "disruptor",
+      "name": "Disruptor",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponImpactDamageMod",
+      "source": "https://wiki.warframe.com/w/Disruptor",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "effects": [
+        {
+          "bucket": "damage.ips.impact",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "flechette",
+      "name": "Flechette",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponArmorPiercingDamageMod",
+      "source": "https://wiki.warframe.com/w/Flechette",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "effects": [
+        {
+          "bucket": "damage.ips.puncture",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "shredder",
+      "name": "Shredder",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponSlashDamageMod",
+      "source": "https://wiki.warframe.com/w/Shredder",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "effects": [
+        {
+          "bucket": "damage.ips.slash",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "cleanse-grineer",
+      "name": "Cleanse Grineer",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponShotgunFactionDamageGrineer",
+      "source": "https://wiki.warframe.com/w/Cleanse_Grineer",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "exclusiveGroup": "cleanse-grineer",
+      "effects": [
+        {
+          "bucket": "damage.faction.grineer",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.3
+        }
+      ]
+    },
+    {
+      "id": "primed-cleanse-grineer",
+      "name": "Primed Cleanse Grineer",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/Expert/WeaponShotgunFactionDamageGrineerExpert",
+      "source": "https://wiki.warframe.com/w/Primed_Cleanse_Grineer",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 10,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "exclusiveGroup": "cleanse-grineer",
+      "effects": [
+        {
+          "bucket": "damage.faction.grineer",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.55
+        }
+      ]
+    }
+  ]
+}

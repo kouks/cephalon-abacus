@@ -1,0 +1,725 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Module:Mods/data",
+  "items": [
+    {
+      "id": "hornet-strike",
+      "name": "Hornet Strike",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponDamageAmountMod",
+      "source": "https://wiki.warframe.com/w/Hornet_Strike",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 10,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "effects": [
+        {
+          "bucket": "damage.base",
+          "op": "STACKING_MULTIPLY",
+          "value": 2.2
+        }
+      ]
+    },
+    {
+      "id": "barrel-diffusion",
+      "name": "Barrel Diffusion",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponFireIterationsMod",
+      "source": "https://wiki.warframe.com/w/Barrel_Diffusion",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "exclusiveGroup": "barrel-diffusion",
+      "effects": [
+        {
+          "bucket": "multishot",
+          "op": "STACKING_MULTIPLY",
+          "value": 1.2
+        }
+      ]
+    },
+    {
+      "id": "lethal-torrent",
+      "name": "Lethal Torrent",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/DualStat/GrinderMod",
+      "source": "https://wiki.warframe.com/w/Lethal_Torrent",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "effects": [
+        {
+          "bucket": "fireRate",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.6
+        },
+        {
+          "bucket": "multishot",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.6
+        }
+      ]
+    },
+    {
+      "id": "pistol-gambit",
+      "name": "Pistol Gambit",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponCritChanceMod",
+      "source": "https://wiki.warframe.com/w/Pistol_Gambit",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "exclusiveGroup": "pistol-gambit",
+      "effects": [
+        {
+          "bucket": "crit.chance",
+          "op": "STACKING_MULTIPLY",
+          "value": 1.2
+        }
+      ]
+    },
+    {
+      "id": "primed-pistol-gambit",
+      "name": "Primed Pistol Gambit",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/Expert/WeaponCritChanceModBeginnerExpert",
+      "source": "https://wiki.warframe.com/w/Primed_Pistol_Gambit",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 10,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "exclusiveGroup": "pistol-gambit",
+      "effects": [
+        {
+          "bucket": "crit.chance",
+          "op": "STACKING_MULTIPLY",
+          "value": 1.87
+        }
+      ]
+    },
+    {
+      "id": "target-cracker",
+      "name": "Target Cracker",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponCritDamageMod",
+      "source": "https://wiki.warframe.com/w/Target_Cracker",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "exclusiveGroup": "target-cracker",
+      "effects": [
+        {
+          "bucket": "crit.damage",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.6
+        }
+      ]
+    },
+    {
+      "id": "primed-target-cracker",
+      "name": "Primed Target Cracker",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/Expert/PrimedWeaponCritDamageMod",
+      "source": "https://wiki.warframe.com/w/Primed_Target_Cracker",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 10,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "exclusiveGroup": "target-cracker",
+      "effects": [
+        {
+          "bucket": "crit.damage",
+          "op": "STACKING_MULTIPLY",
+          "value": 1.1
+        }
+      ]
+    },
+    {
+      "id": "sure-shot",
+      "name": "Sure Shot",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponStunChanceMod",
+      "source": "https://wiki.warframe.com/w/Sure_Shot",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "exclusiveGroup": "sure-shot",
+      "effects": [
+        {
+          "bucket": "status.chance",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "perpetual-agony",
+      "name": "Perpetual Agony",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponProcTimeMod",
+      "source": "https://wiki.warframe.com/w/Perpetual_Agony",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "effects": [
+        {
+          "bucket": "status.duration",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "heated-charge",
+      "name": "Heated Charge",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponFireDamageMod",
+      "source": "https://wiki.warframe.com/w/Heated_Charge",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "exclusiveGroup": "heated-charge",
+      "effects": [
+        {
+          "bucket": "damage.element.heat",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "primed-heated-charge",
+      "name": "Primed Heated Charge",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/Expert/WeaponFireDamageModExpert",
+      "source": "https://wiki.warframe.com/w/Primed_Heated_Charge",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 10,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "exclusiveGroup": "heated-charge",
+      "effects": [
+        {
+          "bucket": "damage.element.heat",
+          "op": "STACKING_MULTIPLY",
+          "value": 1.65
+        }
+      ]
+    },
+    {
+      "id": "deep-freeze",
+      "name": "Deep Freeze",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponFreezeDamageMod",
+      "source": "https://wiki.warframe.com/w/Deep_Freeze",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "effects": [
+        {
+          "bucket": "damage.element.cold",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "convulsion",
+      "name": "Convulsion",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponElectricityDamageMod",
+      "source": "https://wiki.warframe.com/w/Convulsion",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "exclusiveGroup": "convulsion",
+      "effects": [
+        {
+          "bucket": "damage.element.electricity",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "primed-convulsion",
+      "name": "Primed Convulsion",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/Expert/PrimedWeaponElectricityDamageMod",
+      "source": "https://wiki.warframe.com/w/Primed_Convulsion",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 10,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "exclusiveGroup": "convulsion",
+      "effects": [
+        {
+          "bucket": "damage.element.electricity",
+          "op": "STACKING_MULTIPLY",
+          "value": 1.65
+        }
+      ]
+    },
+    {
+      "id": "pathogen-rounds",
+      "name": "Pathogen Rounds",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponToxinDamageMod",
+      "source": "https://wiki.warframe.com/w/Pathogen_Rounds",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "effects": [
+        {
+          "bucket": "damage.element.toxin",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "magnetic-might",
+      "name": "Magnetic Might",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/DualStat/MagneticCritDamagePistolMod",
+      "source": "https://wiki.warframe.com/w/Magnetic_Might",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 3,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "effects": [
+        {
+          "bucket": "damage.element.magnetic",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.6
+        },
+        {
+          "bucket": "crit.damage",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.4
+        }
+      ]
+    },
+    {
+      "id": "concussion-rounds",
+      "name": "Concussion Rounds",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponImpactDamageMod",
+      "source": "https://wiki.warframe.com/w/Concussion_Rounds",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "effects": [
+        {
+          "bucket": "damage.ips.impact",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "no-return",
+      "name": "No Return",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponArmorPiercingDamageMod",
+      "source": "https://wiki.warframe.com/w/No_Return",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "effects": [
+        {
+          "bucket": "damage.ips.puncture",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "razor-shot",
+      "name": "Razor Shot",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponSlashDamageMod",
+      "source": "https://wiki.warframe.com/w/Razor_Shot",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "effects": [
+        {
+          "bucket": "damage.ips.slash",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "id": "gunslinger",
+      "name": "Gunslinger",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponFireRateMod",
+      "source": "https://wiki.warframe.com/w/Gunslinger",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "effects": [
+        {
+          "bucket": "fireRate",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.72
+        }
+      ]
+    },
+    {
+      "id": "expel-grineer",
+      "name": "Expel Grineer",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponPistolFactionDamageGrineer",
+      "source": "https://wiki.warframe.com/w/Expel_Grineer",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "exclusiveGroup": "expel-grineer",
+      "effects": [
+        {
+          "bucket": "damage.faction.grineer",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.3
+        }
+      ]
+    },
+    {
+      "id": "primed-expel-grineer",
+      "name": "Primed Expel Grineer",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/Expert/WeaponPistolFactionDamageGrineerExpert",
+      "source": "https://wiki.warframe.com/w/Primed_Expel_Grineer",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 10,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "exclusiveGroup": "expel-grineer",
+      "effects": [
+        {
+          "bucket": "damage.faction.grineer",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.55
+        }
+      ]
+    },
+    {
+      "id": "pistol-acuity",
+      "name": "Pistol Acuity",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponWeakpointCriticalChanceMod",
+      "source": "https://wiki.warframe.com/w/Pistol_Acuity",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 10,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "effects": [
+        {
+          "bucket": "weakPoint.damage",
+          "op": "ADD",
+          "value": 3.498
+        },
+        {
+          "bucket": "crit.chanceWeakPoint",
+          "op": "STACKING_MULTIPLY",
+          "value": 3.498
+        }
+      ],
+      "locks": ["multishot"]
+    }
+  ]
+}

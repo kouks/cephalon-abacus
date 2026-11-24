@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Module:Mods/data",
+  "items": [
+    {
+      "id": "vigilante-armaments",
+      "name": "Vigilante Armaments",
+      "uniqueName": "/Lotus/Upgrades/Mods/Sets/Vigilante/PrimaryVigilanteArmamentsMod",
+      "source": "https://wiki.warframe.com/w/Vigilante_Armaments",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"]
+      },
+      "set": "vigilante",
+      "effects": [
+        {
+          "bucket": "multishot",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.6
+        }
+      ]
+    },
+    {
+      "id": "vigilante-fervor",
+      "name": "Vigilante Fervor",
+      "uniqueName": "/Lotus/Upgrades/Mods/Sets/Vigilante/PrimaryVigilanteFervorMod",
+      "source": "https://wiki.warframe.com/w/Vigilante_Fervor",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"]
+      },
+      "set": "vigilante",
+      "effects": [
+        {
+          "bucket": "fireRate",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.45
+        }
+      ]
+    },
+    {
+      "id": "vigilante-offense",
+      "name": "Vigilante Offense",
+      "uniqueName": "/Lotus/Upgrades/Mods/Sets/Vigilante/PrimaryVigilanteOffenseMod",
+      "source": "https://wiki.warframe.com/w/Vigilante_Offense",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"]
+      },
+      "set": "vigilante",
+      "effects": [
+        {
+          "bucket": "punchThrough",
+          "op": "ADD",
+          "value": 1.5
+        }
+      ]
+    },
+    {
+      "id": "vigilante-supplies",
+      "name": "Vigilante Supplies",
+      "uniqueName": "/Lotus/Upgrades/Mods/Sets/Vigilante/PrimaryVigilanteSuppliesMod",
+      "source": "https://wiki.warframe.com/w/Vigilante_Supplies",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"]
+      },
+      "set": "vigilante",
+      "effects": []
+    }
+  ]
+}
