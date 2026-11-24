@@ -1,8 +1,20 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { expect, it } from 'vitest';
 
+import type { Engine } from '@/engine/connectEngine';
+
 import { App } from './App';
 
-it('renders the app name as the page heading', () => {
-  expect(renderToStaticMarkup(<App />)).toContain('<h1>Cephalon Abacus</h1>');
+const engine: Engine = {
+  catalog: () => Promise.resolve({ weapons: [] }),
+  evaluate: () => Promise.resolve(undefined),
+};
+
+it('renders the app name as the page heading, and the debug page under it', () => {
+  const page = renderToStaticMarkup(<App engine={engine} />);
+  expect(page).toContain('<h1>Cephalon Abacus</h1>');
+  for (const text of ['Weapon', 'Mods', 'Scenario, as JSON', 'Waiting for the engine']) {
+    expect(page).toContain(text);
+  }
+  expect(page).toContain('braton');
 });

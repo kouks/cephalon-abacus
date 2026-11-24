@@ -4,6 +4,30 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Cephalon Abacus</title>
+    <style>
+      /* The debug page has no design: only what it takes to touch it, read it and fit a phone. */
+      button,
+      [role='option'] {
+        min-height: 44px;
+      }
+      [role='listbox'] {
+        max-height: 20em;
+        overflow: auto;
+      }
+      textarea {
+        max-width: 100%;
+      }
+      td,
+      th {
+        overflow-wrap: anywhere;
+        padding-inline-end: 1em;
+        text-align: start;
+      }
+      pre {
+        overflow-wrap: anywhere;
+        white-space: pre-wrap;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

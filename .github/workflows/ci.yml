@@ -26,3 +26,6 @@ jobs:
       - run: pnpm test:golden
       - run: pnpm data:validate
       - run: pnpm build
+      # Shared runners are noisy, so a slow run doesn't fail the pull request.
+      - run: pnpm bench
+        continue-on-error: true

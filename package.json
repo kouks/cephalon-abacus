@@ -27,6 +27,7 @@
     "test:coverage": "vitest run --project '!golden' --coverage",
     "test:golden": "vitest run --project golden --passWithNoTests",
     "data:validate": "node tools/run.ts tools/data/validateLibrary.ts",
+    "bench": "node tools/run.ts tools/bench/buildPhase.ts",
     "deps:audit": "pnpm audit --audit-level high",
     "commit:check": "node tools/git/commitCheck.ts",
     "branch:check": "node tools/git/branchCheck.ts"
@@ -35,6 +36,7 @@
     "@eslint/js": "^10.0.1",
     "@types/node": "^24.19.2",
     "@vitest/coverage-v8": "^5.1.1",
+    "@vitest/web-worker": "^5.1.1",
     "eslint": "^10.15.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.5",
