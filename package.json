@@ -1,0 +1,53 @@
+{
+  "name": "cephalon-abacus",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.26.0",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "24.21.0",
+      "onFail": "download"
+    }
+  },
+  "imports": {
+    "#engine/assumptions.ts": "./packages/engine/src/assumptions.ts",
+    "#eslint/*": "./eslint/*"
+  },
+  "scripts": {
+    "prepare": "lefthook install",
+    "dev": "pnpm --filter @abacus/app dev",
+    "build": "tsc -b && pnpm --filter @abacus/app build",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc -b",
+    "test": "vitest run --project '!golden'",
+    "test:coverage": "vitest run --project '!golden' --coverage",
+    "test:golden": "vitest run --project golden --passWithNoTests",
+    "data:validate": "node tools/data/validateLibrary.ts",
+    "deps:audit": "pnpm audit --audit-level high",
+    "commit:check": "node tools/git/commitCheck.ts",
+    "branch:check": "node tools/git/branchCheck.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.19.2",
+    "@vitest/coverage-v8": "^5.1.1",
+    "eslint": "^10.15.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-check-file": "^3.3.2",
+    "eslint-plugin-import-x": "^4.18.1",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "fast-check": "^4.11.0",
+    "globals": "^17.14.0",
+    "jiti": "^2.7.0",
+    "lefthook": "^2.2.2",
+    "prettier": "^3.10.1",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.73.0",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.1"
+  }
+}

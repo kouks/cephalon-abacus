@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "allowImportingTsExtensions": true,
+    "incremental": true,
+    "noEmit": true,
+    "tsBuildInfoFile": "../node_modules/.cache/tools.tsbuildinfo"
+  },
+  "include": ["**/*.ts", "../eslint/**/*.ts", "../tests/**/*.ts", "../*.config.ts"],
+  "references": [{ "path": "../packages/data" }, { "path": "../packages/engine" }]
+}

@@ -1,0 +1,23 @@
+pre-commit:
+  jobs:
+    - name: prettier
+      glob: '*.{ts,tsx,json,md,yml,yaml,html,css}'
+      run: pnpm exec prettier --write --ignore-unknown {staged_files}
+      stage_fixed: true
+    - name: eslint
+      glob: '*.{ts,tsx}'
+      run: pnpm exec eslint --max-warnings 0 {staged_files}
+
+commit-msg:
+  jobs:
+    - name: message
+      run: pnpm -s commit:check {1}
+
+pre-push:
+  jobs:
+    - name: branch
+      run: pnpm -s branch:check
+    - name: typecheck
+      run: pnpm -s typecheck
+    - name: test
+      run: pnpm -s test

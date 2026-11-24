@@ -1,0 +1,10 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/data" },
+    { "path": "packages/engine" },
+    { "path": "packages/importers" },
+    { "path": "packages/app" },
+    { "path": "tools" }
+  ]
+}

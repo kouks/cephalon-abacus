@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 1
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+    ignore:
+      # Majors are done by hand.
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
+      # TypeScript stays ~6.0: typescript-eslint supports <6.1.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-minor']
