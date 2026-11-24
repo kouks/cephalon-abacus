@@ -203,10 +203,10 @@
       ]
     },
     {
-      "id": "paris-prime",
-      "name": "Paris Prime",
-      "uniqueName": "/Lotus/Weapons/Tenno/Bows/PrimeHuntingBow",
-      "source": "https://wiki.warframe.com/w/Paris_Prime",
+      "id": "paris",
+      "name": "Paris",
+      "uniqueName": "/Lotus/Weapons/Tenno/Bows/HuntingBow",
+      "source": "https://wiki.warframe.com/w/Paris",
       "gameVersion": "44.1.4.1",
       "slot": "primary",
       "class": ["bow"],
@@ -216,23 +216,23 @@
         "magazine": 1,
         "maxAmmo": 72,
         "reloadStyle": "magazine",
-        "reloadTime": 0.7
+        "reloadTime": 0.65
       },
       "attacks": [
         {
           "id": "uncharged",
           "name": "Uncharged Shot",
           "damage": {
-            "impact": 9,
-            "puncture": 153,
-            "slash": 18
+            "impact": 8,
+            "puncture": 120,
+            "slash": 32
           },
           "trigger": "semi",
           "shotType": "projectile",
           "multishot": 1,
-          "critChance": 0.45,
+          "critChance": 0.3,
           "critMultiplier": 2,
-          "statusChance": 0.2,
+          "statusChance": 0.1,
           "fireRate": 1,
           "ammoCost": 1,
           "projectileSpeed": 70,
@@ -242,21 +242,21 @@
           "id": "charged",
           "name": "Charged Shot",
           "damage": {
-            "impact": 9,
-            "puncture": 288,
-            "slash": 63
+            "impact": 16,
+            "puncture": 256,
+            "slash": 48
           },
           "trigger": "charge",
           "shotType": "projectile",
           "multishot": 1,
-          "critChance": 0.45,
+          "critChance": 0.3,
           "critMultiplier": 2,
-          "statusChance": 0.2,
+          "statusChance": 0.1,
           "fireRate": 1,
           "ammoCost": 1,
           "chargeTime": 0.5,
-          "punchThrough": 3,
-          "projectileSpeed": 95,
+          "punchThrough": 2,
+          "projectileSpeed": 85,
           "flags": ["canHeadshot", "canCrit"]
         }
       ]

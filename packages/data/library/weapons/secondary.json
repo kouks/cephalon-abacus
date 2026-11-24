@@ -51,8 +51,8 @@
       "compatTags": ["BEAM"],
       "maxRank": 40,
       "progenitor": {
-        "element": "heat",
-        "pct": 0.25
+        "element": "magnetic",
+        "pct": 0.6
       },
       "ammo": {
         "magazine": 77,
@@ -74,7 +74,7 @@
           "critMultiplier": 5,
           "statusChance": 0.5,
           "fireRate": 10,
-          "ammoCost": 1,
+          "ammoCost": 0.5,
           "beam": {
             "rampStartPct": 0.3,
             "rampTime": 0.6,
