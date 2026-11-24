@@ -38,6 +38,7 @@ pnpm test:golden          # the in-game fixtures in tests/golden, through the pu
 pnpm test:e2e             # Playwright against the built app (once the app has screens)
 pnpm data:validate        # load the whole library; fails on any error or a missing source or gameVersion
 pnpm data:update --game-version <v>   # run the importers, apply overrides, validate, write the changelog (from ABA-47)
+pnpm bench                # how long phase A takes for a full build (the limit is 1 ms)
 pnpm deps:audit           # known vulnerabilities in the dependencies (fails on high or critical)
 pnpm commit:check <file>  # Conventional Commits and Linear ID check (`--text "…"` for a string)
 pnpm branch:check         # the current branch name against the Linear pattern
@@ -85,7 +86,8 @@ packages/
     src/testing/    libraries and scenarios for tests, with real items
     src/api.ts      evaluate() and simulate(): the only public entry
   importers/        wiki Lua, WFCD and enemy importers; overrides/ holds hand corrections
-  app/              Vite + React; src/engine/ is the Worker and its bridge, src/theme/ the theme
+  app/              Vite + React; src/engine/ is the Worker and its bridge, src/format/ the
+                    formatting module, src/debug/ what the debug page is made of, src/theme/ the theme
 tests/golden/       in-game fixtures, one file per test
 tools/              architecture test, ESLint config test, git checks, library checks
 eslint/             ESLint config modules, composed by eslint.config.ts
@@ -105,7 +107,7 @@ data  →  importers
 - **The engine is pure:** no React, DOM, Node APIs, `Date`, `performance` or `Math.random`. Randomness comes only from a `Roller`; time is simulated time, passed in.
 - **The app runs the engine only inside `app/src/engine/`** (the Worker and its bridge). Everywhere else it imports engine types only (`import type`).
 - **Importers never import the engine.** Their job is data; the loader validates it.
-- **`tests/golden` calls only `evaluate` and `simulate`** from `engine/src/api.ts`, exactly as the app does.
+- **`tests/golden` calls only `evaluate` and `simulate`** from `engine/src/api.ts`, exactly as the app does. `API_VERSION` goes up when a `Scenario` or a `Result` changes in a way that breaks its readers.
 - **Imports:** `@abacus/<package>` across packages. Inside a package, `@/…` for anything outside the current folder; relative paths for siblings and at most one level up (`../`). `../../` is banned.
 - **Packages are consumed from source.** `package.json#exports` points at `src`, `tsc -b` emits declarations only, and Vite and Vitest resolve `@/…` from the importing file's own package (`resolve.tsconfigPaths`).
 - **`tools/` and `eslint/` run on Node directly** (type stripping, no build), so they import with the `.ts` extension, and reach each other and the packages through `package.json#imports` (`#eslint/…`, `#data/…`). A script that imports a package runs through `node tools/run.ts <script>`, which resolves `@/…` as Vite does.
@@ -148,9 +150,9 @@ data  →  importers
 
 ## The app
 
-UI and UX design are the next phase. Until then the app is an unstyled debug page (ABA-17). These rules apply from the first component.
+UI and UX design are the next phase. Until then the app is an unstyled debug page: pick a weapon and mods or edit the scenario, and read the result and its trace. These rules apply from the first component.
 
-- **The app never computes damage.** It sends a `Scenario` to the Worker and draws what comes back, trace included. Display helpers are pure functions outside components.
+- **The app never computes damage.** It sends a `Scenario` to the Worker (`createEngine().evaluate`) and draws what comes back, trace included. The Worker checks the scenario, and a newer scenario replaces one that still waits. Display helpers are pure functions outside components.
 - **Components:** each in its own PascalCase folder, holding only:
 
   ```
@@ -240,7 +242,7 @@ Split long files by concern, extract helpers, and use early returns and lookup t
 
 ## CI (GitHub Actions)
 
-- `.github/workflows/ci.yml`, on every pull request and push to `main`: `checks` (format, lint, typecheck, unit tests with coverage, golden fixtures, `data:validate`, build) and, once the app has screens, `e2e`. A failed e2e run uploads the Playwright report.
+- `.github/workflows/ci.yml`, on every pull request and push to `main`: `checks` (format, lint, typecheck, unit tests with coverage, golden fixtures, `data:validate`, build, and `pnpm bench`, which can't fail it) and, once the app has screens, `e2e`. A failed e2e run uploads the Playwright report.
 - `.github/workflows/pull-request-title.yml` checks the title and its ticket ID against the branch.
 - `.github/workflows/audit.yml`: `pnpm deps:audit` on pull requests, pushes to `main` and weekly. Fails on high or critical.
 - **Dependabot** (`.github/dependabot.yml`): npm, weekly, minor and patch only, grouped into one pull request, and only for releases a week old. Majors are done by hand (TypeScript stays `~6.0`).
