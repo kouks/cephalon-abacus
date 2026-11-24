@@ -2,7 +2,7 @@
 
 import { DAMAGE_TYPES } from '@/schema/damageType';
 
-const item = (id: string) => ({
+const item = <Id extends string>(id: Id) => ({
   id,
   name: id,
   source: 'https://wiki.warframe.com/w/Test',

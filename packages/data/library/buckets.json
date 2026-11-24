@@ -45,16 +45,28 @@
       },
       "stage": "composition",
       "confidence": "W",
-      "members": ["heat", "cold", "electricity", "toxin"]
+      "members": [
+        "heat",
+        "cold",
+        "electricity",
+        "toxin",
+        "blast",
+        "corrosive",
+        "gas",
+        "magnetic",
+        "radiation",
+        "viral"
+      ]
     },
     {
       "id": "damage.elementNoCombine",
       "name": "Elemental damage that never combines",
-      "source": "https://wiki.warframe.com/w/Buff",
+      "source": "https://wiki.warframe.com/w/Fireball_Frenzy",
       "gameVersion": "44.1.4.1",
       "op": "STACKING_MULTIPLY",
       "scope": {
         "direct": 1,
+        "proc": 1,
         "aoe": 1
       },
       "stage": "composition",
