@@ -3,6 +3,7 @@ import type { Library } from '@abacus/data/load/library';
 import type { Effect } from '@abacus/data/schema/effect';
 import type { Scenario } from '@abacus/data/schema/scenario';
 
+import { checkElements } from './composition/checkElements';
 import { findConditionals } from './conditionals';
 import { equip } from './equip';
 import { applyLocks } from './locks';
@@ -40,6 +41,11 @@ export const collectEffects = ({ build, enemy }: Scenario, library: Library): Co
   return {
     effects: free.effects,
     conditionals: switches.conditionals,
-    warnings: [...warnings, ...free.warnings, ...switches.warnings],
+    warnings: [
+      ...warnings,
+      ...free.warnings,
+      ...switches.warnings,
+      ...checkElements(build, weapon, free.effects),
+    ],
   };
 };

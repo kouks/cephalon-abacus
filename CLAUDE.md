@@ -75,7 +75,7 @@ packages/
                     weapons/, mods/, arcanes/, buffs/, enemies/, stances/
     CHANGELOG/      one file per game version, written by data:update
   engine/
-    src/build/      effects, buckets, modded stats, element combiner, quantization
+    src/build/      effects, buckets, modded stats, element combiner, damage composition
     src/resolve/    rollers, crits, the hit resolver, health layers, extra hits
     src/timeline/   event queue, enemy state, statuses and DoTs, weapon cycle, combo
     src/hooks/      the hook registry and every hook
@@ -253,6 +253,7 @@ Split long files by concern, extract helpers, and use early returns and lookup t
 - **wiki.warframe.com sometimes refuses automated fetches** of large pages. A revision URL (`?oldid=…`) or the page's `Module:*/data` source usually works.
 - **Rivens have no disposition** since Hotfix 44.1.3: every riven rolls as if it were 1.2. Ammo Efficiency caps at 75%.
 - **Quantize the ratio, not the amount** (BIBLE §6). The wiki contradicts itself on whether +Damage applies before or after; on a ratio both readings agree.
+- **Quantization can punish a bonus:** a sliver of Toxin in front of 51% Heat and 51% Cold re-pairs the elements, and 33/32 of Blast becomes 16/32 of Gas and 16/32 of Cold.
 - **Faction bonuses double-dip** in proc DoTs and extra hits, and triple-dip in an extra hit's DoT. That is the game, not a bug.
 - **Heat merges** into one instance per enemy that keeps the first proc's bonuses, so an unmodded first proc drags the whole stack down.
 - **Arsenal percentages are relative to the base stat:** +150% crit chance on a 20% weapon is 50%. Flat sources (Arcane Avenger, Puncture stacks) add points afterwards.

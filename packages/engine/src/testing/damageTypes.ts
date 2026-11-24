@@ -22,6 +22,9 @@ const groupOf = (type: DamageType) => {
   return COMBINATIONS[type] === undefined ? 'special' : 'secondary';
 };
 
+/** The elements a bonus can add. */
+export const ELEMENTS: readonly string[] = [...PRIMARIES, ...Object.keys(COMBINATIONS)];
+
 /** As items of damageTypes.json. */
 export const damageTypeItems = damageTypes.map((item) => {
   const combinesFrom = COMBINATIONS[item.id];

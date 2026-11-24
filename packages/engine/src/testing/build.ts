@@ -10,19 +10,30 @@ import {
   family,
   libraryFile,
   module,
-  referenceFiles,
   scenario,
   weapon,
 } from '@abacus/data/testing/fixtures';
 
 import type { Selection } from '@/build/selectEffects';
 
+import { damageTypeItems, ELEMENTS } from './damageTypes';
+
 const stat = (id: string, change: object = {}) => ({ ...bucket, id, stage: 'stats', ...change });
+
+const members = (id: string, ...types: readonly string[]) => ({
+  ...bucket,
+  id,
+  scope: { direct: 1, aoe: 1 },
+  members: types,
+});
 
 const buckets = libraryFile(
   'buckets.json',
-  bucket,
+  { ...bucket, scope: { direct: 1, proc: 1, aoe: 1 } },
   family,
+  members('damage.ips', 'impact', 'puncture', 'slash'),
+  members('damage.element', ...ELEMENTS),
+  members('damage.elementNoCombine', ...ELEMENTS),
   stat('multishot', { scope: { direct: 1, aoe: 1 } }),
   stat('crit.chance', { scope: { direct: 1, proc: 1, aoe: 1 } }),
   stat('crit.chanceCombo', { scope: { direct: 1, aoe: 1 } }),
@@ -113,7 +124,7 @@ export const PRIMARY_ACUITY = mod('primary-acuity', [add('crit.chanceWeakPoint',
 
 export const makeLibrary = (modules: readonly object[], weaponChange: object = {}): Library => {
   const result = loadLibrary([
-    ...referenceFiles.filter(({ path }) => path === 'damageTypes.json'),
+    libraryFile('damageTypes.json', ...damageTypeItems),
     buckets,
     factions,
     libraryFile('mods/a.json', ...modules),
