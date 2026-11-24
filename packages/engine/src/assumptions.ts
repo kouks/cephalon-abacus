@@ -11,7 +11,7 @@ export type Assumption = {
 export const ASSUMPTIONS = {
   /** Fire rate bonuses count double on bows. Confirmed: Paris charges in 0.23 s with +60%. */
   bowFireRateDoubled: { default: true, test: 'T-10', bible: '§9' },
-  /** A headcrit multiplies the modded crit multiplier. If not: the base alone, before mods. */
+  /** A headcrit multiplies the modded crit multiplier, not the base alone. Confirmed. */
   headcritScalesModded: { default: true, test: 'T-4', bible: '§7' },
   /** It multiplies flat crit damage too, such as Cold's. Only with headcritScalesModded. */
   headcritScalesFlat: { default: true, test: 'T-5', bible: '§7' },

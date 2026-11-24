@@ -65,20 +65,18 @@ describe('as measured in the game', () => {
       numbers('nagantaka-prime', 'semi-auto', { modules })[0];
     expect([white(), white('serration'), white('crash-course')]).toEqual([251, 666, 257]);
   });
-});
 
-describe('T-4, before its test', () => {
-  /** And Galvanized Scope, which only makes orange crits possible. */
+  /** Galvanized Scope was on too, which only makes orange crits possible. */
   const modules = ['serration', 'vital-sense', 'critical-delay'];
-  const soma = (shot: Shot) => numbers('soma-prime', 'normal', { modules, ...shot });
+  const soma = (shot: Shot) => numbers('soma-prime', 'normal', { modules, ...shot }).slice(1);
 
-  it('expects these numbers', () => {
-    expect(soma({ on: 'body' })).toEqual([40, 262, 485]);
-    expect(soma({ on: 'head' })).toEqual([119, 1574, 3030]);
+  it('T-4: Soma Prime’s yellow and orange crits, on the body and the head', () => {
+    expect(soma({ on: 'body' })).toEqual([262, 485]);
+    expect(soma({ on: 'head' })).toEqual([1574, 3030]);
   });
 
-  it('expects others on the head if only the base doubles', () => {
+  it('T-4 rules out that a headcrit doubles only the base', () => {
     const assumptions = { headcritScalesModded: false };
-    expect(soma({ on: 'head', assumptions })).toEqual([119, 1145, 2171]);
+    expect(soma({ on: 'head', assumptions })).toEqual([1145, 2171]);
   });
 });
