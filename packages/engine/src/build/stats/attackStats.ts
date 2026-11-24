@@ -48,10 +48,14 @@ const modGeometry = (attack: Attack, totals: BucketTotals) => {
 const reloadBase = (ammo: NonNullable<Weapon['ammo']>, magazine: number) =>
   ammo.reloadStyle === 'battery' ? ammo.regenDelay + magazine / ammo.regenRate : ammo.reloadTime;
 
-/** Whole rounds, to the nearest as measured in the game, and at least one. Halves are untested. */
+/**
+ * Whole rounds, to the nearest, and at least one. The game multiplies in 32 bits, where 45 × 1.3 is
+ * 58.499996: Braton with Magazine Warp has 58 rounds (BIBLE §9).
+ */
 const modMagazine = (base: number, totals: BucketTotals): ModdedStat => {
   const magazine = modStat(totals, base, ['magazine']);
-  return { ...magazine, value: Math.max(Math.round(magazine.value), 1) };
+  const inGame = Math.fround(base * Math.fround(magazine.value / base));
+  return { ...magazine, value: Math.max(Math.round(inGame), 1) };
 };
 
 const modAmmo = ({ ammo }: Weapon, totals: BucketTotals) => {
