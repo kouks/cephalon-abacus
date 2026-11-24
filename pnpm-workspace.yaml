@@ -1,0 +1,10 @@
+packages:
+  - packages/*
+
+# New releases wait 24 hours. Strict: never add an exemption on its own.
+minimumReleaseAge: 1440
+minimumReleaseAgeStrict: true
+
+# No dependency runs install scripts. `prepare` in package.json installs the git hooks.
+allowBuilds:
+  lefthook: false

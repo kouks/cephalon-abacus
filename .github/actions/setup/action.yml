@@ -1,0 +1,14 @@
+name: Setup
+description: pnpm, Node and the dependencies
+
+runs:
+  using: composite
+  steps:
+    # The pnpm version comes from `packageManager` in package.json.
+    - uses: pnpm/action-setup@v6
+    - uses: actions/setup-node@v7
+      with:
+        node-version-file: .nvmrc
+        cache: pnpm
+    - run: pnpm install --frozen-lockfile
+      shell: bash
