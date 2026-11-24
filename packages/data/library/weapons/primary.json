@@ -1,0 +1,454 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Module:Weapons/data/primary",
+  "items": [
+    {
+      "id": "braton",
+      "name": "Braton",
+      "uniqueName": "/Lotus/Weapons/Tenno/Rifle/Rifle",
+      "source": "https://wiki.warframe.com/w/Braton",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["rifle"],
+      "compatTags": ["ASSAULT_AMMO"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 45,
+        "maxAmmo": 540,
+        "reloadStyle": "magazine",
+        "reloadTime": 2
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 7.92,
+            "puncture": 7.92,
+            "slash": 8.16
+          },
+          "trigger": "auto",
+          "shotType": "hitscan",
+          "multishot": 1,
+          "critChance": 0.12,
+          "critMultiplier": 1.6,
+          "statusChance": 0.06,
+          "fireRate": 8.75,
+          "ammoCost": 1,
+          "range": 300,
+          "flags": ["canHeadshot", "canCrit"]
+        }
+      ]
+    },
+    {
+      "id": "soma-prime",
+      "name": "Soma Prime",
+      "uniqueName": "/Lotus/Weapons/Tenno/LongGuns/PrimeSoma/PrimeSomaRifle",
+      "source": "https://wiki.warframe.com/w/Soma_Prime",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["rifle"],
+      "compatTags": ["ASSAULT_AMMO"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 200,
+        "maxAmmo": 800,
+        "reloadStyle": "magazine",
+        "reloadTime": 3
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Fully Spooled",
+          "damage": {
+            "impact": 1.2,
+            "puncture": 4.8,
+            "slash": 6
+          },
+          "trigger": "autoSpool",
+          "shotType": "hitscan",
+          "multishot": 1,
+          "critChance": 0.3,
+          "critMultiplier": 3,
+          "statusChance": 0.1,
+          "fireRate": 15,
+          "ammoCost": 1,
+          "spool": {
+            "shotsToMax": 4,
+            "startRate": 0.25
+          },
+          "range": 300,
+          "flags": ["canHeadshot", "canCrit"]
+        }
+      ]
+    },
+    {
+      "id": "tigris-prime",
+      "name": "Tigris Prime",
+      "uniqueName": "/Lotus/Weapons/Tenno/LongGuns/PrimeTigris/PrimeTigris",
+      "source": "https://wiki.warframe.com/w/Tigris_Prime",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["shotgun"],
+      "compatTags": ["SINGLESHOT"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 2,
+        "maxAmmo": 120,
+        "reloadStyle": "magazine",
+        "reloadTime": 1.8
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 19.5,
+            "puncture": 19.5,
+            "slash": 156
+          },
+          "trigger": "duplex",
+          "shotType": "hitscan",
+          "multishot": 8,
+          "critChance": 0.1,
+          "critMultiplier": 2,
+          "statusChance": 0.1125,
+          "fireRate": 2,
+          "ammoCost": 1,
+          "falloff": {
+            "start": 10,
+            "end": 20,
+            "minPct": 0.5128
+          },
+          "range": 300,
+          "flags": ["canHeadshot", "canCrit"]
+        }
+      ]
+    },
+    {
+      "id": "vectis-prime",
+      "name": "Vectis Prime",
+      "uniqueName": "/Lotus/Weapons/Tenno/LongGuns/PrimeVectis/PrimeVectisRifle",
+      "source": "https://wiki.warframe.com/w/Vectis_Prime",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["sniper"],
+      "compatTags": ["SNIPER_AMMO", "SINGLESHOT"],
+      "maxRank": 30,
+      "zoomLevels": [
+        {
+          "zoom": 3.5,
+          "effects": [
+            {
+              "bucket": "headshot.damage",
+              "op": "STACKING_MULTIPLY",
+              "value": 0.4,
+              "filter": {
+                "bodyPart": "head"
+              }
+            }
+          ]
+        },
+        {
+          "zoom": 6,
+          "effects": [
+            {
+              "bucket": "headshot.damage",
+              "op": "STACKING_MULTIPLY",
+              "value": 0.6,
+              "filter": {
+                "bodyPart": "head"
+              }
+            }
+          ]
+        }
+      ],
+      "sniperCombo": {
+        "minHits": 5,
+        "reset": 2
+      },
+      "ammo": {
+        "magazine": 2,
+        "maxAmmo": 72,
+        "reloadStyle": "magazine",
+        "reloadTime": 0.85
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 140,
+            "puncture": 157.5,
+            "slash": 52.5
+          },
+          "trigger": "semi",
+          "shotType": "hitscan",
+          "multishot": 1,
+          "critChance": 0.3,
+          "critMultiplier": 2,
+          "statusChance": 0.3,
+          "fireRate": 2.666667,
+          "ammoCost": 1,
+          "falloff": {
+            "start": 400,
+            "end": 600,
+            "minPct": 0.5
+          },
+          "punchThrough": 1,
+          "range": 1000,
+          "flags": ["canHeadshot", "canCrit"]
+        }
+      ]
+    },
+    {
+      "id": "paris",
+      "name": "Paris",
+      "uniqueName": "/Lotus/Weapons/Tenno/Bows/HuntingBow",
+      "source": "https://wiki.warframe.com/w/Paris",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["bow"],
+      "compatTags": ["PROJECTILE"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 1,
+        "maxAmmo": 72,
+        "reloadStyle": "magazine",
+        "reloadTime": 0.65
+      },
+      "attacks": [
+        {
+          "id": "uncharged",
+          "name": "Uncharged Shot",
+          "damage": {
+            "impact": 8,
+            "puncture": 120,
+            "slash": 32
+          },
+          "trigger": "semi",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.3,
+          "critMultiplier": 2,
+          "statusChance": 0.1,
+          "fireRate": 1,
+          "ammoCost": 1,
+          "projectileSpeed": 70,
+          "flags": ["canHeadshot", "canCrit"]
+        },
+        {
+          "id": "charged",
+          "name": "Charged Shot",
+          "damage": {
+            "impact": 16,
+            "puncture": 256,
+            "slash": 48
+          },
+          "trigger": "charge",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.3,
+          "critMultiplier": 2,
+          "statusChance": 0.1,
+          "fireRate": 1,
+          "ammoCost": 1,
+          "chargeTime": 0.5,
+          "punchThrough": 2,
+          "projectileSpeed": 85,
+          "flags": ["canHeadshot", "canCrit"]
+        }
+      ]
+    },
+    {
+      "id": "burston",
+      "name": "Burston",
+      "uniqueName": "/Lotus/Weapons/Tenno/Rifle/BurstRifle",
+      "source": "https://wiki.warframe.com/w/Burston",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["rifle"],
+      "compatTags": ["ASSAULT_AMMO"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 45,
+        "maxAmmo": 540,
+        "reloadStyle": "magazine",
+        "reloadTime": 2
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 10,
+            "puncture": 10,
+            "slash": 10
+          },
+          "trigger": "burst",
+          "shotType": "hitscan",
+          "multishot": 1,
+          "critChance": 0.06,
+          "critMultiplier": 1.6,
+          "statusChance": 0.18,
+          "fireRate": 5,
+          "ammoCost": 1,
+          "burstCount": 3,
+          "burstDelay": 0.061,
+          "range": 300,
+          "flags": ["canHeadshot", "canCrit"]
+        }
+      ]
+    },
+    {
+      "id": "amprex",
+      "name": "Amprex",
+      "uniqueName": "/Lotus/Weapons/Corpus/LongGuns/ChainLightningGun/ChainLightningRifle",
+      "source": "https://wiki.warframe.com/w/Amprex",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["rifle"],
+      "compatTags": ["BEAM", "ASSAULT_AMMO", "AOE"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 100,
+        "maxAmmo": 700,
+        "reloadStyle": "magazine",
+        "reloadTime": 2.6
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "electricity": 22
+          },
+          "trigger": "held",
+          "shotType": "continuous",
+          "multishot": 1,
+          "critChance": 0.32,
+          "critMultiplier": 2.2,
+          "statusChance": 0.22,
+          "fireRate": 12,
+          "ammoCost": 0.5,
+          "beam": {
+            "rampStartPct": 0.3,
+            "rampTime": 0.6,
+            "decayDelay": 0.8,
+            "decayTime": 2,
+            "chain": {
+              "targets": 3,
+              "range": 10
+            }
+          },
+          "range": 18,
+          "flags": ["canHeadshot", "canCrit", "mergeMultishotHits"]
+        }
+      ]
+    },
+    {
+      "id": "penta",
+      "name": "Penta",
+      "uniqueName": "/Lotus/Weapons/Corpus/LongGuns/GrenadeLauncher/GrenadeLauncher",
+      "source": "https://wiki.warframe.com/w/Penta",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["launcher"],
+      "compatTags": ["PROJECTILE", "AOE", "SINGLESHOT"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 5,
+        "maxAmmo": 20,
+        "reloadStyle": "magazine",
+        "reloadTime": 2.5
+      },
+      "attacks": [
+        {
+          "id": "grenade-impact",
+          "name": "Grenade Impact",
+          "damage": {
+            "impact": 75
+          },
+          "trigger": "active",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.1,
+          "critMultiplier": 2,
+          "statusChance": 0.1,
+          "fireRate": 1,
+          "ammoCost": 1,
+          "projectileSpeed": 20,
+          "linkedAttacks": ["grenade-detonation"],
+          "flags": ["canHeadshot", "canCrit"]
+        },
+        {
+          "id": "grenade-detonation",
+          "name": "Grenade Detonation",
+          "damage": {
+            "blast": 350
+          },
+          "trigger": "active",
+          "shotType": "aoe",
+          "multishot": 1,
+          "critChance": 0.1,
+          "critMultiplier": 2,
+          "statusChance": 0.1,
+          "fireRate": 1,
+          "ammoCost": 0,
+          "aoe": {
+            "radius": 4,
+            "centerPct": 1,
+            "edgePct": 0.5,
+            "losRequired": false
+          },
+          "flags": ["canCrit", "isAoE"]
+        }
+      ]
+    },
+    {
+      "id": "nagantaka-prime",
+      "name": "Nagantaka Prime",
+      "uniqueName": "/Lotus/Weapons/Tenno/LongGuns/PrimeNagantaka/PrimeNagantakaWeapon",
+      "source": "https://wiki.warframe.com/w/Nagantaka_Prime",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["crossbow"],
+      "compatTags": ["PROJECTILE", "ZHUGE", "CROSSBOW"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 11,
+        "maxAmmo": 540,
+        "reloadStyle": "magazine",
+        "reloadTime": 2.3
+      },
+      "attacks": [
+        {
+          "id": "semi-auto",
+          "name": "Semi-Auto",
+          "damage": {
+            "impact": 1.73,
+            "puncture": 15.57,
+            "slash": 155.7
+          },
+          "trigger": "semi",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.25,
+          "critMultiplier": 2.3,
+          "statusChance": 0.39,
+          "fireRate": 2.5,
+          "ammoCost": 1,
+          "projectileSpeed": 100,
+          "forcedProcs": [
+            {
+              "type": "impact",
+              "count": 1
+            }
+          ],
+          "flags": ["canHeadshot", "canCrit"]
+        }
+      ]
+    }
+  ]
+}

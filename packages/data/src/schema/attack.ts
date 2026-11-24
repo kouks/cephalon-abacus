@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { damageMapSchema, procRefSchema } from './damageType';
 import { list, nonNegative, object, positive, positiveInt, slugSchema } from './primitives';
 
-const triggerSchema = z.enum([
+export const attackTriggerSchema = z.enum([
   'semi',
   'auto',
   'autoSpool',
@@ -82,7 +82,7 @@ export const attackSchema = object({
   id: slugSchema,
   name: z.string().min(1),
   damage: damageMapSchema,
-  trigger: triggerSchema,
+  trigger: attackTriggerSchema,
   shotType: shotTypeSchema,
   multishot: positive,
   critChance: nonNegative,

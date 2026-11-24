@@ -138,6 +138,7 @@ describe('buckets.json', () => {
         "ammoMax | STACKING_MULTIPLY | stats |  |  | ",
         "ammoEfficiency | ADD | stats |  |  | 0.75",
         "weakPoint.damage | ADD | hit | direct 1 |  | ",
+        "headshot.damage | STACKING_MULTIPLY | hit | direct 1 |  | ",
         "heavy.efficiency | ADD | combo |  |  | 0.9",
         "heavy.windUp | STACKING_MULTIPLY | stats |  |  | ",
         "combo.initial | ADD | combo |  |  | ",

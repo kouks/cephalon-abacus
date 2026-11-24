@@ -345,6 +345,18 @@
       "confidence": "W"
     },
     {
+      "id": "headshot.damage",
+      "name": "Headshot damage",
+      "source": "https://wiki.warframe.com/w/Enemy_Body_Parts",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {
+        "direct": 1
+      },
+      "stage": "hit",
+      "confidence": "W"
+    },
+    {
       "id": "heavy.efficiency",
       "name": "Heavy attack efficiency",
       "source": "https://wiki.warframe.com/w/Heavy_Attack_Efficiency",
