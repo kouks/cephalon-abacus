@@ -76,7 +76,7 @@ packages/
     CHANGELOG/      one file per game version, written by data:update
   engine/
     src/build/      effects, buckets, modded stats, element combiner, quantization
-    src/resolve/    rollers, the hit resolver, health layers, extra hits
+    src/resolve/    rollers, crits, the hit resolver, health layers, extra hits
     src/timeline/   event queue, enemy state, statuses and DoTs, weapon cycle, combo
     src/hooks/      the hook registry and every hook
     src/trace/      trace records
@@ -117,7 +117,7 @@ data  →  importers
 - **Hooks are pure.** They get a read-only context and return changes. They never mutate state, and each writes a trace entry.
 - **Every factor is traced.** A multiplier that changes a number appears in the `HitTrace` under a stable name, with the effects that made it. Tests assert on the trace, not just the total.
 - **Unknowns are named assumptions.** Each [T] rule is a flag in `assumptions.ts` that names its test and BIBLE section (`bowFireRateDoubled: { default: true, test: 'T-10', bible: '§9' }`), and code takes the flags as an `Assumptions` argument. Never settle one quietly in code. When a test answers it: set the default, add the fixture, update the BIBLE.
-- **Precision.** Keep full precision through the pipeline. Quantize only where BIBLE §6 says (each type's ratio, to 1/32 of base damage). Round only for display. Proc DoTs are never quantized.
+- **Precision.** Keep full precision through the pipeline. Quantize only where the BIBLE says: each type's ratio, to 1/32 of base damage (§6), and the base crit multiplier, to 32/4095 (§7). Round only for display. Proc DoTs are never quantized.
 - **Units.** Percentages are fractions (+165% is `1.65`), times are seconds, distances are metres. Field names follow the BIBLE (`critChance`, `critMultiplier`, `fireRate`, `chargeTime`).
 - **One code path, two modes.** Expected value and Monte Carlo differ only in the `Roller`. What works in one mode works in both; the convergence property test guards it.
 - **Conditionals are switches.** A conditional is the effects of one module (or the weapon) on one trigger. The scenario has a global on/off and overrides per conditional. A switch sets the stacks it starts with: on is all of them, off is none. In a simulation they expire as in the game. `collectEffects` never bakes stacks in, so a simulation can change them without reading modules again.
@@ -132,7 +132,7 @@ data  →  importers
 - **Schemas refuse unknown keys** and fill in no defaults, so a misspelt field is an error and the data says what it means. Checks inside one item live in its schema, so items players write get them too; checks across items live in the loader.
 - **The loader reads no files:** it takes their text and returns a library or every error, so it runs in the browser, in tests and in `data:validate` alike.
 - **Reference files** (`damageTypes.json`, `buckets.json`, `factions.json`) are needed by every library and written by hand. The 20 damage type ids are a fixed list in `schema/damageType.ts`; their rules are data. `tools/data/library.test.ts` snapshots all three, so a balance patch shows up as a diff.
-- **Buckets:** a bucket with `members` is a family (`damage.faction.<group>`); look names up with `findBucket`. Its `scope` says how many times it applies to direct hits, procs, extra hits and AoE.
+- **Buckets:** a bucket with `members` is a family (`damage.faction.<group>`); look names up with `findBucket`. Its `scope` says how many times it applies to direct hits, procs, extra hits and AoE, and its `bodyPart` that it needs a weak point or a head.
 - **Damage types list the layers they hit**, with a multiplier for each. A layer that is absent is skipped: Toxin has no `shield`.
 - **Importers never guess.** A field or phrase with no mapping rule is logged and goes to `importers/overrides/*.json` for a person to write. Overrides apply last and are reviewed like code.
 - Generated library files are committed, and only `data:update` writes them. To correct one, edit its override, never the generated file.
@@ -256,5 +256,6 @@ Split long files by concern, extract helpers, and use early returns and lookup t
 - **Faction bonuses double-dip** in proc DoTs and extra hits, and triple-dip in an extra hit's DoT. That is the game, not a bug.
 - **Heat merges** into one instance per enemy that keeps the first proc's bonuses, so an unmodded first proc drags the whole stack down.
 - **Arsenal percentages are relative to the base stat:** +150% crit chance on a 20% weapon is 50%. Flat sources (Arcane Avenger, Puncture stacks) add points afterwards.
+- **A 2x crit multiplier is 2.0005x:** the game quantizes the base, before mods. And a headcrit isn't always 2x: the multiplier belongs to the body part (Juggernaut's maw has 4x).
 - **A mod's displayed maximum can be rounded.** The game keeps a rank-0 value: Acuity's 350% is 11 × 31.8% = 349.8%. Check new mods against DE's number at every rank.
 - **GunCO isn't always additive.** Galvanized mods multiply with Serration on some weapons; that is the per-weapon `gunCOMode`, never a special case in code.

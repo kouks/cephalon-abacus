@@ -27,10 +27,13 @@ const valueSchema = z.union([z.number(), exprSchema], {
   error: 'Expected a number, or { value, times: ["stack" | "statusType" | …] }',
 });
 
+/** A hit location that bonuses ask for. A part can be both (BIBLE §11). */
+export const bodyPartSchema = z.enum(['head', 'weakPoint']);
+
 const filterSchema = object({
   attackTags: list(z.string().min(1)).exactOptional(),
   damageTypes: list(damageTypeSchema).exactOptional(),
-  bodyPart: z.enum(['head', 'weakPoint']).exactOptional(),
+  bodyPart: bodyPartSchema.exactOptional(),
 });
 
 /** One stat contribution from any source (BIBLE §15). */
@@ -59,6 +62,7 @@ export const spawnInstanceSchema = object({
 export type Variable = z.infer<typeof variableSchema>;
 export type Op = z.infer<typeof opSchema>;
 export type Scope = z.infer<typeof scopeSchema>;
+export type BodyPart = z.infer<typeof bodyPartSchema>;
 export type Expr = z.infer<typeof exprSchema>;
 export type Effect = z.infer<typeof effectSchema>;
 export type SpawnInstance = z.infer<typeof spawnInstanceSchema>;

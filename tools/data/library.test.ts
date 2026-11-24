@@ -99,6 +99,17 @@ describe('factions.json', () => {
 describe('buckets.json', () => {
   const all = [...buckets.values()];
 
+  it('limits three buckets to a body part', () => {
+    const limited = all.flatMap(({ id, bodyPart }) =>
+      bodyPart === undefined ? [] : [[id, bodyPart]],
+    );
+    expect(limited).toEqual([
+      ['crit.chanceWeakPoint', 'weakPoint'],
+      ['weakPoint.damage', 'weakPoint'],
+      ['headshot.damage', 'head'],
+    ]);
+  });
+
   it('has every bucket of BIBLE §5', () => {
     const table = all.map(({ id, op, stage, scope, members = '', max = '' }) =>
       [id, op, stage, describeMap(scope), members, max].join(' | '),
@@ -116,7 +127,7 @@ describe('buckets.json', () => {
         "crit.chanceFlat | ADD | crit | direct 1, aoe 1 |  | ",
         "crit.chanceWeakPoint | STACKING_MULTIPLY | crit | direct 1 |  | ",
         "crit.damage | STACKING_MULTIPLY | stats | direct 1, proc 1, aoe 1 |  | ",
-        "crit.damageFlat | ADD | crit | direct 1 |  | ",
+        "crit.damageFlat | ADD | crit | direct 1, aoe 1 |  | ",
         "crit.damageFinal | MULTIPLY | crit | direct 1, aoe 1 |  | ",
         "status.chance | STACKING_MULTIPLY | stats | direct 1, aoe 1 |  | ",
         "status.chanceCombo | STACKING_MULTIPLY | stats | direct 1, aoe 1 |  | ",

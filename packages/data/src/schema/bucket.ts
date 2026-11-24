@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { bucketNameSchema, opSchema, scopeSchema } from './effect';
+import { bodyPartSchema, bucketNameSchema, opSchema, scopeSchema } from './effect';
 import {
   gameVersionSchema,
   object,
@@ -44,6 +44,8 @@ export const bucketSchema = object({
   /** What it reaches, and how many times it applies there: faction bonuses hit a DoT twice. */
   scope: z.partialRecord(scopeSchema, positiveInt).readonly(),
   stage: z.enum(STAGES),
+  /** The only part it counts on: Acuity's crit chance needs a weak point. Absent: anywhere. */
+  bodyPart: bodyPartSchema.exactOptional(),
   confidence: z.enum(['W', 'W?', 'C', 'T']),
   /** For a family such as damage.faction.<group>: what may follow. Absent: not a family. */
   members: membersSchema.exactOptional(),

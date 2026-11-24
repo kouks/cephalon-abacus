@@ -21,6 +21,7 @@ export const attack = {
   statusChance: 0.1,
   fireRate: 8,
   ammoCost: 1,
+  flags: ['canCrit'],
 };
 
 export const weapon = {
