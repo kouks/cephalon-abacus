@@ -93,18 +93,16 @@ describe('findIdLiterals', () => {
 });
 
 describe('checkAssumptions', () => {
-  const bible = '\n## 7. Critical hits\n\n| T-5  | Cold crit bonus |\n';
-
-  it('accepts a flag whose test and section exist', () => {
+  it('accepts a flag that cites a test and a section', () => {
     const flags = { coldIsAbsolute: { default: true, test: 'T-5', bible: '§7' } } as const;
-    expect(checkAssumptions(flags, bible)).toEqual([]);
+    expect(checkAssumptions(flags)).toEqual([]);
   });
 
-  it('refuses a test and a section the BIBLE lacks', () => {
-    const flags = { coldIsAbsolute: { default: true, test: 'T-50', bible: '§70' } } as const;
-    expect(checkAssumptions(flags, bible)).toEqual([
-      'coldIsAbsolute names T-50, which BIBLE §16 does not list.',
-      'coldIsAbsolute names §70, which the BIBLE does not have.',
+  it('refuses a malformed test and section', () => {
+    const flags = { coldIsAbsolute: { default: true, test: 'T-0.5', bible: '§-7' } } as const;
+    expect(checkAssumptions(flags)).toEqual([
+      'coldIsAbsolute cites "T-0.5", which is not a test like T-5.',
+      'coldIsAbsolute cites "§-7", which is not a section like §7.',
     ]);
   });
 });

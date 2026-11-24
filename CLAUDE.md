@@ -15,7 +15,7 @@ This file describes the architecture and the conventions. When a convention chan
 
 ## Sources of truth
 
-- **Mechanics, formulas and architecture:** `docs/BIBLE.md`, the R&D spec. Cite it in code comments, tests and tickets as `BIBLE §8`. It tags every rule: **[W]** wiki, consistent; **[W?]** wiki, incomplete or self-contradictory; **[C]** community, unverified; **[T]** needs an in-game test. When the code learns something the BIBLE doesn't say, or proves it wrong, update it in the same pull request.
+- **Mechanics, formulas and architecture:** the BIBLE, our R&D spec, is a Claude Doc: [Cephalon Abacus — Research & Engine Spec](https://claude.ai/artifact/9uUVRXTC8cFiNbKHx8oJhs). It changes as we learn, so it lives only there: read and edit it with the Claude Docs tools, and don't copy it into the repo. Cite it in code comments, tests and tickets as `BIBLE §8`; keep its section numbers stable. It tags every rule: **[W]** wiki, consistent; **[W?]** wiki, incomplete or self-contradictory; **[C]** community, unverified; **[T]** needs an in-game test. When the code learns something the BIBLE doesn't say, or proves it wrong, update it as part of the same ticket and say so in the pull request.
 - **Work:** Linear, team **ABA** (`linear.app/kx-abacus`). One project per phase: Abacus 1: Core engine, Abacus 2: Status and enemies, Abacus 3: Melee and buffs, Abacus 4: Breadth and hooks. Each project has acceptance criteria and ends in a gate ticket of in-game tests. Each ticket has Goal, Steps, Done when and Spec.
 - **Game data:** wiki.warframe.com, the official wiki since 2025. **Never the Fandom wiki:** it is a stale fork. Then WFCD's `@wfcd/items`, DE's Public Export, and warframe.com patch notes for every hotfix.
 - **Ground truth:** Pavel's in-game tests (see In-game tests). When a test and the wiki disagree, the test wins and the BIBLE records why.
@@ -83,7 +83,6 @@ packages/
 tests/golden/       in-game fixtures, one file per test
 tools/              architecture test, ESLint config test, git checks
 eslint/             ESLint config modules, composed by eslint.config.ts
-docs/BIBLE.md       the R&D spec
 docs/data-updates.md   refreshing the library for a new game version
 .github/            workflows, Dependabot, the shared setup action
 ```
@@ -197,7 +196,7 @@ Split long files by concern, extract helpers, and use early returns and lookup t
   - `limits`, `naming` (check-file: no `index` files, PascalCase `.tsx`, hooks and stories only in component folders), `boundaries` (`architecture/layers`, the app's engine imports), `purity` (engine and data: framework-free imports, determinism bans), `syntax` (shared option lists), `files` (shared globs), `rules/` (our own rules).
 - **Gotcha:** if two config blocks set `no-restricted-syntax` (or `@typescript-eslint/no-restricted-imports`) on the same file, the later one replaces the earlier. Every block that sets one must spread `BASE_SYNTAX` / `BASE_RESTRICTED_IMPORTS` from `eslint/syntax.ts`.
 - **`tools/eslint/eslintConfig*.test.ts`** lint virtual files against the real config: every banned pattern must error and well-formed code must pass. When you add a rule, add a case.
-- **The architecture test** (`tools/architecture/`) enforces what lint can't: the layers in each `package.json` and `tsconfig.json`, component folder contents, `X.tsx` exporting only `X`/`XProps` and calling only `useX`, no id literals in the engine outside `hooks/`, and every flag in `assumptions.ts` naming a test and a BIBLE section.
+- **The architecture test** (`tools/architecture/`) enforces what lint can't: the layers in each `package.json` and `tsconfig.json`, component folder contents, `X.tsx` exporting only `X`/`XProps` and calling only `useX`, no id literals in the engine outside `hooks/`, and every flag in `assumptions.ts` citing a test (`T-5`) and a BIBLE section (`§7`).
 
 ## Testing
 

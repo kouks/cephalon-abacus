@@ -90,8 +90,8 @@ describe('the engine', () => {
     expect(findIdLiterals(readText(file), ids)).toEqual([]);
   });
 
-  it('names a test and a BIBLE section for every assumption', () => {
-    expect(checkAssumptions(ASSUMPTIONS, readText('docs/BIBLE.md'))).toEqual([]);
+  it('cites a test and a BIBLE section for every assumption', () => {
+    expect(checkAssumptions(ASSUMPTIONS)).toEqual([]);
   });
 });
 

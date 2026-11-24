@@ -22,14 +22,13 @@ pnpm dev      # the app
 
 ## Layout
 
-| Path                 | What it holds                                                    |
-| -------------------- | ---------------------------------------------------------------- |
-| `packages/data`      | Schemas, the loader and the versioned game library               |
-| `packages/engine`    | The pure damage engine                                           |
-| `packages/importers` | Scripts that build the library from the wiki and other sources   |
-| `packages/app`       | The React app, which runs the engine in a Web Worker             |
-| `tests/golden`       | Fixtures recorded in the game                                    |
-| `docs/BIBLE.md`      | The research and engine spec: every formula, and how sure we are |
-| `CLAUDE.md`          | Architecture and conventions                                     |
+| Path                 | What it holds                                                  |
+| -------------------- | -------------------------------------------------------------- |
+| `packages/data`      | Schemas, the loader and the versioned game library             |
+| `packages/engine`    | The pure damage engine                                         |
+| `packages/importers` | Scripts that build the library from the wiki and other sources |
+| `packages/app`       | The React app, which runs the engine in a Web Worker           |
+| `tests/golden`       | Fixtures recorded in the game                                  |
+| `CLAUDE.md`          | Architecture and conventions                                   |
 
 Cephalon Abacus is a fan project. It is not affiliated with Digital Extremes.
