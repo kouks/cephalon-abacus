@@ -77,6 +77,7 @@ packages/
   engine/
     src/build/      effects, buckets, modded stats, element combiner, damage composition
     src/resolve/    rollers, crits, the hit resolver, health layers, extra hits
+    src/metrics/    per shot, DPS and lifetime damage, in closed form
     src/timeline/   event queue, enemy state, statuses and DoTs, weapon cycle, combo
     src/hooks/      the hook registry and every hook
     src/trace/      trace records
@@ -121,7 +122,7 @@ data  →  importers
 - **Units.** Percentages are fractions (+165% is `1.65`), times are seconds, distances are metres. Field names follow the BIBLE (`critChance`, `critMultiplier`, `fireRate`, `chargeTime`).
 - **One code path, two modes.** Expected value and Monte Carlo differ only in the `Roller`. What works in one mode works in both; the convergence property test guards it.
 - **Conditionals are switches.** A conditional is the effects of one module (or the weapon) on one trigger. The scenario has a global on/off and overrides per conditional. A switch sets the stacks it starts with: on is all of them, off is none. In a simulation they expire as in the game. `collectEffects` never bakes stacks in, so a simulation can change them without reading modules again.
-- **A build that doesn't work as written returns warnings**, as codes with data, and a usable result. It throws only when there is nothing to evaluate.
+- **A build that doesn't work as written returns warnings**, as codes with data, and a usable result. So does a result that leaves out something the weapon does (`leftOut`). It throws only when there is nothing to evaluate.
 - **Pellets resolve one at a time** against the shared enemy state, so later pellets see earlier procs (BIBLE §5). Direct hits and their AoE share that state too.
 
 ## The data library
