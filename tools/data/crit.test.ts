@@ -35,7 +35,7 @@ const crit = (weaponId: string, hit: Hit) => {
   const collected = collectEffects(scenarioSchema.parse({ ...scenario, build }), library);
   const bodyParts = new Set(on === 'head' ? HEAD : []);
   const selection = { ...selectionOf(weapon, attack), bodyParts };
-  return hitCrit(weapon, attack, {
+  return hitCrit(attack, {
     totals: totalBuckets(collected, library, { selection }),
     assumptions: { ...DEFAULT_ASSUMPTIONS, ...assumptions },
     headcrit: on === 'head' ? 2 : 1,

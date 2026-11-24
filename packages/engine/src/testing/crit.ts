@@ -30,7 +30,7 @@ export const measureCrit = (setup: CritSetup = {}) => {
     selection: { ...selectionOf(rifle, fired), bodyParts: new Set(bodyParts) },
     moment: { ...startOf(all), variables: { ...NO_VARIABLES, comboTier: combo - 1 } },
   });
-  return hitCrit(rifle, fired, { totals, assumptions, ...location });
+  return hitCrit(fired, { totals, assumptions, ...location });
 };
 
 export const attackWith = (critChance: number, critMultiplier = 2) => ({

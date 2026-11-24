@@ -81,7 +81,7 @@ export type Build = { readonly totals: BucketTotals; readonly assumptions: Assum
 export const attackStats = (weapon: Weapon, attack: Attack, build: Build): AttackStats => {
   const { totals } = build;
   return {
-    critChance: modCritChance(weapon, attack, totals),
+    critChance: modCritChance(attack, totals),
     critMultiplier: modCritMultiplier(attack, build),
     statusChance: modStat(totals, attack.statusChance, ['status.chance', 'status.chanceFlat']),
     statusDuration: modStat(totals, 1, ['status.duration']),

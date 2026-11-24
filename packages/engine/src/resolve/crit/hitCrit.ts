@@ -1,5 +1,4 @@
 import type { Attack } from '@abacus/data/schema/attack';
-import type { Weapon } from '@abacus/data/schema/weapon';
 
 import type { Assumptions } from '@/assumptions';
 import { modCritChance } from '@/build/stats/critChance';
@@ -33,8 +32,8 @@ type Context = CritLocation & {
   readonly assumptions: Assumptions;
 };
 
-export const hitCrit = (weapon: Weapon, attack: Attack, context: Context): HitCrit => {
-  const chance = modCritChance(weapon, attack, context.totals);
+export const hitCrit = (attack: Attack, context: Context): HitCrit => {
+  const chance = modCritChance(attack, context.totals);
   const multiplier = modCritMultiplier(attack, context);
   const tiers = critTiers(chance.value, context.raises);
   return { chance, multiplier, tiers, expected: expectedCrit(tiers, multiplier.value) };

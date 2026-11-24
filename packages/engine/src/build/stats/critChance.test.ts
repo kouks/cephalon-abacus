@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest';
 import { add } from '@/testing/build';
 import { attackWith, measureCrit } from '@/testing/crit';
 
-const MULTIPLICATIVE = { critStacking: 'multiplicative' };
 const SET = { op: 'OVERRIDE' };
 
 const flat = (value: number, change: object = {}) =>
@@ -60,23 +59,13 @@ describe('weak point crit chance', () => {
   });
 
   it('adds up with the other bonuses', () => {
-    const onWeakPoint = { ...build, bodyParts: ['head', 'weakPoint'] as const };
-    expect(chance(onWeakPoint)).toBeCloseTo(0.5 * (1 + 2 + 3.5), 12);
-    const weaponChange = { critStacking: 'additive' };
-    expect(chance({ ...onWeakPoint, weaponChange })).toBeCloseTo(3.25, 12);
+    const bodyParts = ['head', 'weakPoint'] as const;
+    expect(chance({ ...build, bodyParts })).toBeCloseTo(0.5 * (1 + 2 + 3.5), 12);
   });
 
-  it('kuva chakkhurr crit chance, stacking multiplicatively, is 675%', () => {
-    const onWeakPoint = { ...build, bodyParts: ['weakPoint'] as const };
-    expect(chance({ ...onWeakPoint, weaponChange: MULTIPLICATIVE })).toBeCloseTo(6.75, 12);
-    expect(chance({ ...build, weaponChange: MULTIPLICATIVE })).toBeCloseTo(1.5, 12);
-  });
-
-  it('adds flat chance last, however it stacks', () => {
+  it('comes before flat chance', () => {
     const effects = [...build.effects, flat(0.2)];
-    const all = { ...build, effects, bodyParts: ['weakPoint'] as const };
-    expect(chance({ ...all, weaponChange: MULTIPLICATIVE })).toBeCloseTo(6.95, 12);
-    expect(chance(all)).toBeCloseTo(3.45, 12);
+    expect(chance({ ...build, effects, bodyParts: ['weakPoint'] })).toBeCloseTo(3.45, 12);
   });
 });
 
