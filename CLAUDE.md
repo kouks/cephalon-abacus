@@ -36,7 +36,7 @@ pnpm test                 # Vitest: unit and property tests in every package, pl
 pnpm test:coverage        # …with coverage; fails if packages/engine drops below 90% (what CI runs)
 pnpm test:golden          # the in-game fixtures in tests/golden, through the public engine API
 pnpm test:e2e             # Playwright against the built app (once the app has screens)
-pnpm data:validate        # load the whole library; fails on any error or a missing source or gameVersion (loader: ABA-6)
+pnpm data:validate        # load the whole library; fails on any error or a missing source or gameVersion
 pnpm data:update --game-version <v>   # run the importers, apply overrides, validate, write the changelog (from ABA-47)
 pnpm deps:audit           # known vulnerabilities in the dependencies (fails on high or critical)
 pnpm commit:check <file>  # Conventional Commits and Linear ID check (`--text "…"` for a string)
@@ -66,7 +66,11 @@ Before you call any change done, run `pnpm lint && pnpm typecheck && pnpm test`.
 
 ```
 packages/
-  data/             zod schemas, the loader, and the library; src/assert.ts is the shared assert module
+  data/
+    src/schema/     zod schemas, one file per type, and the types inferred from them
+    src/load/       the loader: validates library files, collects every error
+    src/testing/    made-up items for tests
+    src/assert.ts   the shared assert module
     library/        damageTypes.json, buckets.json, factions.json, scaling.json,
                     weapons/, mods/, arcanes/, buffs/, enemies/, stances/
     CHANGELOG/      one file per game version, written by data:update
@@ -102,7 +106,7 @@ data  →  importers
 - **`tests/golden` calls only `evaluate` and `simulate`** from `engine/src/api.ts`, exactly as the app does.
 - **Imports:** `@abacus/<package>` across packages. Inside a package, `@/…` for anything outside the current folder; relative paths for siblings and at most one level up (`../`). `../../` is banned.
 - **Packages are consumed from source.** `package.json#exports` points at `src`, `tsc -b` emits declarations only, and Vite and Vitest resolve `@/…` from the importing file's own package (`resolve.tsconfigPaths`).
-- **`tools/` and `eslint/` run on Node directly** (type stripping, no build), so they import with the `.ts` extension, and reach each other and the engine through `package.json#imports` (`#eslint/…`).
+- **`tools/` and `eslint/` run on Node directly** (type stripping, no build), so they import with the `.ts` extension, and reach each other and the packages through `package.json#imports` (`#eslint/…`, `#data/…`). A script that imports a package runs through `node tools/run.ts <script>`, which resolves `@/…` as Vite does.
 
 ## The engine
 
@@ -121,7 +125,10 @@ data  →  importers
 
 - Every file uses the envelope `{ schemaVersion, gameVersion, source, items[] }`, and every item carries `source` (a URL) and `gameVersion`. `data:validate` fails without them.
 - `id` is a stable lower-kebab slug; store DE's `uniqueName` beside it when known. Never change an id: fixtures and saved builds point at it.
-- Percentages are fractions. Per-rank values follow the linear rule or an explicit array.
+- Percentages are fractions. Per-rank values follow the linear rule or an explicit array of shares of the max-rank value.
+- **Schemas refuse unknown keys** and fill in no defaults, so a misspelt field is an error and the data says what it means. Checks inside one item live in its schema, so items players write get them too; checks across items live in the loader.
+- **The loader reads no files:** it takes their text and returns a library or every error, so it runs in the browser, in tests and in `data:validate` alike.
+- The 20 damage type ids are a fixed list in `schema/damageType.ts`; their rules are data.
 - **Importers never guess.** A field or phrase with no mapping rule is logged and goes to `importers/overrides/*.json` for a person to write. Overrides apply last and are reviewed like code.
 - Generated library files are committed, and only `data:update` writes them. To correct one, edit its override, never the generated file.
 - An update for a new game version writes `CHANGELOG/<version>.md`. A change that touches a golden fixture names it, so its test gets requested again.
