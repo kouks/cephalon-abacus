@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 
 import { quantize } from './quantize';
 
-const ratio = fc.double({ min: -20, max: 20, noNaN: true });
+const ratio = fc.double({ min: 0, max: 20, noNaN: true });
 
 describe('quantize', () => {
   it.each([
@@ -14,8 +14,6 @@ describe('quantize', () => {
     [0, 0],
     [1 / 64, 1 / 32],
     [0.99 / 64, 0],
-    [-0.3, -10 / 32],
-    [-1 / 64, -1 / 32],
   ])('%d is %d', (value, expected) => {
     expect(quantize(value)).toBeCloseTo(expected, 12);
   });

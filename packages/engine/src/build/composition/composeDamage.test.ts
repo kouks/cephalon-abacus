@@ -59,11 +59,11 @@ describe('physical bonuses', () => {
     expect(hit.physical.get('slash')?.totals[0]?.contributions).toEqual([]);
   });
 
-  it('can take a type to zero, or below', () => {
+  it('can round a type away, or remove it', () => {
     const slash = (value: number) =>
       compose({ modules: [physicalMod('riven', 'slash', value)] }).types.get('slash');
     expect(slash(-0.98)).toMatchObject({ quantized: 0, damage: 0 });
-    expect(slash(-1.17)?.quantized).toBe(-2 / 32);
+    expect(slash(-1.17)).toEqual({ ratio: 0, quantized: 0, damage: 0 });
   });
 });
 
@@ -167,7 +167,7 @@ describe('proc weights', () => {
     expect(raw['slash']).toBeCloseTo(0.9, 12);
   });
 
-  it('leave out a type below zero', () => {
+  it('leave out a type that is gone', () => {
     const modules = [physicalMod('riven', 'slash', -1.17)];
     expect(weights({ modules })).toEqual({ impact: 10 / 32, puncture: 10 / 32 });
   });

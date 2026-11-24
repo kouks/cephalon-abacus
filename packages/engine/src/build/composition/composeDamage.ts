@@ -50,7 +50,10 @@ type Context = {
   readonly assumptions: Assumptions;
 };
 
-/** Physical bonuses scale what the attack has: +Slash does nothing for one without Slash. */
+/**
+ * Physical bonuses scale what the attack has: +Slash does nothing for one without Slash. A type they
+ * take below zero is gone.
+ */
 const physicalShares = (
   { total, parts }: BaseDamage,
   { library, totals }: Context,
@@ -63,7 +66,7 @@ const physicalShares = (
   return new Map(
     [...shares].map(([type, base]) => {
       const bonus = memberTotal(totals, `damage.ips.${type}`);
-      return [type, { base, value: aggregate(bonus, base), totals: [bonus] }];
+      return [type, { base, value: Math.max(aggregate(bonus, base), 0), totals: [bonus] }];
     }),
   );
 };

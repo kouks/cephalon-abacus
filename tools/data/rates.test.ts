@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { must } from '#data/assert.ts';
+import type { ModuleInstance } from '#data/schema/scenario.ts';
 import { scenarioSchema } from '#data/schema/scenario.ts';
 import type { Weapon } from '#data/schema/weapon.ts';
 import { scenario } from '#data/testing/fixtures.ts';
@@ -15,14 +16,13 @@ import { loadRealLibrary } from './loadRealLibrary.ts';
 
 const library = loadRealLibrary();
 
-const measure = (weaponId: string, attackId: string, modules: readonly string[] = []) => {
+const measure = (weaponId: string, attackId: string, modules: readonly ModuleInstance[] = []) => {
   const weapon = must(library.weapons.get(weaponId), `No weapon "${weaponId}"`);
   const attack = must(
     weapon.attacks.find(({ id }) => id === attackId),
     `No attack "${attackId}"`,
   );
-  const equipped = modules.map((moduleId) => ({ moduleId }));
-  const build = { ...scenario.build, weaponId, modules: equipped };
+  const build = { ...scenario.build, weaponId, modules };
   const collected = collectEffects(scenarioSchema.parse({ ...scenario, build }), library);
   const totals = totalBuckets(collected, library, { selection: selectionOf(weapon, attack) });
   const stats = attackStats(weapon, attack, { totals, assumptions: DEFAULT_ASSUMPTIONS });
@@ -70,15 +70,19 @@ describe('as measured in the game', () => {
 
   it('T-10: Paris charges in 0.5 s, and in 0.23 s with Speed Trigger', () => {
     expect(measure('paris', 'charged').stats.chargeTime?.value).toBe(0.5);
-    const { chargeTime } = measure('paris', 'charged', ['speed-trigger']).stats;
+    const { chargeTime } = measure('paris', 'charged', [{ moduleId: 'speed-trigger' }]).stats;
     expect(chargeTime?.value).toBeCloseTo(0.23, 2);
   });
 
-  it('magazines round to the nearest integer, here with Magazine Warp', () => {
-    const rounds = (weaponId: string, attackId: string) =>
-      measure(weaponId, attackId, ['magazine-warp']).stats.magazine?.value;
-    expect(rounds('nagantaka-prime', 'semi-auto')).toBe(14);
-    expect(rounds('vectis-prime', 'normal')).toBe(3);
+  it('magazines round to the nearest integer of a 32-bit product, here with Magazine Warp', () => {
+    const rounds = (weaponId: string, attackId: string, rank: number) => {
+      const modules = [{ moduleId: 'magazine-warp', rank }];
+      return measure(weaponId, attackId, modules).stats.magazine?.value;
+    };
+    expect(rounds('nagantaka-prime', 'semi-auto', 5)).toBe(14);
+    expect(rounds('braton', 'normal', 5)).toBe(58);
+    expect(rounds('braton', 'normal', 1)).toBe(50);
+    expect(rounds('vectis-prime', 'normal', 4)).toBe(3);
   });
 
   it('the 77 rounds of Kuva Nukor last about 15 s at 10/s', () => {
@@ -94,12 +98,14 @@ describe('as measured in the game', () => {
 
 describe('mods on real weapons', () => {
   it('Soma Prime with Point Strike has 75% crit chance', () => {
-    const { critChance } = measure('soma-prime', 'normal', ['point-strike']).stats;
+    const { critChance } = measure('soma-prime', 'normal', [{ moduleId: 'point-strike' }]).stats;
     expect(critChance.value).toBeCloseTo(0.75, 12);
   });
 
   it('Speed Trigger counts twice on Nagantaka Prime, which fires like a bow', () => {
-    const { fireRate } = measure('nagantaka-prime', 'semi-auto', ['speed-trigger']).stats;
+    const { fireRate } = measure('nagantaka-prime', 'semi-auto', [
+      { moduleId: 'speed-trigger' },
+    ]).stats;
     expect(fireRate.value).toBeCloseTo(2.5 * 2.2, 12);
   });
 });

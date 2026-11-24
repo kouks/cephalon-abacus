@@ -45,9 +45,15 @@ describe('attack stats', () => {
 
   it.each([
     [11, 0.3, 14],
-    [2, 0.3, 3],
     [6, 0.3, 8],
+    [45, 0.3, 58],
+    [45, 0.1, 50],
+    [45, 0.66, 75],
+    [2, 0.25, 3],
+    [2, -0.6, 1],
     [1, -0.6, 1],
+    // Nobody has checked this one: the 32-bit product of 10 and 1.05 is exactly 10.5.
+    [10, 0.05, 11],
   ])('round a magazine of %d with %d to %d', (...[magazine, bonus, expected]) => {
     const weaponChange = { ammo: { ...AMMO, magazine } };
     const { stats } = measure({ effects: [add('magazine', bonus)], weaponChange });
