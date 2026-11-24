@@ -115,8 +115,8 @@ describe('buckets.json', () => {
       [
         "damage.base | STACKING_MULTIPLY | composition | direct 1, proc 1, extraHit 1, aoe 1 |  | ",
         "damage.ips | STACKING_MULTIPLY | composition | direct 1, aoe 1 | impact,puncture,slash | ",
-        "damage.element | STACKING_MULTIPLY | composition | direct 1, proc 1, aoe 1 | heat,cold,electricity,toxin | ",
-        "damage.elementNoCombine | STACKING_MULTIPLY | composition | direct 1, aoe 1 | heat,cold,electricity,toxin,blast,corrosive,gas,magnetic,radiation,viral | ",
+        "damage.element | STACKING_MULTIPLY | composition | direct 1, proc 1, aoe 1 | heat,cold,electricity,toxin,blast,corrosive,gas,magnetic,radiation,viral | ",
+        "damage.elementNoCombine | STACKING_MULTIPLY | composition | direct 1, proc 1, aoe 1 | heat,cold,electricity,toxin,blast,corrosive,gas,magnetic,radiation,viral | ",
         "damage.faction | STACKING_MULTIPLY | hit | direct 1, proc 2, extraHit 2, aoe 1 | factionModGroup | ",
         "damage.final | MULTIPLY | hit | direct 1, aoe 1 | any | ",
         "crit.chance | STACKING_MULTIPLY | stats | direct 1, proc 1, aoe 1 |  | ",
