@@ -19,7 +19,8 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
-      include: ['packages/*/src/**/*.{ts,tsx}'],
+      // Matched against each project's root, not the repository's.
+      include: ['**/src/**/*.{ts,tsx}'],
       exclude: ['**/*.test.{ts,tsx}', '**/*.stories.tsx'],
       thresholds: {
         'packages/engine/src/**': { branches: 90, functions: 90, lines: 90, statements: 90 },
