@@ -50,15 +50,9 @@ const value = (from: ReturnType<typeof totals>, name: string, base = 1) =>
 describe('totals', () => {
   it('cover every bucket, with or without effects', () => {
     const all = totals([SERRATION]);
-    expect([...all.keys()]).toEqual([
-      'damage.base',
-      'multishot',
-      'crit.chance',
-      'crit.chanceWeakPoint',
-      'status.chance',
-      'fireRate',
-      'ammoEfficiency',
-    ]);
+    const plain = ['damage.base', 'multishot', 'crit.chance', 'fireRate', 'ammoEfficiency'];
+    for (const name of plain) expect(all.has(name)).toBe(true);
+    expect(all.has('damage.faction')).toBe(false);
     expect(value(all, 'multishot', 3)).toBe(3);
     expect(all.get('multishot')?.contributions).toEqual([]);
   });

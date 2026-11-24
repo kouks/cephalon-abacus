@@ -19,7 +19,10 @@ import { compatTagSchema, slotSchema, weaponClassSchema } from './weaponClass';
 
 const reloadShape = {
   magazine: positive,
-  /** Absent: unlimited. */ maxAmmo: positive.exactOptional(),
+  /** Absent: unlimited. */
+  maxAmmo: positive.exactOptional(),
+  /** The reload replaces the last shot's delay (Vectis). */
+  reloadHidesDelay: z.boolean().exactOptional(),
 };
 
 const ammoSchema = z.discriminatedUnion('reloadStyle', [
@@ -98,6 +101,8 @@ export const weaponSchema = object({
   class: list(weaponClassSchema),
   compatTags: list(compatTagSchema).exactOptional(),
   maxRank: z.union([z.literal(30), z.literal(40)], { error: 'Expected 30 or 40' }),
+  /** What fire rate bonuses are multiplied by: 2 on bows and what counts as one (BIBLE §9). */
+  fireRateBonusScale: positive.exactOptional(),
   progenitor: progenitorSchema.exactOptional(),
   innatePassives: list(effectSchema).exactOptional(),
   perkHooks: list(hookRefSchema).exactOptional(),

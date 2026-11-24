@@ -141,7 +141,16 @@ describe('a bad item', () => {
     ['a negative chance', { critChance: -1 }, '.critChance: Too small: expected number to be >=0'],
     ['an unknown damage type', { damage: { fire: 3 } }, '.damage: Unrecognized key: "fire"'],
     ['no damage', { damage: {} }, '.damage: An attack deals at least one damage type'],
-    ['a charge without a time', { trigger: 'charge' }, '.chargeTime: "charge" needs chargeTime'],
+    [
+      'a charge without a time',
+      { trigger: 'charge', afterCharge: 'reload' },
+      '.chargeTime: "charge" needs chargeTime',
+    ],
+    [
+      'a charge followed by nobody knows what',
+      { trigger: 'charge', chargeTime: 1 },
+      '.afterCharge: "charge" needs afterCharge',
+    ],
     ['a beam without a ramp', { shotType: 'continuous' }, '.beam: "continuous" needs beam'],
     ['a spool without shots', { trigger: 'autoSpool' }, '.spool: "autoSpool" needs spool'],
     ['an explosion without a radius', { shotType: 'aoe' }, '.aoe: "aoe" needs aoe'],

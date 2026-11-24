@@ -22,6 +22,12 @@ export type Selection = {
 export const attackTagsOf = ({ compatTags = [] }: Weapon, attack: Attack): ReadonlySet<string> =>
   new Set([attack.trigger, attack.shotType, ...(attack.flags ?? []), ...compatTags]);
 
+/** The selection for an attack's own stats. */
+export const selectionOf = (weapon: Weapon, attack: Attack): Selection => ({
+  scope: attack.flags?.includes('isAoE') === true ? 'aoe' : 'direct',
+  attackTags: attackTagsOf(weapon, attack),
+});
+
 /** A bucket without a scope (fire rate, magazine) is not about damage, so it reaches everything. */
 const reaches = ({ scope: reach }: Bucket, scope: Scope) =>
   Object.keys(reach).length === 0 || reach[scope] !== undefined;
