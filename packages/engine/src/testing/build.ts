@@ -28,6 +28,12 @@ const buckets = libraryFile(
   stat('crit.chanceWeakPoint', { scope: { direct: 1 } }),
   stat('status.chance', { scope: { direct: 1 } }),
   stat('fireRate', { scope: {} }),
+  ...['crit.damage', 'status.chanceFlat', 'status.duration', 'magazine', 'ammoMax'].map((id) =>
+    stat(id, { scope: {} }),
+  ),
+  ...['reload', 'punchThrough', 'range', 'projectileSpeed', 'aoeRadius'].map((id) =>
+    stat(id, { scope: {} }),
+  ),
   stat('ammoEfficiency', { scope: {}, op: 'ADD', max: 0.75 }),
 );
 

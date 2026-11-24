@@ -51,6 +51,8 @@ const beamSchema = object({
 /** Timing and geometry that only some attacks have. */
 const optionalShape = {
   chargeTime: positive.exactOptional(),
+  /** What follows a charged shot: the fire delay, a reload (bows), or nothing (Lanka). */
+  afterCharge: z.enum(['fireDelay', 'reload', 'none']).exactOptional(),
   burstCount: positiveInt.exactOptional(),
   burstDelay: nonNegative.exactOptional(),
   spool: spoolSchema.exactOptional(),
@@ -70,7 +72,7 @@ type OptionalField = keyof typeof optionalShape;
 
 /** The fields a trigger or shot type can't do without. */
 const REQUIRED_BY: Readonly<Record<string, readonly OptionalField[]>> = {
-  charge: ['chargeTime'],
+  charge: ['chargeTime', 'afterCharge'],
   burst: ['burstCount', 'burstDelay'],
   autoSpool: ['spool'],
   aoe: ['aoe'],

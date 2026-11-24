@@ -172,7 +172,8 @@
         "magazine": 2,
         "maxAmmo": 72,
         "reloadStyle": "magazine",
-        "reloadTime": 0.85
+        "reloadTime": 0.85,
+        "reloadHidesDelay": true
       },
       "attacks": [
         {
@@ -212,6 +213,7 @@
       "class": ["bow"],
       "compatTags": ["PROJECTILE"],
       "maxRank": 30,
+      "fireRateBonusScale": 2,
       "ammo": {
         "magazine": 1,
         "maxAmmo": 72,
@@ -257,7 +259,8 @@
           "chargeTime": 0.5,
           "punchThrough": 2,
           "projectileSpeed": 85,
-          "flags": ["canHeadshot", "canCrit"]
+          "flags": ["canHeadshot", "canCrit"],
+          "afterCharge": "reload"
         }
       ]
     },
@@ -416,6 +419,7 @@
       "class": ["crossbow"],
       "compatTags": ["PROJECTILE", "ZHUGE", "CROSSBOW"],
       "maxRank": 30,
+      "fireRateBonusScale": 2,
       "ammo": {
         "magazine": 11,
         "maxAmmo": 540,

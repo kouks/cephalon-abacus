@@ -101,7 +101,7 @@ describe('the seed weapons', () => {
         "Tigris Prime, Normal Attack: hitscan {ammoCost:1,falloff:{start:10,end:20,minPct:0.5128},range:300,flags:[canHeadshot,canCrit]}",
         "Vectis Prime, Normal Attack: hitscan {ammoCost:1,falloff:{start:400,end:600,minPct:0.5},punchThrough:1,range:1000,flags:[canHeadshot,canCrit]}",
         "Paris, Uncharged Shot: projectile {ammoCost:1,projectileSpeed:70,flags:[canHeadshot,canCrit]}",
-        "Paris, Charged Shot: projectile {ammoCost:1,chargeTime:0.5,punchThrough:2,projectileSpeed:85,flags:[canHeadshot,canCrit]}",
+        "Paris, Charged Shot: projectile {ammoCost:1,chargeTime:0.5,afterCharge:reload,punchThrough:2,projectileSpeed:85,flags:[canHeadshot,canCrit]}",
         "Burston, Normal Attack: hitscan {ammoCost:1,burstCount:3,burstDelay:0.061,range:300,flags:[canHeadshot,canCrit]}",
         "Amprex, Normal Attack: continuous {ammoCost:0.5,beam:{rampStartPct:0.3,rampTime:0.6,decayDelay:0.8,decayTime:2,chain:{targets:3,range:10}},range:18,flags:[canHeadshot,canCrit,mergeMultishotHits]}",
         "Penta, Grenade Impact: projectile {ammoCost:1,projectileSpeed:20,linkedAttacks:[grenade-detonation],flags:[canHeadshot,canCrit]}",
