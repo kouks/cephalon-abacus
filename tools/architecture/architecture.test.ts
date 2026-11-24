@@ -83,7 +83,8 @@ describe('the engine', () => {
     ),
   );
   const files = filesIn('packages/engine/src/**/*.ts').filter(
-    (file) => !file.startsWith('packages/engine/src/hooks/') && !file.endsWith('.test.ts'),
+    (file) =>
+      !/^packages\/engine\/src\/(?:hooks|testing)\//.test(file) && !file.endsWith('.test.ts'),
   );
 
   it.each(files)('%s names no item', (file) => {

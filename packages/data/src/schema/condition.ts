@@ -17,7 +17,7 @@ const namedTriggerSchema = z.enum([
   'incarnonFormActive',
 ]);
 
-const triggerSchema = z.union(
+export const triggerSchema = z.union(
   [namedTriggerSchema, z.templateLiteral(['onStatus:', damageTypeSchema])],
   { error: 'Expected a trigger, e.g. "onKill" or "onStatus:cold"' },
 );
@@ -35,4 +35,5 @@ export const conditionSchema = object({
   }).exactOptional(),
 });
 
+export type Trigger = z.infer<typeof triggerSchema>;
 export type Condition = z.infer<typeof conditionSchema>;

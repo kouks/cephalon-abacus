@@ -173,6 +173,13 @@ describe('effects', () => {
     ]);
   });
 
+  it('lock buckets that exist', () => {
+    const acuity = { ...module, locks: ['damage.base', 'multishoot'] };
+    expect(errorsOf([...referenceFiles, libraryFile('mods/a.json', acuity)])).toEqual([
+      'mods/a.json: items[0].locks[1]: "multishoot" is not a bucket (buckets.json)',
+    ]);
+  });
+
   it('follow a new bucket without a code change', () => {
     const added = { ...bucket, id: 'damage.brandNew' };
     const files = withFiles(libraryFile('buckets.json', bucket, family, added));

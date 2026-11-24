@@ -51,7 +51,12 @@ export const enemy = {
 };
 
 export const scenario = {
-  build: { weaponId: 'test-rifle', modules: [{ moduleId: 'test-mod' }], elementOrder: [] },
+  build: {
+    weaponId: 'test-rifle',
+    modules: [{ moduleId: 'test-mod' }],
+    conditionals: { all: 'off', overrides: [] },
+    elementOrder: [],
+  },
   enemy: { id: 'test-enemy', level: 100, steelPath: false, modifiers: [] },
   aim: { head: 0.6, body: 0.4 },
   distance: 10,

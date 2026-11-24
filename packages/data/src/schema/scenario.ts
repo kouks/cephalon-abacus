@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { conditionalsSchema } from './conditionals';
 import {
   list,
   nonNegative,
@@ -10,22 +11,16 @@ import {
   slugSchema,
 } from './primitives';
 
-/** How a module's conditional effects count: not at all, at max stacks, at a chosen count, or live. */
-const conditionModeSchema = z.union(
-  [z.enum(['off', 'assumeMax', 'simulate']), object({ stacks: nonNegativeInt })],
-  { error: 'Expected "off", "assumeMax", "simulate" or { stacks }' },
-);
-
 /** An equipped module. Without a rank it is at its max. */
 export const moduleInstanceSchema = object({
   moduleId: slugSchema,
   rank: nonNegativeInt.exactOptional(),
-  conditionMode: conditionModeSchema.exactOptional(),
 });
 
 const buildSchema = object({
   weaponId: slugSchema,
   modules: list(moduleInstanceSchema),
+  conditionals: conditionalsSchema,
   /** Ids of the elemental sources, first slot first (BIBLE §6). */
   elementOrder: list(z.string().min(1)),
 });
@@ -57,6 +52,5 @@ export const scenarioSchema = object({
   runs: positiveInt.exactOptional(),
 });
 
-export type ConditionMode = z.infer<typeof conditionModeSchema>;
 export type ModuleInstance = z.infer<typeof moduleInstanceSchema>;
 export type Scenario = z.infer<typeof scenarioSchema>;

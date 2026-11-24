@@ -1,6 +1,6 @@
 import { describe, expect, expectTypeOf, it } from 'vitest';
 
-import { attack, scenario, weapon } from '@/testing/fixtures';
+import { attack, module, scenario, weapon } from '@/testing/fixtures';
 
 import type { Attack } from './attack';
 import { conditionSchema } from './condition';
@@ -152,9 +152,36 @@ describe('modules', () => {
   });
 });
 
-describe('scenarios', () => {
-  const [instance] = scenario.build.modules;
+describe('conditionals of one item', () => {
+  const stacks = { max: 5, perTrigger: 1, decay: 'one', duration: 20 };
+  const onTrigger = (trigger: string, change?: object) => ({
+    bucket: 'damage.base',
+    op: 'STACKING_MULTIPLY',
+    value: 0.3,
+    condition: { trigger, target: 'self', ...(change === undefined ? {} : { stacks: change }) },
+  });
 
+  it.each([
+    [
+      'stack alike on one trigger',
+      [onTrigger('onKill', stacks), onTrigger('onKill', stacks)],
+      true,
+    ],
+    ['both without stacks', [onTrigger('onKill'), onTrigger('onKill')], true],
+    ['on two triggers', [onTrigger('onKill', stacks), onTrigger('onCrit')], true],
+    [
+      'with another max',
+      [onTrigger('onKill', stacks), onTrigger('onKill', { ...stacks, max: 3 })],
+      false,
+    ],
+    ['one without stacks', [onTrigger('onKill', stacks), onTrigger('onKill')], false],
+  ])('%s: %s', (_name, effects, isValid) => {
+    expect(accepts(moduleSchema, { ...module, effects })).toBe(isValid);
+    expect(accepts(weaponSchema, { ...weapon, innatePassives: effects })).toBe(isValid);
+  });
+});
+
+describe('scenarios', () => {
   it.each([
     ['as they are', {}, true],
     ['with fractions that add up in floating point', { aim: { head: 0.7 + 0.2, body: 0.1 } }, true],
@@ -166,14 +193,48 @@ describe('scenarios', () => {
     expect(accepts(scenarioSchema, { ...scenario, ...change })).toBe(isValid);
   });
 
+  const onKill = { sourceId: 'galvanized-chamber', trigger: 'onKill' };
+
   it.each([
+    ['on', true],
     ['off', true],
-    ['assumeMax', true],
-    ['simulate', true],
     [{ stacks: 3 }, true],
     ['max', false],
-  ])('condition mode %j: %s', (conditionMode, isValid) => {
-    const build = { ...scenario.build, modules: [{ ...instance, conditionMode }] };
+    [{ stacks: -1 }, false],
+    [{ stacks: 1.5 }, false],
+  ])('conditional state %j: %s', (state, isValid) => {
+    const conditionals = { all: 'off', overrides: [{ ...onKill, state }] };
+    const build = { ...scenario.build, conditionals };
+    expect(accepts(scenarioSchema, { ...scenario, build })).toBe(isValid);
+  });
+
+  it.each([
+    ['a global switch that is neither', { all: 'some', overrides: [] }, false],
+    ['no global switch', { overrides: [] }, false],
+    [
+      'two overrides of one conditional',
+      {
+        all: 'on',
+        overrides: [
+          { ...onKill, state: 'on' },
+          { ...onKill, state: 'off' },
+        ],
+      },
+      false,
+    ],
+    [
+      'overrides of two triggers',
+      {
+        all: 'on',
+        overrides: [onKill, { ...onKill, trigger: 'onCrit' }].map((entry) => ({
+          ...entry,
+          state: 'on',
+        })),
+      },
+      true,
+    ],
+  ])('with %s', (_name, conditionals, isValid) => {
+    const build = { ...scenario.build, conditionals };
     expect(accepts(scenarioSchema, { ...scenario, build })).toBe(isValid);
   });
 });
