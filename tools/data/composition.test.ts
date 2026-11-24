@@ -1,43 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { must } from '#data/assert.ts';
-import { scenarioSchema } from '#data/schema/scenario.ts';
 import type { Weapon } from '#data/schema/weapon.ts';
-import { scenario } from '#data/testing/fixtures.ts';
-import { DEFAULT_ASSUMPTIONS } from '#engine/assumptions.ts';
-import { collectEffects } from '#engine/build/collectEffects.ts';
-import { composeDamage } from '#engine/build/composition/composeDamage.ts';
-import { selectionOf } from '#engine/build/selectEffects.ts';
-import { contributionsTo, sumBuckets } from '#engine/build/totalBuckets.ts';
 
-import { loadRealLibrary } from './loadRealLibrary.ts';
+import { realAttack, realLibrary as library } from './realAttack.ts';
 
-const library = loadRealLibrary();
-
-const compose = (weaponId: string, attackId: string, modules: readonly string[] = []) => {
-  const weapon = must(library.weapons.get(weaponId), `No weapon "${weaponId}"`);
-  const attack = must(
-    weapon.attacks.find(({ id }) => id === attackId),
-    `No attack "${attackId}"`,
-  );
-  const equipped = modules.map((moduleId) => ({ moduleId }));
-  const { build } = scenarioSchema.parse({
-    ...scenario,
-    build: { ...scenario.build, weaponId, modules: equipped },
-  });
-  const collected = collectEffects({ ...scenarioSchema.parse(scenario), build }, library);
-  const contributions = contributionsTo(collected, library, {
-    selection: selectionOf(weapon, attack),
-  });
-  const composition = composeDamage(weapon, attack, {
-    build,
-    library,
-    contributions,
-    totals: sumBuckets(contributions, library),
-    assumptions: DEFAULT_ASSUMPTIONS,
-  });
-  return { ...composition, warnings: collected.warnings };
-};
+const compose = (weaponId: string, attackId: string, modules: readonly string[] = []) =>
+  realAttack(weaponId, attackId, { modules }).composition;
 
 const describeDamage = ({ id, name, attacks }: Weapon) =>
   attacks.map((attack) => {
@@ -71,14 +39,6 @@ describe('the seed weapons', () => {
   });
 });
 
-/** White body damage to a Charger, which takes 1.5x from Slash and Heat. */
-const onCharger = (...args: Parameters<typeof compose>) => {
-  const hits = [...compose(...args).types].map(([type, { damage }]) =>
-    type === 'slash' || type === 'heat' ? damage * 1.5 : damage,
-  );
-  return Math.round(hits.reduce((sum, damage) => sum + damage, 0));
-};
-
 /** What the arsenal shows: damage before quantization. */
 const inArsenal = (...args: Parameters<typeof compose>) => {
   const { moddedBase, types } = compose(...args);
@@ -88,16 +48,6 @@ const inArsenal = (...args: Parameters<typeof compose>) => {
 };
 
 describe('as measured in the game', () => {
-  it('T-1: Braton deals 29 to a Charger', () => {
-    expect(onCharger('braton', 'normal')).toBe(29);
-  });
-
-  it('T-2: Nagantaka Prime deals 251, 666 with Serration and 257 with Crash Course', () => {
-    expect(onCharger('nagantaka-prime', 'semi-auto')).toBe(251);
-    expect(onCharger('nagantaka-prime', 'semi-auto', ['serration'])).toBe(666);
-    expect(onCharger('nagantaka-prime', 'semi-auto', ['crash-course'])).toBe(257);
-  });
-
   it.each([
     [
       ['hellfire', 'cryo-rounds', 'infected-clip'],

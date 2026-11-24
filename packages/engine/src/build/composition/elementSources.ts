@@ -36,8 +36,9 @@ const bonusSources = (weapon: Weapon, { build, library, contributions }: Context
     const origin = library.modules.get(sourceId)?.kind === 'riven' ? 'riven' : 'mod';
     return { origin, slotIndex: slot === -1 ? slots.length : slot } as const;
   };
-  return contributions.flatMap(({ bucket, source, value }): readonly ElementSource[] => {
-    const entry = { ratio: value, name: source.name };
+  return contributions.flatMap((contribution): readonly ElementSource[] => {
+    const { bucket, source, value } = contribution;
+    const entry = { ratio: value, name: source.name, contribution };
     const element = combiningElement(bucket);
     if (element !== undefined) return [{ ...placeOf(source.id), ...entry, element }];
     const apart = memberOf('damage.elementNoCombine', bucket);

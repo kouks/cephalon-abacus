@@ -111,11 +111,11 @@ data  →  importers
 
 ## The engine
 
-- **Two phases** (BIBLE §3). Build turns a `Scenario` into per-attack stats once per change; Resolve turns one hit into damage on one enemy; the timeline drives Resolve over time. Build never reads enemy state; Resolve never reads modules.
+- **Two phases** (BIBLE §3). Build (`buildAttack`) turns a `Scenario` into per-attack stats once per change; Resolve (`resolveHit`) turns one hit into damage on one enemy; the timeline drives Resolve over time. Build never reads enemy state; Resolve never reads modules.
 - **Buckets are data.** Every effect names a bucket from `buckets.json` and one op: `STACKING_MULTIPLY`, `MULTIPLY`, `ADD` or `OVERRIDE` (BIBLE §5). A new kind of bonus is a new bucket entry, a test, and a line in BIBLE §5.
 - **No id checks.** The engine never compares against a weapon, mod or enemy id (`if (weapon.id === 'kohm')`). Unique mechanics are hooks, registered by id in `engine/src/hooks/` (BIBLE §14), and only for what effects can't express. The architecture test fails on an id literal outside `hooks/`.
 - **Hooks are pure.** They get a read-only context and return changes. They never mutate state, and each writes a trace entry.
-- **Every factor is traced.** A multiplier that changes a number appears in the `HitTrace` under a stable name, with the effects that made it. Tests assert on the trace, not just the total.
+- **Every factor is traced.** A multiplier that changes a number appears in the `HitTrace` under a stable name, with the effects that made it. A type's damage is the product of its factors, so a new multiplier is a new factor, even while its value is 1. Tests assert on the trace, not just the total.
 - **Unknowns are named assumptions.** Each [T] rule is a flag in `assumptions.ts` that names its test and BIBLE section (`bowFireRateDoubled: { default: true, test: 'T-10', bible: '§9' }`), and code takes the flags as an `Assumptions` argument. Never settle one quietly in code. When a test answers it: set the default, add the fixture, update the BIBLE.
 - **Precision.** Keep full precision through the pipeline. Quantize only where the BIBLE says: each type's ratio, to 1/32 of base damage (§6), and the base crit multiplier, to 32/4095 (§7). Round only for display. Proc DoTs are never quantized.
 - **Units.** Percentages are fractions (+165% is `1.65`), times are seconds, distances are metres. Field names follow the BIBLE (`critChance`, `critMultiplier`, `fireRate`, `chargeTime`).
@@ -214,7 +214,7 @@ Split long files by concern, extract helpers, and use early returns and lookup t
 
 - **Vitest**, one project per package plus `tools`. Pure logic gets thorough unit tests. Coverage of `packages/engine` must stay at or above 90%.
 - **Every worked example in the BIBLE is a unit test**, named after it (`gram crit chance at 7x combo is 69%`).
-- **Property tests** (fast-check): the Monte Carlo mean converges to the expected value; damage is never negative; a module with only positive effects never lowers expected damage, except documented traps (Acuity locks multishot).
+- **Property tests** (fast-check): the Monte Carlo mean converges to the expected value; damage is never negative; a module with only positive effects never lowers expected damage, except documented traps (Acuity locks multishot; an element can re-pair the others).
 - **Golden fixtures** run through the public API on every pull request (see In-game tests). A mismatch prints a factor-by-factor diff from the trace.
 - **A test must be able to fail.** Change the constant it checks and watch it go red before trusting it.
 - **Playwright** with axe, once the app has screens.

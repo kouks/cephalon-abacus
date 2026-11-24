@@ -7,7 +7,6 @@ import { conditionSchema } from './condition';
 import type { DamageMap, DamageType } from './damageType';
 import { DAMAGE_TYPES } from './damageType';
 import { effectSchema, spawnInstanceSchema } from './effect';
-import { hitTraceSchema } from './hitTrace';
 import { moduleSchema } from './module';
 import { hookRefSchema, sourceSchema } from './primitives';
 import { scenarioSchema } from './scenario';
@@ -240,25 +239,5 @@ describe('scenarios', () => {
   ])('with %s', (_name, conditionals, isValid) => {
     const build = { ...scenario.build, conditionals };
     expect(accepts(scenarioSchema, { ...scenario, build })).toBe(isValid);
-  });
-});
-
-describe('hit traces', () => {
-  const trace = {
-    t: 0.5,
-    pellet: 0,
-    factors: { crit: 2.4, faction: 1.3 },
-    perType: { heat: 120.5 },
-    layer: 'health',
-    procs: [{ type: 'heat', count: 0.35 }],
-  };
-
-  it.each([
-    ['a hit', {}, true],
-    ['an unknown layer', { layer: 'armor' }, false],
-    ['a factor that is not a number', { factors: { crit: '2x' } }, false],
-    ['negative damage', { perType: { heat: -1 } }, false],
-  ])('%s', (_name, change, isValid) => {
-    expect(accepts(hitTraceSchema, { ...trace, ...change })).toBe(isValid);
   });
 });

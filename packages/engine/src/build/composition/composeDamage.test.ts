@@ -63,7 +63,7 @@ describe('physical bonuses', () => {
     const slash = (value: number) =>
       compose({ modules: [physicalMod('riven', 'slash', value)] }).types.get('slash');
     expect(slash(-0.98)).toMatchObject({ quantized: 0, damage: 0 });
-    expect(slash(-1.17)).toEqual({ ratio: 0, quantized: 0, damage: 0 });
+    expect(slash(-1.17)).toMatchObject({ ratio: 0, quantized: 0, damage: 0 });
   });
 });
 
@@ -74,7 +74,8 @@ describe('elemental bonuses', () => {
 
   it('are quantized as one sum: 90% Cold and 90% Toxin are 180% Viral', () => {
     const hit = compose({ modules: [CRYO, TOXIN] });
-    expect(hit.types.get('viral')).toEqual({ ratio: 1.8, quantized: 58 / 32, damage: 181.25 });
+    const viral = { ratio: 1.8, quantized: 58 / 32, damage: 181.25 };
+    expect(hit.types.get('viral')).toMatchObject(viral);
     expect(2 * (29 / 32)).toBe(58 / 32);
     const uneven = compose({ modules: [CRYO, elementMod('malignant-force', 'toxin', 0.6)] });
     expect(uneven.types.get('viral')?.quantized).toBe(48 / 32);

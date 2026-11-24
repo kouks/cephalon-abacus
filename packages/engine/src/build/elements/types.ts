@@ -1,5 +1,7 @@
 import type { DamageType } from '@abacus/data/schema/damageType';
 
+import type { Contribution } from '@/build/types';
+
 type Equipped = {
   readonly origin: 'mod' | 'riven';
   /** The mod slot, counted from the top left. */
@@ -17,6 +19,8 @@ export type ElementSource = (Equipped | Unslotted) & {
   readonly ratio: number;
   /** What brings it: "Hellfire", "Amprex". */
   readonly name: string;
+  /** The bonus it is. Absent: base damage. */
+  readonly contribution?: Contribution;
 };
 
 /**
