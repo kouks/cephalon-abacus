@@ -1,5 +1,7 @@
 /** Made-up items for tests: small, valid, and no part of the real library. */
 
+import { DAMAGE_TYPES } from '@/schema/damageType';
+
 const item = (id: string) => ({
   id,
   name: id,
@@ -67,3 +69,41 @@ export const libraryFile = (path: string, ...items: readonly unknown[]) => ({
     items,
   }),
 });
+
+/** One rule per damage type; only what makes the set valid. */
+export const damageTypes = DAMAGE_TYPES.map((type) => ({
+  ...item(type),
+  group: 'special',
+  layers: { overguard: 1, shield: 1, health: 1 },
+  bypassArmor: false,
+}));
+
+export const bucket = {
+  ...item('damage'),
+  id: 'damage.base',
+  op: 'STACKING_MULTIPLY',
+  scope: { direct: 1, proc: 1 },
+  stage: 'composition',
+  confidence: 'W',
+};
+
+export const family = {
+  ...bucket,
+  id: 'damage.faction',
+  scope: { direct: 1, proc: 2 },
+  stage: 'hit',
+  members: 'factionModGroup',
+};
+
+export const faction = {
+  ...item('grineer'),
+  damageProfile: { impact: 1.5, corrosive: 1.5 },
+  factionModGroup: 'grineer',
+};
+
+/** The files every library needs. */
+export const referenceFiles = [
+  libraryFile('damageTypes.json', ...damageTypes),
+  libraryFile('buckets.json', bucket, family),
+  libraryFile('factions.json', faction),
+];

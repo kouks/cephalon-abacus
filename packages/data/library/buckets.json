@@ -1,0 +1,428 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Calculating_Bonuses",
+  "items": [
+    {
+      "id": "damage.base",
+      "name": "Base damage",
+      "source": "https://wiki.warframe.com/w/Damage/Calculation",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {
+        "direct": 1,
+        "proc": 1,
+        "extraHit": 1,
+        "aoe": 1
+      },
+      "stage": "composition",
+      "confidence": "W"
+    },
+    {
+      "id": "damage.ips",
+      "name": "Physical damage",
+      "source": "https://wiki.warframe.com/w/Damage/Calculation",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {
+        "direct": 1,
+        "aoe": 1
+      },
+      "stage": "composition",
+      "confidence": "W",
+      "members": ["impact", "puncture", "slash"]
+    },
+    {
+      "id": "damage.element",
+      "name": "Elemental damage",
+      "source": "https://wiki.warframe.com/w/Damage/Calculation",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {
+        "direct": 1,
+        "proc": 1,
+        "aoe": 1
+      },
+      "stage": "composition",
+      "confidence": "W",
+      "members": ["heat", "cold", "electricity", "toxin"]
+    },
+    {
+      "id": "damage.elementNoCombine",
+      "name": "Elemental damage that never combines",
+      "source": "https://wiki.warframe.com/w/Buff",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {
+        "direct": 1,
+        "aoe": 1
+      },
+      "stage": "composition",
+      "confidence": "W",
+      "members": [
+        "heat",
+        "cold",
+        "electricity",
+        "toxin",
+        "blast",
+        "corrosive",
+        "gas",
+        "magnetic",
+        "radiation",
+        "viral"
+      ]
+    },
+    {
+      "id": "damage.faction",
+      "name": "Faction damage",
+      "source": "https://wiki.warframe.com/w/Faction_Damage_Bonus",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {
+        "direct": 1,
+        "proc": 2,
+        "extraHit": 2,
+        "aoe": 1
+      },
+      "stage": "hit",
+      "confidence": "W",
+      "members": "factionModGroup"
+    },
+    {
+      "id": "damage.final",
+      "name": "Final damage",
+      "source": "https://wiki.warframe.com/w/Calculating_Bonuses",
+      "gameVersion": "44.1.4.1",
+      "op": "MULTIPLY",
+      "scope": {
+        "direct": 1,
+        "aoe": 1
+      },
+      "stage": "hit",
+      "confidence": "C",
+      "members": "any"
+    },
+    {
+      "id": "crit.chance",
+      "name": "Critical chance",
+      "source": "https://wiki.warframe.com/w/Critical_Hit",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {
+        "direct": 1,
+        "proc": 1,
+        "aoe": 1
+      },
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "crit.chanceCombo",
+      "name": "Critical chance per combo tier",
+      "source": "https://wiki.warframe.com/w/Critical_Hit",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {
+        "direct": 1,
+        "aoe": 1
+      },
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "crit.chanceFlat",
+      "name": "Flat critical chance",
+      "source": "https://wiki.warframe.com/w/Critical_Hit",
+      "gameVersion": "44.1.4.1",
+      "op": "ADD",
+      "scope": {
+        "direct": 1,
+        "aoe": 1
+      },
+      "stage": "crit",
+      "confidence": "W"
+    },
+    {
+      "id": "crit.chanceWeakPoint",
+      "name": "Weak point critical chance",
+      "source": "https://wiki.warframe.com/w/Critical_Hit",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {
+        "direct": 1
+      },
+      "stage": "crit",
+      "confidence": "W"
+    },
+    {
+      "id": "crit.damage",
+      "name": "Critical damage",
+      "source": "https://wiki.warframe.com/w/Critical_Hit",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {
+        "direct": 1,
+        "proc": 1,
+        "aoe": 1
+      },
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "crit.damageFlat",
+      "name": "Flat critical damage",
+      "source": "https://wiki.warframe.com/w/Damage/Cold_Damage",
+      "gameVersion": "44.1.4.1",
+      "op": "ADD",
+      "scope": {
+        "direct": 1
+      },
+      "stage": "crit",
+      "confidence": "W"
+    },
+    {
+      "id": "crit.damageFinal",
+      "name": "Final critical damage",
+      "source": "https://wiki.warframe.com/w/Critical_Hit",
+      "gameVersion": "44.1.4.1",
+      "op": "MULTIPLY",
+      "scope": {
+        "direct": 1,
+        "aoe": 1
+      },
+      "stage": "crit",
+      "confidence": "C"
+    },
+    {
+      "id": "status.chance",
+      "name": "Status chance",
+      "source": "https://wiki.warframe.com/w/Status_Effect",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {
+        "direct": 1,
+        "aoe": 1
+      },
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "status.chanceCombo",
+      "name": "Status chance per combo tier",
+      "source": "https://wiki.warframe.com/w/Status_Effect",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {
+        "direct": 1,
+        "aoe": 1
+      },
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "status.chanceFlat",
+      "name": "Flat status chance",
+      "source": "https://wiki.warframe.com/w/Status_Effect",
+      "gameVersion": "44.1.4.1",
+      "op": "ADD",
+      "scope": {
+        "direct": 1,
+        "aoe": 1
+      },
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "status.duration",
+      "name": "Status duration",
+      "source": "https://wiki.warframe.com/w/Status_Effect",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {
+        "proc": 1
+      },
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "status.damage",
+      "name": "Status damage",
+      "source": "https://wiki.warframe.com/w/Status_Effect",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {
+        "proc": 1
+      },
+      "stage": "proc",
+      "confidence": "W"
+    },
+    {
+      "id": "multishot",
+      "name": "Multishot",
+      "source": "https://wiki.warframe.com/w/Multishot",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {
+        "direct": 1,
+        "aoe": 1
+      },
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "fireRate",
+      "name": "Fire rate",
+      "source": "https://wiki.warframe.com/w/Fire_Rate",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {},
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "reload",
+      "name": "Reload speed",
+      "source": "https://wiki.warframe.com/w/Reload_Speed",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {},
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "magazine",
+      "name": "Magazine capacity",
+      "source": "https://wiki.warframe.com/w/Magazine",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {},
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "ammoMax",
+      "name": "Ammo maximum",
+      "source": "https://wiki.warframe.com/w/Ammo",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {},
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "ammoEfficiency",
+      "name": "Ammo efficiency",
+      "source": "https://wiki.warframe.com/w/Ammo_Efficiency",
+      "gameVersion": "44.1.4.1",
+      "op": "ADD",
+      "scope": {},
+      "stage": "stats",
+      "confidence": "W",
+      "max": 0.75
+    },
+    {
+      "id": "weakPoint.damage",
+      "name": "Weak point damage",
+      "source": "https://wiki.warframe.com/w/Enemy_Body_Parts",
+      "gameVersion": "44.1.4.1",
+      "op": "ADD",
+      "scope": {
+        "direct": 1
+      },
+      "stage": "hit",
+      "confidence": "W"
+    },
+    {
+      "id": "heavy.efficiency",
+      "name": "Heavy attack efficiency",
+      "source": "https://wiki.warframe.com/w/Heavy_Attack_Efficiency",
+      "gameVersion": "44.1.4.1",
+      "op": "ADD",
+      "scope": {},
+      "stage": "combo",
+      "confidence": "W",
+      "max": 0.9
+    },
+    {
+      "id": "heavy.windUp",
+      "name": "Heavy attack wind-up speed",
+      "source": "https://wiki.warframe.com/w/Heavy_Attack",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {},
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "combo.initial",
+      "name": "Initial combo",
+      "source": "https://wiki.warframe.com/w/Initial_Combo",
+      "gameVersion": "44.1.4.1",
+      "op": "ADD",
+      "scope": {},
+      "stage": "combo",
+      "confidence": "W"
+    },
+    {
+      "id": "combo.duration",
+      "name": "Combo duration",
+      "source": "https://wiki.warframe.com/w/Melee_Combo",
+      "gameVersion": "44.1.4.1",
+      "op": "ADD",
+      "scope": {},
+      "stage": "combo",
+      "confidence": "W"
+    },
+    {
+      "id": "range",
+      "name": "Range",
+      "source": "https://wiki.warframe.com/w/Range",
+      "gameVersion": "44.1.4.1",
+      "op": "ADD",
+      "scope": {},
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "aoeRadius",
+      "name": "Blast radius",
+      "source": "https://wiki.warframe.com/w/Area_of_Effect",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {},
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "punchThrough",
+      "name": "Punch through",
+      "source": "https://wiki.warframe.com/w/Punch_Through",
+      "gameVersion": "44.1.4.1",
+      "op": "ADD",
+      "scope": {},
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "projectileSpeed",
+      "name": "Projectile speed",
+      "source": "https://wiki.warframe.com/w/Projectile_Speed",
+      "gameVersion": "44.1.4.1",
+      "op": "STACKING_MULTIPLY",
+      "scope": {},
+      "stage": "stats",
+      "confidence": "W"
+    },
+    {
+      "id": "enemy",
+      "name": "Enemy debuffs",
+      "source": "https://wiki.warframe.com/w/Armor",
+      "gameVersion": "44.1.4.1",
+      "op": "MULTIPLY",
+      "scope": {},
+      "stage": "target",
+      "confidence": "W",
+      "members": "any"
+    }
+  ]
+}

@@ -71,7 +71,7 @@ packages/
     src/load/       the loader: validates library files, collects every error
     src/testing/    made-up items for tests
     src/assert.ts   the shared assert module
-    library/        damageTypes.json, buckets.json, factions.json, scaling.json,
+    library/        damageTypes.json, buckets.json, factions.json, scaling.json (ABA-19),
                     weapons/, mods/, arcanes/, buffs/, enemies/, stances/
     CHANGELOG/      one file per game version, written by data:update
   engine/
@@ -85,7 +85,7 @@ packages/
   importers/        wiki Lua, WFCD and enemy importers; overrides/ holds hand corrections
   app/              Vite + React; src/engine/ is the Worker and its bridge, src/theme/ the theme
 tests/golden/       in-game fixtures, one file per test
-tools/              architecture test, ESLint config test, git checks
+tools/              architecture test, ESLint config test, git checks, library checks
 eslint/             ESLint config modules, composed by eslint.config.ts
 docs/data-updates.md   refreshing the library for a new game version
 .github/            workflows, Dependabot, the shared setup action
@@ -128,7 +128,9 @@ data  →  importers
 - Percentages are fractions. Per-rank values follow the linear rule or an explicit array of shares of the max-rank value.
 - **Schemas refuse unknown keys** and fill in no defaults, so a misspelt field is an error and the data says what it means. Checks inside one item live in its schema, so items players write get them too; checks across items live in the loader.
 - **The loader reads no files:** it takes their text and returns a library or every error, so it runs in the browser, in tests and in `data:validate` alike.
-- The 20 damage type ids are a fixed list in `schema/damageType.ts`; their rules are data.
+- **Reference files** (`damageTypes.json`, `buckets.json`, `factions.json`) are needed by every library and written by hand. The 20 damage type ids are a fixed list in `schema/damageType.ts`; their rules are data. `tools/data/library.test.ts` snapshots all three, so a balance patch shows up as a diff.
+- **Buckets:** a bucket with `members` is a family (`damage.faction.<group>`); look names up with `findBucket`. Its `scope` says how many times it applies to direct hits, procs, extra hits and AoE.
+- **Damage types list the layers they hit**, with a multiplier for each. A layer that is absent is skipped: Toxin has no `shield`.
 - **Importers never guess.** A field or phrase with no mapping rule is logged and goes to `importers/overrides/*.json` for a person to write. Overrides apply last and are reviewed like code.
 - Generated library files are committed, and only `data:update` writes them. To correct one, edit its override, never the generated file.
 - An update for a new game version writes `CHANGELOG/<version>.md`. A change that touches a golden fixture names it, so its test gets requested again.
