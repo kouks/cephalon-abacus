@@ -22,7 +22,7 @@ describe('attack stats', () => {
     ['statusDuration', 'status.duration', 0.9, 1.9],
     ['multishot', 'multishot', 0.9, 1.9],
     ['fireRate', 'fireRate', 0.6, 12.8],
-    ['magazine', 'magazine', 0.3, 58.5],
+    ['magazine', 'magazine', 0.4, 63],
     ['maxAmmo', 'ammoMax', 0.3, 702],
     ['reloadTime', 'reload', 0.3, 2 / 1.3],
   ] as const)('%s follows %s', (...[stat, bucket, bonus, expected]) => {
@@ -39,6 +39,17 @@ describe('attack stats', () => {
       'status.chance',
       'status.chanceFlat',
     ]);
+  });
+
+  it.each([
+    [11, 0.3, 14],
+    [2, 0.3, 3],
+    [6, 0.3, 8],
+    [1, -0.6, 1],
+  ])('round a magazine of %d with %d to %d', (...[magazine, bonus, expected]) => {
+    const weaponChange = { ammo: { ...AMMO, magazine } };
+    const { stats } = measure({ effects: [add('magazine', bonus)], weaponChange });
+    expect(stats.magazine?.value).toBe(expected);
   });
 
   it('add punch through in metres', () => {

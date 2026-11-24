@@ -45,9 +45,15 @@ const modGeometry = (attack: Attack, totals: BucketTotals) => {
 const reloadBase = (ammo: NonNullable<Weapon['ammo']>, magazine: number) =>
   ammo.reloadStyle === 'battery' ? ammo.regenDelay + magazine / ammo.regenRate : ammo.reloadTime;
 
+/** Whole rounds, to the nearest as measured in the game, and at least one. Halves are untested. */
+const modMagazine = (base: number, totals: BucketTotals): ModdedStat => {
+  const magazine = modStat(totals, base, ['magazine']);
+  return { ...magazine, value: Math.max(Math.round(magazine.value), 1) };
+};
+
 const modAmmo = ({ ammo }: Weapon, totals: BucketTotals) => {
   if (ammo === undefined) return {};
-  const magazine = modStat(totals, ammo.magazine, ['magazine']);
+  const magazine = modMagazine(ammo.magazine, totals);
   const reload = reloadBase(ammo, magazine.value);
   return {
     magazine,

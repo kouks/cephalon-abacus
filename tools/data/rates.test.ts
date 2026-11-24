@@ -74,6 +74,13 @@ describe('as measured in the game', () => {
     expect(chargeTime?.value).toBeCloseTo(0.23, 2);
   });
 
+  it('magazines round to the nearest integer, here with Magazine Warp', () => {
+    const rounds = (weaponId: string, attackId: string) =>
+      measure(weaponId, attackId, ['magazine-warp']).stats.magazine?.value;
+    expect(rounds('nagantaka-prime', 'semi-auto')).toBe(14);
+    expect(rounds('vectis-prime', 'normal')).toBe(3);
+  });
+
   it('the 77 rounds of Kuva Nukor last about 15 s at 10/s', () => {
     const { rates, stats } = measure('kuva-nukor', 'normal');
     expect(stats.fireRate.value).toBe(10);
