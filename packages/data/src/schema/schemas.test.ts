@@ -106,7 +106,7 @@ describe('extra hits and hooks', () => {
 });
 
 describe('weapons', () => {
-  const combo = { gainPerHit: 1, thresholds: [3, 9], multipliers: [1.5, 2], duration: 2 };
+  const combo = { minHits: 5, reset: 2 };
   const form = { ...attack, id: 'incarnon-form' };
   const charge = { source: 'weakPointHit', perHit: 1, max: 10 };
   const battery = { magazine: 50, reloadStyle: 'battery', regenRate: 10, regenDelay: 1 };
@@ -117,7 +117,7 @@ describe('weapons', () => {
     ['a progenitor bonus', { progenitor: { element: 'heat', pct: 0.6 } }, true],
     ['a progenitor bonus above 60%', { progenitor: { element: 'heat', pct: 0.61 } }, false],
     ['a sniper combo', { sniperCombo: combo }, true],
-    ['an uneven sniper combo', { sniperCombo: { ...combo, multipliers: [1.5] } }, false],
+    ['a sniper combo of part of a hit', { sniperCombo: { ...combo, minHits: 1.5 } }, false],
     ['an Incarnon form', { incarnon: { form, charge, evolutions: [] } }, true],
     ['a form that reuses an id', { incarnon: { form: attack, charge, evolutions: [] } }, false],
     [

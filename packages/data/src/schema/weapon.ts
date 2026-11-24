@@ -39,14 +39,12 @@ const progenitorSchema = object({
   pct: z.number().min(0.25).max(0.6),
 });
 
+/** The shot combo. Every sniper rifle uses one formula; these are its inputs (BIBLE §4). */
 const sniperComboSchema = object({
-  gainPerHit: positive,
-  thresholds: list(positive),
-  multipliers: list(positive),
-  duration: positive,
-}).refine(({ thresholds, multipliers }) => thresholds.length === multipliers.length, {
-  path: ['multipliers'],
-  error: 'Expected one multiplier per threshold',
+  /** Hits before the first multiplier. */
+  minHits: positiveInt,
+  /** Seconds without a hit before the combo drops by one. */
+  reset: positive,
 });
 
 const meleeSchema = object({

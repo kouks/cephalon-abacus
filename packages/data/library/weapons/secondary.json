@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Module:Weapons/data/secondary",
+  "items": [
+    {
+      "id": "lex",
+      "name": "Lex",
+      "uniqueName": "/Lotus/Weapons/Tenno/Pistol/HeavyPistol",
+      "source": "https://wiki.warframe.com/w/Lex",
+      "gameVersion": "44.1.4.1",
+      "slot": "secondary",
+      "class": ["pistol"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 6,
+        "maxAmmo": 210,
+        "reloadStyle": "magazine",
+        "reloadTime": 2.35
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 13,
+            "puncture": 104,
+            "slash": 13
+          },
+          "trigger": "semi",
+          "shotType": "hitscan",
+          "multishot": 1,
+          "critChance": 0.2,
+          "critMultiplier": 2,
+          "statusChance": 0.1,
+          "fireRate": 1.083333,
+          "ammoCost": 1,
+          "range": 300,
+          "flags": ["canHeadshot", "canCrit"]
+        }
+      ]
+    },
+    {
+      "id": "kuva-nukor",
+      "name": "Kuva Nukor",
+      "uniqueName": "/Lotus/Weapons/Grineer/KuvaLich/Secondaries/Nukor/KuvaNukor",
+      "source": "https://wiki.warframe.com/w/Kuva_Nukor",
+      "gameVersion": "44.1.4.1",
+      "slot": "secondary",
+      "class": ["pistol"],
+      "compatTags": ["BEAM"],
+      "maxRank": 40,
+      "progenitor": {
+        "element": "heat",
+        "pct": 0.25
+      },
+      "ammo": {
+        "magazine": 77,
+        "maxAmmo": 210,
+        "reloadStyle": "magazine",
+        "reloadTime": 2
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "radiation": 21
+          },
+          "trigger": "held",
+          "shotType": "continuous",
+          "multishot": 1,
+          "critChance": 0.07,
+          "critMultiplier": 5,
+          "statusChance": 0.5,
+          "fireRate": 10,
+          "ammoCost": 1,
+          "beam": {
+            "rampStartPct": 0.3,
+            "rampTime": 0.6,
+            "decayDelay": 0.8,
+            "decayTime": 2,
+            "chain": {
+              "targets": 2,
+              "range": 9
+            }
+          },
+          "range": 29,
+          "flags": ["canHeadshot", "canCrit", "mergeMultishotHits"]
+        }
+      ]
+    }
+  ]
+}
