@@ -14,13 +14,13 @@ export const bucketNameSchema = z
   .string()
   .regex(/^[a-z][A-Za-z0-9-]*(?:\.[a-z][A-Za-z0-9-]*)*$/, 'Expected a bucket, e.g. "damage.base"');
 
-/** A value that scales: `value` times each variable. `comboTier` is the combo multiplier minus 1. */
+/** What a value can scale with. `comboTier` is the combo multiplier minus 1. */
+const variableSchema = z.enum(['stack', 'statusType', 'comboTier', 'abilityStrength']);
+
+/** A value that scales: `value` times each variable. */
 const exprSchema = object({
   value: z.number(),
-  times: z
-    .array(z.enum(['stack', 'statusType', 'comboTier', 'abilityStrength']))
-    .min(1)
-    .readonly(),
+  times: z.array(variableSchema).min(1).readonly(),
 });
 
 const valueSchema = z.union([z.number(), exprSchema], {
@@ -56,6 +56,7 @@ export const spawnInstanceSchema = object({
   factionRule: z.enum(['once', 'again']),
 });
 
+export type Variable = z.infer<typeof variableSchema>;
 export type Op = z.infer<typeof opSchema>;
 export type Scope = z.infer<typeof scopeSchema>;
 export type Expr = z.infer<typeof exprSchema>;

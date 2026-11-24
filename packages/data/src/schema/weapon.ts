@@ -14,6 +14,7 @@ import {
   positive,
   positiveInt,
 } from './primitives';
+import { checkSharedStacks } from './sharedStacks';
 import { compatTagSchema, slotSchema, weaponClassSchema } from './weaponClass';
 
 const reloadShape = {
@@ -108,6 +109,9 @@ export const weaponSchema = object({
   sniperCombo: sniperComboSchema.exactOptional(),
   melee: meleeSchema.exactOptional(),
   attacks: z.array(attackSchema).min(1).readonly(),
-}).superRefine(checkAttacks);
+}).superRefine((weapon, context) => {
+  checkAttacks(weapon, context);
+  checkSharedStacks(weapon.innatePassives ?? [], context);
+});
 
 export type Weapon = z.infer<typeof weaponSchema>;

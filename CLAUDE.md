@@ -81,6 +81,7 @@ packages/
     src/hooks/      the hook registry and every hook
     src/trace/      trace records
     src/assumptions.ts   every open [T] rule as a named flag
+    src/testing/    libraries and scenarios for tests, with real items
     src/api.ts      evaluate() and simulate(): the only public entry
   importers/        wiki Lua, WFCD and enemy importers; overrides/ holds hand corrections
   app/              Vite + React; src/engine/ is the Worker and its bridge, src/theme/ the theme
@@ -119,6 +120,8 @@ data  →  importers
 - **Precision.** Keep full precision through the pipeline. Quantize only where BIBLE §6 says (each type's ratio, to 1/32 of base damage). Round only for display. Proc DoTs are never quantized.
 - **Units.** Percentages are fractions (+165% is `1.65`), times are seconds, distances are metres. Field names follow the BIBLE (`critChance`, `critMultiplier`, `fireRate`, `chargeTime`).
 - **One code path, two modes.** Expected value and Monte Carlo differ only in the `Roller`. What works in one mode works in both; the convergence property test guards it.
+- **Conditionals are switches.** A conditional is the effects of one module (or the weapon) on one trigger. The scenario has a global on/off and overrides per conditional. A switch sets the stacks it starts with: on is all of them, off is none. `collectEffects` never bakes stacks in, so a simulation can change them without reading modules again.
+- **A build that doesn't work as written returns warnings**, as codes with data, and a usable result. It throws only when there is nothing to evaluate.
 - **Pellets resolve one at a time** against the shared enemy state, so later pellets see earlier procs (BIBLE §5). Direct hits and their AoE share that state too.
 
 ## The data library
@@ -205,7 +208,7 @@ Split long files by concern, extract helpers, and use early returns and lookup t
   - `limits`, `naming` (check-file: no `index` files, PascalCase `.tsx`, hooks and stories only in component folders), `boundaries` (`architecture/layers`, the app's engine imports), `purity` (engine and data: framework-free imports, determinism bans), `syntax` (shared option lists), `files` (shared globs), `rules/` (our own rules).
 - **Gotcha:** if two config blocks set `no-restricted-syntax` (or `@typescript-eslint/no-restricted-imports`) on the same file, the later one replaces the earlier. Every block that sets one must spread `BASE_SYNTAX` / `BASE_RESTRICTED_IMPORTS` from `eslint/syntax.ts`.
 - **`tools/eslint/eslintConfig*.test.ts`** lint virtual files against the real config: every banned pattern must error and well-formed code must pass. When you add a rule, add a case.
-- **The architecture test** (`tools/architecture/`) enforces what lint can't: the layers in each `package.json` and `tsconfig.json`, component folder contents, `X.tsx` exporting only `X`/`XProps` and calling only `useX`, no id literals in the engine outside `hooks/`, and every flag in `assumptions.ts` citing a test (`T-5`) and a BIBLE section (`§7`).
+- **The architecture test** (`tools/architecture/`) enforces what lint can't: the layers in each `package.json` and `tsconfig.json`, component folder contents, `X.tsx` exporting only `X`/`XProps` and calling only `useX`, no id literals in the engine outside `hooks/` (tests and `testing/` aside), and every flag in `assumptions.ts` citing a test (`T-5`) and a BIBLE section (`§7`).
 
 ## Testing
 

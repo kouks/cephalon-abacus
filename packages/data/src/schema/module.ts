@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-import { effectSchema, spawnInstanceSchema } from './effect';
+import { bucketNameSchema, effectSchema, spawnInstanceSchema } from './effect';
+import { checkSharedStacks } from './sharedStacks';
 import {
   hookRefSchema,
   itemShape,
@@ -51,8 +52,12 @@ export const moduleSchema = object({
   /** Modules of one group exclude each other, e.g. Serration and Amalgam Serration. */
   exclusiveGroup: slugSchema.exactOptional(),
   effects: list(effectSchema),
+  /** Buckets nothing may change while this is equipped. Acuity locks multishot. */
+  locks: list(bucketNameSchema).exactOptional(),
   spawns: list(spawnInstanceSchema).exactOptional(),
   hooks: list(hookRefSchema).exactOptional(),
+}).superRefine(({ effects }, context) => {
+  checkSharedStacks(effects, context);
 });
 
 export type Module = z.infer<typeof moduleSchema>;
