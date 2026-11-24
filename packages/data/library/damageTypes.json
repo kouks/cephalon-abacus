@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Module:DamageTypes/data",
+  "items": [
+    {
+      "id": "impact",
+      "name": "Impact",
+      "source": "https://wiki.warframe.com/w/Damage/Impact_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "physical",
+      "proc": "knockback",
+      "layers": {
+        "overguard": 1,
+        "shield": 1,
+        "health": 1
+      },
+      "bypassArmor": false
+    },
+    {
+      "id": "puncture",
+      "name": "Puncture",
+      "source": "https://wiki.warframe.com/w/Damage/Puncture_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "physical",
+      "proc": "weakened",
+      "layers": {
+        "overguard": 1,
+        "shield": 1,
+        "health": 1
+      },
+      "bypassArmor": false
+    },
+    {
+      "id": "slash",
+      "name": "Slash",
+      "source": "https://wiki.warframe.com/w/Damage/Slash_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "physical",
+      "proc": "bleed",
+      "layers": {
+        "overguard": 1,
+        "shield": 1,
+        "health": 1
+      },
+      "bypassArmor": false
+    },
+    {
+      "id": "heat",
+      "name": "Heat",
+      "source": "https://wiki.warframe.com/w/Damage/Heat_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "primary",
+      "proc": "ignite",
+      "layers": {
+        "overguard": 1,
+        "shield": 1,
+        "health": 1
+      },
+      "bypassArmor": false
+    },
+    {
+      "id": "cold",
+      "name": "Cold",
+      "source": "https://wiki.warframe.com/w/Damage/Cold_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "primary",
+      "proc": "freeze",
+      "layers": {
+        "overguard": 1,
+        "shield": 1,
+        "health": 1
+      },
+      "bypassArmor": false
+    },
+    {
+      "id": "electricity",
+      "name": "Electricity",
+      "source": "https://wiki.warframe.com/w/Damage/Electricity_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "primary",
+      "proc": "tesla-chain",
+      "layers": {
+        "overguard": 1,
+        "shield": 1,
+        "health": 1
+      },
+      "bypassArmor": false
+    },
+    {
+      "id": "toxin",
+      "name": "Toxin",
+      "source": "https://wiki.warframe.com/w/Damage/Toxin_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "primary",
+      "proc": "poison",
+      "layers": {
+        "overguard": 1,
+        "health": 1
+      },
+      "bypassArmor": false
+    },
+    {
+      "id": "blast",
+      "name": "Blast",
+      "source": "https://wiki.warframe.com/w/Damage/Blast_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "secondary",
+      "combinesFrom": ["heat", "cold"],
+      "proc": "detonate",
+      "layers": {
+        "overguard": 1,
+        "shield": 1,
+        "health": 1
+      },
+      "bypassArmor": false
+    },
+    {
+      "id": "corrosive",
+      "name": "Corrosive",
+      "source": "https://wiki.warframe.com/w/Damage/Corrosive_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "secondary",
+      "combinesFrom": ["electricity", "toxin"],
+      "proc": "corrosion",
+      "layers": {
+        "overguard": 1,
+        "shield": 1,
+        "health": 1
+      },
+      "bypassArmor": false
+    },
+    {
+      "id": "gas",
+      "name": "Gas",
+      "source": "https://wiki.warframe.com/w/Damage/Gas_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "secondary",
+      "combinesFrom": ["heat", "toxin"],
+      "proc": "gas-cloud",
+      "layers": {
+        "overguard": 1,
+        "shield": 1,
+        "health": 1
+      },
+      "bypassArmor": false
+    },
+    {
+      "id": "magnetic",
+      "name": "Magnetic",
+      "source": "https://wiki.warframe.com/w/Damage/Magnetic_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "secondary",
+      "combinesFrom": ["cold", "electricity"],
+      "proc": "disrupt",
+      "layers": {
+        "overguard": 1,
+        "shield": 1,
+        "health": 1
+      },
+      "bypassArmor": false
+    },
+    {
+      "id": "radiation",
+      "name": "Radiation",
+      "source": "https://wiki.warframe.com/w/Damage/Radiation_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "secondary",
+      "combinesFrom": ["heat", "electricity"],
+      "proc": "confusion",
+      "layers": {
+        "overguard": 1,
+        "shield": 1,
+        "health": 1
+      },
+      "bypassArmor": false
+    },
+    {
+      "id": "viral",
+      "name": "Viral",
+      "source": "https://wiki.warframe.com/w/Damage/Viral_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "secondary",
+      "combinesFrom": ["cold", "toxin"],
+      "proc": "virus",
+      "layers": {
+        "overguard": 1,
+        "shield": 1,
+        "health": 1
+      },
+      "bypassArmor": false
+    },
+    {
+      "id": "void",
+      "name": "Void",
+      "source": "https://wiki.warframe.com/w/Damage/Void_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "special",
+      "proc": "bullet-attractor",
+      "layers": {
+        "overguard": 1.5,
+        "shield": 1,
+        "health": 1
+      },
+      "bypassArmor": false
+    },
+    {
+      "id": "tau",
+      "name": "Tau",
+      "source": "https://wiki.warframe.com/w/Damage/Tau_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "special",
+      "proc": "status-vulnerability",
+      "layers": {
+        "overguard": 1,
+        "shield": 1,
+        "health": 1
+      },
+      "bypassArmor": false
+    },
+    {
+      "id": "true",
+      "name": "True",
+      "source": "https://wiki.warframe.com/w/Damage/True_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "special",
+      "layers": {
+        "overguard": 1,
+        "health": 1
+      },
+      "bypassArmor": true
+    },
+    {
+      "id": "cinematic",
+      "name": "Cinematic",
+      "source": "https://wiki.warframe.com/w/Damage/Cinematic_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "special",
+      "layers": {
+        "overguard": 1,
+        "shield": 1,
+        "health": 1
+      },
+      "bypassArmor": true
+    },
+    {
+      "id": "finisher",
+      "name": "Finisher",
+      "source": "https://wiki.warframe.com/w/Damage#Unique_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "special",
+      "layers": {
+        "overguard": 1,
+        "shield": 1,
+        "health": 1
+      },
+      "bypassArmor": true
+    },
+    {
+      "id": "shield-drain",
+      "name": "Shield Drain",
+      "source": "https://wiki.warframe.com/w/Damage/Shield_Drain_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "special",
+      "layers": {
+        "overguard": 1,
+        "shield": 1
+      },
+      "bypassArmor": false
+    },
+    {
+      "id": "energy-drain",
+      "name": "Energy Drain",
+      "source": "https://wiki.warframe.com/w/Damage/Energy_Drain_Damage",
+      "gameVersion": "44.1.4.1",
+      "group": "special",
+      "layers": {},
+      "bypassArmor": false
+    }
+  ]
+}

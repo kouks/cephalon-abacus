@@ -1,20 +1,20 @@
 import { describe, expect, it } from 'vitest';
 
 import { must } from '@/assert';
-import { attack, enemy, libraryFile, module, weapon } from '@/testing/fixtures';
+import { attack, enemy, libraryFile, module, referenceFiles, weapon } from '@/testing/fixtures';
 
 import { formatError } from './libraryError';
 import { loadLibrary } from './loadLibrary';
 import type { LibraryFile } from './readItems';
 
 const load = (...files: readonly LibraryFile[]) => {
-  const result = loadLibrary(files);
+  const result = loadLibrary([...referenceFiles, ...files]);
   if (!result.ok) throw new Error(result.errors.map(formatError).join('\n'));
   return result.library;
 };
 
 const errorsOf = (...files: readonly LibraryFile[]) => {
-  const result = loadLibrary(files);
+  const result = loadLibrary([...referenceFiles, ...files]);
   return result.ok ? [] : result.errors.map(formatError);
 };
 
@@ -24,7 +24,7 @@ const inModule = (change: object) => libraryFile('mods/a.json', { ...module, ...
 const inEffect = (change: object) => inModule({ effects: [{ ...module.effects[0], ...change }] });
 
 describe('a valid library', () => {
-  it('is empty without files', () => {
+  it('has no items without item files', () => {
     const { weapons, modules, enemies } = load();
     expect([weapons.size, modules.size, enemies.size]).toEqual([0, 0, 0]);
   });
@@ -87,7 +87,7 @@ describe('a bad file', () => {
 
   it('in an unknown folder', () => {
     expect(errorsOf(libraryFile('rifles/a.json', weapon))).toEqual([
-      'rifles/a.json: No schema for this file. Folders: weapons, mods, arcanes, buffs, enemies',
+      'rifles/a.json: No schema for this file. Places: damageTypes.json, buckets.json, factions.json, weapons, mods, arcanes, buffs, enemies',
     ]);
   });
 });

@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Module:DamageTypes/data",
+  "items": [
+    {
+      "id": "grineer",
+      "name": "Grineer",
+      "source": "https://wiki.warframe.com/w/Grineer",
+      "gameVersion": "44.1.4.1",
+      "damageProfile": {
+        "impact": 1.5,
+        "corrosive": 1.5
+      },
+      "factionModGroup": "grineer"
+    },
+    {
+      "id": "kuva-grineer",
+      "name": "Kuva Grineer",
+      "source": "https://wiki.warframe.com/w/Kuva_Grineer",
+      "gameVersion": "44.1.4.1",
+      "damageProfile": {
+        "impact": 1.5,
+        "corrosive": 1.5,
+        "heat": 0.5
+      },
+      "factionModGroup": "grineer"
+    },
+    {
+      "id": "scaldra",
+      "name": "Scaldra",
+      "source": "https://wiki.warframe.com/w/Scaldra",
+      "gameVersion": "44.1.4.1",
+      "damageProfile": {
+        "impact": 1.5,
+        "corrosive": 1.5,
+        "gas": 0.5
+      },
+      "factionModGroup": "scaldra"
+    },
+    {
+      "id": "corpus",
+      "name": "Corpus",
+      "source": "https://wiki.warframe.com/w/Corpus",
+      "gameVersion": "44.1.4.1",
+      "damageProfile": {
+        "puncture": 1.5,
+        "magnetic": 1.5
+      },
+      "factionModGroup": "corpus"
+    },
+    {
+      "id": "corpus-amalgam",
+      "name": "Corpus Amalgam",
+      "source": "https://wiki.warframe.com/w/Corpus_Amalgam",
+      "gameVersion": "44.1.4.1",
+      "damageProfile": {
+        "electricity": 1.5,
+        "magnetic": 1.5,
+        "blast": 0.5
+      },
+      "factionModGroup": "corpus"
+    },
+    {
+      "id": "techrot",
+      "name": "Techrot",
+      "source": "https://wiki.warframe.com/w/Techrot",
+      "gameVersion": "44.1.4.1",
+      "damageProfile": {
+        "magnetic": 1.5,
+        "gas": 1.5,
+        "cold": 0.5
+      },
+      "factionModGroup": "techrot"
+    },
+    {
+      "id": "infested",
+      "name": "Infested",
+      "source": "https://wiki.warframe.com/w/Infested",
+      "gameVersion": "44.1.4.1",
+      "damageProfile": {
+        "slash": 1.5,
+        "heat": 1.5
+      },
+      "factionModGroup": "infested"
+    },
+    {
+      "id": "infested-deimos",
+      "name": "Infested Deimos",
+      "source": "https://wiki.warframe.com/w/Infested_Deimos",
+      "gameVersion": "44.1.4.1",
+      "damageProfile": {
+        "blast": 1.5,
+        "gas": 1.5,
+        "viral": 0.5
+      },
+      "factionModGroup": "infested"
+    },
+    {
+      "id": "orokin",
+      "name": "Orokin",
+      "source": "https://wiki.warframe.com/w/Corrupted",
+      "gameVersion": "44.1.4.1",
+      "damageProfile": {
+        "puncture": 1.5,
+        "viral": 1.5,
+        "radiation": 0.5
+      },
+      "factionModGroup": "orokin"
+    },
+    {
+      "id": "sentient",
+      "name": "Sentient",
+      "source": "https://wiki.warframe.com/w/Sentient",
+      "gameVersion": "44.1.4.1",
+      "damageProfile": {
+        "cold": 1.5,
+        "radiation": 1.5,
+        "corrosive": 0.5
+      },
+      "factionModGroup": "sentient"
+    },
+    {
+      "id": "narmer",
+      "name": "Narmer",
+      "source": "https://wiki.warframe.com/w/Narmer",
+      "gameVersion": "44.1.4.1",
+      "damageProfile": {
+        "slash": 1.5,
+        "toxin": 1.5,
+        "magnetic": 0.5
+      }
+    },
+    {
+      "id": "murmur",
+      "name": "The Murmur",
+      "source": "https://wiki.warframe.com/w/The_Murmur",
+      "gameVersion": "44.1.4.1",
+      "damageProfile": {
+        "electricity": 1.5,
+        "radiation": 1.5,
+        "viral": 0.5
+      },
+      "factionModGroup": "murmur"
+    },
+    {
+      "id": "zariman",
+      "name": "Zariman",
+      "source": "https://wiki.warframe.com/w/Zariman",
+      "gameVersion": "44.1.4.1",
+      "damageProfile": {
+        "void": 1.5
+      }
+    },
+    {
+      "id": "anarchs",
+      "name": "Anarchs",
+      "source": "https://wiki.warframe.com/w/Anarchs",
+      "gameVersion": "44.1.4.1",
+      "damageProfile": {
+        "impact": 1.5,
+        "electricity": 1.5,
+        "radiation": 0.5
+      }
+    }
+  ]
+}
