@@ -18,8 +18,8 @@ const describeEffect = ({ bucket, op, value }: Effect) => {
   return op === 'ADD' ? `${bucket} +${value}` : `${bucket} ${Number((value * 100).toFixed(4))}%`;
 };
 
-const fitsOn = ({ slots, classes }: Module['compat']) =>
-  `${slots.join(' ')}: ${classes?.[0] ?? 'any'}`;
+const fitsOn = ({ slots, classes, tags = [] }: Module['compat']) =>
+  `${slots.join(' ')}: ${[classes?.[0] ?? 'any', ...tags].join(' ')}`;
 
 const describeMod = ({ name, rank, compat, effects, exclusiveGroup, set, locks = [] }: Module) =>
   [
@@ -58,10 +58,12 @@ describe('the seed mods', () => {
         "Expel Grineer r5 | secondary: pistol | damage.faction.grineer 30% | group expel-grineer",
         "Primed Expel Grineer r10 | secondary: pistol | damage.faction.grineer 55% | group expel-grineer",
         "Pistol Acuity r10 | secondary: pistol | weakPoint.damage +3.498, crit.chanceWeakPoint 349.8% | locks multishot",
+        "Ruinous Extension r3 | secondary: any BEAM | range +8",
         "Vigilante Armaments r5 | primary: any | multishot 60% | set vigilante",
         "Vigilante Fervor r5 | primary: any | fireRate 45% | set vigilante",
         "Vigilante Offense r5 | primary: any | punchThrough +1.5 | set vigilante",
         "Vigilante Supplies r5 | primary: any |  | set vigilante",
+        "Sinister Reach r3 | primary: any BEAM | range +12",
         "Serration r10 | primary: rifle | damage.base 165% | group serration",
         "Amalgam Serration r10 | primary: rifle | damage.base 155.1% | group serration",
         "Heavy Caliber r10 | primary: rifle | damage.base 165%",
@@ -127,15 +129,17 @@ describe('the seed mods', () => {
   });
 
   it('fit one kind of weapon each', () => {
-    const compat = mods.map(({ compat: { slots, classes = ['any'] } }) =>
-      [...slots, ':', ...classes].join(' '),
+    const compat = mods.map(({ compat: { slots, classes, tags = [] } }) =>
+      [...slots, ':', ...(classes ?? ['any']), ...tags].join(' '),
     );
     expect([...new Set(compat)].sort()).toEqual([
       'primary : any',
+      'primary : any BEAM',
       'primary : rifle',
       'primary : rifle bow crossbow launcher sniper speargun',
       'primary : shotgun',
       'primary : sniper',
+      'secondary : any BEAM',
       'secondary : pistol dual-pistol shotgun-sidearm dual-shotgun thrown crossbow',
     ]);
   });

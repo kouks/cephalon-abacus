@@ -1,6 +1,7 @@
 import type { DamageType } from '@abacus/data/schema/damageType';
 
 import type { BuiltAttack } from '@/build/buildAttack';
+import type { ModdedStat } from '@/build/stats/moddedStat';
 import type { Factor, HitTrace } from '@/trace/hitTrace';
 
 import type { TierChance } from './crit/critTiers';
@@ -11,6 +12,7 @@ import { bodyPartFactor } from './factors/bodyPartFactor';
 import { factionFactor, finalFactors } from './factors/bonusFactors';
 import { effectsOf, factor } from './factors/factor';
 import { falloffFactor } from './factors/falloffFactor';
+import { rangeFactor } from './factors/rangeFactor';
 import { damageFactors, layerFactors, vulnerabilityFactors } from './factors/typeFactors';
 import type { Target, TargetPart } from './target';
 
@@ -28,6 +30,8 @@ type At = {
   readonly part: TargetPart;
   /** Metres to the target. */
   readonly distance: number;
+  /** How far the shot goes that sets this attack off. Absent: the attack is the shot. */
+  readonly reach?: ModdedStat | undefined;
 };
 
 const critFactor = ({ chance, multiplier, expected }: HitCrit) =>
@@ -36,7 +40,7 @@ const critFactor = ({ chance, multiplier, expected }: HitCrit) =>
 /** The direct-damage chain, in the order of BIBLE §3. */
 const chainOf = (
   built: BuiltAttack,
-  { target, part, distance }: At,
+  { target, part, distance, reach = built.stats.range }: At,
   crit: HitCrit,
 ): readonly Factor[] => [
   ...damageFactors(built.composition),
@@ -44,6 +48,7 @@ const chainOf = (
   ...finalFactors(built.totals),
   critFactor(crit),
   bodyPartFactor(built.totals, part),
+  rangeFactor(reach, distance),
   falloffFactor(built, distance),
   ...vulnerabilityFactors(built.composition.types.keys(), target),
   ...layerFactors(),

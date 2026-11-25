@@ -59,13 +59,13 @@ const headline = (perShot: number, stats: AttackStats, rates: AttackRates): Head
 
 /** What a firing mode does to a target on average, in closed form. */
 export const attackMetrics = (loadout: Loadout, attack: Attack, fight: Fight): AttackMetrics => {
+  const { stats, rates, composition } = buildAttack(loadout, attack);
   const shots = withLinked(attack, loadout.weapon).map((fired) => {
     const buildFor: Parameters<typeof expectedShot>[0]['buildFor'] = (bodyParts) =>
       buildAttack(loadout, fired, { bodyParts });
-    return { attackId: fired.id, shot: expectedShot({ buildFor, ...fight }) };
+    return { attackId: fired.id, shot: expectedShot({ buildFor, ...fight, reach: stats.range }) };
   });
   const perShot = shots.reduce((sum, { shot }) => sum + shot.total, 0);
-  const { stats, rates, composition } = buildAttack(loadout, attack);
   const { id: attackId, name } = attack;
   return { attackId, name, ...headline(perShot, stats, rates), stats, rates, composition, shots };
 };

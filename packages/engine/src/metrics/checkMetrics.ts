@@ -3,8 +3,10 @@ import type { Scenario } from '@abacus/data/schema/scenario';
 import type { Weapon } from '@abacus/data/schema/weapon';
 
 import type { LeftOut, Warning } from '@/build/types';
+import { isInRange } from '@/resolve/factors/rangeFactor';
 import type { Target } from '@/resolve/target';
 
+import type { AttackMetrics } from './attackMetrics';
 import { firingModes, withLinked } from './firingModes';
 
 const leftOutOf = (attack: Attack, weapon: Weapon): readonly LeftOut[] => {
@@ -47,3 +49,14 @@ export const checkMetrics = (
   ...warnPart(aim, target),
   ...warnLeftOut(weapon),
 ];
+
+/** The firing modes that don't reach the target, and deal nothing to it. */
+export const checkRange = (
+  byAttack: readonly AttackMetrics[],
+  distance: number,
+): readonly Warning[] =>
+  byAttack.flatMap(({ attackId, stats: { range } }) =>
+    range === undefined || isInRange(range, distance)
+      ? []
+      : [{ code: 'outOfRange', attackId, range: range.value, distance } as const],
+  );

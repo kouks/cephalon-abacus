@@ -31,6 +31,8 @@ describe('the engine in a Web Worker', () => {
     expect(modsOf('braton')).toContain('serration');
     expect(modsOf('braton')).not.toContain('hornet-strike');
     expect(modsOf('lex')).toContain('hornet-strike');
+    expect(modsOf('amprex')).toContain('sinister-reach');
+    expect(modsOf('braton')).not.toContain('sinister-reach');
   });
 
   it('sends a result back whole, maps and infinities included', async () => {
