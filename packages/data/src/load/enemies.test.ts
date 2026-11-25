@@ -108,6 +108,9 @@ describe('scaling.json', () => {
       'scaling.json: items: No mission "star-chart"',
       'scaling.json: items: Expected one Eximus rule, found 0',
     ]);
+    expect(errorsOf([curve, eximus, { ...mission, id: 'archwing' }])).toEqual([
+      'scaling.json: items: No mission "star-chart"',
+    ]);
     const second = { ...eximus, id: 'eximus-2' };
     expect(errorsOf([...RULES, second])).toEqual([
       'scaling.json: items: Expected one Eximus rule, found 2',

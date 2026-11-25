@@ -18,8 +18,8 @@ const healthAt = (level: number, change: object = {}) => baseAt(level, change).h
 
 describe('an Eximus unit', () => {
   it('starts from more health the higher its level', () => {
-    const levels = [1, 15, 20, 25, 200].map((level) => healthAt(level, { baseHealth: 300 }));
-    expect(levels).toEqual([450, 450, 675, 900, 900]);
+    const levels = [1, 14, 15, 20, 25, 200].map((level) => healthAt(level, { baseHealth: 300 }));
+    expect(levels).toEqual([450, 450, 450, 675, 900, 900]);
   });
 
   it('starts from less with shields or armor', () => {
