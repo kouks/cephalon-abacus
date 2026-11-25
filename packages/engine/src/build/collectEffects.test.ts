@@ -155,6 +155,35 @@ describe('locks', () => {
   });
 });
 
+describe('what an effect requires', () => {
+  const requiring = (trigger: string, max?: number) =>
+    add('crit.chance', 0.4, {
+      condition: { ...when(trigger, max).condition, requires: ['whileAiming'] },
+    });
+
+  it('is a switch of its own, listed once', () => {
+    const scope = mod('scope', [requiring('onWeakPointHit'), requiring('onWeakPointKill', 5)]);
+    const { conditionals } = collect({ modules: [scope] });
+    expect(conditionals.map(({ key, maxStacks }) => [key, maxStacks])).toEqual([
+      ['scope onWeakPointHit', 1],
+      ['scope onWeakPointKill', 5],
+      ['scope whileAiming', 1],
+    ]);
+  });
+
+  it('leaves the stacks of a switch that is also an effect’s own', () => {
+    const scope = mod('scope', [
+      requiring('onWeakPointHit'),
+      add('multishot', 0.1, when('whileAiming', 3)),
+    ]);
+    const { conditionals } = collect({ modules: [scope] });
+    expect(conditionals.map(({ key, maxStacks }) => [key, maxStacks])).toEqual([
+      ['scope onWeakPointHit', 1],
+      ['scope whileAiming', 3],
+    ]);
+  });
+});
+
 describe('conditionals', () => {
   const switches = (conditionals: object) => {
     const modules = [GALVANIZED_CHAMBER, GALVANIZED_SCOPE];

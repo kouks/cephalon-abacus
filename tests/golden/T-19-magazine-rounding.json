@@ -14,7 +14,7 @@
     },
     {
       "on": "2026-11-24",
-      "words": "Braton Prime with 1/5 Warp is indeed 50 mag."
+      "words": "Braton with 1/5 Warp is indeed 50 mag."
     },
     {
       "on": "2026-11-25",
@@ -25,7 +25,7 @@
       "words": "Vectis PRIME with +25% gives 3."
     }
   ],
-  "notes": "50 fits only Braton (45 rounds), not Braton Prime (75). 58.5 shows 58 because the product is 58.499996 in 32 bits; 49.5 and 2.5 are exact and round up. Vectis has 1 round, and 0.4 doesn't round to 0.",
+  "notes": "58.5 shows 58 because the product is 58.499996 in 32 bits; 49.5 and 2.5 are exact and round up. Vectis has 1 round, and 0.4 doesn't round to 0.",
   "tolerance": {
     "arsenal": 0
   },

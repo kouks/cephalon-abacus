@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { damageTypeSchema } from './damageType';
-import { object, positive, positiveInt } from './primitives';
+import { list, object, positive, positiveInt } from './primitives';
 
 const namedTriggerSchema = z.enum([
   'always',
@@ -26,6 +26,8 @@ export const triggerSchema = z.union(
 /** When an effect applies (BIBLE §13). Fields only: the engine gives them meaning. */
 export const conditionSchema = object({
   trigger: triggerSchema,
+  /** What has to hold as well: Galvanized Scope counts its hits only while aiming. */
+  requires: list(triggerSchema).exactOptional(),
   target: z.enum(['self', 'enemy']),
   stacks: object({
     max: positiveInt,

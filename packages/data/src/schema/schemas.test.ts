@@ -77,6 +77,8 @@ describe('conditions', () => {
     [{ trigger: 'onStatus', target: 'enemy' }, false],
     [{ trigger: 'onKill' }, false],
     [{ trigger: 'onKill', target: 'self', stacks: { ...stacks, max: 1.5 } }, false],
+    [{ trigger: 'onWeakPointHit', requires: ['whileAiming'], target: 'self' }, true],
+    [{ trigger: 'onWeakPointHit', requires: ['aiming'], target: 'self' }, false],
   ])('%j: %s', (condition, isValid) => {
     expect(accepts(conditionSchema, condition)).toBe(isValid);
   });

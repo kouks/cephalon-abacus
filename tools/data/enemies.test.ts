@@ -9,5 +9,8 @@ it('the seed enemies have the base stats of the game', () => {
     ({ id, faction, baseLevel, baseHealth, baseShield, baseArmor, baseOverguard }) =>
       `${id}: ${faction}, level ${baseLevel}, ${baseHealth} health, ${baseShield} shield, ${baseArmor} armor, ${baseOverguard} overguard`,
   );
-  expect(lines).toEqual(['charger: infested, level 1, 80 health, 0 shield, 0 armor, 0 overguard']);
+  expect(lines).toEqual([
+    'charger: infested, level 1, 80 health, 0 shield, 0 armor, 0 overguard',
+    'runner: infested, level 1, 100 health, 0 shield, 0 armor, 0 overguard',
+  ]);
 });

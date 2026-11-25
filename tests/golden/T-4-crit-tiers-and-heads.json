@@ -7,9 +7,13 @@
     {
       "on": "2026-11-24",
       "words": "T4 on the body matches 40, 262 and 485, on the head however it's 1574 and 3030, not 3029 as you predicted."
+    },
+    {
+      "on": "2026-11-25",
+      "words": "I actually used Runner because I thought I couldn't find the Charger's head, didn't know it had no headshot multiplier."
     }
   ],
-  "notes": "The first message said 30, which was a typo for 40. 3029 was the prediction before base crit multipliers were quantized; 1145 and 2171 would mean that a headcrit multiplies only the base. Aiming throughout.",
+  "notes": "The first message said 30, which was a typo for 40. 3029 was the prediction before base crit multipliers were quantized; 1145 and 2171 would mean that a headcrit multiplies only the base. Aiming throughout, on a Runner instead of the Charger that was asked for. A Charger's mouth is 1x, and a Runner's head 3x.",
   "tolerance": {
     "hits": 0.5
   },
@@ -35,12 +39,18 @@
           ],
           "conditionals": {
             "all": "off",
-            "overrides": []
+            "overrides": [
+              {
+                "sourceId": "galvanized-scope",
+                "trigger": "whileAiming",
+                "state": "on"
+              }
+            ]
           },
           "elementOrder": []
         },
         "enemy": {
-          "id": "charger",
+          "id": "runner",
           "level": 100,
           "steelPath": false,
           "modifiers": []
@@ -84,6 +94,11 @@
             "overrides": [
               {
                 "sourceId": "galvanized-scope",
+                "trigger": "whileAiming",
+                "state": "on"
+              },
+              {
+                "sourceId": "galvanized-scope",
                 "trigger": "onWeakPointHit",
                 "state": "on"
               }
@@ -92,7 +107,7 @@
           "elementOrder": []
         },
         "enemy": {
-          "id": "charger",
+          "id": "runner",
           "level": 100,
           "steelPath": false,
           "modifiers": []
@@ -136,6 +151,11 @@
             "overrides": [
               {
                 "sourceId": "galvanized-scope",
+                "trigger": "whileAiming",
+                "state": "on"
+              },
+              {
+                "sourceId": "galvanized-scope",
                 "trigger": "onWeakPointHit",
                 "state": "on"
               }
@@ -144,7 +164,7 @@
           "elementOrder": []
         },
         "enemy": {
-          "id": "charger",
+          "id": "runner",
           "level": 100,
           "steelPath": false,
           "modifiers": []

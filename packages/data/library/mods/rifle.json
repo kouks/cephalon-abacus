@@ -174,6 +174,7 @@
           "value": 1.2001,
           "condition": {
             "trigger": "onWeakPointHit",
+            "requires": ["whileAiming"],
             "target": "self",
             "stacks": {
               "max": 1,
@@ -189,6 +190,7 @@
           "value": 0.4,
           "condition": {
             "trigger": "onWeakPointKill",
+            "requires": ["whileAiming"],
             "target": "self",
             "stacks": {
               "max": 5,

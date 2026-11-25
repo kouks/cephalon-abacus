@@ -11,13 +11,17 @@
     {
       "on": "2026-11-25",
       "words": "T-14 was indeed done on normal Vectis and \"Slash bonus\" is just unranked Fanged Fusillade mod."
+    },
+    {
+      "on": "2026-11-25",
+      "words": "It also has CC, CD, MS as positives but that was irrelevant for the test."
     }
   ],
-  "notes": "No numbers were reported, only the outcome. The Riven's other stats were not reported. Jupiter is not in the library.",
+  "notes": "No numbers were reported, only the outcome. The Riven's values are from a screenshot of it, Vectis Sati-acricron. Jupiter is not in the library.",
   "modules": [
     {
-      "id": "riven",
-      "name": "Riven",
+      "id": "vectis-sati-acricron",
+      "name": "Vectis Sati-acricron",
       "source": "https://wiki.warframe.com/w/Riven_Mods",
       "gameVersion": "44.1.4.1",
       "kind": "riven",
@@ -26,9 +30,24 @@
       },
       "effects": [
         {
+          "bucket": "crit.chance",
+          "op": "STACKING_MULTIPLY",
+          "value": 1.664
+        },
+        {
+          "bucket": "multishot",
+          "op": "STACKING_MULTIPLY",
+          "value": 1.025
+        },
+        {
+          "bucket": "crit.damage",
+          "op": "STACKING_MULTIPLY",
+          "value": 1.36
+        },
+        {
           "bucket": "damage.ips.slash",
           "op": "STACKING_MULTIPLY",
-          "value": -1.17
+          "value": -1.179
         }
       ]
     }
@@ -36,13 +55,13 @@
   "tolerance": {},
   "cases": [
     {
-      "name": "Vectis with a -117% Slash Riven and unranked Fanged Fusillade",
+      "name": "Vectis with a -117.9% Slash Riven and unranked Fanged Fusillade",
       "scenario": {
         "build": {
           "weaponId": "vectis",
           "modules": [
             {
-              "moduleId": "riven"
+              "moduleId": "vectis-sati-acricron"
             },
             {
               "moduleId": "fanged-fusillade",
