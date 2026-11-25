@@ -4,7 +4,8 @@ import { must } from '@abacus/data/assert';
 import type { GoldenFixture, Observed } from '@abacus/data/schema/goldenFixture';
 import { evaluate } from '@abacus/engine';
 
-import { compare, describeMismatch, isMatch } from './compare';
+import { compare } from './compare';
+import { describeMismatch, isMatch } from './comparison';
 import { libraryWith, loadFixtures } from './loadFixtures';
 
 const fixtureOf = (id: string): GoldenFixture =>
@@ -88,6 +89,13 @@ describe('a mismatch', () => {
     expect(mismatchesOf('T-14', { neverProcs: ['slash', 'impact'] })).toEqual([
       expect.stringMatching(/^impact proc weight: reported 0, computed 0\.\d+$/),
     ]);
+  });
+
+  it('can be in what wore an enemy down', () => {
+    const seen = { depleted: [{ layer: 'health', hits: { white: 5 }, last: 'white' } as const] };
+    const [line = ''] = mismatchesOf('T-36', seen);
+    expect(line).toMatch(/^health: reported more than 2400 and at most 3000, computed 8717\.8/);
+    expect(line).toMatch(/^health base 100$/m);
   });
 
   it('needs to be about one part', () => {

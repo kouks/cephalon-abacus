@@ -1,14 +1,16 @@
 import { bucketSchema } from '@/schema/bucket';
 import { damageTypeRuleSchema } from '@/schema/damageTypeRule';
-import type { Enemy } from '@/schema/enemy';
 import { enemySchema } from '@/schema/enemy';
 import { factionSchema } from '@/schema/faction';
 import { moduleSchema } from '@/schema/module';
+import { scalingRuleSchema } from '@/schema/scaling';
 import { weaponSchema } from '@/schema/weapon';
 
 import { checkDamageTypes } from './checkDamageTypes';
 import { checkModuleEffects, checkWeaponEffects } from './checkEffects';
-import type { Library, Reference } from './library';
+import { checkEnemies } from './checkEnemies';
+import { checkScaling } from './checkScaling';
+import type { Library } from './library';
 import type { LibraryError } from './libraryError';
 import { errorAt } from './libraryError';
 import {
@@ -21,6 +23,7 @@ import {
   missingFrom,
   MODULE_FOLDERS,
   REFERENCE_FILES,
+  SCALING_FILE,
   straysIn,
   WEAPON_FOLDERS,
 } from './places';
@@ -36,6 +39,7 @@ const read = (files: readonly LibraryFile[]) => ({
   damageTypes: readItems(damageTypeRuleSchema, filesAt(files, [DAMAGE_TYPES_FILE])),
   buckets: readItems(bucketSchema, filesAt(files, [BUCKETS_FILE])),
   factions: readItems(factionSchema, filesAt(files, [FACTIONS_FILE])),
+  scaling: readItems(scalingRuleSchema, filesAt(files, [SCALING_FILE])),
   weapons: readItems(weaponSchema, filesAt(files, WEAPON_FOLDERS)),
   modules: readItems(moduleSchema, filesAt(files, MODULE_FOLDERS)),
   enemies: readItems(enemySchema, filesAt(files, ENEMY_FOLDERS)),
@@ -50,6 +54,7 @@ const toLibrary = (found: Read): Library => ({
   damageTypes: byId(found.damageTypes.items),
   buckets: byId(found.buckets.items),
   factions: byId(found.factions.items),
+  scaling: byId(found.scaling.items),
   weapons: byId(found.weapons.items),
   modules: byId(found.modules.items),
   enemies: byId(found.enemies.items),
@@ -64,23 +69,13 @@ const checkFiles = (files: readonly LibraryFile[], found: Read): readonly Librar
   ...Object.values(found).flatMap(({ items, errors }) => [...errors, ...findDuplicateIds(items)]),
 ];
 
-const checkFactions = (enemies: readonly Located<Enemy>[], { factions }: Reference) =>
-  enemies
-    .filter(({ item }) => !factions.has(item.faction))
-    .map(({ item, file, index }) =>
-      errorAt(
-        file,
-        ['items', index, 'faction'],
-        `"${item.faction}" is not a faction (factions.json)`,
-      ),
-    );
-
 /** What is wrong between files. Pointless while the reference files have errors of their own. */
 const checkReferences = (found: Read, library: Library): readonly LibraryError[] => [
   ...checkDamageTypes(found.damageTypes.items),
   ...checkWeaponEffects(found.weapons.items, library),
   ...checkModuleEffects(found.modules.items, library),
-  ...checkFactions(found.enemies.items, library),
+  ...checkScaling(found.scaling.items),
+  ...checkEnemies(found.enemies.items, library),
 ];
 
 /**

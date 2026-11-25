@@ -2,12 +2,8 @@
 
 import { DAMAGE_TYPES } from '@/schema/damageType';
 
-const item = <Id extends string>(id: Id) => ({
-  id,
-  name: id,
-  source: 'https://wiki.warframe.com/w/Test',
-  gameVersion: '44.1.4.1',
-});
+import { item } from './item';
+import { curve, eximus, steelPath } from './scaling';
 
 export const attack = {
   id: 'normal',
@@ -44,11 +40,16 @@ export const module = {
 export const enemy = {
   ...item('test-enemy'),
   faction: 'grineer',
+  scalingProfile: 'grineer',
   baseLevel: 1,
   baseHealth: 100,
   baseShield: 0,
   baseArmor: 0,
   baseOverguard: 0,
+  bodyParts: [
+    { id: 'body', multiplier: 1 },
+    { id: 'head', multiplier: 3, countsAs: ['head', 'weakPoint'], headcrit: 2 },
+  ],
 };
 
 export const scenario = {
@@ -112,4 +113,5 @@ export const referenceFiles = [
   libraryFile('damageTypes.json', ...damageTypes),
   libraryFile('buckets.json', bucket, family),
   libraryFile('factions.json', faction),
+  libraryFile('scaling.json', curve, eximus, steelPath),
 ];

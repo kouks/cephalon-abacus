@@ -17,6 +17,8 @@ export type Outcome =
   | {
       readonly kind: 'result';
       readonly headline: readonly HeadlineNumber[];
+      /** The enemy's stats at its level. Empty for the neutral dummy. */
+      readonly enemy: readonly HeadlineNumber[];
       readonly warnings: readonly string[];
       readonly rows: readonly TraceRow[];
       readonly json: string;
@@ -35,9 +37,21 @@ const headlineOf = ({ perShot, burstDps, sustainedDps, lifetimeDamage }: Result)
   { label: 'Lifetime damage', value: formatDamage(lifetimeDamage) },
 ];
 
+const enemyOf = ({ enemy }: Result): readonly HeadlineNumber[] =>
+  enemy === undefined
+    ? []
+    : [
+        { label: 'Level', value: formatDamage(enemy.level) },
+        { label: 'Health', value: formatDamage(enemy.health.value) },
+        { label: 'Shields', value: formatDamage(enemy.shield.value) },
+        { label: 'Armor', value: formatDamage(enemy.armor.value) },
+        { label: 'Overguard', value: formatDamage(enemy.overguard.value) },
+      ];
+
 const outcomeOfResult = (result: Result): Outcome => ({
   kind: 'result',
   headline: headlineOf(result),
+  enemy: enemyOf(result),
   warnings: result.warnings.map((warning) => JSON.stringify(warning)),
   rows: traceRows(result),
   json: JSON.stringify(result, toJson, 2),

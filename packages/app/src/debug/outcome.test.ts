@@ -60,6 +60,28 @@ describe('what the page shows', () => {
     });
   });
 
+  it('is the enemy’s stats too, unless it is the neutral dummy', () => {
+    const stat = (value: number) => ({ value, terms: [] });
+    const enemy = {
+      level: 1200,
+      health: stat(72_877.1),
+      shield: stat(0),
+      armor: stat(2700),
+      overguard: stat(12.5),
+    };
+    const outcome = outcomeOf(TEXT, { status: 'evaluated', result: { ...result, enemy } });
+    expect(outcome).toMatchObject({
+      enemy: [
+        { label: 'Level', value: '1,200' },
+        { label: 'Health', value: '72,877' },
+        { label: 'Shields', value: '0' },
+        { label: 'Armor', value: '2,700' },
+        { label: 'Overguard', value: '13' },
+      ],
+    });
+    expect(outcomeOf(TEXT, { status: 'evaluated', result })).toMatchObject({ enemy: [] });
+  });
+
   it('has maps and infinity in its JSON', () => {
     const outcome = outcomeOf(TEXT, { status: 'evaluated', result });
     const json: unknown = JSON.parse(outcome.kind === 'result' ? outcome.json : '');

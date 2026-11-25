@@ -5,6 +5,8 @@ import type { Scenario } from '@abacus/data/schema/scenario';
 import type { Assumptions } from '@/assumptions';
 import { makeLoadout } from '@/build/loadout';
 import type { Warning } from '@/build/types';
+import type { EnemyStats } from '@/enemy/scaleEnemy';
+import { enemyStats } from '@/enemy/scaleEnemy';
 import { findTarget } from '@/resolve/target';
 import type { HitTrace } from '@/trace/hitTrace';
 
@@ -18,6 +20,8 @@ export type BuildMetrics = Headline & {
   /** The firing mode the headline is for. */
   readonly attackId: string;
   readonly byAttack: readonly AttackMetrics[];
+  /** The enemy at its level. Absent for the neutral dummy, which has no stats. */
+  readonly enemy?: EnemyStats;
   /** Every hit of the headline's shot. */
   readonly trace: readonly HitTrace[];
   readonly warnings: readonly Warning[];
@@ -34,6 +38,7 @@ export const buildMetrics = (
   const { build, enemy, aim, distance } = scenario;
   const loadout = makeLoadout(scenario, library, assumptions);
   const target = findTarget(enemy.id, library);
+  const stats = enemyStats(enemy, library);
   const byAttack = firingModes(loadout.weapon).map((attack) =>
     attackMetrics(loadout, attack, { target, aim, distance }),
   );
@@ -48,6 +53,7 @@ export const buildMetrics = (
     sustainedDps,
     lifetimeDamage,
     byAttack,
+    ...(stats === undefined ? {} : { enemy: stats }),
     trace: tracesOf(chosen),
     warnings: [
       ...loadout.collected.warnings,

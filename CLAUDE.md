@@ -72,11 +72,12 @@ packages/
     src/load/       the loader: validates library files, collects every error
     src/testing/    made-up items for tests
     src/assert.ts   the shared assert module
-    library/        damageTypes.json, buckets.json, factions.json, scaling.json (ABA-19),
+    library/        damageTypes.json, buckets.json, factions.json, scaling.json,
                     weapons/, mods/, arcanes/, buffs/, enemies/, stances/
     CHANGELOG/      one file per game version, written by data:update
   engine/
     src/build/      effects, buckets, modded stats, element combiner, damage composition
+    src/enemy/      an enemy's stats at its level
     src/resolve/    rollers, crits, the hit resolver, health layers, extra hits
     src/metrics/    per shot, DPS and lifetime damage, in closed form
     src/timeline/   event queue, enemy state, statuses and DoTs, weapon cycle, combo
@@ -120,7 +121,7 @@ data  →  importers
 - **Hooks are pure.** They get a read-only context and return changes. They never mutate state, and each writes a trace entry.
 - **Every factor is traced.** A multiplier that changes a number appears in the `HitTrace` under a stable name, with the effects that made it. A type's damage is the product of its factors, so a new multiplier is a new factor, even while its value is 1. Tests assert on the trace, not just the total.
 - **Unknowns are named assumptions.** Each [T] rule is a flag in `assumptions.ts` that names its test and BIBLE section (`bowFireRateDoubled: { default: true, test: 'T-10', bible: '§9' }`), and code takes the flags as an `Assumptions` argument. Never settle one quietly in code. When a test answers it: set the default, add the fixture, update the BIBLE.
-- **Precision.** Keep full precision through the pipeline. Quantize only where the BIBLE says: each type's ratio, to 1/32 of base damage (§6), and the base crit multiplier, to 32/4095 (§7). Round only for display. Proc DoTs are never quantized.
+- **Precision.** Keep full precision through the pipeline. Quantize only where the BIBLE says: each type's ratio, to 1/32 of base damage (§6), and the base crit multiplier, to 32/4095 (§7). Round only for display. Proc DoTs are never quantized. Enemy stats are worked out in 32 bits, step by step, as the wiki says (§10): `f32` in `enemy/growth.ts`.
 - **Units.** Percentages are fractions (+165% is `1.65`), times are seconds, distances are metres. Field names follow the BIBLE (`critChance`, `critMultiplier`, `fireRate`, `chargeTime`).
 - **One code path, two modes.** Expected value and Monte Carlo differ only in the `Roller`. What works in one mode works in both; the convergence property test guards it.
 - **Conditionals are switches.** A conditional is the effects of one module (or the weapon) on one trigger. What an effect `requires` as well (Galvanized Scope: `whileAiming`) is a switch of its own. The scenario has a global on/off and overrides per conditional. A switch sets the stacks it starts with: on is all of them, off is none. In a simulation they expire as in the game. `collectEffects` never bakes stacks in, so a simulation can change them without reading modules again.
@@ -134,7 +135,7 @@ data  →  importers
 - Percentages are fractions. Per-rank values follow the linear rule or an explicit array of shares of the max-rank value.
 - **Schemas refuse unknown keys** and fill in no defaults, so a misspelt field is an error and the data says what it means. Checks inside one item live in its schema, so items players write get them too; checks across items live in the loader.
 - **The loader reads no files:** it takes their text and returns a library or every error, so it runs in the browser, in tests and in `data:validate` alike.
-- **Reference files** (`damageTypes.json`, `buckets.json`, `factions.json`) are needed by every library and written by hand. The 20 damage type ids are a fixed list in `schema/damageType.ts`; their rules are data. `tools/data/library.test.ts` snapshots all three, so a balance patch shows up as a diff.
+- **Reference files** (`damageTypes.json`, `buckets.json`, `factions.json`, `scaling.json`) are needed by every library and written by hand. The 20 damage type ids are a fixed list in `schema/damageType.ts`; their rules are data. `tools/data/library.test.ts` snapshots the first three and `scaling.test.ts` checks spot values of the last, so a balance patch shows up as a diff.
 - **Buckets:** a bucket with `members` is a family (`damage.faction.<group>`); look names up with `findBucket`. Its `scope` says how many times it applies to direct hits, procs, extra hits and AoE, and its `bodyPart` that it needs a weak point or a head.
 - **Damage types list the layers they hit**, with a multiplier for each. A layer that is absent is skipped: Toxin has no `shield`.
 - **Importers never guess.** A field or phrase with no mapping rule is logged and goes to `importers/overrides/*.json` for a person to write. Overrides apply last and are reviewed like code.
@@ -145,11 +146,12 @@ data  →  importers
 
 - Pavel runs tests in the game on request. Ask in batches of 3–4, and only once the engine has the code a test exercises, so each report can be replayed at once.
 - Use the request template in BIBLE §16: Simulacrum, enemy and level, weapon and rank, every mod and its rank, no arcanes, companion or abilities unless they are the variable, body or head, and what to report. Change one variable per test.
-- Each report becomes `tests/golden/T-<n>-<topic>.json` (`T-5-cold-crit.json`) with the report word for word (typos fixed), the observed values exactly as reported, the game version, and a tolerance (`schema/goldenFixture.ts`). Each case holds a whole `Scenario`, which the debug page takes as it is. A fixture brings the modules and weapons that the library lacks, such as a Riven, and `hitsOf` names the attack whose numbers were read if it isn't the shot itself: an explosion. Never edit an observed value to make a test pass.
+- Each report becomes `tests/golden/T-<n>-<topic>.json` (`T-5-cold-crit.json`) with the report word for word (typos fixed), the observed values exactly as reported, the game version, and a tolerance (`schema/goldenFixture.ts`). Each case holds a whole `Scenario`, which the debug page takes as it is. A fixture brings the modules, weapons and enemies that the library lacks, such as a Riven, and `hitsOf` names the attack whose numbers were read if it isn't the shot itself: an explosion. Never edit an observed value to make a test pass.
+- **Health, shields and Overguard have no number:** ask for the hits by colour until each is gone (`depleted`). Shields are exact to 10 with one hit that breaks all of them (BIBLE §10).
 - **When a report differs from the wiki, push back.** Quote what the wiki says, repeat the conditions as you understood them (enemy and body part, weapon, firing mode, every mod and its rank, aiming, what was read off), and ask for the conditions and results to be stated back. Until they are, the wiki's rule stands, the fixture waits, and nothing is written down as wrong. Look for the mundane reason first: another enemy, another variant of the weapon, a Riven, a buff.
 - Ask for the numbers that were seen, not whether predictions match, when the wiki says something else.
 - **Distances in the Simulacrum:** the lines of the floor are 4 m apart, and Follie's barrel on a crossing is a neutral target that stays put. Readings of a waypoint are a metre coarse.
-- Gates: Gate 1 is T-1 to T-4, T-14, T-17 to T-35 and T-41, all answered; Gate 2 is T-5 to T-10 and T-13; Gate 3 is T-11, T-12, T-15 and T-16; Gate 4 is the sample builds.
+- Gates: Gate 1 is T-1 to T-4, T-14, T-17 to T-35 and T-41, all answered; Gate 2 is T-5 to T-10, T-13 and T-36 to T-40; Gate 3 is T-11, T-12, T-15 and T-16; Gate 4 is the sample builds.
 
 ## The app
 

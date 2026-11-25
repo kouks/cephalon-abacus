@@ -28,10 +28,11 @@ type Brought = {
 };
 
 /** Library files with what the fixture brings. */
-const filesOf = ({ modules = [], weapons = [], gameVersion }: GoldenFixture) => {
+const filesOf = ({ modules = [], weapons = [], enemies = [], gameVersion }: GoldenFixture) => {
   const brought: readonly Brought[] = [
     { path: 'mods/fixture.json', source: 'https://wiki.warframe.com/w/Riven_Mods', items: modules },
     { path: 'weapons/fixture.json', source: 'https://wiki.warframe.com/w/Weapons', items: weapons },
+    { path: 'enemies/fixture.json', source: 'https://wiki.warframe.com/w/Enemies', items: enemies },
   ];
   return brought
     .filter(({ items }) => items.length > 0)
@@ -41,7 +42,7 @@ const filesOf = ({ modules = [], weapons = [], gameVersion }: GoldenFixture) => 
     }));
 };
 
-/** The real library, with the modules and weapons that a fixture brings. */
+/** The real library, with the modules, weapons and enemies that a fixture brings. */
 export const libraryWith = (fixture: GoldenFixture) => {
   const loaded = loadLibrary([...readLibrary(), ...filesOf(fixture)]);
   if (!loaded.ok) throw new Error(loaded.errors.map(formatError).join('\n'));

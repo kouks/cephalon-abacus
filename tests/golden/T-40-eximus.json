@@ -1,0 +1,251 @@
+{
+  "id": "T-40",
+  "question": "How much Overguard and health does an Eximus have?",
+  "bible": "§10",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "| Charger Eximus 27 | A | Until the Overguard is gone: 8 white 4 yellow last white | Until it dies after that: 16 white 4 yellow last crit |\n| Charger Eximus 27 | A | 9 white 3 yellow last yellow | 17 white 3 yellow last white |\n| Any Eximus 35 | B | 12 white 2 yellow last white | not needed |\nEximus type and enemy used: Drekar Lancer Blitz Eximus"
+    }
+  ],
+  "notes": "Asked for in the Simulacrum with AI paused, one enemy at a time, at its body from about 5 m, with Arca Plasmor, and no numbers were predicted to Pavel. Loadout A has no mods, and B has Primed Point Blank at max, as Pavel confirmed. The hits are counted until the enemy is gone, so all but the last of them were not enough. Steel Path off. The first two are a Charger Eximus (\"both venomous I think\") and the third the Drekar Lancer, as Pavel confirmed. What is left of the hit that breaks Overguard goes on to health, as the wiki says; the runs allow a health of 12,484 to 13,084 without that, too. Arca Plasmor is in the fixture for the reason in T-27.",
+  "weapons": [
+    {
+      "id": "arca-plasmor",
+      "name": "Arca Plasmor",
+      "uniqueName": "/Lotus/Weapons/Corpus/LongGuns/CrpShotgun/CrpShotgun",
+      "source": "https://wiki.warframe.com/w/Arca_Plasmor",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["shotgun"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 10,
+        "maxAmmo": 50,
+        "reloadStyle": "magazine",
+        "reloadTime": 2.8
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "radiation": 600
+          },
+          "trigger": "semi",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.22,
+          "critMultiplier": 1.6,
+          "statusChance": 0.28,
+          "fireRate": 1.1,
+          "ammoCost": 1,
+          "falloff": {
+            "start": 10,
+            "end": 20,
+            "minPct": 0.3333
+          },
+          "range": 30,
+          "projectileSpeed": 60,
+          "flags": ["canCrit"]
+        }
+      ]
+    }
+  ],
+  "enemies": [
+    {
+      "id": "charger-eximus",
+      "name": "Charger Eximus",
+      "source": "https://wiki.warframe.com/w/Charger",
+      "gameVersion": "44.1.4.1",
+      "faction": "infested",
+      "scalingProfile": "infested",
+      "baseLevel": 1,
+      "baseHealth": 80,
+      "baseShield": 0,
+      "baseArmor": 0,
+      "baseOverguard": 12,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 1,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ],
+      "flags": ["eximus"]
+    },
+    {
+      "id": "drekar-lancer-eximus",
+      "name": "Drekar Lancer Eximus",
+      "source": "https://wiki.warframe.com/w/Lancer",
+      "gameVersion": "44.1.4.1",
+      "faction": "grineer",
+      "scalingProfile": "grineer",
+      "baseLevel": 1,
+      "baseHealth": 100,
+      "baseShield": 0,
+      "baseArmor": 100,
+      "baseOverguard": 12,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 3,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ],
+      "flags": ["eximus"]
+    }
+  ],
+  "tolerance": {},
+  "cases": [
+    {
+      "name": "Charger Eximus at level 27, run 1",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "charger-eximus",
+          "level": 27,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "depleted": [
+          {
+            "layer": "overguard",
+            "hits": {
+              "white": 8,
+              "yellow": 4
+            },
+            "last": "white"
+          },
+          {
+            "layer": "health",
+            "hits": {
+              "white": 16,
+              "yellow": 4
+            },
+            "last": "yellow"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Charger Eximus at level 27, run 2",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "charger-eximus",
+          "level": 27,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "depleted": [
+          {
+            "layer": "overguard",
+            "hits": {
+              "white": 9,
+              "yellow": 3
+            },
+            "last": "yellow"
+          },
+          {
+            "layer": "health",
+            "hits": {
+              "white": 17,
+              "yellow": 3
+            },
+            "last": "white"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Drekar Lancer Eximus at level 35",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [
+            {
+              "moduleId": "primed-point-blank",
+              "rank": 10
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "drekar-lancer-eximus",
+          "level": 35,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "depleted": [
+          {
+            "layer": "overguard",
+            "hits": {
+              "white": 12,
+              "yellow": 2
+            },
+            "last": "white"
+          }
+        ]
+      }
+    }
+  ]
+}

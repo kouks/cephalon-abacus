@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 
 import { evaluate } from '@abacus/engine';
 
-import { compare, describeMismatch, isMatch } from './compare';
+import { compare } from './compare';
+import { describeMismatch, isMatch } from './comparison';
 import { libraryWith, loadFixtures } from './loadFixtures';
 
 /** What a result says about itself even when it is right: a test can be about a miss. */

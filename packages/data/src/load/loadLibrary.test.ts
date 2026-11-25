@@ -87,7 +87,7 @@ describe('a bad file', () => {
 
   it('in an unknown folder', () => {
     expect(errorsOf(libraryFile('rifles/a.json', weapon))).toEqual([
-      'rifles/a.json: No schema for this file. Places: damageTypes.json, buckets.json, factions.json, weapons, mods, arcanes, buffs, enemies',
+      'rifles/a.json: No schema for this file. Places: damageTypes.json, buckets.json, factions.json, scaling.json, weapons, mods, arcanes, buffs, enemies',
     ]);
   });
 });

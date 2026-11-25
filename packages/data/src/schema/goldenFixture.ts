@@ -1,8 +1,18 @@
 import { z } from 'zod';
 
 import { damageTypeSchema } from './damageType';
+import { layerSchema } from './damageTypeRule';
+import { enemySchema } from './enemy';
 import { moduleSchema } from './module';
-import { gameVersionSchema, list, nonNegative, object, positive, slugSchema } from './primitives';
+import {
+  gameVersionSchema,
+  list,
+  nonNegative,
+  object,
+  positive,
+  positiveInt,
+  slugSchema,
+} from './primitives';
 import { scenarioSchema } from './scenario';
 import { weaponSchema } from './weapon';
 
@@ -10,6 +20,14 @@ import { weaponSchema } from './weapon';
 export const COLOURS = ['white', 'yellow', 'orange', 'red'] as const;
 
 const colourSchema = z.enum(COLOURS);
+
+/** The hits that a layer took until it was gone. */
+const depletedSchema = object({
+  layer: layerSchema,
+  hits: z.partialRecord(colourSchema, positiveInt).readonly(),
+  /** The one that finished it, which is among the hits. */
+  last: colourSchema,
+}).refine(({ hits, last }) => hits[last] !== undefined, 'Expected the last hit among the hits');
 
 /** What was seen in the game, exactly as it was reported. */
 const observedSchema = object({
@@ -27,6 +45,8 @@ const observedSchema = object({
   firing: list(
     object({ shots: z.union([positive, z.literal('magazine')]), seconds: positive }),
   ).exactOptional(),
+  /** What wore an enemy down, layer by layer. The rest of a layer's last hit goes to the next. */
+  depleted: z.array(depletedSchema).min(1).readonly().exactOptional(),
   /** Types that never proc'd. */
   neverProcs: list(damageTypeSchema).exactOptional(),
 })
@@ -58,6 +78,7 @@ export const goldenFixtureSchema = object({
   /** What the library doesn't have, e.g. a Riven. */
   modules: list(moduleSchema).exactOptional(),
   weapons: list(weaponSchema).exactOptional(),
+  enemies: list(enemySchema).exactOptional(),
   tolerance: toleranceSchema,
   cases: z
     .array(object({ name: z.string().min(1), scenario: scenarioSchema, observed: observedSchema }))
@@ -66,6 +87,7 @@ export const goldenFixtureSchema = object({
 });
 
 export type Colour = z.infer<typeof colourSchema>;
+export type Depleted = z.infer<typeof depletedSchema>;
 export type Observed = z.infer<typeof observedSchema>;
 export type Tolerance = z.infer<typeof toleranceSchema>;
 export type GoldenFixture = z.infer<typeof goldenFixtureSchema>;

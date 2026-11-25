@@ -10,7 +10,7 @@ import { realAttack, realLibrary as library } from './realAttack.ts';
 
 const DUMMY = findTarget('neutral-dummy', library);
 
-const CHARGER = findTarget('charger', library);
+const RUNNER = findTarget('runner', library);
 
 type Shot = {
   readonly modules?: readonly string[];
@@ -20,7 +20,7 @@ type Shot = {
 };
 
 const resolve = (weaponId: string, attackId: string, shot: Shot = {}) => {
-  const { modules = [], on = 'body', target = CHARGER, assumptions = {} } = shot;
+  const { modules = [], on = 'body', target = RUNNER, assumptions = {} } = shot;
   const part = must(target.parts.get(on), `No ${on}`);
   const { bodyParts } = part;
   const built = realAttack(weaponId, attackId, { modules, bodyParts, assumptions });

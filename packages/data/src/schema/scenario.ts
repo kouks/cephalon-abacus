@@ -33,6 +33,7 @@ const buildSchema = object({
 const targetSchema = object({
   id: slugSchema,
   level: z.int().min(1).max(9999),
+  /** More health and shields. It leaves the level alone. */
   steelPath: z.boolean(),
   modifiers: list(moduleInstanceSchema),
 });

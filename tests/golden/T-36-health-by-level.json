@@ -1,0 +1,401 @@
+{
+  "id": "T-36",
+  "question": "How does health grow with the level?",
+  "bible": "§10",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "Runner.\n| Level | Loadout | Run 1: whites, yellows, last | Run 2: whites, yellows, last |\n| 50 | A | 5 white 6 yellow last yellow | 13 white, 1 yellow last white |\n| 75 | B | 12 white 3 yellow last yellow | 14 white, 2 yellow last white |\n| 100 | B | 19 white 6 yellow last white | 22 white 4 yellow last white |\n| 200 | B | 33 white 9 yellow last yellow | 30 white 10 yellow last white |"
+    }
+  ],
+  "notes": "Asked for in the Simulacrum with AI paused, one enemy at a time, at its body from about 5 m, with Arca Plasmor, and no numbers were predicted to Pavel. Loadout A has no mods, and B has Primed Point Blank at max, as Pavel confirmed. The hits are counted until the enemy is gone, so all but the last of them were not enough. Level 75 is inside the blend of the two curves: a straight blend would give 26,771, and the runs allow 25,764 to 26,721. At 200 they allow 72,847 to 73,171. Arca Plasmor is in the fixture for the reason in T-27.",
+  "weapons": [
+    {
+      "id": "arca-plasmor",
+      "name": "Arca Plasmor",
+      "uniqueName": "/Lotus/Weapons/Corpus/LongGuns/CrpShotgun/CrpShotgun",
+      "source": "https://wiki.warframe.com/w/Arca_Plasmor",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["shotgun"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 10,
+        "maxAmmo": 50,
+        "reloadStyle": "magazine",
+        "reloadTime": 2.8
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "radiation": 600
+          },
+          "trigger": "semi",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.22,
+          "critMultiplier": 1.6,
+          "statusChance": 0.28,
+          "fireRate": 1.1,
+          "ammoCost": 1,
+          "falloff": {
+            "start": 10,
+            "end": 20,
+            "minPct": 0.3333
+          },
+          "range": 30,
+          "projectileSpeed": 60,
+          "flags": ["canCrit"]
+        }
+      ]
+    }
+  ],
+  "tolerance": {},
+  "cases": [
+    {
+      "name": "level 50, run 1",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 50,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "depleted": [
+          {
+            "layer": "health",
+            "hits": {
+              "white": 5,
+              "yellow": 6
+            },
+            "last": "yellow"
+          }
+        ]
+      }
+    },
+    {
+      "name": "level 50, run 2",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 50,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "depleted": [
+          {
+            "layer": "health",
+            "hits": {
+              "white": 13,
+              "yellow": 1
+            },
+            "last": "white"
+          }
+        ]
+      }
+    },
+    {
+      "name": "level 75, run 1",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [
+            {
+              "moduleId": "primed-point-blank",
+              "rank": 10
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 75,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "depleted": [
+          {
+            "layer": "health",
+            "hits": {
+              "white": 12,
+              "yellow": 3
+            },
+            "last": "yellow"
+          }
+        ]
+      }
+    },
+    {
+      "name": "level 75, run 2",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [
+            {
+              "moduleId": "primed-point-blank",
+              "rank": 10
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 75,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "depleted": [
+          {
+            "layer": "health",
+            "hits": {
+              "white": 14,
+              "yellow": 2
+            },
+            "last": "white"
+          }
+        ]
+      }
+    },
+    {
+      "name": "level 100, run 1",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [
+            {
+              "moduleId": "primed-point-blank",
+              "rank": 10
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 100,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "depleted": [
+          {
+            "layer": "health",
+            "hits": {
+              "white": 19,
+              "yellow": 6
+            },
+            "last": "white"
+          }
+        ]
+      }
+    },
+    {
+      "name": "level 100, run 2",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [
+            {
+              "moduleId": "primed-point-blank",
+              "rank": 10
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 100,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "depleted": [
+          {
+            "layer": "health",
+            "hits": {
+              "white": 22,
+              "yellow": 4
+            },
+            "last": "white"
+          }
+        ]
+      }
+    },
+    {
+      "name": "level 200, run 1",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [
+            {
+              "moduleId": "primed-point-blank",
+              "rank": 10
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "depleted": [
+          {
+            "layer": "health",
+            "hits": {
+              "white": 33,
+              "yellow": 9
+            },
+            "last": "yellow"
+          }
+        ]
+      }
+    },
+    {
+      "name": "level 200, run 2",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [
+            {
+              "moduleId": "primed-point-blank",
+              "rank": 10
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "depleted": [
+          {
+            "layer": "health",
+            "hits": {
+              "white": 30,
+              "yellow": 10
+            },
+            "last": "white"
+          }
+        ]
+      }
+    }
+  ]
+}
