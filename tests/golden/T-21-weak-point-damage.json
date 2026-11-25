@@ -1,0 +1,100 @@
+{
+  "id": "T-21",
+  "question": "How does weak point damage count on a head, and what is Acuity’s real value?",
+  "bible": "§11",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "all numbers in those tables are correct"
+    },
+    {
+      "on": "2026-11-25",
+      "words": "I actually used Runner because I thought I couldn't find the Charger's head, didn't know it had no headshot multiplier."
+    },
+    {
+      "on": "2026-11-25",
+      "words": "Nagantaka Prime, only maxed Primary Acuity, Runner 200 headshot. Head yellow: 9526. Head orange: 16979."
+    }
+  ],
+  "notes": "The tables held these values as predictions, for a Charger at level 200. The wiki says 350%, so the last report restates the conditions and the results. 350% instead of 349.8% would show 9530 and 16985 on the head, and weak point damage once instead of 1.5 times 7506 and 13378.",
+  "tolerance": {
+    "hits": 0.5
+  },
+  "cases": [
+    {
+      "name": "on the body",
+      "scenario": {
+        "build": {
+          "weaponId": "nagantaka-prime",
+          "modules": [
+            {
+              "moduleId": "primary-acuity"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 251,
+          "yellow": 578
+        }
+      }
+    },
+    {
+      "name": "on the head",
+      "scenario": {
+        "build": {
+          "weaponId": "nagantaka-prime",
+          "modules": [
+            {
+              "moduleId": "primary-acuity"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 1,
+          "body": 0
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "yellow": 9526,
+          "orange": 16979
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "id": "T-4",
+  "question": "How do crit tiers and headcrits multiply?",
+  "bible": "§7",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-24",
+      "words": "T4 on the body matches 40, 262 and 485, on the head however it's 1574 and 3030, not 3029 as you predicted."
+    },
+    {
+      "on": "2026-11-25",
+      "words": "I actually used Runner because I thought I couldn't find the Charger's head, didn't know it had no headshot multiplier."
+    }
+  ],
+  "notes": "The first message said 30, which was a typo for 40. 3029 was the prediction before base crit multipliers were quantized; 1145 and 2171 would mean that a headcrit multiplies only the base. Aiming throughout, on a Runner instead of the Charger that was asked for. A Charger's mouth is 1x, and a Runner's head 3x.",
+  "tolerance": {
+    "hits": 0.5
+  },
+  "cases": [
+    {
+      "name": "on the body, before any headshot",
+      "scenario": {
+        "build": {
+          "weaponId": "soma-prime",
+          "modules": [
+            {
+              "moduleId": "serration"
+            },
+            {
+              "moduleId": "vital-sense"
+            },
+            {
+              "moduleId": "critical-delay"
+            },
+            {
+              "moduleId": "galvanized-scope"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": [
+              {
+                "sourceId": "galvanized-scope",
+                "trigger": "whileAiming",
+                "state": "on"
+              }
+            ]
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 100,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 40,
+          "yellow": 262
+        }
+      }
+    },
+    {
+      "name": "on the body, after a headshot",
+      "scenario": {
+        "build": {
+          "weaponId": "soma-prime",
+          "modules": [
+            {
+              "moduleId": "serration"
+            },
+            {
+              "moduleId": "vital-sense"
+            },
+            {
+              "moduleId": "critical-delay"
+            },
+            {
+              "moduleId": "galvanized-scope"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": [
+              {
+                "sourceId": "galvanized-scope",
+                "trigger": "whileAiming",
+                "state": "on"
+              },
+              {
+                "sourceId": "galvanized-scope",
+                "trigger": "onWeakPointHit",
+                "state": "on"
+              }
+            ]
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 100,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "yellow": 262,
+          "orange": 485
+        }
+      }
+    },
+    {
+      "name": "on the head",
+      "scenario": {
+        "build": {
+          "weaponId": "soma-prime",
+          "modules": [
+            {
+              "moduleId": "serration"
+            },
+            {
+              "moduleId": "vital-sense"
+            },
+            {
+              "moduleId": "critical-delay"
+            },
+            {
+              "moduleId": "galvanized-scope"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": [
+              {
+                "sourceId": "galvanized-scope",
+                "trigger": "whileAiming",
+                "state": "on"
+              },
+              {
+                "sourceId": "galvanized-scope",
+                "trigger": "onWeakPointHit",
+                "state": "on"
+              }
+            ]
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 100,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 1,
+          "body": 0
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "yellow": 1574,
+          "orange": 3030
+        }
+      }
+    }
+  ]
+}

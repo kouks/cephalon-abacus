@@ -1,0 +1,57 @@
+{
+  "id": "T-17",
+  "question": "How many burst delays does a burst have?",
+  "bible": "§9",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-24",
+      "words": "Base Burston fire rate is 5 and it seems to take 3.2 seconds to fire 10 bursts."
+    }
+  ],
+  "notes": "Two delays per burst take 3.22 s, and three 3.83 s.",
+  "tolerance": {
+    "arsenal": 0,
+    "seconds": 0.1
+  },
+  "cases": [
+    {
+      "name": "10 bursts of 3, unmodded Burston",
+      "scenario": {
+        "build": {
+          "weaponId": "burston",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "arsenal": {
+          "fireRate": 5
+        },
+        "firing": [
+          {
+            "shots": 30,
+            "seconds": 3.2
+          }
+        ]
+      }
+    }
+  ]
+}

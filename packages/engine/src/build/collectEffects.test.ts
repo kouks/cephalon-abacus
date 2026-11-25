@@ -155,6 +155,35 @@ describe('locks', () => {
   });
 });
 
+describe('what an effect requires', () => {
+  const requiring = (trigger: string, max?: number) =>
+    add('crit.chance', 0.4, {
+      condition: { ...when(trigger, max).condition, requires: ['whileAiming'] },
+    });
+
+  it('is a switch of its own, listed once', () => {
+    const scope = mod('scope', [requiring('onWeakPointHit'), requiring('onWeakPointKill', 5)]);
+    const { conditionals } = collect({ modules: [scope] });
+    expect(conditionals.map(({ key, maxStacks }) => [key, maxStacks])).toEqual([
+      ['scope onWeakPointHit', 1],
+      ['scope onWeakPointKill', 5],
+      ['scope whileAiming', 1],
+    ]);
+  });
+
+  it('leaves the stacks of a switch that is also an effect’s own', () => {
+    const scope = mod('scope', [
+      requiring('onWeakPointHit'),
+      add('multishot', 0.1, when('whileAiming', 3)),
+    ]);
+    const { conditionals } = collect({ modules: [scope] });
+    expect(conditionals.map(({ key, maxStacks }) => [key, maxStacks])).toEqual([
+      ['scope onWeakPointHit', 1],
+      ['scope whileAiming', 3],
+    ]);
+  });
+});
+
 describe('conditionals', () => {
   const switches = (conditionals: object) => {
     const modules = [GALVANIZED_CHAMBER, GALVANIZED_SCOPE];
@@ -175,7 +204,7 @@ describe('conditionals', () => {
     const { found } = switches({ all: 'off', overrides: [] });
     expect(found.map(({ key, maxStacks }) => [key, maxStacks])).toEqual([
       ['galvanized-chamber onKill', 5],
-      ['galvanized-scope onHeadshot', 1],
+      ['galvanized-scope onWeakPointHit', 1],
       ['galvanized-scope onWeakPointKill', 5],
     ]);
   });
@@ -183,7 +212,7 @@ describe('conditionals', () => {
   it('all start full when the global switch is on', () => {
     expect(switches({ all: 'on', overrides: [] }).stacks).toEqual({
       'galvanized-chamber onKill': 5,
-      'galvanized-scope onHeadshot': 1,
+      'galvanized-scope onWeakPointHit': 1,
       'galvanized-scope onWeakPointKill': 5,
     });
   });
@@ -196,13 +225,13 @@ describe('conditionals', () => {
   it('can each differ from the global switch, in both directions', () => {
     expect(switches({ all: 'off', overrides: [chamber('on')] }).stacks).toEqual({
       'galvanized-chamber onKill': 5,
-      'galvanized-scope onHeadshot': 0,
+      'galvanized-scope onWeakPointHit': 0,
       'galvanized-scope onWeakPointKill': 0,
     });
-    const headshot = { sourceId: 'galvanized-scope', trigger: 'onHeadshot', state: 'off' };
+    const headshot = { sourceId: 'galvanized-scope', trigger: 'onWeakPointHit', state: 'off' };
     expect(switches({ all: 'on', overrides: [headshot] }).stacks).toEqual({
       'galvanized-chamber onKill': 5,
-      'galvanized-scope onHeadshot': 0,
+      'galvanized-scope onWeakPointHit': 0,
       'galvanized-scope onWeakPointKill': 5,
     });
   });

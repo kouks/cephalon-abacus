@@ -18,7 +18,7 @@ This file describes the architecture and the conventions. When a convention chan
 - **Mechanics, formulas and architecture:** the BIBLE, our R&D spec, is a Claude Doc: [Cephalon Abacus — Research & Engine Spec](https://claude.ai/artifact/9uUVRXTC8cFiNbKHx8oJhs). It changes as we learn, so it lives only there: read and edit it with the Claude Docs tools, and don't copy it into the repo. Cite it in code comments, tests and tickets as `BIBLE §8`; keep its section numbers stable. It tags every rule: **[W]** wiki, consistent; **[W?]** wiki, incomplete or self-contradictory; **[C]** community, unverified; **[T]** needs an in-game test. When the code learns something the BIBLE doesn't say, or proves it wrong, update it as part of the same ticket and say so in the pull request.
 - **Work:** Linear, team **ABA** (`linear.app/kx-abacus`). One project per phase: Abacus 1: Core engine, Abacus 2: Status and enemies, Abacus 3: Melee and buffs, Abacus 4: Breadth and hooks. Each project has acceptance criteria and ends in a gate ticket of in-game tests. Each ticket has Goal, Steps, Done when and Spec.
 - **Game data:** wiki.warframe.com, the official wiki since 2025. **Never the Fandom wiki:** it is a stale fork. Then WFCD's `@wfcd/items`, DE's Public Export, and warframe.com patch notes for every hotfix.
-- **Ground truth:** Pavel's in-game tests (see In-game tests). When a test and the wiki disagree, the test wins and the BIBLE records why.
+- **Ground truth:** Pavel's in-game tests (see In-game tests). But the wiki is right most of the time, so a test that disagrees with it doesn't win by itself: push back first. Only what Pavel then confirms, with every condition and result stated back, overrules the wiki, and the BIBLE records why.
 - **Game version:** the library targets one version at a time, currently Update 44, Hotfix 44.1.4.1. Every item records the version it was checked against.
 
 ## Commands
@@ -88,7 +88,7 @@ packages/
   importers/        wiki Lua, WFCD and enemy importers; overrides/ holds hand corrections
   app/              Vite + React; src/engine/ is the Worker and its bridge, src/format/ the
                     formatting module, src/debug/ what the debug page is made of, src/theme/ the theme
-tests/golden/       in-game fixtures, one file per test
+tests/golden/       in-game fixtures, one file per test, and their runner
 tools/              architecture test, ESLint config test, git checks, library checks
 eslint/             ESLint config modules, composed by eslint.config.ts
 docs/data-updates.md   refreshing the library for a new game version
@@ -123,7 +123,7 @@ data  →  importers
 - **Precision.** Keep full precision through the pipeline. Quantize only where the BIBLE says: each type's ratio, to 1/32 of base damage (§6), and the base crit multiplier, to 32/4095 (§7). Round only for display. Proc DoTs are never quantized.
 - **Units.** Percentages are fractions (+165% is `1.65`), times are seconds, distances are metres. Field names follow the BIBLE (`critChance`, `critMultiplier`, `fireRate`, `chargeTime`).
 - **One code path, two modes.** Expected value and Monte Carlo differ only in the `Roller`. What works in one mode works in both; the convergence property test guards it.
-- **Conditionals are switches.** A conditional is the effects of one module (or the weapon) on one trigger. The scenario has a global on/off and overrides per conditional. A switch sets the stacks it starts with: on is all of them, off is none. In a simulation they expire as in the game. `collectEffects` never bakes stacks in, so a simulation can change them without reading modules again.
+- **Conditionals are switches.** A conditional is the effects of one module (or the weapon) on one trigger. What an effect `requires` as well (Galvanized Scope: `whileAiming`) is a switch of its own. The scenario has a global on/off and overrides per conditional. A switch sets the stacks it starts with: on is all of them, off is none. In a simulation they expire as in the game. `collectEffects` never bakes stacks in, so a simulation can change them without reading modules again.
 - **A build that doesn't work as written returns warnings**, as codes with data, and a usable result. So does a result that leaves out something the weapon does (`leftOut`). It throws only when there is nothing to evaluate.
 - **Pellets resolve one at a time** against the shared enemy state, so later pellets see earlier procs (BIBLE §5). Direct hits and their AoE share that state too.
 
@@ -145,8 +145,10 @@ data  →  importers
 
 - Pavel runs tests in the game on request. Ask in batches of 3–4, and only once the engine has the code a test exercises, so each report can be replayed at once.
 - Use the request template in BIBLE §16: Simulacrum, enemy and level, weapon and rank, every mod and its rank, no arcanes, companion or abilities unless they are the variable, body or head, and what to report. Change one variable per test.
-- Each report becomes `tests/golden/T-<n>-<topic>.json` (`T-5-cold-crit.json`) with the observed values exactly as reported, the game version, and a tolerance. Never edit an observed value to make a test pass.
-- Gates: Gate 1 is T-1 to T-4, T-14 and T-17; Gate 2 is T-5 to T-10 and T-13; Gate 3 is T-11, T-12, T-15 and T-16; Gate 4 is the sample builds.
+- Each report becomes `tests/golden/T-<n>-<topic>.json` (`T-5-cold-crit.json`) with the report word for word (typos fixed), the observed values exactly as reported, the game version, and a tolerance (`schema/goldenFixture.ts`). Each case holds a whole `Scenario`, which the debug page takes as it is. Never edit an observed value to make a test pass.
+- **When a report differs from the wiki, push back.** Quote what the wiki says, repeat the conditions as you understood them (enemy and body part, weapon, firing mode, every mod and its rank, aiming, what was read off), and ask for the conditions and results to be stated back. Until they are, the wiki's rule stands, the fixture waits, and nothing is written down as wrong. Look for the mundane reason first: another enemy, another variant of the weapon, a Riven, a buff.
+- Ask for the numbers that were seen, not whether predictions match, when the wiki says something else.
+- Gates: Gate 1 is T-1 to T-4, T-14 and T-17 to T-22, all answered; Gate 2 is T-5 to T-10 and T-13; Gate 3 is T-11, T-12, T-15 and T-16; Gate 4 is the sample builds.
 
 ## The app
 
@@ -218,7 +220,7 @@ Split long files by concern, extract helpers, and use early returns and lookup t
 - **Vitest**, one project per package plus `tools`. Pure logic gets thorough unit tests. Coverage of `packages/engine` must stay at or above 90%.
 - **Every worked example in the BIBLE is a unit test**, named after it (`gram crit chance at 7x combo is 69%`).
 - **Property tests** (fast-check): the Monte Carlo mean converges to the expected value; damage is never negative; a module with only positive effects never lowers expected damage, except documented traps (Acuity locks multishot; an element can re-pair the others).
-- **Golden fixtures** run through the public API on every pull request (see In-game tests). A mismatch prints a factor-by-factor diff from the trace.
+- **Golden fixtures** run through the public API on every pull request (see In-game tests). A mismatch prints the hit's factors, and what each would have to be to explain the reported number on its own. What a fixture covers needs no test elsewhere.
 - **A test must be able to fail.** Change the constant it checks and watch it go red before trusting it.
 - **Playwright** with axe, once the app has screens.
 

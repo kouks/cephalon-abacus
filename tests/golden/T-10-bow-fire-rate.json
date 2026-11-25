@@ -1,0 +1,88 @@
+{
+  "id": "T-10",
+  "question": "Do fire rate bonuses count twice on bows?",
+  "bible": "§9",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-24",
+      "words": "Default charge time: 0.5s. Speed Trigger R5 charge time: 0.23s."
+    }
+  ],
+  "notes": "Once would be 0.3125 s.",
+  "tolerance": {
+    "arsenal": 0.005
+  },
+  "cases": [
+    {
+      "name": "Paris without mods",
+      "scenario": {
+        "build": {
+          "weaponId": "paris",
+          "attackId": "charged",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "arsenal": {
+          "chargeTime": 0.5
+        }
+      }
+    },
+    {
+      "name": "Paris with Speed Trigger",
+      "scenario": {
+        "build": {
+          "weaponId": "paris",
+          "attackId": "charged",
+          "modules": [
+            {
+              "moduleId": "speed-trigger"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "arsenal": {
+          "chargeTime": 0.23
+        }
+      }
+    }
+  ]
+}

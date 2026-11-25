@@ -124,6 +124,30 @@ describe('Galvanized Chamber', () => {
   });
 });
 
+describe('an effect that requires something else', () => {
+  const SCOPE = mod('scope', [
+    add('crit.chance', 1.2, {
+      condition: { trigger: 'onWeakPointHit', requires: ['whileAiming'], target: 'self' },
+    }),
+  ]);
+  const chance = (...triggers: readonly string[]) => {
+    const overrides = triggers.map((trigger) => ({ sourceId: 'scope', trigger, state: 'on' }));
+    const conditionals = { all: 'off', overrides };
+    return value(totals([SCOPE], { conditionals }), 'crit.chance');
+  };
+
+  it('counts only if both hold', () => {
+    expect(chance('onWeakPointHit', 'whileAiming')).toBeCloseTo(2.2, 12);
+    expect(chance('onWeakPointHit')).toBe(1);
+    expect(chance('whileAiming')).toBe(1);
+    expect(chance()).toBe(1);
+  });
+
+  it('counts when everything is on', () => {
+    expect(value(totals([SCOPE], { conditionals: ON }), 'crit.chance')).toBeCloseTo(2.2, 12);
+  });
+});
+
 describe('scaled values', () => {
   const moment = (statusType: number) => ({
     stacks: new Map([['galvanized-aptitude onKill', 2]]),

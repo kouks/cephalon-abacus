@@ -2,6 +2,7 @@ import type { Attack } from '@abacus/data/schema/attack';
 import type { Scenario } from '@abacus/data/schema/scenario';
 
 import { buildAttack } from '@/build/buildAttack';
+import type { Composition } from '@/build/composition/composeDamage';
 import type { Loadout } from '@/build/loadout';
 import type { AttackRates } from '@/build/stats/attackRates';
 import type { AttackStats } from '@/build/stats/attackStats';
@@ -28,6 +29,8 @@ export type AttackMetrics = Headline & {
   readonly name: string;
   readonly stats: AttackStats;
   readonly rates: AttackRates;
+  /** Its damage by type, before and after quantization. */
+  readonly composition: Composition;
   /** The shot itself, then those it sets off. */
   readonly shots: readonly { readonly attackId: string; readonly shot: ExpectedShot }[];
 };
@@ -58,7 +61,7 @@ export const attackMetrics = (loadout: Loadout, attack: Attack, fight: Fight): A
     return { attackId: fired.id, shot: expectedShot({ buildFor, ...fight }) };
   });
   const perShot = shots.reduce((sum, { shot }) => sum + shot.total, 0);
-  const { stats, rates } = buildAttack(loadout, attack);
+  const { stats, rates, composition } = buildAttack(loadout, attack);
   const { id: attackId, name } = attack;
-  return { attackId, name, ...headline(perShot, stats, rates), stats, rates, shots };
+  return { attackId, name, ...headline(perShot, stats, rates), stats, rates, composition, shots };
 };

@@ -1,0 +1,147 @@
+{
+  "id": "T-3",
+  "question": "Which elements form, in which mod order, on a weapon with an innate element?",
+  "bible": "§6",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-24",
+      "words": "T1 and T2 both match the quantized values. T3 is correct as stated in the table."
+    }
+  ],
+  "notes": "Read off the arsenal. The predictions that matched are the observed values.",
+  "tolerance": {
+    "arsenal": 0.05
+  },
+  "cases": [
+    {
+      "name": "Hellfire, Cryo Rounds, Infected Clip",
+      "scenario": {
+        "build": {
+          "weaponId": "amprex",
+          "modules": [
+            {
+              "moduleId": "hellfire"
+            },
+            {
+              "moduleId": "cryo-rounds"
+            },
+            {
+              "moduleId": "infected-clip"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "arsenalDamage": {
+          "blast": 39.6,
+          "corrosive": 41.8
+        }
+      }
+    },
+    {
+      "name": "Cryo Rounds, Infected Clip, Hellfire",
+      "scenario": {
+        "build": {
+          "weaponId": "amprex",
+          "modules": [
+            {
+              "moduleId": "cryo-rounds"
+            },
+            {
+              "moduleId": "infected-clip"
+            },
+            {
+              "moduleId": "hellfire"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "arsenalDamage": {
+          "viral": 39.6,
+          "radiation": 41.8
+        }
+      }
+    },
+    {
+      "name": "Hellfire, Infected Clip, Cryo Rounds",
+      "scenario": {
+        "build": {
+          "weaponId": "amprex",
+          "modules": [
+            {
+              "moduleId": "hellfire"
+            },
+            {
+              "moduleId": "infected-clip"
+            },
+            {
+              "moduleId": "cryo-rounds"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "arsenalDamage": {
+          "gas": 39.6,
+          "magnetic": 41.8
+        }
+      }
+    }
+  ]
+}

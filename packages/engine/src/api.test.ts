@@ -59,6 +59,7 @@ describe('evaluate', () => {
     expect(Object.keys(result.byAttack[0] ?? {}).sort()).toEqual([
       'attackId',
       'burstDps',
+      'composition',
       'lifetimeDamage',
       'name',
       'perShot',

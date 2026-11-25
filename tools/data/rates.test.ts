@@ -27,6 +27,7 @@ describe('the seed weapons', () => {
         "Braton, Normal Attack: 8.75/s, 45 shots, shooting 72%",
         "Soma Prime, Fully Spooled: 15/s, 200 shots, shooting 81.63%",
         "Tigris Prime, Normal Attack: 2/s, 2 shots, shooting 35.71%",
+        "Vectis, Normal Attack: 1.5/s, 1 shots, shooting 66.67%",
         "Vectis Prime, Normal Attack: 2.67/s, 2 shots, shooting 61.22%",
         "Paris, Uncharged Shot: 1/s, 1 shots, shooting 60.61%",
         "Paris, Charged Shot: 0.87/s, 1 shots, shooting 100%",
@@ -39,40 +40,6 @@ describe('the seed weapons', () => {
         "Kuva Nukor, Normal Attack: 10/s, 154 shots, shooting 88.51%",
       ]
     `);
-  });
-});
-
-describe('as measured in the game', () => {
-  it('T-17: 10 Burston bursts take 3.2 s', () => {
-    const { effectiveFireRate } = measure('burston', 'normal').rates;
-    expect((10 * 3) / effectiveFireRate).toBeCloseTo(3.2, 1);
-  });
-
-  it('T-10: Paris charges in 0.5 s, and in 0.23 s with Speed Trigger', () => {
-    expect(measure('paris', 'charged').stats.chargeTime?.value).toBe(0.5);
-    const { chargeTime } = measure('paris', 'charged', ['speed-trigger']).stats;
-    expect(chargeTime?.value).toBeCloseTo(0.23, 2);
-  });
-
-  it('magazines round to the nearest integer of a 32-bit product, here with Magazine Warp', () => {
-    const rounds = (weaponId: string, attackId: string, rank: number) => {
-      const modules = [{ moduleId: 'magazine-warp', rank }];
-      return measure(weaponId, attackId, modules).stats.magazine?.value;
-    };
-    expect(rounds('nagantaka-prime', 'semi-auto', 5)).toBe(14);
-    expect(rounds('braton', 'normal', 5)).toBe(58);
-    expect(rounds('braton', 'normal', 1)).toBe(50);
-    expect(rounds('vectis-prime', 'normal', 4)).toBe(3);
-  });
-
-  it('the 77 rounds of Kuva Nukor last about 15 s at 10/s', () => {
-    const { rates, stats } = measure('kuva-nukor', 'normal');
-    expect(stats.fireRate.value).toBe(10);
-    expect(Math.round(rates.shotsPerMagazine / rates.effectiveFireRate)).toBe(15);
-  });
-
-  it('the arsenal shows 5/s for Burston', () => {
-    expect(measure('burston', 'normal').stats.fireRate.value).toBe(5);
   });
 });
 

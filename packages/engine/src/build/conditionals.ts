@@ -44,14 +44,23 @@ const warnUnused = (
     .map(({ sourceId, trigger }) => ({ code: 'unusedOverride', sourceId, trigger }));
 };
 
+const ownSwitch = (effect: CollectedEffect): readonly Found[] => {
+  const condition = switchOf(effect);
+  return condition === undefined ? [] : [{ source: effect.source, condition }];
+};
+
+/** What an effect requires is a switch too. It doesn't stack. */
+const requiredSwitches = (effect: CollectedEffect): readonly Found[] =>
+  ownSwitch(effect).flatMap(({ source, condition: { requires = [], target } }) =>
+    requires.map((trigger) => ({ source, condition: { trigger, target } })),
+  );
+
 /** Every switch in the build, as it is set. */
 export const findConditionals = (effects: readonly CollectedEffect[], settings: Conditionals) => {
   const found = new Map<string, Conditional>();
-  for (const effect of effects) {
-    const condition = switchOf(effect);
-    if (condition === undefined) continue;
-    const conditional = switchOne({ source: effect.source, condition }, settings);
-    found.set(conditional.key, conditional);
+  for (const entry of [...effects.flatMap(ownSwitch), ...effects.flatMap(requiredSwitches)]) {
+    const conditional = switchOne(entry, settings);
+    if (!found.has(conditional.key)) found.set(conditional.key, conditional);
   }
   const conditionals = [...found.values()];
   return {

@@ -1,3 +1,4 @@
+import type { Trigger } from '@abacus/data/schema/condition';
 import type { Variable } from '@abacus/data/schema/effect';
 
 import { conditionalKey, switchOf } from './conditionals';
@@ -34,9 +35,10 @@ const contribute = (
   if (condition === undefined) {
     return { source, bucket, op, value: valueOf(effect, 1, variables) };
   }
-  const { trigger } = condition;
+  const { trigger, requires = [] } = condition;
+  const stacksOn = (name: Trigger) => stacks.get(conditionalKey(source.id, name)) ?? 0;
   const key = conditionalKey(source.id, trigger);
-  const count = stacks.get(key) ?? 0;
+  const count = requires.every((name) => stacksOn(name) > 0) ? stacksOn(trigger) : 0;
   const maxStacks = conditionals.get(key)?.maxStacks ?? count;
   const conditional = { trigger, stacks: count, maxStacks };
   return { source, bucket, op, value: valueOf(effect, count, variables), conditional };
