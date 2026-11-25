@@ -720,6 +720,91 @@
         }
       ],
       "locks": ["multishot"]
+    },
+    {
+      "id": "ruinous-extension",
+      "name": "Ruinous Extension",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponBeamDistanceMod",
+      "source": "https://wiki.warframe.com/w/Ruinous_Extension",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 3,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "tags": ["BEAM"]
+      },
+      "effects": [
+        {
+          "bucket": "range",
+          "op": "ADD",
+          "value": 8
+        }
+      ]
+    },
+    {
+      "id": "fulmination",
+      "name": "Fulmination",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/Event/AmbulasEvent/SecondaryExplosionRadiusMod",
+      "source": "https://wiki.warframe.com/w/Fulmination",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 3,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "exclusiveGroup": "fulmination",
+      "effects": [
+        {
+          "bucket": "aoeRadius",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.24
+        }
+      ]
+    },
+    {
+      "id": "primed-fulmination",
+      "name": "Primed Fulmination",
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/Event/AmbulasEvent/Expert/SecondaryExplosionRadiusModExpert",
+      "source": "https://wiki.warframe.com/w/Primed_Fulmination",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 10,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "exclusiveGroup": "fulmination",
+      "effects": [
+        {
+          "bucket": "aoeRadius",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.44
+        }
+      ]
     }
   ]
 }

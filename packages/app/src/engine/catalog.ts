@@ -4,9 +4,12 @@ import type { Weapon } from '@abacus/data/schema/weapon';
 
 import type { Catalog } from './protocol';
 
-const fits = ({ compat }: Module, { slot, class: classes }: Weapon) =>
-  compat.slots.includes(slot) &&
-  (compat.classes === undefined || compat.classes.some((entry) => classes.includes(entry)));
+/** Any of them will do, if any are asked for. */
+const hasAny = <T>(asked: readonly T[] | undefined, has: readonly T[]) =>
+  asked === undefined || asked.some((entry) => has.includes(entry));
+
+const fits = ({ compat }: Module, { slot, class: classes, compatTags = [] }: Weapon) =>
+  compat.slots.includes(slot) && hasAny(compat.classes, classes) && hasAny(compat.tags, compatTags);
 
 const named = ({ id, name }: Module | Weapon) => ({ id, name });
 

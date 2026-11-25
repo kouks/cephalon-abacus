@@ -116,6 +116,20 @@ describe('an attack that sets off another', () => {
     expect(perShot).toBeCloseTo(2 * 75 + 350, 9);
   });
 
+  it('sets off nothing where it doesn’t reach', () => {
+    const attacks = [{ ...GRENADE, range: 20 }, BLAST];
+    const [near, far] = [20, 21].map((distance) =>
+      measureBuild({ attacks, scenario: { distance } }),
+    );
+    expect(near?.perShot).toBeCloseTo(75 + 350, 9);
+    expect([far?.perShot, far?.lifetimeDamage, far?.sustainedDps]).toEqual([0, 0, 0]);
+    const ranges = far?.trace
+      .flatMap(({ factors }) => factors)
+      .filter(({ name }) => name === 'range')
+      .map(({ value }) => value);
+    expect(ranges).toEqual([0, 0]);
+  });
+
   it('crits only where each can', () => {
     const avenger = mod('avenger', [add('crit.chanceFlat', 1, { op: 'ADD' })]);
     const explosive = { ...BLAST, flags: ['isAoE', 'canCrit'] };

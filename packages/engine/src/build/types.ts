@@ -55,6 +55,12 @@ export type Warning =
   | { readonly code: 'noProgenitor'; readonly weaponId: string }
   | { readonly code: 'unknownAttack'; readonly attackId: string }
   | { readonly code: 'unknownPart'; readonly part: string }
+  | {
+      readonly code: 'outOfRange';
+      readonly attackId: string;
+      readonly range: number;
+      readonly distance: number;
+    }
   | { readonly code: 'leftOut'; readonly attackId: string; readonly what: LeftOut };
 
 /** Everything a build's modules bring, before stacks, filters and sums. */

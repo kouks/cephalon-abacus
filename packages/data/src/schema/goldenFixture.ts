@@ -4,6 +4,7 @@ import { damageTypeSchema } from './damageType';
 import { moduleSchema } from './module';
 import { gameVersionSchema, list, nonNegative, object, positive } from './primitives';
 import { scenarioSchema } from './scenario';
+import { weaponSchema } from './weapon';
 
 /** The colours of damage numbers, by crit tier. */
 export const COLOURS = ['white', 'yellow', 'orange', 'red'] as const;
@@ -52,6 +53,7 @@ export const goldenFixtureSchema = object({
   notes: z.string().min(1).exactOptional(),
   /** What the library doesn't have, e.g. a Riven. */
   modules: list(moduleSchema).exactOptional(),
+  weapons: list(weaponSchema).exactOptional(),
   tolerance: toleranceSchema,
   cases: z
     .array(object({ name: z.string().min(1), scenario: scenarioSchema, observed: observedSchema }))

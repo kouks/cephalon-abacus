@@ -10,7 +10,7 @@ import type { HitTrace } from '@/trace/hitTrace';
 
 import type { AttackMetrics, Headline } from './attackMetrics';
 import { attackMetrics } from './attackMetrics';
-import { checkMetrics } from './checkMetrics';
+import { checkMetrics, checkRange } from './checkMetrics';
 import { firingModes } from './firingModes';
 
 /** A build's headline numbers, and where they come from. */
@@ -49,6 +49,10 @@ export const buildMetrics = (
     lifetimeDamage,
     byAttack,
     trace: tracesOf(chosen),
-    warnings: [...loadout.collected.warnings, ...checkMetrics(scenario, loadout.weapon, target)],
+    warnings: [
+      ...loadout.collected.warnings,
+      ...checkMetrics(scenario, loadout.weapon, target),
+      ...checkRange(byAttack, distance),
+    ],
   };
 };

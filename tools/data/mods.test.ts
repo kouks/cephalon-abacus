@@ -4,11 +4,13 @@ import { must } from '#data/assert.ts';
 import { findBucket } from '#data/load/findBucket.ts';
 import type { Effect } from '#data/schema/effect.ts';
 import type { Module } from '#data/schema/module.ts';
+import type { ModuleInstance } from '#data/schema/scenario.ts';
 import { scenarioSchema } from '#data/schema/scenario.ts';
 import { scenario } from '#data/testing/fixtures.ts';
 import { collectEffects } from '#engine/build/collectEffects.ts';
 
 import { loadRealLibrary } from './loadRealLibrary.ts';
+import { realAttack } from './realAttack.ts';
 
 const library = loadRealLibrary();
 const mods = [...library.modules.values()];
@@ -18,8 +20,8 @@ const describeEffect = ({ bucket, op, value }: Effect) => {
   return op === 'ADD' ? `${bucket} +${value}` : `${bucket} ${Number((value * 100).toFixed(4))}%`;
 };
 
-const fitsOn = ({ slots, classes }: Module['compat']) =>
-  `${slots.join(' ')}: ${classes?.[0] ?? 'any'}`;
+const fitsOn = ({ slots, classes, tags = [] }: Module['compat']) =>
+  `${slots.join(' ')}: ${[classes?.[0] ?? 'any', ...tags].join(' ')}`;
 
 const describeMod = ({ name, rank, compat, effects, exclusiveGroup, set, locks = [] }: Module) =>
   [
@@ -58,10 +60,14 @@ describe('the seed mods', () => {
         "Expel Grineer r5 | secondary: pistol | damage.faction.grineer 30% | group expel-grineer",
         "Primed Expel Grineer r10 | secondary: pistol | damage.faction.grineer 55% | group expel-grineer",
         "Pistol Acuity r10 | secondary: pistol | weakPoint.damage +3.498, crit.chanceWeakPoint 349.8% | locks multishot",
+        "Ruinous Extension r3 | secondary: any BEAM | range +8",
+        "Fulmination r3 | secondary: pistol | aoeRadius 24% | group fulmination",
+        "Primed Fulmination r10 | secondary: pistol | aoeRadius 44% | group fulmination",
         "Vigilante Armaments r5 | primary: any | multishot 60% | set vigilante",
         "Vigilante Fervor r5 | primary: any | fireRate 45% | set vigilante",
         "Vigilante Offense r5 | primary: any | punchThrough +1.5 | set vigilante",
         "Vigilante Supplies r5 | primary: any |  | set vigilante",
+        "Sinister Reach r3 | primary: any BEAM | range +12",
         "Serration r10 | primary: rifle | damage.base 165% | group serration",
         "Amalgam Serration r10 | primary: rifle | damage.base 155.1% | group serration",
         "Heavy Caliber r10 | primary: rifle | damage.base 165%",
@@ -95,6 +101,8 @@ describe('the seed mods', () => {
         "Magazine Warp r5 | primary: rifle | magazine 30% | group magazine-warp",
         "Tainted Mag r10 | primary: rifle | magazine 66%, reload -33%",
         "Depleted Reload r5 | primary: sniper | magazine -60%, reload 48%",
+        "Firestorm r3 | primary: rifle | aoeRadius 24% | group firestorm",
+        "Primed Firestorm r10 | primary: rifle | aoeRadius 44% | group firestorm",
         "Point Blank r5 | primary: shotgun | damage.base 90% | group point-blank",
         "Primed Point Blank r10 | primary: shotgun | damage.base 165% | group point-blank",
         "Hell's Chamber r5 | primary: shotgun | multishot 120% | group hells-chamber",
@@ -127,15 +135,17 @@ describe('the seed mods', () => {
   });
 
   it('fit one kind of weapon each', () => {
-    const compat = mods.map(({ compat: { slots, classes = ['any'] } }) =>
-      [...slots, ':', ...classes].join(' '),
+    const compat = mods.map(({ compat: { slots, classes, tags = [] } }) =>
+      [...slots, ':', ...(classes ?? ['any']), ...tags].join(' '),
     );
     expect([...new Set(compat)].sort()).toEqual([
       'primary : any',
+      'primary : any BEAM',
       'primary : rifle',
       'primary : rifle bow crossbow launcher sniper speargun',
       'primary : shotgun',
       'primary : sniper',
+      'secondary : any BEAM',
       'secondary : pistol dual-pistol shotgun-sidearm dual-shotgun thrown crossbow',
     ]);
   });
@@ -190,6 +200,9 @@ describe('ranks, as the game displays them', () => {
     ['tainted-mag', 10, 'reload', -33, 0],
     ['depleted-reload', 2, 'magazine', -30, 0],
     ['depleted-reload', 5, 'reload', 48, 0],
+    ['firestorm', 1, 'aoeRadius', 12, 0],
+    ['primed-firestorm', 0, 'aoeRadius', 4, 0],
+    ['primed-fulmination', 6, 'aoeRadius', 28, 0],
     ['primed-bane-of-grineer', 0, 'damage.faction.grineer', 5, 0],
     ['primed-bane-of-grineer', 10, 'damage.faction.grineer', 55, 0],
     ['primary-acuity', 0, 'weakPoint.damage', 32, 0],
@@ -208,12 +221,32 @@ describe('ranks, as the game displays them', () => {
   });
 });
 
+const pentaRadius = (attackId: string, ...modules: readonly ModuleInstance[]) =>
+  realAttack('penta', attackId, { modules }).stats.aoeRadius?.value;
+
+describe('Penta’s blast radius', () => {
+  it('is 4 m, 4.96 m with Firestorm and 5.76 m with Primed Firestorm', () => {
+    expect(pentaRadius('grenade-detonation')).toBe(4);
+    const [firestorm, primed] = [{ moduleId: 'firestorm' }, { moduleId: 'primed-firestorm' }];
+    expect(pentaRadius('grenade-detonation', firestorm)).toBeCloseTo(4.96, 9);
+    expect(pentaRadius('grenade-detonation', primed)).toBeCloseTo(5.76, 9);
+  });
+
+  it('grows by the mod’s rank, and belongs to the explosion alone', () => {
+    const firestorm = { moduleId: 'firestorm', rank: 1 };
+    expect(pentaRadius('grenade-detonation', firestorm)).toBeCloseTo(4.48, 9);
+    expect(pentaRadius('grenade-impact', firestorm)).toBeUndefined();
+  });
+});
+
 describe('exclusive groups', () => {
   it('keep variants of one mod apart', () => {
     expect(warningsOf('cryo-rounds', 'primed-cryo-rounds')).toEqual([
       { code: 'exclusiveGroup', moduleId: 'primed-cryo-rounds', keptId: 'cryo-rounds' },
     ]);
     expect(warningsOf('point-strike', 'critical-delay')).toHaveLength(1);
+    expect(warningsOf('firestorm', 'primed-firestorm')).toHaveLength(1);
+    expect(warningsOf('fulmination', 'primed-fulmination')).toHaveLength(1);
   });
 
   it('let the rest combine: Serration, Heavy Caliber, Split Chamber and Vigilante Armaments', () => {

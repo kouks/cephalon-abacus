@@ -135,3 +135,28 @@ describe('Tigris Prime', () => {
     expect(shares).toEqual([1, 0.75, 0.5128, 0.5128]);
   });
 });
+
+/** Where a weapon still deals damage, of these metres. */
+const reached = (weaponId: string, metres: readonly number[], mods: readonly string[] = []) =>
+  metres.filter((distance) => metricsOf(weaponId, { distance }, mods).perShot > 0);
+
+describe('range', () => {
+  it('lets Amprex hit at 18 m, and not from there on: it stops as the waypoint turns to 19', () => {
+    expect(reached('amprex', [10, 18, 18.01, 19, 30])).toEqual([10, 18]);
+    const full = metricsOf('amprex', { distance: 10 }).perShot;
+    expect(metricsOf('amprex', { distance: 18 }).perShot).toBe(full);
+  });
+
+  it('of beams is longer with Sinister Reach and Ruinous Extension', () => {
+    expect(reached('amprex', [30, 30.01], ['sinister-reach'])).toEqual([30]);
+    expect(reached('kuva-nukor', [29, 37, 37.01])).toEqual([29]);
+    expect(reached('kuva-nukor', [29, 37, 37.01], ['ruinous-extension'])).toEqual([29, 37]);
+  });
+
+  it('is 300 m for other hitscan weapons, 1000 m for snipers, and none for projectiles', () => {
+    expect(reached('braton', [300, 301, 1000])).toEqual([300]);
+    expect(reached('vectis', [300, 1000, 1001])).toEqual([300, 1000]);
+    expect(reached('paris', [300, 1001])).toEqual([300, 1001]);
+    expect(reached('penta', [300, 1001])).toEqual([300, 1001]);
+  });
+});

@@ -7,16 +7,18 @@ import { catalogOf } from './catalog';
 
 const fitting = (id: string, compat: object) => ({ ...module, id, name: `The ${id}`, compat });
 
-it('lists the modules that fit each weapon, by slot and class', () => {
+it('lists the modules that fit each weapon, by slot, class and tag', () => {
   const loaded = loadLibrary([
     ...referenceFiles,
-    libraryFile('weapons/a.json', { ...weapon, class: ['rifle', 'beam'] }),
+    libraryFile('weapons/a.json', { ...weapon, class: ['rifle', 'beam'], compatTags: ['BEAM'] }),
     libraryFile(
       'mods/a.json',
       fitting('rifles', { slots: ['primary'], classes: ['rifle'] }),
       fitting('beams', { slots: ['secondary', 'primary'], classes: ['shotgun', 'beam'] }),
       fitting('primaries', { slots: ['primary'] }),
       fitting('shotguns', { slots: ['primary'], classes: ['shotgun'] }),
+      fitting('extensions', { slots: ['primary'], tags: ['BEAM', 'AOE'] }),
+      fitting('explosives', { slots: ['primary'], tags: ['AOE'] }),
       fitting('secondaries', { slots: ['secondary'], classes: ['rifle'] }),
     ),
   ]);
@@ -30,6 +32,7 @@ it('lists the modules that fit each weapon, by slot and class', () => {
           { id: 'rifles', name: 'The rifles' },
           { id: 'beams', name: 'The beams' },
           { id: 'primaries', name: 'The primaries' },
+          { id: 'extensions', name: 'The extensions' },
         ],
       },
     ],

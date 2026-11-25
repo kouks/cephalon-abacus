@@ -3,6 +3,7 @@ import type { BodyPart } from '@abacus/data/schema/effect';
 import type { Scenario } from '@abacus/data/schema/scenario';
 
 import type { BuiltAttack } from '@/build/buildAttack';
+import type { ModdedStat } from '@/build/stats/moddedStat';
 
 import type { HitResult } from './resolveHit';
 import { resolveHit } from './resolveHit';
@@ -24,6 +25,7 @@ type Shot = {
   readonly target: Target;
   readonly aim: Scenario['aim'];
   readonly distance: number;
+  readonly reach?: ModdedStat | undefined;
 };
 
 /** An attack that can't headshot hits the body, wherever it is aimed: most AoE. */
@@ -43,13 +45,11 @@ const addUp = (hits: ExpectedShot['hits'], pellets: number) => {
 };
 
 export const expectedShot = (shot: Shot): ExpectedShot => {
+  const { target, distance, reach } = shot;
   const pellets = Math.max(shot.buildFor([]).stats.multishot.value, 0);
   const hits = partsHit(shot).map(({ part, share }) => {
     const built = shot.buildFor(part.bodyParts);
-    return {
-      share,
-      hit: resolveHit(built, { target: shot.target, part, distance: shot.distance }),
-    };
+    return { share, hit: resolveHit(built, { target, part, distance, reach }) };
   });
   const perType = addUp(hits, pellets);
   const total = [...perType.values()].reduce((sum, damage) => sum + damage, 0);

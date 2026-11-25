@@ -1,0 +1,225 @@
+{
+  "id": "T-27",
+  "question": "Does a projectile's damage fall off along the same line?",
+  "bible": "§11",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "Arca Plasmor projectile doesn't register a hit at all above 30m. Also follows its linear falloff from 10-20m. Importantly, Fatal Acceleration on these weapons DOES increase the range of the projectile. Max rank makes it still hit at ~43m."
+    },
+    {
+      "on": "2026-11-25",
+      "words": "I meant it follows our rule. 600 damage up close, already at 18m down to 200, 17m 240, 16m 300, 12m 512. I saw a hit at 43."
+    }
+  ],
+  "notes": "Asked for with no mods, standing still, at the body of a level 200 Runner, and no numbers were predicted to Pavel. As in T-25, a waypoint of 16 m means more than 15 and up to 16 m: the cases use the middle of that metre, and the tolerance is half a metre of the line and half a point. 300 at 16 m and 240 at 17 m are at the near end of theirs; the projectile is 3 m thick. The wiki's line, down to 33.33% at 20 m, would show 360 to 400 at 16 m, 320 to 360 at 17 m and 280 to 320 at 18 m. A line that ends halfway would show 200 at 16 and 17 m. The range isn't replayed: no number was read off. The engine ends it at 42 m with Fatal Acceleration, as the wiki does, so the hit at 43 m is beyond it by up to a metre. Arca Plasmor is in the fixture because the library can't say yet that its head multiplier is 1x.",
+  "weapons": [
+    {
+      "id": "arca-plasmor",
+      "name": "Arca Plasmor",
+      "uniqueName": "/Lotus/Weapons/Corpus/LongGuns/CrpShotgun/CrpShotgun",
+      "source": "https://wiki.warframe.com/w/Arca_Plasmor",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["shotgun"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 10,
+        "maxAmmo": 50,
+        "reloadStyle": "magazine",
+        "reloadTime": 2.8
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "radiation": 600
+          },
+          "trigger": "semi",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.22,
+          "critMultiplier": 1.6,
+          "statusChance": 0.28,
+          "fireRate": 1.1,
+          "ammoCost": 1,
+          "falloff": {
+            "start": 10,
+            "end": 20,
+            "minPct": 0.3333
+          },
+          "range": 30,
+          "projectileSpeed": 60,
+          "flags": ["canCrit"]
+        }
+      ]
+    }
+  ],
+  "tolerance": {
+    "hits": 30.5
+  },
+  "cases": [
+    {
+      "name": "up close",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 600
+        }
+      }
+    },
+    {
+      "name": "at a waypoint of 12 m",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 11.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 512
+        }
+      }
+    },
+    {
+      "name": "at a waypoint of 16 m",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 15.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 300
+        }
+      }
+    },
+    {
+      "name": "at a waypoint of 17 m",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 16.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 240
+        }
+      }
+    },
+    {
+      "name": "at a waypoint of 18 m",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 17.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 200
+        }
+      }
+    }
+  ]
+}

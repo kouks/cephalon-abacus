@@ -46,6 +46,7 @@ describe('trace rows', () => {
       'normal 1, 100% of hits | faction | all | 1x | ',
       'normal 1, 100% of hits | crit | all | 1.1806x | Point Strike +150%',
       'normal 1, 100% of hits | bodyPart | all | 1x | ',
+      'normal 1, 100% of hits | range | all | 1x | ',
       'normal 1, 100% of hits | falloff | all | 1x | ',
       'normal 1, 100% of hits | vulnerability | impact | 1x | ',
       'normal 1, 100% of hits | vulnerability | puncture | 1x | ',

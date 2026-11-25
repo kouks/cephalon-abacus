@@ -33,7 +33,7 @@ export const explainHit = (hit: Explained, tier: number, observed: number): stri
   const scale = { tier, gap: observed - tier };
   const white = hit.total / hit.crit.expected;
   const rows = hit.trace.factors.map((factor) => {
-    const isCrit = factor.name === 'crit';
+    const isCrit = factor.name === 'crit' && tier !== 0;
     const actual = isCrit ? { ...factor, value: tier / white } : factor;
     const needed = neededOf(actual, hit, scale);
     const from = factor.effects.map(({ source, value }) => `${source.name} ${round(value)}`);
@@ -41,10 +41,10 @@ export const explainHit = (hit: Explained, tier: number, observed: number): stri
       factor.name,
       factor.type ?? 'all',
       round(actual.value),
-      round(needed),
+      tier === 0 ? '-' : round(needed),
       from.join(', '),
     ]);
   });
-  const off = `${round((scale.gap / tier) * 100)}% off`;
+  const off = tier === 0 ? 'It deals nothing' : `${round((scale.gap / tier) * 100)}% off`;
   return [off, pad(['factor', 'type', 'value', 'would match at', 'from']), ...rows].join('\n');
 };

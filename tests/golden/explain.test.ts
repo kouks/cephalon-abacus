@@ -42,3 +42,13 @@ it('shows what each factor would have to be', () => {
 it('says how far too high it is, too', () => {
   expect(rowsOf(900, 450)[0]).toEqual(['-50% off']);
 });
+
+it('has no answer for a hit that deals nothing, and shows the factor that is 0', () => {
+  const factors = [...hit.trace.factors, { name: 'range', value: 0, effects: [] } as const];
+  const perType = new Map([['slash', 0] as const, ['heat', 0] as const]);
+  const missed = { ...hit, perType, total: 0, trace: { factors } };
+  const rows = explainHit(missed, 0, 22).split('\n');
+  expect(rows[0]).toBe('It deals nothing');
+  expect(rows.at(-1)?.split(/ {2,}/)).toEqual(['range', 'all', '0', '-']);
+  expect(rows.join()).not.toMatch(/NaN|Infinity/);
+});
