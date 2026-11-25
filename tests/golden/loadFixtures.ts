@@ -21,18 +21,29 @@ export const loadFixtures = (): readonly FixtureFile[] =>
       return { file, fixture: parsed.data };
     });
 
-/** The real library, with the modules that a fixture brings. */
-export const libraryWith = ({ modules = [], gameVersion }: GoldenFixture) => {
-  const extra = {
-    path: 'mods/fixture.json',
-    text: JSON.stringify({
-      schemaVersion: 1,
-      gameVersion,
-      source: 'https://wiki.warframe.com/w/Riven_Mods',
-      items: modules,
-    }),
-  };
-  const loaded = loadLibrary([...readLibrary(), ...(modules.length > 0 ? [extra] : [])]);
+type Brought = {
+  readonly path: string;
+  readonly source: string;
+  readonly items: readonly object[];
+};
+
+/** Library files with what the fixture brings. */
+const filesOf = ({ modules = [], weapons = [], gameVersion }: GoldenFixture) => {
+  const brought: readonly Brought[] = [
+    { path: 'mods/fixture.json', source: 'https://wiki.warframe.com/w/Riven_Mods', items: modules },
+    { path: 'weapons/fixture.json', source: 'https://wiki.warframe.com/w/Weapons', items: weapons },
+  ];
+  return brought
+    .filter(({ items }) => items.length > 0)
+    .map(({ path: file, source, items }) => ({
+      path: file,
+      text: JSON.stringify({ schemaVersion: 1, gameVersion, source, items }),
+    }));
+};
+
+/** The real library, with the modules and weapons that a fixture brings. */
+export const libraryWith = (fixture: GoldenFixture) => {
+  const loaded = loadLibrary([...readLibrary(), ...filesOf(fixture)]);
   if (!loaded.ok) throw new Error(loaded.errors.map(formatError).join('\n'));
   return loaded.library;
 };
