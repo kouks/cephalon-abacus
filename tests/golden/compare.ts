@@ -50,6 +50,15 @@ const compareHit = (colour: Colour, observed: number, { attack, tolerance }: Sid
     : { ...comparison, explain: () => explainHit(hit, tier.total, observed) };
 };
 
+/** The arsenal's total counts every pellet, and its types don't. */
+const compareTotal = (observed: number | undefined, { attack, tolerance }: Side) => {
+  if (observed === undefined) return [];
+  const { composition, stats } = attack;
+  const raw = [...composition.types.values()].reduce((sum, { ratio }) => sum + ratio, 0);
+  const computed = raw * composition.moddedBase.value * stats.multishot.value;
+  return [{ what: 'arsenal total', observed, computed, tolerance: tolerance.arsenal ?? 0 }];
+};
+
 const compareArsenal = (observed: Observed, { attack, tolerance }: Side): readonly Comparison[] => {
   const { composition, stats } = attack;
   const within = tolerance.arsenal ?? 0;
@@ -97,6 +106,7 @@ export const compare = (
   return [
     ...observedIn(COLOURS, observed.hits).map(([colour, value]) => compareHit(colour, value, side)),
     ...compareArsenal(observed, side),
+    ...compareTotal(observed.arsenalTotal, side),
     ...compareFiring(observed, side),
     ...compareProcs(observed, side),
   ];

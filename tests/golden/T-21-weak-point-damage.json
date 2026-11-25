@@ -11,9 +11,13 @@
     {
       "on": "2026-11-25",
       "words": "I actually used Runner because I thought I couldn't find the Charger's head, didn't know it had no headshot multiplier."
+    },
+    {
+      "on": "2026-11-25",
+      "words": "Nagantaka Prime, only maxed Primary Acuity, Runner 200 headshot. Head yellow: 9526. Head orange: 16979."
     }
   ],
-  "notes": "The tables held these values as predictions, for a Charger at level 200. 350% instead of 349.8% would show 9530 and 16985 on the head, and weak point damage once instead of 1.5 times 7506 and 13378.",
+  "notes": "The tables held these values as predictions, for a Charger at level 200. The wiki says 350%, so the last report restates the conditions and the results. 350% instead of 349.8% would show 9530 and 16985 on the head, and weak point damage once instead of 1.5 times 7506 and 13378.",
   "tolerance": {
     "hits": 0.5
   },

@@ -53,6 +53,13 @@ describe('a mismatch', () => {
     ]);
   });
 
+  it('can be in the arsenal’s total, which counts multishot', () => {
+    expect(mismatchesOf('T-22', { arsenalTotal: 341.7 })).toEqual([]);
+    expect(mismatchesOf('T-22', { arsenalTotal: 168.8 })).toEqual([
+      expect.stringMatching(/^arsenal total: reported 168\.8, computed 341\.71875$/),
+    ]);
+  });
+
   it('can be in the time it takes', () => {
     const seen = { firing: [{ shots: 30, seconds: 3.8 } as const] };
     expect(mismatchesOf('T-17', seen)).toEqual([

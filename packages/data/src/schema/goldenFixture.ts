@@ -14,6 +14,8 @@ const colourSchema = z.enum(COLOURS);
 const observedSchema = object({
   /** The arsenal's damage per type, which is not quantized. */
   arsenalDamage: z.partialRecord(damageTypeSchema, nonNegative).readonly().exactOptional(),
+  /** The arsenal's total damage, which counts multishot. */
+  arsenalTotal: nonNegative.exactOptional(),
   /** Other numbers of the arsenal, by the name of the stat: fireRate, magazine… */
   arsenal: z.record(z.string().min(1), nonNegative).readonly().exactOptional(),
   /** The numbers that hits showed. */
