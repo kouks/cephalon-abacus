@@ -1,0 +1,278 @@
+{
+  "id": "T-33",
+  "question": "How does a radius mod change where it falls and ends?",
+  "bible": "§11",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "Attaching screenshots of Carmine Penta with maxed Primed Firestorm as you requested. Second image has 261, 190, 226, 137 and 76. Third image has 170, 256, 112 and 220. Did a fourth and it has 229, 259, 179, 127 and 68 yellow."
+    },
+    {
+      "on": "2026-11-25",
+      "words": "Yes, 200 Runner and all the other conditions apply."
+    }
+  ],
+  "notes": "A level 200 Runner, paused in the Simulacrum, and no numbers were predicted to Pavel. The distances of the second image are measured in the first one, from the lines of the floor: 2.95, 3.77, 4.45, 5.26 and 5.87 m from the Runner's feet (a tile is 4.0 m). Its body is taken to be 0.4 m nearer. That the numbers agree to 1 cm or so is how the rule was found. The other two rows have no such image. The third image's 170 was first reported as 179, a typo. The wiki's straight line to the edge damage is far off near the rim. Adhesive Blast only makes the grenades stick, so it is left out. Carmine Penta is not in the library yet. ",
+  "weapons": [
+    {
+      "id": "carmine-penta",
+      "name": "Carmine Penta",
+      "uniqueName": "/Lotus/Weapons/Corpus/LongGuns/GrenadeLauncher/CarminePenta",
+      "source": "https://wiki.warframe.com/w/Carmine_Penta",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["launcher"],
+      "compatTags": ["PROJECTILE", "AOE", "SINGLESHOT"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 10,
+        "maxAmmo": 40,
+        "reloadStyle": "magazine",
+        "reloadTime": 2.5
+      },
+      "attacks": [
+        {
+          "id": "grenade-impact",
+          "name": "Grenade Impact",
+          "damage": {
+            "impact": 75
+          },
+          "trigger": "active",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.1,
+          "critMultiplier": 2,
+          "statusChance": 0.1,
+          "fireRate": 2.7,
+          "ammoCost": 1,
+          "projectileSpeed": 20,
+          "linkedAttacks": ["grenade-detonation"],
+          "flags": ["canHeadshot", "canCrit"]
+        },
+        {
+          "id": "grenade-detonation",
+          "name": "Grenade Detonation",
+          "damage": {
+            "blast": 350
+          },
+          "shotType": "aoe",
+          "multishot": 1,
+          "critChance": 0.1,
+          "critMultiplier": 2,
+          "statusChance": 0.1,
+          "fireRate": 2.7,
+          "ammoCost": 0,
+          "trigger": "active",
+          "aoe": {
+            "radius": 4,
+            "centerPct": 1,
+            "edgePct": 0.5,
+            "losRequired": false
+          },
+          "flags": ["canCrit", "isAoE"]
+        }
+      ]
+    }
+  ],
+  "tolerance": {
+    "hits": 3
+  },
+  "cases": [
+    {
+      "name": "grenade 1",
+      "scenario": {
+        "build": {
+          "weaponId": "carmine-penta",
+          "modules": [
+            {
+              "moduleId": "primed-firestorm",
+              "rank": 10
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 2.548
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 261
+        },
+        "hitsOf": "grenade-detonation"
+      }
+    },
+    {
+      "name": "grenade 2",
+      "scenario": {
+        "build": {
+          "weaponId": "carmine-penta",
+          "modules": [
+            {
+              "moduleId": "primed-firestorm",
+              "rank": 10
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 3.372
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 226
+        },
+        "hitsOf": "grenade-detonation"
+      }
+    },
+    {
+      "name": "grenade 3",
+      "scenario": {
+        "build": {
+          "weaponId": "carmine-penta",
+          "modules": [
+            {
+              "moduleId": "primed-firestorm",
+              "rank": 10
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 4.048
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 190
+        },
+        "hitsOf": "grenade-detonation"
+      }
+    },
+    {
+      "name": "grenade 4",
+      "scenario": {
+        "build": {
+          "weaponId": "carmine-penta",
+          "modules": [
+            {
+              "moduleId": "primed-firestorm",
+              "rank": 10
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 4.86
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 137
+        },
+        "hitsOf": "grenade-detonation"
+      }
+    },
+    {
+      "name": "grenade 5",
+      "scenario": {
+        "build": {
+          "weaponId": "carmine-penta",
+          "modules": [
+            {
+              "moduleId": "primed-firestorm",
+              "rank": 10
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 5.468
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 76
+        },
+        "hitsOf": "grenade-detonation"
+      }
+    }
+  ]
+}

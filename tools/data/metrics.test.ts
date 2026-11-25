@@ -127,14 +127,16 @@ describe('Penta, landing beside the target', () => {
     return Number((perShot / explosion).toFixed(9));
   };
 
-  it('deals 75% of its explosion at 2 m, 50% at 4 m, and nothing beyond', () => {
-    expect([1, 2, 4, 4.01].map((metres) => shareAt(metres))).toEqual([0.875, 0.75, 0.5, 0]);
+  it('deals half of its explosion at 3 m, less and less up to 4 m, and nothing beyond', () => {
+    expect([3, 3.84, 3.99, 4, 4.01].map((metres) => shareAt(metres))).toEqual([
+      0.5, 0.2, 0.05, 0, 0,
+    ]);
   });
 
   it('deals more of it, and further out, with Firestorm', () => {
-    const shares = [2, 4.96, 4.97].map((metres) => shareAt(metres, ['firestorm']));
-    expect(shares).toEqual([0.798387097, 0.5, 0]);
-    expect([5.76, 5.77].map((metres) => shareAt(metres, ['primed-firestorm']))).toEqual([0.5, 0]);
+    const shares = [3.72, 4.91, 4.96].map((metres) => shareAt(metres, ['firestorm']));
+    expect(shares).toEqual([0.5, 0.100402416, 0]);
+    expect([4.32, 5.77].map((metres) => shareAt(metres, ['primed-firestorm']))).toEqual([0.5, 0]);
   });
 });
 

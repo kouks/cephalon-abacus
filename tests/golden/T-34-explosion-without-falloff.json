@@ -1,0 +1,283 @@
+{
+  "id": "T-34",
+  "question": "How does an explosion without falloff fall near its rim?",
+  "bible": "§11",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "| body | 2x80 |\n| ~2 m | 80 |\n| ~2.5 m | 80 |\n| ~3 m | 80 |\n| ~3.5 m | 80 |\n| ~4 m | 0 |\nWeapon (Zakti or Zakti Prime): Zakti\nArsenal radius and falloff: 3.5m, no falloff"
+    }
+  ],
+  "notes": "A level 200 Runner, paused in the Simulacrum, and no numbers were predicted to Pavel. One dart at a time, in the floor. An explosion counts up to the enemy's body, which is about half a metre out from where the distance is taken to. The dart that did nothing is 4.2 m from the Runner's feet in the screenshot, measured from the lines of the floor, and its body is taken to be 0.4 m nearer, as in T-33. Why the dart in the body showed 80 twice is an open question to Pavel. It agrees with the wiki. Zakti is not in the library yet.",
+  "weapons": [
+    {
+      "id": "zakti",
+      "name": "Zakti",
+      "uniqueName": "/Lotus/Weapons/Tenno/Pistols/TnGuandoPistol/TnGuandoPistolGun",
+      "source": "https://wiki.warframe.com/w/Zakti",
+      "gameVersion": "44.1.4.1",
+      "slot": "secondary",
+      "class": ["pistol"],
+      "compatTags": ["PROJECTILE", "AOE", "SINGLESHOT"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 3,
+        "maxAmmo": 210,
+        "reloadStyle": "magazine",
+        "reloadTime": 0.8
+      },
+      "attacks": [
+        {
+          "id": "dart-impact",
+          "name": "Dart Impact",
+          "damage": {
+            "impact": 12,
+            "puncture": 18
+          },
+          "trigger": "semi",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.02,
+          "critMultiplier": 1.5,
+          "statusChance": 0.2,
+          "fireRate": 5,
+          "ammoCost": 1,
+          "projectileSpeed": 80,
+          "linkedAttacks": ["gas-cloud"],
+          "flags": ["canHeadshot", "canCrit"]
+        },
+        {
+          "id": "gas-cloud",
+          "name": "Gas Cloud",
+          "damage": {
+            "gas": 80
+          },
+          "shotType": "aoe",
+          "multishot": 1,
+          "critChance": 0.02,
+          "critMultiplier": 1.5,
+          "statusChance": 0.2,
+          "fireRate": 5,
+          "ammoCost": 0,
+          "trigger": "semi",
+          "aoe": {
+            "radius": 3.5,
+            "centerPct": 1,
+            "edgePct": 1,
+            "losRequired": false
+          },
+          "flags": ["canCrit", "isAoE"]
+        }
+      ]
+    }
+  ],
+  "tolerance": {
+    "hits": 0.5
+  },
+  "cases": [
+    {
+      "name": "in the body",
+      "scenario": {
+        "build": {
+          "weaponId": "zakti",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 80
+        },
+        "hitsOf": "gas-cloud"
+      }
+    },
+    {
+      "name": "about 2 m",
+      "scenario": {
+        "build": {
+          "weaponId": "zakti",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 1.5
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 80
+        },
+        "hitsOf": "gas-cloud"
+      }
+    },
+    {
+      "name": "about 2.5 m",
+      "scenario": {
+        "build": {
+          "weaponId": "zakti",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 2.0
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 80
+        },
+        "hitsOf": "gas-cloud"
+      }
+    },
+    {
+      "name": "about 3 m",
+      "scenario": {
+        "build": {
+          "weaponId": "zakti",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 2.5
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 80
+        },
+        "hitsOf": "gas-cloud"
+      }
+    },
+    {
+      "name": "about 3.5 m",
+      "scenario": {
+        "build": {
+          "weaponId": "zakti",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 3.0
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 80
+        },
+        "hitsOf": "gas-cloud"
+      }
+    },
+    {
+      "name": "about 4 m",
+      "scenario": {
+        "build": {
+          "weaponId": "zakti",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 3.8
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 0
+        },
+        "hitsOf": "gas-cloud"
+      }
+    }
+  ]
+}

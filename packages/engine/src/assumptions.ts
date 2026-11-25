@@ -21,8 +21,6 @@ export const ASSUMPTIONS = {
   procWeightsQuantized: { default: true, test: 'T-14', bible: '§6' },
   /** Falloff drops in a line to nothing at its end, and stops at the least. Confirmed. */
   falloffHeadsForZero: { default: true, test: 'T-26', bible: '§11' },
-  /** So does an explosion's. If not: it reaches the least at its radius. */
-  radialFalloffHeadsForZero: { default: false, test: 'T-28', bible: '§11' },
 } as const satisfies Readonly<Record<string, Assumption>>;
 
 export type Assumptions = Readonly<Record<keyof typeof ASSUMPTIONS, boolean>>;
@@ -34,5 +32,4 @@ export const DEFAULT_ASSUMPTIONS: Assumptions = {
   coldCritDamageAbsolute: ASSUMPTIONS.coldCritDamageAbsolute.default,
   procWeightsQuantized: ASSUMPTIONS.procWeightsQuantized.default,
   falloffHeadsForZero: ASSUMPTIONS.falloffHeadsForZero.default,
-  radialFalloffHeadsForZero: ASSUMPTIONS.radialFalloffHeadsForZero.default,
 };

@@ -131,13 +131,13 @@ describe('an attack that sets off another', () => {
   });
 
   it('reaches a target it lands beside with the explosion alone', () => {
-    const aim = { head: 1, body: 0, missBy: 2 };
+    const aim = { head: 1, body: 0, missBy: 3 };
     const { perShot, byAttack, warnings } = measureBuild({
       attacks: [GRENADE, BLAST],
       scenario: { aim },
     });
-    expect(perShot).toBeCloseTo(350 * 0.75, 9);
-    expect(byAttack[0]?.shots.map(({ shot }) => shot.total)).toEqual([0, 350 * 0.75]);
+    expect(perShot).toBeCloseTo(175, 9);
+    expect(byAttack[0]?.shots.map(({ shot }) => shot.total)).toEqual([0, expect.closeTo(175, 9)]);
     expect(warnings).toEqual([]);
   });
 

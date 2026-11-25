@@ -44,7 +44,7 @@ const aimSchema = object({
   body: nonNegative,
   /** The part that the head's share hits instead. */
   weakPoint: slugSchema.exactOptional(),
-  /** Metres from the target that the shot lands: only an explosion gets to it. Absent: it hits. */
+  /** Metres from the target's body that the shot lands: only an explosion gets to it. Absent: it hits. */
   missBy: nonNegative.exactOptional(),
 }).refine(({ head, body }) => Math.abs(head + body - 1) < TOLERANCE, 'head and body add up to 1');
 

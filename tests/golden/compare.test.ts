@@ -38,11 +38,11 @@ describe('a mismatch', () => {
     const fixture = fixtureOf('T-1');
     const { scenario } = must(fixture.cases[0], 'No case');
     const build = { ...scenario.build, weaponId: 'penta' };
-    const aim = { head: 0, body: 1, missBy: 2 };
+    const aim = { head: 0, body: 1, missBy: 3 };
     const result = evaluate({ ...scenario, build, aim }, libraryWith(fixture));
     const computed = (seen: Observed) => compare(seen, result, {}).map((entry) => entry.computed);
-    const hits = { white: 262.5 };
-    expect(computed({ hits, hitsOf: 'grenade-detonation' })).toEqual([262.5]);
+    const hits = { white: 175 };
+    expect(computed({ hits, hitsOf: 'grenade-detonation' })).toEqual([175]);
     expect(computed({ hits })).toEqual([0]);
     expect(() => computed({ hits, hitsOf: 'cluster' })).toThrow('The shot sets off no "cluster"');
   });
