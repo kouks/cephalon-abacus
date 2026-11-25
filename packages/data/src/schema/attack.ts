@@ -38,12 +38,16 @@ const falloffSchema = object({
   minPct: nonNegative.max(1),
 }).refine(({ start, end }) => start < end, 'Falloff ends further away than it starts');
 
+/** Shares of the damage: at the centre, and what the arsenal and the wiki say is left at the radius. */
 const aoeSchema = object({
   radius: positive,
-  centerPct: nonNegative,
+  centerPct: positive,
   edgePct: nonNegative,
   losRequired: z.boolean(),
-});
+}).refine(
+  ({ centerPct, edgePct }) => edgePct <= centerPct,
+  'An explosion is no stronger at its radius than in its centre',
+);
 
 const beamSchema = object({
   rampStartPct: positive,

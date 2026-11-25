@@ -1,0 +1,394 @@
+{
+  "id": "T-28",
+  "question": "How does the damage of an explosion fall with distance?",
+  "bible": "§11",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "Ogris, no mods: 0m: 600, 1m: 576, 2m: 549, 3m: 480, 4m: 400, 5m: 335, 6m: 244, 7m: 117, 8m: 64, 9m: no hit"
+    },
+    {
+      "on": "2026-11-25",
+      "words": "1. I tried to be \"in the middle\" of where it showed the number. 2. I tried to place them to the side (on the circumference of a circle with the radius as distance). 3. All white but I did not test more than once. 4. Normal Ogris. 5. Hit the body, 75 for Penta and 100 for Ogris matches."
+    },
+    {
+      "on": "2026-11-25",
+      "words": "Ogris: 7.1m, 80% falloff"
+    }
+  ],
+  "notes": "A level 200 Runner, paused in the Simulacrum, and no numbers were predicted to Pavel. A reading of 3 m is taken as its middle, 2.5 m. An explosion counts up to the enemy's body, which is about half a metre out from where the distance is taken to. Placed by eye, so the tolerance is about a third of a metre. The wiki's straight line to the edge damage is far off near the rim. Ogris is not in the library yet.",
+  "weapons": [
+    {
+      "id": "ogris",
+      "name": "Ogris",
+      "uniqueName": "/Lotus/Weapons/ClanTech/Chemical/RocketLauncher",
+      "source": "https://wiki.warframe.com/w/Ogris",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["launcher"],
+      "compatTags": ["PROJECTILE", "AOE", "SINGLESHOT"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 5,
+        "maxAmmo": 20,
+        "reloadStyle": "magazine",
+        "reloadTime": 2.5
+      },
+      "attacks": [
+        {
+          "id": "rocket-impact",
+          "name": "Rocket Impact",
+          "damage": {
+            "blast": 100
+          },
+          "trigger": "charge",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.05,
+          "critMultiplier": 2,
+          "statusChance": 0.35,
+          "fireRate": 1.5,
+          "ammoCost": 1,
+          "projectileSpeed": 60,
+          "chargeTime": 0.3,
+          "afterCharge": "fireDelay",
+          "linkedAttacks": ["rocket-explosion"],
+          "flags": ["canHeadshot", "canCrit"]
+        },
+        {
+          "id": "rocket-explosion",
+          "name": "Rocket Explosion",
+          "damage": {
+            "blast": 600
+          },
+          "shotType": "aoe",
+          "multishot": 1,
+          "critChance": 0.05,
+          "critMultiplier": 2,
+          "statusChance": 0.35,
+          "fireRate": 1.5,
+          "ammoCost": 0,
+          "trigger": "semi",
+          "aoe": {
+            "radius": 7.1,
+            "centerPct": 1,
+            "edgePct": 0.2,
+            "losRequired": false
+          },
+          "flags": ["canCrit", "isAoE"]
+        }
+      ]
+    }
+  ],
+  "tolerance": {
+    "hits": 45
+  },
+  "cases": [
+    {
+      "name": "a reading of 0 m",
+      "scenario": {
+        "build": {
+          "weaponId": "ogris",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 600
+        },
+        "hitsOf": "rocket-explosion"
+      }
+    },
+    {
+      "name": "a reading of 1 m",
+      "scenario": {
+        "build": {
+          "weaponId": "ogris",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 0
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 576
+        },
+        "hitsOf": "rocket-explosion"
+      }
+    },
+    {
+      "name": "a reading of 2 m",
+      "scenario": {
+        "build": {
+          "weaponId": "ogris",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 549
+        },
+        "hitsOf": "rocket-explosion"
+      }
+    },
+    {
+      "name": "a reading of 3 m",
+      "scenario": {
+        "build": {
+          "weaponId": "ogris",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 2
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 480
+        },
+        "hitsOf": "rocket-explosion"
+      }
+    },
+    {
+      "name": "a reading of 4 m",
+      "scenario": {
+        "build": {
+          "weaponId": "ogris",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 3
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 400
+        },
+        "hitsOf": "rocket-explosion"
+      }
+    },
+    {
+      "name": "a reading of 5 m",
+      "scenario": {
+        "build": {
+          "weaponId": "ogris",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 4
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 335
+        },
+        "hitsOf": "rocket-explosion"
+      }
+    },
+    {
+      "name": "a reading of 6 m",
+      "scenario": {
+        "build": {
+          "weaponId": "ogris",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 5
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 244
+        },
+        "hitsOf": "rocket-explosion"
+      }
+    },
+    {
+      "name": "a reading of 7 m",
+      "scenario": {
+        "build": {
+          "weaponId": "ogris",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 6
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 117
+        },
+        "hitsOf": "rocket-explosion"
+      }
+    },
+    {
+      "name": "a reading of 8 m",
+      "scenario": {
+        "build": {
+          "weaponId": "ogris",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 7
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 64
+        },
+        "hitsOf": "rocket-explosion"
+      }
+    }
+  ]
+}

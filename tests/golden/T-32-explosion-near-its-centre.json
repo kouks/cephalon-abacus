@@ -1,0 +1,419 @@
+{
+  "id": "T-32",
+  "question": "How does it fall near its centre?",
+  "bible": "§11",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "Carmine Penta, only Adhesive, 200 Runner from feet to 2-3m border 5 grenades (screenshots)"
+    }
+  ],
+  "notes": "A level 200 Runner, paused in the Simulacrum, and no numbers were predicted to Pavel. The report said level 220; the level doesn't matter here. The numbers were read off the screenshots, one for each row: 350, 350, 330, 614 (yellow), 278; 350, 347, 669 (yellow), 628 (yellow), 286. They are taken to be at 0 to 2 m, in steps of 0.5 m. An explosion counts up to the enemy's body, which is about half a metre out from where the distance is taken to. Placed by eye. Adhesive Blast only makes the grenades stick, so it is left out. Carmine Penta is not in the library yet.",
+  "weapons": [
+    {
+      "id": "carmine-penta",
+      "name": "Carmine Penta",
+      "uniqueName": "/Lotus/Weapons/Corpus/LongGuns/GrenadeLauncher/CarminePenta",
+      "source": "https://wiki.warframe.com/w/Carmine_Penta",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["launcher"],
+      "compatTags": ["PROJECTILE", "AOE", "SINGLESHOT"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 10,
+        "maxAmmo": 40,
+        "reloadStyle": "magazine",
+        "reloadTime": 2.5
+      },
+      "attacks": [
+        {
+          "id": "grenade-impact",
+          "name": "Grenade Impact",
+          "damage": {
+            "impact": 75
+          },
+          "trigger": "active",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.1,
+          "critMultiplier": 2,
+          "statusChance": 0.1,
+          "fireRate": 2.7,
+          "ammoCost": 1,
+          "projectileSpeed": 20,
+          "linkedAttacks": ["grenade-detonation"],
+          "flags": ["canHeadshot", "canCrit"]
+        },
+        {
+          "id": "grenade-detonation",
+          "name": "Grenade Detonation",
+          "damage": {
+            "blast": 350
+          },
+          "shotType": "aoe",
+          "multishot": 1,
+          "critChance": 0.1,
+          "critMultiplier": 2,
+          "statusChance": 0.1,
+          "fireRate": 2.7,
+          "ammoCost": 0,
+          "trigger": "active",
+          "aoe": {
+            "radius": 4,
+            "centerPct": 1,
+            "edgePct": 0.5,
+            "losRequired": false
+          },
+          "flags": ["canCrit", "isAoE"]
+        }
+      ]
+    }
+  ],
+  "tolerance": {
+    "hits": 25
+  },
+  "cases": [
+    {
+      "name": "row 1, grenade 1",
+      "scenario": {
+        "build": {
+          "weaponId": "carmine-penta",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 0
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 350
+        },
+        "hitsOf": "grenade-detonation"
+      }
+    },
+    {
+      "name": "row 1, grenade 2",
+      "scenario": {
+        "build": {
+          "weaponId": "carmine-penta",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 0.0
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 350
+        },
+        "hitsOf": "grenade-detonation"
+      }
+    },
+    {
+      "name": "row 1, grenade 3",
+      "scenario": {
+        "build": {
+          "weaponId": "carmine-penta",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 0.5
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 330
+        },
+        "hitsOf": "grenade-detonation"
+      }
+    },
+    {
+      "name": "row 1, grenade 4",
+      "scenario": {
+        "build": {
+          "weaponId": "carmine-penta",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 1.0
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "yellow": 614
+        },
+        "hitsOf": "grenade-detonation"
+      }
+    },
+    {
+      "name": "row 1, grenade 5",
+      "scenario": {
+        "build": {
+          "weaponId": "carmine-penta",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 1.5
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 278
+        },
+        "hitsOf": "grenade-detonation"
+      }
+    },
+    {
+      "name": "row 2, grenade 1",
+      "scenario": {
+        "build": {
+          "weaponId": "carmine-penta",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 0
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 350
+        },
+        "hitsOf": "grenade-detonation"
+      }
+    },
+    {
+      "name": "row 2, grenade 2",
+      "scenario": {
+        "build": {
+          "weaponId": "carmine-penta",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 0.0
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 347
+        },
+        "hitsOf": "grenade-detonation"
+      }
+    },
+    {
+      "name": "row 2, grenade 3",
+      "scenario": {
+        "build": {
+          "weaponId": "carmine-penta",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 0.5
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "yellow": 669
+        },
+        "hitsOf": "grenade-detonation"
+      }
+    },
+    {
+      "name": "row 2, grenade 4",
+      "scenario": {
+        "build": {
+          "weaponId": "carmine-penta",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 1.0
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "yellow": 628
+        },
+        "hitsOf": "grenade-detonation"
+      }
+    },
+    {
+      "name": "row 2, grenade 5",
+      "scenario": {
+        "build": {
+          "weaponId": "carmine-penta",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 1.5
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 286
+        },
+        "hitsOf": "grenade-detonation"
+      }
+    }
+  ]
+}

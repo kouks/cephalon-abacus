@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { damageTypeSchema } from './damageType';
 import { moduleSchema } from './module';
-import { gameVersionSchema, list, nonNegative, object, positive } from './primitives';
+import { gameVersionSchema, list, nonNegative, object, positive, slugSchema } from './primitives';
 import { scenarioSchema } from './scenario';
 import { weaponSchema } from './weapon';
 
@@ -21,13 +21,17 @@ const observedSchema = object({
   arsenal: z.record(z.string().min(1), nonNegative).readonly().exactOptional(),
   /** The numbers that hits showed. */
   hits: z.partialRecord(colourSchema, nonNegative).readonly().exactOptional(),
+  /** The attack they are of, of those the shot sets off: an explosion. Absent: the shot's own. */
+  hitsOf: slugSchema.exactOptional(),
   /** The seconds that some shots took, or a whole magazine. */
   firing: list(
     object({ shots: z.union([positive, z.literal('magazine')]), seconds: positive }),
   ).exactOptional(),
   /** Types that never proc'd. */
   neverProcs: list(damageTypeSchema).exactOptional(),
-}).refine((observed) => Object.keys(observed).length > 0, 'Expected something observed');
+})
+  .refine((observed) => Object.keys(observed).length > 0, 'Expected something observed')
+  .refine(({ hits, hitsOf }) => hitsOf === undefined || hits !== undefined, 'hitsOf needs hits');
 
 /** How far the exact value may be from the reported one: half a unit of its last digit, or more. */
 const toleranceSchema = object({

@@ -1,0 +1,412 @@
+{
+  "id": "T-41",
+  "question": "Does an explosion's damage follow the power at exact distances?",
+  "bible": "§11",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "| Aegrit | on the barrel itself | 797 |\n| Aegrit | the next crossing (4 m) | 533 |\n| Aegrit | the crossing across the tile (5.66 m) | 405 |\n| Aegrit | two crossings away, in a straight line (8 m) | 182 |\n| Opticor | on the barrel itself (the 6 m explosion) | 2 numbers: 400 and 1000 probably one is direct hit |\n| Opticor | the next crossing (4 m) | 211 |\n| Opticor | the crossing across the tile (5.66 m) | 70 |\nArsenal, Aegrit's explosion: crit multiplier: 1.9x cd\nArsenal, Opticor's explosion: radius, falloff, crit multiplier: 6m range, 60% falloff, 2.5x cd"
+    }
+  ],
+  "notes": "Follie's barrel with its middle on a crossing of the floor's lines, 4 m apart, in the Simulacrum, no mods, and no numbers were predicted to Pavel. The barrel is a neutral target. Opticor charged fully. The numbers are up to 9 cm nearer and 2 cm further than the crossings, so the tolerance is a decimetre. Aegrit's explosion crits for 1.9x by the arsenal, as Pavel read it, where the wiki says 2x. The wiki's straight line would show 549, 446 and 301, and 240 and 174. Aegrit and Opticor are not in the library yet.",
+  "weapons": [
+    {
+      "id": "aegrit",
+      "name": "Aegrit",
+      "uniqueName": "/Lotus/Weapons/Grineer/ThrowingWeapons/GrnVorStickyBomb/GrnVorStickyBomb",
+      "source": "https://wiki.warframe.com/w/Aegrit",
+      "gameVersion": "44.1.4.1",
+      "slot": "secondary",
+      "class": ["thrown"],
+      "compatTags": ["PROJECTILE", "THROWN", "AOE"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 2,
+        "maxAmmo": 4,
+        "reloadStyle": "magazine",
+        "reloadTime": 1.3
+      },
+      "attacks": [
+        {
+          "id": "direct-hit",
+          "name": "Direct Hit",
+          "damage": {
+            "impact": 4.5,
+            "puncture": 1.8,
+            "slash": 2.7
+          },
+          "trigger": "active",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.37,
+          "critMultiplier": 1.9,
+          "statusChance": 0.19,
+          "fireRate": 2,
+          "ammoCost": 1,
+          "projectileSpeed": 30,
+          "linkedAttacks": ["detonation"],
+          "flags": ["canHeadshot", "canCrit"]
+        },
+        {
+          "id": "detonation",
+          "name": "Detonation",
+          "damage": {
+            "blast": 797
+          },
+          "shotType": "aoe",
+          "multishot": 1,
+          "critChance": 0.37,
+          "critMultiplier": 1.9,
+          "statusChance": 0.19,
+          "fireRate": 2,
+          "ammoCost": 0,
+          "trigger": "active",
+          "aoe": {
+            "radius": 9,
+            "centerPct": 1,
+            "edgePct": 0.3,
+            "losRequired": false
+          },
+          "flags": ["canCrit", "isAoE"]
+        }
+      ]
+    },
+    {
+      "id": "opticor",
+      "name": "Opticor",
+      "uniqueName": "/Lotus/Weapons/Corpus/LongGuns/CrpBFG/CrpBFG",
+      "source": "https://wiki.warframe.com/w/Opticor",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["rifle"],
+      "compatTags": ["ASSAULT_AMMO", "AOE", "SINGLESHOT"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 5,
+        "maxAmmo": 200,
+        "reloadStyle": "magazine",
+        "reloadTime": 2
+      },
+      "attacks": [
+        {
+          "id": "charged-shot",
+          "name": "Charged Shot",
+          "damage": {
+            "impact": 100,
+            "puncture": 850,
+            "slash": 50
+          },
+          "trigger": "charge",
+          "shotType": "hitscan",
+          "multishot": 1,
+          "critChance": 0.2,
+          "critMultiplier": 2.5,
+          "statusChance": 0.2,
+          "fireRate": 1,
+          "ammoCost": 1,
+          "chargeTime": 2,
+          "afterCharge": "fireDelay",
+          "range": 300,
+          "linkedAttacks": ["explosion"],
+          "flags": ["canHeadshot", "canCrit"]
+        },
+        {
+          "id": "explosion",
+          "name": "Charged Shot AoE",
+          "damage": {
+            "magnetic": 400
+          },
+          "shotType": "aoe",
+          "multishot": 1,
+          "critChance": 0.2,
+          "critMultiplier": 2.5,
+          "statusChance": 0.2,
+          "fireRate": 1,
+          "ammoCost": 0,
+          "trigger": "semi",
+          "aoe": {
+            "radius": 6,
+            "centerPct": 1,
+            "edgePct": 0.4,
+            "losRequired": false
+          },
+          "flags": ["canCrit", "isAoE"]
+        }
+      ]
+    }
+  ],
+  "tolerance": {
+    "hits": 11
+  },
+  "cases": [
+    {
+      "name": "Aegrit on the barrel",
+      "scenario": {
+        "build": {
+          "weaponId": "aegrit",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 797
+        },
+        "hitsOf": "detonation"
+      }
+    },
+    {
+      "name": "Aegrit, the next crossing",
+      "scenario": {
+        "build": {
+          "weaponId": "aegrit",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 4
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 533
+        },
+        "hitsOf": "detonation"
+      }
+    },
+    {
+      "name": "Aegrit, across the tile",
+      "scenario": {
+        "build": {
+          "weaponId": "aegrit",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 5.657
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 405
+        },
+        "hitsOf": "detonation"
+      }
+    },
+    {
+      "name": "Aegrit, two crossings away",
+      "scenario": {
+        "build": {
+          "weaponId": "aegrit",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 8
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 182
+        },
+        "hitsOf": "detonation"
+      }
+    },
+    {
+      "name": "Opticor on the barrel, the shot",
+      "scenario": {
+        "build": {
+          "weaponId": "opticor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 1000
+        }
+      }
+    },
+    {
+      "name": "Opticor on the barrel, its explosion",
+      "scenario": {
+        "build": {
+          "weaponId": "opticor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 400
+        },
+        "hitsOf": "explosion"
+      }
+    },
+    {
+      "name": "Opticor, the next crossing",
+      "scenario": {
+        "build": {
+          "weaponId": "opticor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 4
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 211
+        },
+        "hitsOf": "explosion"
+      }
+    },
+    {
+      "name": "Opticor, across the tile",
+      "scenario": {
+        "build": {
+          "weaponId": "opticor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 5.657
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 70
+        },
+        "hitsOf": "explosion"
+      }
+    }
+  ]
+}

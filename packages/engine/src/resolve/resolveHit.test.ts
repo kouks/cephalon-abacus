@@ -40,6 +40,8 @@ describe('a hit on a neutral target', () => {
       'bodyPart',
       'range',
       'falloff',
+      'landing',
+      'radialFalloff',
       'vulnerability impact',
       'vulnerability puncture',
       'vulnerability slash',

@@ -145,10 +145,11 @@ data  →  importers
 
 - Pavel runs tests in the game on request. Ask in batches of 3–4, and only once the engine has the code a test exercises, so each report can be replayed at once.
 - Use the request template in BIBLE §16: Simulacrum, enemy and level, weapon and rank, every mod and its rank, no arcanes, companion or abilities unless they are the variable, body or head, and what to report. Change one variable per test.
-- Each report becomes `tests/golden/T-<n>-<topic>.json` (`T-5-cold-crit.json`) with the report word for word (typos fixed), the observed values exactly as reported, the game version, and a tolerance (`schema/goldenFixture.ts`). Each case holds a whole `Scenario`, which the debug page takes as it is. A fixture brings the modules and weapons that the library lacks, such as a Riven. Never edit an observed value to make a test pass.
+- Each report becomes `tests/golden/T-<n>-<topic>.json` (`T-5-cold-crit.json`) with the report word for word (typos fixed), the observed values exactly as reported, the game version, and a tolerance (`schema/goldenFixture.ts`). Each case holds a whole `Scenario`, which the debug page takes as it is. A fixture brings the modules and weapons that the library lacks, such as a Riven, and `hitsOf` names the attack whose numbers were read if it isn't the shot itself: an explosion. Never edit an observed value to make a test pass.
 - **When a report differs from the wiki, push back.** Quote what the wiki says, repeat the conditions as you understood them (enemy and body part, weapon, firing mode, every mod and its rank, aiming, what was read off), and ask for the conditions and results to be stated back. Until they are, the wiki's rule stands, the fixture waits, and nothing is written down as wrong. Look for the mundane reason first: another enemy, another variant of the weapon, a Riven, a buff.
 - Ask for the numbers that were seen, not whether predictions match, when the wiki says something else.
-- Gates: Gate 1 is T-1 to T-4, T-14 and T-17 to T-27, all answered; Gate 2 is T-5 to T-10 and T-13; Gate 3 is T-11, T-12, T-15 and T-16; Gate 4 is the sample builds.
+- **Distances in the Simulacrum:** the lines of the floor are 4 m apart, and Follie's barrel on a crossing is a neutral target that stays put. Readings of a waypoint are a metre coarse.
+- Gates: Gate 1 is T-1 to T-4, T-14, T-17 to T-35 and T-41, all answered; Gate 2 is T-5 to T-10 and T-13; Gate 3 is T-11, T-12, T-15 and T-16; Gate 4 is the sample builds.
 
 ## The app
 
@@ -260,6 +261,7 @@ Split long files by concern, extract helpers, and use early returns and lookup t
 - **Quantize the ratio, not the amount** (BIBLE §6). The wiki contradicts itself on whether +Damage applies before or after; on a ratio both readings agree.
 - **Quantization can punish a bonus:** a sliver of Toxin in front of 51% Heat and 51% Cold re-pairs the elements, and 33/32 of Blast becomes 16/32 of Gas and 16/32 of Cold.
 - **Falloff ends before its second number:** the line heads for no damage there, and stops at the weapon's least. Of 10 to 20 m, Hek (20%) is at its least from 18 m on and Tigris Prime (51.28%) from 14.9 m (T-25, T-26). The wiki draws the line to the least at the end.
+- **An explosion falls off as a power:** (1 − distance ÷ radius)^falloff, nothing at the radius, and even all over without falloff (T-28 to T-35, T-41). The wiki draws a line to the edge damage: Carmine Penta deals 77 of 350 near its rim where that says 175. The distance is to the enemy's body, about half a metre nearer than its feet.
 - **Faction bonuses double-dip** in proc DoTs and extra hits, and triple-dip in an extra hit's DoT. That is the game, not a bug.
 - **Heat merges** into one instance per enemy that keeps the first proc's bonuses, so an unmodded first proc drags the whole stack down.
 - **Arsenal percentages are relative to the base stat:** +150% crit chance on a 20% weapon is 50%. Flat sources (Arcane Avenger, Puncture stacks) add points afterwards.

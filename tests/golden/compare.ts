@@ -16,7 +16,11 @@ export type Comparison = {
   readonly explain?: () => string;
 };
 
-type Side = { readonly attack: AttackMetrics; readonly tolerance: Tolerance };
+type Side = {
+  readonly attack: AttackMetrics;
+  readonly tolerance: Tolerance;
+  readonly hitsOf?: string | undefined;
+};
 
 /** The observed keys of a list, each with its value. */
 const observedIn = <Key extends string>(
@@ -28,16 +32,20 @@ const observedIn = <Key extends string>(
     return value === undefined ? [] : [[key, value] as const];
   });
 
-/** The one part that a fixture aims at. */
-const hitOf = ({ shots }: AttackMetrics) => {
-  const [first] = shots;
-  const hits = first?.shot.hits ?? [];
+/** The one part that a fixture aims at, hit by the shot or by what it sets off. */
+const hitOf = ({ shots, attackId }: AttackMetrics, hitsOf = attackId) => {
+  const fired = shots.find((entry) => entry.attackId === hitsOf);
+  const { hits } = must(fired, `The shot sets off no "${hitsOf}"`).shot;
   if (hits.length !== 1) throw new Error('A fixture aims at one part');
   return must(hits[0], 'The shot has a hit').hit;
 };
 
-const compareHit = (colour: Colour, observed: number, { attack, tolerance }: Side): Comparison => {
-  const hit = hitOf(attack);
+const compareHit = (
+  colour: Colour,
+  observed: number,
+  { attack, tolerance, hitsOf }: Side,
+): Comparison => {
+  const hit = hitOf(attack, hitsOf);
   const tier = hit.tiers.find((entry) => entry.tier === COLOURS.indexOf(colour));
   const comparison = {
     what: `${colour} hit`,
@@ -102,7 +110,8 @@ export const compare = (
   tolerance: Tolerance,
 ): readonly Comparison[] => {
   const found = byAttack.find((attack) => attack.attackId === attackId);
-  const side = { attack: must(found, 'The headline is of a firing mode'), tolerance };
+  const attack = must(found, 'The headline is of a firing mode');
+  const side = { attack, tolerance, hitsOf: observed.hitsOf };
   return [
     ...observedIn(COLOURS, observed.hits).map(([colour, value]) => compareHit(colour, value, side)),
     ...compareArsenal(observed, side),

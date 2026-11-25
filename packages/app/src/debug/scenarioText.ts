@@ -9,7 +9,7 @@ const DEFAULT_SCENARIO: Scenario = {
     elementOrder: [],
   },
   enemy: { id: 'neutral-dummy', level: 1, steelPath: false, modifiers: [] },
-  aim: { head: 0, body: 1 },
+  aim: { head: 0, body: 1, missBy: 0 },
   distance: 10,
   duration: 20,
   mode: 'expected',

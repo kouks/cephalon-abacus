@@ -130,6 +130,24 @@ describe('an attack that sets off another', () => {
     expect(ranges).toEqual([0, 0]);
   });
 
+  it('reaches a target it lands beside with the explosion alone', () => {
+    const aim = { head: 1, body: 0, missBy: 3 };
+    const { perShot, byAttack, warnings } = measureBuild({
+      attacks: [GRENADE, BLAST],
+      scenario: { aim },
+    });
+    expect(perShot).toBeCloseTo(175, 9);
+    expect(byAttack[0]?.shots.map(({ shot }) => shot.total)).toEqual([0, expect.closeTo(175, 9)]);
+    expect(warnings).toEqual([]);
+  });
+
+  it('says how wide it explodes', () => {
+    const firestorm = mod('firestorm', [add('aoeRadius', 0.24)]);
+    const { byAttack } = measureBuild({ attacks: [GRENADE, BLAST], modules: [firestorm] });
+    const radii = byAttack[0]?.shots.map(({ shot }) => shot.stats.aoeRadius?.value);
+    expect(radii).toEqual([undefined, expect.closeTo(4.96, 9)]);
+  });
+
   it('crits only where each can', () => {
     const avenger = mod('avenger', [add('crit.chanceFlat', 1, { op: 'ADD' })]);
     const explosive = { ...BLAST, flags: ['isAoE', 'canCrit'] };

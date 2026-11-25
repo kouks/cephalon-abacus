@@ -3,6 +3,7 @@ import type { BodyPart } from '@abacus/data/schema/effect';
 import type { Scenario } from '@abacus/data/schema/scenario';
 
 import type { BuiltAttack } from '@/build/buildAttack';
+import type { AttackStats } from '@/build/stats/attackStats';
 import type { ModdedStat } from '@/build/stats/moddedStat';
 
 import type { HitResult } from './resolveHit';
@@ -12,6 +13,7 @@ import { aimAt, bodyOf } from './target';
 
 /** One shot on average: its pellets, and where they land. */
 export type ExpectedShot = {
+  readonly stats: AttackStats;
   readonly pellets: number;
   /** One pellet on each part aimed at, and how many of the pellets hit it. */
   readonly hits: readonly { readonly share: number; readonly hit: HitResult }[];
@@ -29,8 +31,8 @@ type Shot = {
 };
 
 /** An attack that can't headshot hits the body, wherever it is aimed: most AoE. */
-const partsHit = ({ buildFor, target, aim }: Shot): readonly AimedPart[] =>
-  buildFor([]).attack.flags?.includes('canHeadshot') === true
+const partsHit = ({ attack }: BuiltAttack, { target, aim }: Shot): readonly AimedPart[] =>
+  attack.flags?.includes('canHeadshot') === true
     ? aimAt(aim, target)
     : [{ part: bodyOf(target), share: 1 }];
 
@@ -45,13 +47,15 @@ const addUp = (hits: ExpectedShot['hits'], pellets: number) => {
 };
 
 export const expectedShot = (shot: Shot): ExpectedShot => {
-  const { target, distance, reach } = shot;
-  const pellets = Math.max(shot.buildFor([]).stats.multishot.value, 0);
-  const hits = partsHit(shot).map(({ part, share }) => {
-    const built = shot.buildFor(part.bodyParts);
-    return { share, hit: resolveHit(built, { target, part, distance, reach }) };
+  const { target, distance, reach, aim, buildFor } = shot;
+  const built = buildFor([]);
+  const { stats } = built;
+  const pellets = Math.max(stats.multishot.value, 0);
+  const hits = partsHit(built, shot).map(({ part, share }) => {
+    const at = { target, part, distance, reach, missBy: aim.missBy };
+    return { share, hit: resolveHit(buildFor(part.bodyParts), at) };
   });
   const perType = addUp(hits, pellets);
   const total = [...perType.values()].reduce((sum, damage) => sum + damage, 0);
-  return { pellets, hits, perType, total };
+  return { stats, pellets, hits, perType, total };
 };

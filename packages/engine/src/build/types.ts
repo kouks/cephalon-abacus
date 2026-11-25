@@ -61,6 +61,13 @@ export type Warning =
       readonly range: number;
       readonly distance: number;
     }
+  | {
+      readonly code: 'missesTarget';
+      readonly attackId: string;
+      readonly missBy: number;
+      /** The widest explosion of the shot, or 0. */
+      readonly radius: number;
+    }
   | { readonly code: 'leftOut'; readonly attackId: string; readonly what: LeftOut };
 
 /** Everything a build's modules bring, before stacks, filters and sums. */
