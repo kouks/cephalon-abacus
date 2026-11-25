@@ -271,6 +271,7 @@ describe('golden fixtures', () => {
   };
 
   const withObserved = (observed: object) => ({ cases: [{ ...fixture.cases[0], observed }] });
+  const wornDown = (hits: object) => ({ depleted: [{ layer: 'health', hits, last: 'white' }] });
 
   it.each([
     ['as they are', {}, true],
@@ -279,6 +280,10 @@ describe('golden fixtures', () => {
     ['timed by the magazine', withObserved({ firing: [{ shots: 'magazine', seconds: 15 }] }), true],
     ['timed by nothing', withObserved({ firing: [{ shots: 0, seconds: 15 }] }), false],
     ['in an unknown colour', withObserved({ hits: { blue: 29 } }), false],
+    ['worn down', withObserved(wornDown({ white: 5 })), true],
+    ['worn down by a last hit that is not counted', withObserved(wornDown({ yellow: 5 })), false],
+    ['worn down by half a hit', withObserved(wornDown({ white: 4.5 })), false],
+    ['worn down by nothing', withObserved({ depleted: [] }), false],
     ['that observe nothing', withObserved({}), false],
     ['without cases', { cases: [] }, false],
     ['without a report', { reports: [] }, false],

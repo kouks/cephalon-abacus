@@ -1,0 +1,147 @@
+{
+  "id": "T-39",
+  "question": "What does the Steel Path change?",
+  "bible": "§10",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "Steel Path on.\n| Runner 50 | B | 13 white 1 yellow last white |\n| Runner 50 | B | 8 white 4 yellow last white |\n| Lancer 100 | A | one white number | 217 |\n| the level shown with Steel Path on | 100 lancer is level 100 |"
+    }
+  ],
+  "notes": "Asked for in the Simulacrum with AI paused, one enemy at a time, at its body from about 5 m, with Arca Plasmor, and no numbers were predicted to Pavel. Loadout A has no mods; B has Primed Point Blank at max, or Point Blank without it. Which one Pavel had was left blank: the counts fit Primed Point Blank (Point Blank would leave every one of them about 28% short), so that is inferred. The hits are counted until the enemy is gone, so all but the last of them were not enough. Without the Steel Path the Lancer showed 217 too (T-37), so its armor stays as it is. Its number waits for armor, in ABA-22. Arca Plasmor is in the fixture for the reason in T-27.",
+  "weapons": [
+    {
+      "id": "arca-plasmor",
+      "name": "Arca Plasmor",
+      "uniqueName": "/Lotus/Weapons/Corpus/LongGuns/CrpShotgun/CrpShotgun",
+      "source": "https://wiki.warframe.com/w/Arca_Plasmor",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["shotgun"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 10,
+        "maxAmmo": 50,
+        "reloadStyle": "magazine",
+        "reloadTime": 2.8
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "radiation": 600
+          },
+          "trigger": "semi",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.22,
+          "critMultiplier": 1.6,
+          "statusChance": 0.28,
+          "fireRate": 1.1,
+          "ammoCost": 1,
+          "falloff": {
+            "start": 10,
+            "end": 20,
+            "minPct": 0.3333
+          },
+          "range": 30,
+          "projectileSpeed": 60,
+          "flags": ["canCrit"]
+        }
+      ]
+    }
+  ],
+  "tolerance": {},
+  "cases": [
+    {
+      "name": "level 50, run 1",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [
+            {
+              "moduleId": "primed-point-blank",
+              "rank": 10
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 50,
+          "steelPath": true,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "depleted": [
+          {
+            "layer": "health",
+            "hits": {
+              "white": 13,
+              "yellow": 1
+            },
+            "last": "white"
+          }
+        ]
+      }
+    },
+    {
+      "name": "level 50, run 2",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [
+            {
+              "moduleId": "primed-point-blank",
+              "rank": 10
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 50,
+          "steelPath": true,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "depleted": [
+          {
+            "layer": "health",
+            "hits": {
+              "white": 8,
+              "yellow": 4
+            },
+            "last": "white"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "id": "T-38",
+  "question": "How do shields grow with the level?",
+  "bible": "§10",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "Crewman, loadout A.\n| Level | Run | Until the shield is gone: whites, yellows | Until it dies after that: whites, yellows |\n| 100 | 1 | 9 white 3 yellow last white (586 shield damage and 14 bled through to health) | shield regen doesn't care about health damage and regens anyway, health should however be inferred from previous test |\n| 100 | 2 | 7 white, 4 yellow last white (598 shield damage and 2 bled through to health) | shield regen doesn't care about health damage and regens anyway, health should however be inferred from previous test |"
+    }
+  ],
+  "notes": "Asked for in the Simulacrum with AI paused, one enemy at a time, at its body from about 5 m, with Arca Plasmor, and no numbers were predicted to Pavel. The hits are counted until the shield is gone, so all but the last of them were not enough. Loadout A has no mods. The report's rows at level 150 wait for a second run: its two runs don't agree with one another, and shields may have grown back during a reload. The two numbers of the shot that broke the shield wait for ABA-22: 5% of what was left of it reached health, and the shield's number shows all the rest of it. Arca Plasmor is in the fixture for the reason in T-27.",
+  "weapons": [
+    {
+      "id": "arca-plasmor",
+      "name": "Arca Plasmor",
+      "uniqueName": "/Lotus/Weapons/Corpus/LongGuns/CrpShotgun/CrpShotgun",
+      "source": "https://wiki.warframe.com/w/Arca_Plasmor",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["shotgun"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 10,
+        "maxAmmo": 50,
+        "reloadStyle": "magazine",
+        "reloadTime": 2.8
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "radiation": 600
+          },
+          "trigger": "semi",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.22,
+          "critMultiplier": 1.6,
+          "statusChance": 0.28,
+          "fireRate": 1.1,
+          "ammoCost": 1,
+          "falloff": {
+            "start": 10,
+            "end": 20,
+            "minPct": 0.3333
+          },
+          "range": 30,
+          "projectileSpeed": 60,
+          "flags": ["canCrit"]
+        }
+      ]
+    }
+  ],
+  "enemies": [
+    {
+      "id": "crewman",
+      "name": "Crewman",
+      "source": "https://wiki.warframe.com/w/Crewman",
+      "gameVersion": "44.1.4.1",
+      "faction": "corpus",
+      "scalingProfile": "corpus",
+      "baseLevel": 1,
+      "baseHealth": 90,
+      "baseShield": 120,
+      "baseArmor": 0,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 3,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ]
+    }
+  ],
+  "tolerance": {},
+  "cases": [
+    {
+      "name": "level 100, run 1",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "crewman",
+          "level": 100,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "depleted": [
+          {
+            "layer": "shield",
+            "hits": {
+              "white": 9,
+              "yellow": 3
+            },
+            "last": "white"
+          }
+        ]
+      }
+    },
+    {
+      "name": "level 100, run 2",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "crewman",
+          "level": 100,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "depleted": [
+          {
+            "layer": "shield",
+            "hits": {
+              "white": 7,
+              "yellow": 4
+            },
+            "last": "white"
+          }
+        ]
+      }
+    }
+  ]
+}

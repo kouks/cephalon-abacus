@@ -4,17 +4,9 @@ import { COLOURS } from '@abacus/data/schema/goldenFixture';
 import type { Colour, Observed, Tolerance } from '@abacus/data/schema/goldenFixture';
 import type { AttackMetrics, Result } from '@abacus/engine';
 
+import type { Comparison } from './comparison';
+import { compareDepleted } from './depleted';
 import { explainHit } from './explain';
-
-/** One observed value against the engine's. */
-export type Comparison = {
-  readonly what: string;
-  readonly observed: number;
-  readonly computed: number | undefined;
-  readonly tolerance: number;
-  /** What to look at if they differ. */
-  readonly explain?: () => string;
-};
 
 type Side = {
   readonly attack: AttackMetrics;
@@ -106,7 +98,7 @@ const compareProcs = ({ neverProcs = [] }: Observed, { attack }: Side) =>
 /** Everything that was observed, against what the engine computes. */
 export const compare = (
   observed: Observed,
-  { byAttack, attackId }: Result,
+  { byAttack, attackId, enemy }: Result,
   tolerance: Tolerance,
 ): readonly Comparison[] => {
   const found = byAttack.find((attack) => attack.attackId === attackId);
@@ -118,16 +110,6 @@ export const compare = (
     ...compareTotal(observed.arsenalTotal, side),
     ...compareFiring(observed, side),
     ...compareProcs(observed, side),
+    ...compareDepleted(observed, () => hitOf(side.attack), enemy),
   ];
-};
-
-export const isMatch = ({ observed, computed, tolerance }: Comparison): boolean =>
-  computed !== undefined && Math.abs(computed - observed) <= tolerance + 1e-9;
-
-/** One line per value that differs, and what to look at. */
-export const describeMismatch = (comparison: Comparison): string => {
-  const { what, observed, computed, explain } = comparison;
-  const shown = computed === undefined ? 'nothing' : Number(computed.toPrecision(8));
-  const line = `${what}: reported ${observed}, computed ${shown}`;
-  return explain === undefined ? line : `${line}\n${explain()}`;
 };
