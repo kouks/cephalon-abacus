@@ -9,7 +9,7 @@
       "words": "Runner.\n| Level | Loadout | Run 1: whites, yellows, last | Run 2: whites, yellows, last |\n| 50 | A | 5 white 6 yellow last yellow | 13 white, 1 yellow last white |\n| 75 | B | 12 white 3 yellow last yellow | 14 white, 2 yellow last white |\n| 100 | B | 19 white 6 yellow last white | 22 white 4 yellow last white |\n| 200 | B | 33 white 9 yellow last yellow | 30 white 10 yellow last white |"
     }
   ],
-  "notes": "Asked for in the Simulacrum with AI paused, one enemy at a time, at its body from about 5 m, with Arca Plasmor, and no numbers were predicted to Pavel. Loadout A has no mods; B has Primed Point Blank at max, or Point Blank without it. Which one Pavel had was left blank: the counts fit Primed Point Blank (Point Blank would leave every one of them about 28% short), so that is inferred. The hits are counted until the enemy is gone, so all but the last of them were not enough. Level 75 is inside the blend of the two curves: a straight blend would give 26,771, and the runs allow 25,764 to 26,721. At 200 they allow 72,847 to 73,171. Arca Plasmor is in the fixture for the reason in T-27.",
+  "notes": "Asked for in the Simulacrum with AI paused, one enemy at a time, at its body from about 5 m, with Arca Plasmor, and no numbers were predicted to Pavel. Loadout A has no mods, and B has Primed Point Blank at max, as Pavel confirmed. The hits are counted until the enemy is gone, so all but the last of them were not enough. Level 75 is inside the blend of the two curves: a straight blend would give 26,771, and the runs allow 25,764 to 26,721. At 200 they allow 72,847 to 73,171. Arca Plasmor is in the fixture for the reason in T-27.",
   "weapons": [
     {
       "id": "arca-plasmor",
