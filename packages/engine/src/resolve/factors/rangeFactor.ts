@@ -3,7 +3,7 @@ import type { Factor } from '@/trace/hitTrace';
 
 import { effectsOf, factor } from './factor';
 
-/** An attack without a range always reaches: a projectile, an explosion. */
+/** An attack without a range always reaches: most projectiles, and explosions. */
 export const isInRange = (range: ModdedStat | undefined, distance: number): boolean =>
   range === undefined || distance <= range.value;
 

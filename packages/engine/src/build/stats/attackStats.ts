@@ -31,15 +31,21 @@ export type AttackStats = {
   readonly reloadTime?: ModdedStat;
 };
 
-type Optional = Partial<Record<'range' | 'projectileSpeed' | 'aoeRadius', number | undefined>>;
+/** A projectile with a range flies for a fixed time, so only speed takes it further (BIBLE §11). */
+const rangeBucket = ({ shotType }: Attack) =>
+  shotType === 'projectile' ? 'projectileSpeed' : 'range';
 
 /** Stats the attack may not have: absent stays absent. */
 const modGeometry = (attack: Attack, totals: BucketTotals) => {
   const { range, projectileSpeed, aoe } = attack;
-  const bases: Optional = { range, projectileSpeed, aoeRadius: aoe?.radius };
+  const stats = [
+    ['range', range, rangeBucket(attack)],
+    ['projectileSpeed', projectileSpeed, 'projectileSpeed'],
+    ['aoeRadius', aoe?.radius, 'aoeRadius'],
+  ] as const;
   return Object.fromEntries(
-    Object.entries(bases).flatMap(([bucket, base]) =>
-      base === undefined ? [] : [[bucket, modStat(totals, base, [bucket])]],
+    stats.flatMap(([stat, base, bucket]) =>
+      base === undefined ? [] : [[stat, modStat(totals, base, [bucket])]],
     ),
   );
 };

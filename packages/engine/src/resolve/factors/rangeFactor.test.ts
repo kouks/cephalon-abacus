@@ -31,7 +31,7 @@ describe('range', () => {
     expect(tiers.map((tier) => tier.total)).toEqual([0, 0]);
   });
 
-  it('is not there without one: a projectile always reaches', () => {
+  it('is not there without one: most projectiles always reach', () => {
     const { value, effects } = factorOf(hit({ attack: {}, distance: 1000 }), 'range');
     expect([value, effects]).toEqual([1, []]);
   });
@@ -55,10 +55,31 @@ describe('a range bonus', () => {
       ['sinister-reach', 12],
     ]);
   });
+});
 
-  it('is not what projectile speed is', () => {
-    const modules = [mod('speed', [add('projectileSpeed', 1)])];
-    expect(shareAt(19, { modules })).toBe(0);
+describe('projectile speed', () => {
+  const PLASMOR = { range: 30, shotType: 'projectile', projectileSpeed: 60 };
+  const modules = [mod('fatal-acceleration', [add('projectileSpeed', 0.4)])];
+
+  const reached = (attack: object, setup: Parameters<typeof hit>[0] = {}) =>
+    [18, 19, 30, 31, 42, 43].filter((distance) => at(distance, { attack, ...setup }).total > 0);
+
+  it('takes a projectile further: Arca Plasmor’s 30 m are 42 m with Fatal Acceleration', () => {
+    expect(reached(PLASMOR)).toEqual([18, 19, 30]);
+    expect(reached(PLASMOR, { modules })).toEqual([18, 19, 30, 31, 42]);
+  });
+
+  it('is named behind the factor', () => {
+    const { effects } = factorOf(at(40, { attack: PLASMOR, modules }), 'range');
+    expect(effects.map(({ source }) => source.name)).toEqual(['fatal-acceleration']);
+  });
+
+  it('stretches its falloff too, and leaves the range of other shots alone', () => {
+    const falloff = { start: 10, end: 20, minPct: 0.3333 };
+    const near = at(14, { attack: { ...PLASMOR, falloff }, modules });
+    expect(factorOf(near, 'falloff').value).toBe(1);
+    expect(reached(AMPREX, { modules })).toEqual([18]);
+    expect(factorOf(at(18, { modules }), 'range').effects).toEqual([]);
   });
 });
 

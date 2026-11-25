@@ -94,6 +94,13 @@ describe('attack stats', () => {
     expect([range, projectileSpeed, aoeRadius].map((stat) => stat?.value)).toEqual([27, 105, 6]);
   });
 
+  it('take a projectile further by its speed, and not by a range bonus', () => {
+    const effects = [add('projectileSpeed', 0.4), add('range', 12, { op: 'ADD' })];
+    const { range } = measure({ effects, attack: { range: 30, shotType: 'projectile' } }).stats;
+    expect([range?.base, range?.value]).toEqual([30, 42]);
+    expect(measure({ effects, attack: { range: 30 } }).stats.range?.value).toBe(42);
+  });
+
   it('of an explosion leave out bonuses for direct hits only', () => {
     const effects = [add('crit.chance', 1, { scope: ['direct'] }), add('crit.chance', 0.5)];
     expect(measure({ effects }).stats.critChance.value).toBeCloseTo(0.5, 12);
