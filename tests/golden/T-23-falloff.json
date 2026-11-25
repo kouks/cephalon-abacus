@@ -13,7 +13,7 @@
       "words": "Falloff seems to be more aggressive than stated on the wiki. Tigris has no mods. Your expected numbers seem to happen at around 13m. Maybe the waypoint distance is misleading (offset by 2m compared to shooting distance). Bleed under 8m is indeed 69, my mistake (up close, Tigris body shot on 200 Runner with no mods)."
     }
   ],
-  "notes": "The expected numbers were not given. The first message had a bleed of 67, corrected to 69; bleeds are for ABA-25. Screenshots show 141 to 151 at a waypoint of 15 m, and 204 to 217 (yellow 412 to 418) at 13 m. The wiki's line, from 10 to 20 m, has those at 19.2 to 20 m and at 14.3 to 15.3 m, so what is between the ends waits for confirmation and is not in the cases.",
+  "notes": "The expected numbers were not given. The first message had a bleed of 67, corrected to 69; bleeds are for ABA-25. What is between the ends is T-25.",
   "tolerance": {
     "hits": 0.5
   },

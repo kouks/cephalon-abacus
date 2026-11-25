@@ -35,17 +35,17 @@ const critFactor = ({ chance, multiplier, expected }: HitCrit) =>
 
 /** The direct-damage chain, in the order of BIBLE §3. */
 const chainOf = (
-  { attack, totals, composition }: BuiltAttack,
+  built: BuiltAttack,
   { target, part, distance }: At,
   crit: HitCrit,
 ): readonly Factor[] => [
-  ...damageFactors(composition),
-  factionFactor(totals, target),
-  ...finalFactors(totals),
+  ...damageFactors(built.composition),
+  factionFactor(built.totals, target),
+  ...finalFactors(built.totals),
   critFactor(crit),
-  bodyPartFactor(totals, part),
-  falloffFactor(attack, totals, distance),
-  ...vulnerabilityFactors(composition.types.keys(), target),
+  bodyPartFactor(built.totals, part),
+  falloffFactor(built, distance),
+  ...vulnerabilityFactors(built.composition.types.keys(), target),
   ...layerFactors(),
 ];
 

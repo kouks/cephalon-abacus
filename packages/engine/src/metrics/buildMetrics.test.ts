@@ -52,8 +52,8 @@ describe('a build’s metrics', () => {
     const attacks = [attackOf('shotgun', { falloff: { start: 10, end: 20, minPct: 0.5 } })];
     const at = (distance: number) => measureBuild({ attacks, scenario: { distance } });
     expect(at(10).perShot).toBeCloseTo(HIT, 9);
-    expect(at(15).perShot).toBeCloseTo(HIT * 0.75, 9);
-    expect(at(15).warnings).toEqual([]);
+    expect(at(12).perShot).toBeCloseTo(HIT * 0.8, 9);
+    expect(at(12).warnings).toEqual([]);
   });
 
   it('take other assumptions', () => {

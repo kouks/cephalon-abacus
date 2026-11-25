@@ -1,0 +1,246 @@
+{
+  "id": "T-25",
+  "question": "How does damage fall off between the start and the end?",
+  "bible": "§11",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "Falloff seems to be more aggressive than stated on the wiki. Tigris has no mods."
+    },
+    {
+      "on": "2026-11-25",
+      "words": "1. Attached screenshots. 2. Amprex stops connecting as soon as waypoint turns to 19m. 3. Attaching screenshots, not moving, no mods."
+    }
+  ],
+  "notes": "From screenshots of single shots at the body of a level 200 Runner: white 262 to 264 at 11 m, 223 to 242 at 12 m, 204 to 217 at 13 m, 171 to 178 at 14 m, 141 to 151 at 15 m, and 141 at 16 and 17 m. The arsenal shows a falloff of 10m - 20m, and 14m - 28m with Fatal Acceleration. Amprex reaches 18 m, so a waypoint of 12 m means more than 11 and up to 12 m: the cases use the middle of that metre, and the tolerance is half a metre of the line. The wiki's line, down to 51.28% at 20 m, would show 254 at 12 m, 227 at 14 m and 200 at 16 m.",
+  "tolerance": {
+    "hits": 14
+  },
+  "cases": [
+    {
+      "name": "at a waypoint of 11 m",
+      "scenario": {
+        "build": {
+          "weaponId": "tigris-prime",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 263
+        }
+      }
+    },
+    {
+      "name": "at a waypoint of 12 m",
+      "scenario": {
+        "build": {
+          "weaponId": "tigris-prime",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 11.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 235
+        }
+      }
+    },
+    {
+      "name": "at a waypoint of 13 m",
+      "scenario": {
+        "build": {
+          "weaponId": "tigris-prime",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 12.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 209
+        }
+      }
+    },
+    {
+      "name": "at a waypoint of 14 m",
+      "scenario": {
+        "build": {
+          "weaponId": "tigris-prime",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 13.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 175
+        }
+      }
+    },
+    {
+      "name": "at a waypoint of 15 m",
+      "scenario": {
+        "build": {
+          "weaponId": "tigris-prime",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 14.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 145
+        }
+      }
+    },
+    {
+      "name": "at a waypoint of 16 m",
+      "scenario": {
+        "build": {
+          "weaponId": "tigris-prime",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 15.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 141
+        }
+      }
+    },
+    {
+      "name": "at a waypoint of 17 m",
+      "scenario": {
+        "build": {
+          "weaponId": "tigris-prime",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 16.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 141
+        }
+      }
+    }
+  ]
+}

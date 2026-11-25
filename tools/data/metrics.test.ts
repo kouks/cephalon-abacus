@@ -124,13 +124,13 @@ const tigrisAt = (distance: number, mods: readonly string[] = []) => {
 };
 
 describe('Tigris Prime', () => {
-  it('loses damage between 10 and 20 m, down to 51.28%', () => {
-    const shares = [10, 15, 20, 30].map((distance) => tigrisAt(distance));
-    expect(shares).toEqual([1, 0.7564, 0.5128, 0.5128]);
+  it('loses damage from 10 m on, down to 51.28%', () => {
+    const shares = [10, 12.5, 15, 30].map((distance) => tigrisAt(distance));
+    expect(shares).toEqual([1, 0.75, 0.5128, 0.5128]);
   });
 
-  it('loses it between 14 and 28 m with Fatal Acceleration', () => {
-    const shares = [14, 21, 28].map((distance) => tigrisAt(distance, ['fatal-acceleration']));
-    expect(shares).toEqual([1, 0.7564, 0.5128]);
+  it('loses it from 14 m on with Fatal Acceleration', () => {
+    const shares = [14, 17.5, 21, 28].map((distance) => tigrisAt(distance, ['fatal-acceleration']));
+    expect(shares).toEqual([1, 0.75, 0.5128, 0.5128]);
   });
 });
