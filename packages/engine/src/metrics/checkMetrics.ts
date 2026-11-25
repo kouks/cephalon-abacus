@@ -3,6 +3,7 @@ import type { Scenario } from '@abacus/data/schema/scenario';
 import type { Weapon } from '@abacus/data/schema/weapon';
 
 import type { LeftOut, Warning } from '@/build/types';
+import { blastRadius } from '@/resolve/factors/landingFactor';
 import { isInRange } from '@/resolve/factors/rangeFactor';
 import type { Target } from '@/resolve/target';
 
@@ -60,3 +61,13 @@ export const checkRange = (
       ? []
       : [{ code: 'outOfRange', attackId, range: range.value, distance } as const],
   );
+
+/** The firing modes that land beside the target, and set off nothing that gets to it. */
+export const checkLanding = (
+  byAttack: readonly AttackMetrics[],
+  { missBy = 0 }: Scenario['aim'],
+): readonly Warning[] =>
+  byAttack.flatMap(({ attackId, shots }) => {
+    const radius = Math.max(...shots.map(({ shot }) => blastRadius(shot.stats)));
+    return missBy <= radius ? [] : [{ code: 'missesTarget', attackId, missBy, radius } as const];
+  });

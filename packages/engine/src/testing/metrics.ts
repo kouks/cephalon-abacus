@@ -29,10 +29,12 @@ export const attackOf = (id: string, change: object = {}) => ({
 
 export const GRENADE = attackOf('grenade', { damage: { impact: 75 }, linkedAttacks: ['blast'] });
 
+export const AOE = { radius: 4, centerPct: 1, edgePct: 0.5, losRequired: false };
+
 export const BLAST = attackOf('blast', {
   damage: { blast: 350 },
   shotType: 'aoe',
-  aoe: { radius: 4, centerPct: 1, edgePct: 0.5, losRequired: false },
+  aoe: AOE,
   ammoCost: 0,
   flags: ['isAoE'],
 });

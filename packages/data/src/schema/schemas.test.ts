@@ -202,6 +202,8 @@ describe('scenarios', () => {
     ['as they are', {}, true],
     ['with fractions that add up in floating point', { aim: { head: 0.7 + 0.2, body: 0.1 } }, true],
     ['that aim at 110%', { aim: { head: 0.6, body: 0.5 } }, false],
+    ['that land beside the target', { aim: { head: 0, body: 1, missBy: 2.5 } }, true],
+    ['that miss by less than nothing', { aim: { head: 0, body: 1, missBy: -1 } }, false],
     ['with a seed', { mode: 'montecarlo', seed: 7, runs: 100 }, true],
     ['with another progenitor', withProgenitor({ element: 'toxin', pct: 0.4 }), true],
     ['with a progenitor above 60%', withProgenitor({ element: 'toxin', pct: 0.7 }), false],
@@ -283,6 +285,8 @@ describe('golden fixtures', () => {
     ['reported on no day', { reports: [{ on: 'yesterday', words: 'it does' }] }, false],
     ['with another id', { id: 'test-1' }, false],
     ['of no section', { bible: 'section 6' }, false],
+    ['with an explosion’s hits', withObserved({ hits: { white: 350 }, hitsOf: 'blast' }), true],
+    ['with no hits of an explosion', withObserved({ hitsOf: 'blast' }), false],
   ])('%s', (_name, change, isValid) => {
     expect(accepts(goldenFixtureSchema, { ...fixture, ...change })).toBe(isValid);
   });

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { add, mod } from '@/testing/build';
-import { attackOf, BLAST, GRENADE, measureBuild } from '@/testing/metrics';
+import { AOE, attackOf, BLAST, GRENADE, measureBuild } from '@/testing/metrics';
 
 const BEAM = { rampStartPct: 0.3, rampTime: 0.6, decayDelay: 0.8, decayTime: 2 };
 
@@ -87,5 +87,34 @@ describe('the metrics warn of an attack that doesn’t reach', () => {
       'beam',
       'grenade',
     ]);
+  });
+});
+
+describe('the metrics warn of an attack that lands beside the target', () => {
+  const missBy = (metres: number, ...attacks: readonly object[]) =>
+    warningsOf({ attacks, scenario: { aim: { head: 0, body: 1, missBy: metres } } });
+
+  it('and sets off nothing', () => {
+    const rifle = attackOf('rifle');
+    expect(missBy(0, rifle)).toEqual([]);
+    expect(missBy(0.5, rifle)).toEqual([
+      { code: 'missesTarget', attackId: 'rifle', missBy: 0.5, radius: 0 },
+    ]);
+  });
+
+  it('or whose widest explosion is too small', () => {
+    const cluster = { ...BLAST, id: 'cluster', aoe: { ...AOE, radius: 2 } };
+    const grenade = { ...GRENADE, linkedAttacks: ['cluster', 'blast'] };
+    expect(missBy(4, grenade, cluster, BLAST)).toEqual([]);
+    expect(missBy(4.5, grenade, cluster, BLAST)).toEqual([
+      { code: 'missesTarget', attackId: 'grenade', missBy: 4.5, radius: 4 },
+    ]);
+  });
+
+  it('with the radius that mods give it', () => {
+    const modules = [mod('firestorm', [add('aoeRadius', 0.24)])];
+    const aim = { head: 0, body: 1, missBy: 4.5 };
+    const attacks = [GRENADE, BLAST];
+    expect(warningsOf({ attacks, modules, scenario: { aim } })).toEqual([]);
   });
 });

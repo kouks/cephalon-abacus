@@ -10,7 +10,7 @@ import type { HitTrace } from '@/trace/hitTrace';
 
 import type { AttackMetrics, Headline } from './attackMetrics';
 import { attackMetrics } from './attackMetrics';
-import { checkMetrics, checkRange } from './checkMetrics';
+import { checkLanding, checkMetrics, checkRange } from './checkMetrics';
 import { firingModes } from './firingModes';
 
 /** A build's headline numbers, and where they come from. */
@@ -53,6 +53,7 @@ export const buildMetrics = (
       ...loadout.collected.warnings,
       ...checkMetrics(scenario, loadout.weapon, target),
       ...checkRange(byAttack, distance),
+      ...checkLanding(byAttack, aim),
     ],
   };
 };

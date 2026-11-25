@@ -48,6 +48,8 @@ describe('trace rows', () => {
       'normal 1, 100% of hits | bodyPart | all | 1x | ',
       'normal 1, 100% of hits | range | all | 1x | ',
       'normal 1, 100% of hits | falloff | all | 1x | ',
+      'normal 1, 100% of hits | landing | all | 1x | ',
+      'normal 1, 100% of hits | radialFalloff | all | 1x | ',
       'normal 1, 100% of hits | vulnerability | impact | 1x | ',
       'normal 1, 100% of hits | vulnerability | puncture | 1x | ',
       'normal 1, 100% of hits | vulnerability | slash | 1x | ',

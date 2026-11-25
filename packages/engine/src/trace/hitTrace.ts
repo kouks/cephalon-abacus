@@ -13,6 +13,8 @@ export type FactorName =
   | 'bodyPart'
   | 'range'
   | 'falloff'
+  | 'landing'
+  | 'radialFalloff'
   | 'vulnerability'
   | 'layer'
   | 'armor'

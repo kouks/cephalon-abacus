@@ -119,6 +119,25 @@ it('Penta’s explosion gets no headshot', () => {
   expect(perShot).toBeCloseTo(grenade + mean(350, [0.1, 2]), 6);
 });
 
+describe('Penta, landing beside the target', () => {
+  const explosion = mean(350, [0.1, 2]);
+
+  const shareAt = (missBy: number, mods: readonly string[] = []) => {
+    const { perShot } = metricsOf('penta', { aim: { head: 0, body: 1, missBy } }, mods);
+    return Number((perShot / explosion).toFixed(9));
+  };
+
+  it('deals 75% of its explosion at 2 m, 50% at 4 m, and nothing beyond', () => {
+    expect([1, 2, 4, 4.01].map((metres) => shareAt(metres))).toEqual([0.875, 0.75, 0.5, 0]);
+  });
+
+  it('deals more of it, and further out, with Firestorm', () => {
+    const shares = [2, 4.96, 4.97].map((metres) => shareAt(metres, ['firestorm']));
+    expect(shares).toEqual([0.798387097, 0.5, 0]);
+    expect([5.76, 5.77].map((metres) => shareAt(metres, ['primed-firestorm']))).toEqual([0.5, 0]);
+  });
+});
+
 const tigrisAt = (distance: number, mods: readonly string[] = []) => {
   const { perShot } = metricsOf('tigris-prime', { distance }, mods);
   return Number((perShot / (8 * mean(195, [0.1, 2]))).toFixed(9));

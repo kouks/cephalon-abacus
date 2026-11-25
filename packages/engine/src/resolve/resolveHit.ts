@@ -12,6 +12,8 @@ import { bodyPartFactor } from './factors/bodyPartFactor';
 import { factionFactor, finalFactors } from './factors/bonusFactors';
 import { effectsOf, factor } from './factors/factor';
 import { falloffFactor } from './factors/falloffFactor';
+import { landingFactor } from './factors/landingFactor';
+import { radialFalloffFactor } from './factors/radialFalloffFactor';
 import { rangeFactor } from './factors/rangeFactor';
 import { damageFactors, layerFactors, vulnerabilityFactors } from './factors/typeFactors';
 import type { Target, TargetPart } from './target';
@@ -32,6 +34,8 @@ type At = {
   readonly distance: number;
   /** How far the shot goes that sets this attack off. Absent: the attack is the shot. */
   readonly reach?: ModdedStat | undefined;
+  /** Metres from the target that the shot lands. Absent: it hits. */
+  readonly missBy?: number | undefined;
 };
 
 const critFactor = ({ chance, multiplier, expected }: HitCrit) =>
@@ -40,7 +44,7 @@ const critFactor = ({ chance, multiplier, expected }: HitCrit) =>
 /** The direct-damage chain, in the order of BIBLE §3. */
 const chainOf = (
   built: BuiltAttack,
-  { target, part, distance, reach = built.stats.range }: At,
+  { target, part, distance, reach = built.stats.range, missBy = 0 }: At,
   crit: HitCrit,
 ): readonly Factor[] => [
   ...damageFactors(built.composition),
@@ -50,6 +54,8 @@ const chainOf = (
   bodyPartFactor(built.totals, part),
   rangeFactor(reach, distance),
   falloffFactor(built, distance),
+  landingFactor(built, missBy),
+  radialFalloffFactor(built, missBy),
   ...vulnerabilityFactors(built.composition.types.keys(), target),
   ...layerFactors(),
 ];
