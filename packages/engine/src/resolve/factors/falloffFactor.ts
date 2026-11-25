@@ -12,7 +12,7 @@ type Falloff = NonNullable<Attack['falloff']>;
 
 /**
  * All damage up to the start, and the least from the end on. Between them it drops in a straight
- * line that heads for nothing at the end, so it meets the least on the way (T-25).
+ * line that heads for nothing at the end, so it meets the least on the way (T-25, T-26).
  */
 const shareAt = (
   distance: number,

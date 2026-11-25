@@ -1,0 +1,215 @@
+{
+  "id": "T-26",
+  "question": "Does the falloff line head for nothing at its end, whatever the least is?",
+  "bible": "§11",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "I confirmed with normal Strun, no mods, arsenal falloff is 12-25m. Up close white does 30, and at 29m, white does 18, but the max falloff penalty is already hit at 18m."
+    },
+    {
+      "on": "2026-11-25",
+      "words": "Hek. I think that already confirms."
+    }
+  ],
+  "notes": "The second report came with screenshots of single shots at a level 200 Runner, asked for with no mods, standing still, at the body: 82 and a yellow 164 at 6 m; 60 and 61, a yellow 123 and a 182 to the head at 13 m; 46 and 47, and a 145 to the head, at 15 m; 24 and 25, and yellow 49 and 51, at 17 m; 16 at 19 and 22 m. No numbers were predicted to Pavel. As in T-25, a waypoint of 13 m means more than 12 and up to 13 m: the cases use the middle of that metre, and the tolerance is half a metre of the line and half a point. The wiki's line, down to 20% at 20 m, would show 53 at 15 m, 39 at 17 m and 26 at 19 m. A line that ends halfway would show 49 at 13 m and 23 at 15 m. The Strun report doesn't say which enemy and body part, so no case replays it; the engine gives 30, 18 and 18 on the body of a Runner.",
+  "tolerance": {
+    "hits": 4.6
+  },
+  "cases": [
+    {
+      "name": "at a waypoint of 6 m",
+      "scenario": {
+        "build": {
+          "weaponId": "hek",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 82,
+          "yellow": 164
+        }
+      }
+    },
+    {
+      "name": "at a waypoint of 13 m",
+      "scenario": {
+        "build": {
+          "weaponId": "hek",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 12.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 61
+        }
+      }
+    },
+    {
+      "name": "at a waypoint of 15 m",
+      "scenario": {
+        "build": {
+          "weaponId": "hek",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 14.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 47
+        }
+      }
+    },
+    {
+      "name": "at a waypoint of 17 m",
+      "scenario": {
+        "build": {
+          "weaponId": "hek",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 16.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 25
+        }
+      }
+    },
+    {
+      "name": "at a waypoint of 19 m",
+      "scenario": {
+        "build": {
+          "weaponId": "hek",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 18.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 16
+        }
+      }
+    },
+    {
+      "name": "at a waypoint of 22 m",
+      "scenario": {
+        "build": {
+          "weaponId": "hek",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 21.5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 16
+        }
+      }
+    }
+  ]
+}

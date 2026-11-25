@@ -98,6 +98,7 @@ describe('every seed weapon', () => {
         "braton: ",
         "soma-prime: normal spoolUp",
         "tigris-prime: ",
+        "hek: ",
         "vectis: normal sniperCombo, normal zoom",
         "vectis-prime: normal sniperCombo, normal zoom",
         "paris: ",

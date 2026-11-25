@@ -19,7 +19,7 @@ export const ASSUMPTIONS = {
   coldCritDamageAbsolute: { default: true, test: 'T-5', bible: '§7' },
   /** Procs pick their type by quantized damage, so a type at zero never procs. Confirmed. */
   procWeightsQuantized: { default: true, test: 'T-14', bible: '§6' },
-  /** Falloff drops in a line to nothing at its end, and stops at the least. T-25 fits that. */
+  /** Falloff drops in a line to nothing at its end, and stops at the least. Confirmed. */
   falloffHeadsForZero: { default: true, test: 'T-26', bible: '§11' },
 } as const satisfies Readonly<Record<string, Assumption>>;
 

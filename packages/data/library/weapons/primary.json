@@ -127,6 +127,48 @@
       ]
     },
     {
+      "id": "hek",
+      "name": "Hek",
+      "uniqueName": "/Lotus/Weapons/Tenno/Shotgun/QuadShotgun",
+      "source": "https://wiki.warframe.com/w/Hek",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["shotgun"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 4,
+        "maxAmmo": 120,
+        "reloadStyle": "magazine",
+        "reloadTime": 2
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 11.25,
+            "puncture": 48.75,
+            "slash": 15
+          },
+          "trigger": "semi",
+          "shotType": "hitscan",
+          "multishot": 7,
+          "critChance": 0.1,
+          "critMultiplier": 2,
+          "statusChance": 0.107143,
+          "fireRate": 2.166667,
+          "ammoCost": 1,
+          "falloff": {
+            "start": 10,
+            "end": 20,
+            "minPct": 0.2
+          },
+          "range": 300,
+          "flags": ["canHeadshot", "canCrit"]
+        }
+      ]
+    },
+    {
       "id": "vectis",
       "name": "Vectis",
       "uniqueName": "/Lotus/Weapons/Tenno/Rifle/TennoSniperRifle",
