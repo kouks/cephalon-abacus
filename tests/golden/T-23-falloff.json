@@ -6,10 +6,14 @@
   "reports": [
     {
       "on": "2026-11-25",
-      "words": "Tigris Prime no mods, level 200 Runner body. Under 8m: 274 white, 549 yellow (67 bleed). Close to 15m: white spread 141 to 147, yellow 281 to 292 (Slash procs 35-41). More than 25m: 141 white, 281 yellow (35 bleed)."
+      "words": "Tigris Prime no mods, level 200 Runner body. Under 8m: 274 white, 549 yellow (69 bleed). Close to 15m: white spread 141 to 147, yellow 281 to 292 (Slash procs 35-41). More than 25m: 141 white, 281 yellow (35 bleed)."
+    },
+    {
+      "on": "2026-11-25",
+      "words": "Falloff seems to be more aggressive than stated on the wiki. Tigris has no mods. Your expected numbers seem to happen at around 13m. Maybe the waypoint distance is misleading (offset by 2m compared to shooting distance). Bleed under 8m is indeed 69, my mistake (up close, Tigris body shot on 200 Runner with no mods)."
     }
   ],
-  "notes": "The expected numbers were not given. The numbers close to 15 m and the bleed under 8 m differ from the wiki, which has 207 and 415 there, and a bleed of 68 or 69. They wait for the conditions to be confirmed, so they are not in the cases.",
+  "notes": "The expected numbers were not given. The first message had a bleed of 67, corrected to 69; bleeds are for ABA-25. Screenshots show 141 to 151 at a waypoint of 15 m, and 204 to 217 (yellow 412 to 418) at 13 m. The wiki's line, from 10 to 20 m, has those at 19.2 to 20 m and at 14.3 to 15.3 m, so what is between the ends waits for confirmation and is not in the cases.",
   "tolerance": {
     "hits": 0.5
   },
