@@ -1,0 +1,92 @@
+{
+  "id": "T-24",
+  "question": "Does projectile speed stretch the falloff of a hitscan weapon?",
+  "bible": "§11",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "Tigris Prime only maxed Fatal Acceleration, 200 Runner body. Close to 13m: 274 white, 549 yellow. Over 35: 141 white, 281 yellow."
+    }
+  ],
+  "notes": "The expected numbers were not given. Without the mod, the wiki's falloff leaves 234 and 468 at 13 m.",
+  "tolerance": {
+    "hits": 0.5
+  },
+  "cases": [
+    {
+      "name": "close to 13 m",
+      "scenario": {
+        "build": {
+          "weaponId": "tigris-prime",
+          "modules": [
+            {
+              "moduleId": "fatal-acceleration"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 13,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 274,
+          "yellow": 549
+        }
+      }
+    },
+    {
+      "name": "over 35 m",
+      "scenario": {
+        "build": {
+          "weaponId": "tigris-prime",
+          "modules": [
+            {
+              "moduleId": "fatal-acceleration"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 36,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 141,
+          "yellow": 281
+        }
+      }
+    }
+  ]
+}
