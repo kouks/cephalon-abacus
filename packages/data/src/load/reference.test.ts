@@ -44,15 +44,18 @@ describe('the reference files', () => {
   it('load', () => {
     const result = loadLibrary(referenceFiles);
     if (!result.ok) throw new Error(result.errors.map(formatError).join('\n'));
-    const { damageTypes: rules, buckets, factions } = result.library;
-    expect([rules.size, buckets.size, factions.size]).toEqual([20, 2, 1]);
+    const { damageTypes: rules, buckets, factions, scaling } = result.library;
+    expect([rules.size, buckets.size, factions.size, scaling.size]).toEqual([20, 2, 1, 3]);
   });
 
-  it.each(['damageTypes.json', 'buckets.json', 'factions.json'])('need %s', (name) => {
-    expect(errorsOf(referenceFiles.filter(({ path }) => path !== name))).toEqual([
-      `${name}: The library needs this file`,
-    ]);
-  });
+  it.each(['damageTypes.json', 'buckets.json', 'factions.json', 'scaling.json'])(
+    'need %s',
+    (name) => {
+      expect(errorsOf(referenceFiles.filter(({ path }) => path !== name))).toEqual([
+        `${name}: The library needs this file`,
+      ]);
+    },
+  );
 
   it('are not checked against each other while one is broken', () => {
     const broken = { path: 'buckets.json', text: '{' };

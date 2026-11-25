@@ -4,6 +4,7 @@ import type { DamageTypeRule } from '@/schema/damageTypeRule';
 import type { Enemy } from '@/schema/enemy';
 import type { Faction } from '@/schema/faction';
 import type { Module } from '@/schema/module';
+import type { ScalingRule } from '@/schema/scaling';
 import type { Weapon } from '@/schema/weapon';
 
 /** The game rules that change between updates, by id. */
@@ -11,6 +12,7 @@ export type Reference = {
   readonly damageTypes: ReadonlyMap<DamageType, DamageTypeRule>;
   readonly buckets: ReadonlyMap<string, Bucket>;
   readonly factions: ReadonlyMap<string, Faction>;
+  readonly scaling: ReadonlyMap<string, ScalingRule>;
 };
 
 /** Everything the engine reads, by id. */

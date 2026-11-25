@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import type { Scenario } from '@abacus/data/schema/scenario';
+import { enemy } from '@abacus/data/testing/fixtures';
 
 import {
   add,
@@ -41,6 +42,18 @@ const notPlain = (value: unknown, path = 'result'): readonly string[] => {
 };
 
 describe('evaluate', () => {
+  it('has the enemy’s stats, when it has some', () => {
+    const charger = { id: 'charger', level: 200, steelPath: true, modifiers: [] };
+    expect(() => evaluate(scenarioOf({ enemy: charger }), library)).toThrow('No enemy "charger"');
+    expect(evaluate(scenarioOf(), library)).not.toHaveProperty('enemy');
+    const withEnemy = makeLibrary(modules, {}, [enemy]);
+    const met = { ...charger, id: 'test-enemy', level: 1 };
+    const { enemy: stats } = evaluate(scenarioOf({ enemy: met }), withEnemy);
+    expect(stats?.level).toBe(101);
+    expect(stats?.health.value).toBeCloseTo(2.5 * 100 * 101, 1);
+    expect(notPlain(stats)).toEqual([]);
+  });
+
   it('has these fields, in this version', () => {
     const result = evaluate(scenarioOf(), library);
     expect(result.apiVersion).toBe(1);

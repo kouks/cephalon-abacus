@@ -10,11 +10,24 @@
       "source": "https://wiki.warframe.com/w/Charger",
       "gameVersion": "44.1.4.1",
       "faction": "infested",
+      "scalingProfile": "infested",
       "baseLevel": 1,
       "baseHealth": 80,
       "baseShield": 0,
       "baseArmor": 0,
-      "baseOverguard": 0
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 1,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ]
     },
     {
       "id": "runner",
@@ -23,11 +36,24 @@
       "source": "https://wiki.warframe.com/w/Runner",
       "gameVersion": "44.1.4.1",
       "faction": "infested",
+      "scalingProfile": "infested",
       "baseLevel": 1,
       "baseHealth": 100,
       "baseShield": 0,
       "baseArmor": 0,
-      "baseOverguard": 0
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 3,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ]
     }
   ]
 }

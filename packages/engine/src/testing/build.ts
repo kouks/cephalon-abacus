@@ -13,6 +13,7 @@ import {
   scenario,
   weapon,
 } from '@abacus/data/testing/fixtures';
+import { curve, eximus, mission } from '@abacus/data/testing/scaling';
 
 import type { Selection } from '@/build/selectEffects';
 
@@ -125,13 +126,19 @@ export const PRIMARY_ACUITY = mod('primary-acuity', [add('crit.chanceWeakPoint',
   locks: ['multishot'],
 });
 
-export const makeLibrary = (modules: readonly object[], weaponChange: object = {}): Library => {
+export const makeLibrary = (
+  modules: readonly object[],
+  weaponChange: object = {},
+  enemies: readonly object[] = [],
+): Library => {
   const result = loadLibrary([
     libraryFile('damageTypes.json', ...damageTypeItems),
     buckets,
     factions,
+    libraryFile('scaling.json', curve, eximus, mission),
     libraryFile('mods/a.json', ...modules),
     libraryFile('weapons/a.json', { ...weapon, ...weaponChange }),
+    libraryFile('enemies/a.json', ...enemies),
   ]);
   if (!result.ok) throw new Error(result.errors.map(formatError).join('\n'));
   return result.library;

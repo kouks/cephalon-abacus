@@ -1,6 +1,7 @@
 import { must } from '@abacus/data/assert';
 import type { Library } from '@abacus/data/load/library';
 import type { BodyPart } from '@abacus/data/schema/effect';
+import type { EnemyPart } from '@abacus/data/schema/enemy';
 import type { Faction } from '@abacus/data/schema/faction';
 import type { Scenario } from '@abacus/data/schema/scenario';
 
@@ -22,7 +23,7 @@ export type Target = {
 
 const BODY: TargetPart = { multiplier: 1, bodyParts: [] };
 
-/** Most humanoids: 3x, and a headcrit doubles the crit multiplier. Enemy presets bring their own. */
+/** Most humanoids: 3x, and a headcrit doubles the crit multiplier. */
 const STANDARD_PARTS: Target['parts'] = new Map([
   ['body', BODY],
   ['head', { multiplier: 3, bodyParts: ['head', 'weakPoint'], headcrit: 2 }],
@@ -38,11 +39,18 @@ const NEUTRAL_DUMMY: Target = {
 /** Targets that are not in the library. */
 const BUILT_IN: ReadonlyMap<string, Target> = new Map([[NEUTRAL_DUMMY.id, NEUTRAL_DUMMY]]);
 
+const partOf = ({ multiplier, countsAs = [], headcrit }: EnemyPart): TargetPart => ({
+  multiplier,
+  bodyParts: countsAs,
+  ...(headcrit === undefined ? {} : { headcrit }),
+});
+
 export const findTarget = (id: string, { enemies, factions }: Library): Target => {
   const enemy = enemies.get(id);
   if (enemy === undefined) return must(BUILT_IN.get(id), `No enemy "${id}"`);
   const faction = must(factions.get(enemy.faction), 'The loader checks factions');
-  return { id, name: enemy.name, faction, parts: STANDARD_PARTS };
+  const parts = new Map(enemy.bodyParts.map((part) => [part.id, partOf(part)]));
+  return { id, name: enemy.name, faction, parts };
 };
 
 export const bodyOf = ({ parts }: Target): TargetPart => parts.get('body') ?? BODY;

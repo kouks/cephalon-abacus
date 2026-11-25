@@ -1,0 +1,368 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Enemy_Level_Scaling",
+  "items": [
+    {
+      "id": "grineer-health",
+      "name": "Grineer and Scaldra health",
+      "source": "https://wiki.warframe.com/w/Enemy_Level_Scaling",
+      "gameVersion": "44.1.4.1",
+      "kind": "curve",
+      "stat": "health",
+      "profiles": ["grineer", "scaldra"],
+      "above": "base",
+      "low": {
+        "coefficient": 0.015,
+        "exponent": 2.12
+      },
+      "high": {
+        "coefficient": 10.7332,
+        "exponent": 0.72
+      },
+      "blend": {
+        "from": 70,
+        "to": 80
+      }
+    },
+    {
+      "id": "corpus-health",
+      "name": "Corpus health",
+      "source": "https://wiki.warframe.com/w/Enemy_Level_Scaling",
+      "gameVersion": "44.1.4.1",
+      "kind": "curve",
+      "stat": "health",
+      "profiles": ["corpus"],
+      "above": "base",
+      "low": {
+        "coefficient": 0.015,
+        "exponent": 2.12
+      },
+      "high": {
+        "coefficient": 13.4165,
+        "exponent": 0.55
+      },
+      "blend": {
+        "from": 70,
+        "to": 80
+      }
+    },
+    {
+      "id": "infested-health",
+      "name": "Infested health",
+      "source": "https://wiki.warframe.com/w/Enemy_Level_Scaling",
+      "gameVersion": "44.1.4.1",
+      "kind": "curve",
+      "stat": "health",
+      "profiles": ["infested"],
+      "above": "base",
+      "low": {
+        "coefficient": 0.0225,
+        "exponent": 2.12
+      },
+      "high": {
+        "coefficient": 16.0998,
+        "exponent": 0.72
+      },
+      "blend": {
+        "from": 70,
+        "to": 80
+      }
+    },
+    {
+      "id": "corrupted-health",
+      "name": "Corrupted and Anarchs health",
+      "source": "https://wiki.warframe.com/w/Enemy_Level_Scaling",
+      "gameVersion": "44.1.4.1",
+      "kind": "curve",
+      "stat": "health",
+      "profiles": ["orokin", "anarchs"],
+      "above": "base",
+      "low": {
+        "coefficient": 0.015,
+        "exponent": 2.1
+      },
+      "high": {
+        "coefficient": 10.7332,
+        "exponent": 0.685
+      },
+      "blend": {
+        "from": 70,
+        "to": 80
+      }
+    },
+    {
+      "id": "murmur-health",
+      "name": "Murmur, Sentient and unaffiliated health",
+      "source": "https://wiki.warframe.com/w/Enemy_Level_Scaling",
+      "gameVersion": "44.1.4.1",
+      "kind": "curve",
+      "stat": "health",
+      "profiles": ["murmur", "sentient", "unaffiliated"],
+      "above": "base",
+      "low": {
+        "coefficient": 0.015,
+        "exponent": 2
+      },
+      "high": {
+        "coefficient": 10.7332,
+        "exponent": 0.5
+      },
+      "blend": {
+        "from": 70,
+        "to": 80
+      }
+    },
+    {
+      "id": "techrot-health",
+      "name": "Techrot health",
+      "source": "https://wiki.warframe.com/w/Enemy_Level_Scaling",
+      "gameVersion": "44.1.4.1",
+      "kind": "curve",
+      "stat": "health",
+      "profiles": ["techrot"],
+      "above": "base",
+      "low": {
+        "coefficient": 0.02,
+        "exponent": 2.12
+      },
+      "high": {
+        "coefficient": 15.0998,
+        "exponent": 0.7
+      },
+      "blend": {
+        "from": 70,
+        "to": 80
+      }
+    },
+    {
+      "id": "corpus-shield",
+      "name": "Corpus shields",
+      "source": "https://wiki.warframe.com/w/Enemy_Level_Scaling",
+      "gameVersion": "44.1.4.1",
+      "kind": "curve",
+      "stat": "shield",
+      "profiles": ["corpus"],
+      "above": "base",
+      "low": {
+        "coefficient": 0.02,
+        "exponent": 1.76
+      },
+      "high": {
+        "coefficient": 2,
+        "exponent": 0.76
+      },
+      "blend": {
+        "from": 70,
+        "to": 80
+      }
+    },
+    {
+      "id": "corrupted-shield",
+      "name": "Corrupted and Anarchs shields",
+      "source": "https://wiki.warframe.com/w/Enemy_Level_Scaling",
+      "gameVersion": "44.1.4.1",
+      "kind": "curve",
+      "stat": "shield",
+      "profiles": ["orokin", "anarchs"],
+      "above": "base",
+      "low": {
+        "coefficient": 0.02,
+        "exponent": 1.75
+      },
+      "high": {
+        "coefficient": 2,
+        "exponent": 0.75
+      },
+      "blend": {
+        "from": 70,
+        "to": 80
+      }
+    },
+    {
+      "id": "grineer-shield",
+      "name": "Grineer and Sentient shields",
+      "source": "https://wiki.warframe.com/w/Enemy_Level_Scaling",
+      "gameVersion": "44.1.4.1",
+      "kind": "curve",
+      "stat": "shield",
+      "profiles": ["grineer", "sentient"],
+      "above": "base",
+      "low": {
+        "coefficient": 0.02,
+        "exponent": 1.75
+      },
+      "high": {
+        "coefficient": 1.6,
+        "exponent": 0.75
+      },
+      "blend": {
+        "from": 70,
+        "to": 80
+      }
+    },
+    {
+      "id": "techrot-shield",
+      "name": "Techrot shields",
+      "source": "https://wiki.warframe.com/w/Enemy_Level_Scaling",
+      "gameVersion": "44.1.4.1",
+      "kind": "curve",
+      "stat": "shield",
+      "profiles": ["techrot"],
+      "above": "base",
+      "low": {
+        "coefficient": 0.02,
+        "exponent": 1.76
+      },
+      "high": {
+        "coefficient": 3.5,
+        "exponent": 0.76
+      },
+      "blend": {
+        "from": 70,
+        "to": 80
+      }
+    },
+    {
+      "id": "enemy-armor",
+      "name": "Armor",
+      "source": "https://wiki.warframe.com/w/Enemy_Level_Scaling",
+      "gameVersion": "44.1.4.1",
+      "kind": "curve",
+      "stat": "armor",
+      "above": "base",
+      "low": {
+        "coefficient": 0.005,
+        "exponent": 1.75
+      },
+      "high": {
+        "coefficient": 0.4,
+        "exponent": 0.75
+      },
+      "blend": {
+        "from": 70,
+        "to": 80
+      },
+      "limits": {
+        "least": 200,
+        "most": 2700
+      }
+    },
+    {
+      "id": "enemy-overguard",
+      "name": "Overguard",
+      "source": "https://wiki.warframe.com/w/Enemy_Level_Scaling",
+      "gameVersion": "44.1.4.1",
+      "kind": "curve",
+      "stat": "overguard",
+      "above": "one",
+      "low": {
+        "coefficient": 0.0015,
+        "exponent": 4
+      },
+      "high": {
+        "coefficient": 260,
+        "exponent": 0.9
+      },
+      "blend": {
+        "from": 45,
+        "to": 50
+      }
+    },
+    {
+      "id": "eximus-base",
+      "name": "Eximus base health and shields",
+      "source": "https://wiki.warframe.com/w/Enemy_Level_Scaling",
+      "gameVersion": "44.1.4.1",
+      "kind": "eximus",
+      "multiplier": [
+        {
+          "level": 15,
+          "value": 1
+        },
+        {
+          "level": 25,
+          "value": 1.25
+        },
+        {
+          "level": 35,
+          "value": 2.5
+        },
+        {
+          "level": 50,
+          "value": 4.5
+        },
+        {
+          "level": 100,
+          "value": 6
+        }
+      ],
+      "least": 1.1,
+      "addedHealth": 900,
+      "healthShare": {
+        "protected": 0.25,
+        "bare": 0.375
+      }
+    },
+    {
+      "id": "star-chart",
+      "name": "Star chart",
+      "source": "https://wiki.warframe.com/w/The_Steel_Path",
+      "gameVersion": "44.1.4.1",
+      "kind": "mission",
+      "steelPath": {
+        "levels": 100,
+        "health": 2.5,
+        "shield": 2.5
+      }
+    },
+    {
+      "id": "archwing",
+      "name": "Archwing",
+      "source": "https://wiki.warframe.com/w/The_Steel_Path",
+      "gameVersion": "44.1.4.1",
+      "kind": "mission",
+      "steelPath": {
+        "levels": 50,
+        "health": 2.5,
+        "shield": 2.5
+      }
+    },
+    {
+      "id": "empyrean",
+      "name": "Empyrean",
+      "source": "https://wiki.warframe.com/w/The_Steel_Path",
+      "gameVersion": "44.1.4.1",
+      "kind": "mission",
+      "steelPath": {
+        "levels": 50,
+        "health": 2.5,
+        "shield": 2.5
+      }
+    },
+    {
+      "id": "duviri",
+      "name": "Duviri",
+      "source": "https://wiki.warframe.com/w/The_Steel_Path",
+      "gameVersion": "44.1.4.1",
+      "kind": "mission",
+      "steelPath": {
+        "levels": 20,
+        "health": 1,
+        "shield": 1
+      }
+    },
+    {
+      "id": "simulacrum",
+      "name": "Simulacrum",
+      "source": "https://wiki.warframe.com/w/The_Steel_Path",
+      "gameVersion": "44.1.4.1",
+      "kind": "mission",
+      "steelPath": {
+        "levels": 0,
+        "health": 2.5,
+        "shield": 2.5
+      }
+    }
+  ]
+}

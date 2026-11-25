@@ -33,7 +33,10 @@ const buildSchema = object({
 const targetSchema = object({
   id: slugSchema,
   level: z.int().min(1).max(9999),
+  /** Adds what the Steel Path adds in its mission, levels included. */
   steelPath: z.boolean(),
+  /** A mission of scaling.json. Absent: the star chart. */
+  mission: slugSchema.exactOptional(),
   modifiers: list(moduleInstanceSchema),
 });
 
