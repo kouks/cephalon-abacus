@@ -175,7 +175,7 @@ describe('conditionals', () => {
     const { found } = switches({ all: 'off', overrides: [] });
     expect(found.map(({ key, maxStacks }) => [key, maxStacks])).toEqual([
       ['galvanized-chamber onKill', 5],
-      ['galvanized-scope onHeadshot', 1],
+      ['galvanized-scope onWeakPointHit', 1],
       ['galvanized-scope onWeakPointKill', 5],
     ]);
   });
@@ -183,7 +183,7 @@ describe('conditionals', () => {
   it('all start full when the global switch is on', () => {
     expect(switches({ all: 'on', overrides: [] }).stacks).toEqual({
       'galvanized-chamber onKill': 5,
-      'galvanized-scope onHeadshot': 1,
+      'galvanized-scope onWeakPointHit': 1,
       'galvanized-scope onWeakPointKill': 5,
     });
   });
@@ -196,13 +196,13 @@ describe('conditionals', () => {
   it('can each differ from the global switch, in both directions', () => {
     expect(switches({ all: 'off', overrides: [chamber('on')] }).stacks).toEqual({
       'galvanized-chamber onKill': 5,
-      'galvanized-scope onHeadshot': 0,
+      'galvanized-scope onWeakPointHit': 0,
       'galvanized-scope onWeakPointKill': 0,
     });
-    const headshot = { sourceId: 'galvanized-scope', trigger: 'onHeadshot', state: 'off' };
+    const headshot = { sourceId: 'galvanized-scope', trigger: 'onWeakPointHit', state: 'off' };
     expect(switches({ all: 'on', overrides: [headshot] }).stacks).toEqual({
       'galvanized-chamber onKill': 5,
-      'galvanized-scope onHeadshot': 0,
+      'galvanized-scope onWeakPointHit': 0,
       'galvanized-scope onWeakPointKill': 5,
     });
   });

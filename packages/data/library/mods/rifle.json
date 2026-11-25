@@ -152,6 +152,55 @@
       ]
     },
     {
+      "id": "galvanized-scope",
+      "name": "Galvanized Scope",
+      "uniqueName": "/Lotus/Upgrades/Mods/Rifle/Event/CritChanceWhileAimingRifleSPMod",
+      "source": "https://wiki.warframe.com/w/Galvanized_Scope",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 10,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["rifle", "bow", "crossbow", "launcher", "sniper", "speargun"]
+      },
+      "exclusiveGroup": "argon-scope",
+      "effects": [
+        {
+          "bucket": "crit.chance",
+          "op": "STACKING_MULTIPLY",
+          "value": 1.2001,
+          "condition": {
+            "trigger": "onWeakPointHit",
+            "target": "self",
+            "stacks": {
+              "max": 1,
+              "perTrigger": 1,
+              "decay": "one",
+              "duration": 12
+            }
+          }
+        },
+        {
+          "bucket": "crit.chance",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.4,
+          "condition": {
+            "trigger": "onWeakPointKill",
+            "target": "self",
+            "stacks": {
+              "max": 5,
+              "perTrigger": 1,
+              "decay": "one",
+              "duration": 12
+            }
+          }
+        }
+      ]
+    },
+    {
       "id": "vital-sense",
       "name": "Vital Sense",
       "uniqueName": "/Lotus/Upgrades/Mods/Rifle/WeaponCritDamageMod",
@@ -714,6 +763,62 @@
           "bucket": "magazine",
           "op": "STACKING_MULTIPLY",
           "value": 0.3
+        }
+      ]
+    },
+    {
+      "id": "tainted-mag",
+      "name": "Tainted Mag",
+      "uniqueName": "/Lotus/Upgrades/Mods/Rifle/DualStat/CorruptedMaxClipReloadSpeedRifle",
+      "source": "https://wiki.warframe.com/w/Tainted_Mag",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 10,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["rifle"]
+      },
+      "effects": [
+        {
+          "bucket": "magazine",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.66
+        },
+        {
+          "bucket": "reload",
+          "op": "STACKING_MULTIPLY",
+          "value": -0.33
+        }
+      ]
+    },
+    {
+      "id": "depleted-reload",
+      "name": "Depleted Reload",
+      "uniqueName": "/Lotus/Upgrades/Mods/Rifle/DualStat/CorruptedReloadSpeedMaxClipRifle",
+      "source": "https://wiki.warframe.com/w/Depleted_Reload",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["sniper"]
+      },
+      "effects": [
+        {
+          "bucket": "magazine",
+          "op": "STACKING_MULTIPLY",
+          "value": -0.6
+        },
+        {
+          "bucket": "reload",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.48
         }
       ]
     }

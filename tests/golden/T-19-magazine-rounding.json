@@ -1,0 +1,216 @@
+{
+  "id": "T-19",
+  "question": "How do modded magazines round?",
+  "bible": "§9",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-24",
+      "words": "mag size rounds to nearest integer"
+    },
+    {
+      "on": "2026-11-24",
+      "words": "braton with maxed magazine has 58 actually but with tainteg mag (+66%) it has 75 so it rounds up but exact .5 rounds down"
+    },
+    {
+      "on": "2026-11-24",
+      "words": "vectis with depleted reload (-60%) still keeps 1 magazine"
+    },
+    {
+      "on": "2026-11-24",
+      "words": "vectis with 4/5 magazine warp (25%) gives 3 magazine"
+    },
+    {
+      "on": "2026-11-24",
+      "words": "braton prime with 1/5 warp is indeed 50 mag"
+    }
+  ],
+  "notes": "3 rounds fit only Vectis Prime (2), not Vectis (1), and 50 fits only Braton (45), not Braton Prime (75). 58.5 shows 58 because the product is 58.499996 in 32 bits; 49.5 and 2.5 are exact and round up.",
+  "tolerance": {
+    "arsenal": 0
+  },
+  "cases": [
+    {
+      "name": "Braton with Magazine Warp",
+      "scenario": {
+        "build": {
+          "weaponId": "braton",
+          "modules": [
+            {
+              "moduleId": "magazine-warp"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "arsenal": {
+          "magazine": 58
+        }
+      }
+    },
+    {
+      "name": "Braton with Magazine Warp at rank 1",
+      "scenario": {
+        "build": {
+          "weaponId": "braton",
+          "modules": [
+            {
+              "moduleId": "magazine-warp",
+              "rank": 1
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "arsenal": {
+          "magazine": 50
+        }
+      }
+    },
+    {
+      "name": "Braton with Tainted Mag",
+      "scenario": {
+        "build": {
+          "weaponId": "braton",
+          "modules": [
+            {
+              "moduleId": "tainted-mag"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "arsenal": {
+          "magazine": 75
+        }
+      }
+    },
+    {
+      "name": "Vectis Prime with Magazine Warp at rank 4",
+      "scenario": {
+        "build": {
+          "weaponId": "vectis-prime",
+          "modules": [
+            {
+              "moduleId": "magazine-warp",
+              "rank": 4
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "arsenal": {
+          "magazine": 3
+        }
+      }
+    },
+    {
+      "name": "Vectis Prime with Depleted Reload",
+      "scenario": {
+        "build": {
+          "weaponId": "vectis-prime",
+          "modules": [
+            {
+              "moduleId": "depleted-reload"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "neutral-dummy",
+          "level": 1,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "arsenal": {
+          "magazine": 1
+        }
+      }
+    }
+  ]
+}

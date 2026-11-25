@@ -1,0 +1,122 @@
+{
+  "id": "T-2",
+  "question": "Does a type smaller than half a 32nd of base damage count?",
+  "bible": "§6",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-24",
+      "words": "T1 and T2 both match the quantized values. T3 is correct as stated in the table."
+    }
+  ],
+  "notes": "The predictions that matched, in semi-auto: 251, 666 and 257, where unquantized damage would show 253 with Crash Course.",
+  "tolerance": {
+    "hits": 0.5
+  },
+  "cases": [
+    {
+      "name": "without mods",
+      "scenario": {
+        "build": {
+          "weaponId": "nagantaka-prime",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "charger",
+          "level": 100,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 251
+        }
+      }
+    },
+    {
+      "name": "with Serration",
+      "scenario": {
+        "build": {
+          "weaponId": "nagantaka-prime",
+          "modules": [
+            {
+              "moduleId": "serration"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "charger",
+          "level": 100,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 666
+        }
+      }
+    },
+    {
+      "name": "with Crash Course",
+      "scenario": {
+        "build": {
+          "weaponId": "nagantaka-prime",
+          "modules": [
+            {
+              "moduleId": "crash-course"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "charger",
+          "level": 100,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 257
+        }
+      }
+    }
+  ]
+}

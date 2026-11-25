@@ -8,6 +8,7 @@ import { buildMetrics } from '@/metrics/buildMetrics';
 export type { Assumptions } from '@/assumptions';
 export type { Contribution, Warning } from '@/build/types';
 export type { AttackMetrics } from '@/metrics/attackMetrics';
+export type { HitResult } from '@/resolve/resolveHit';
 export type { Factor, HitTrace } from '@/trace/hitTrace';
 
 /** Goes up when a Scenario or a Result changes in a way that breaks what reads or writes it. */

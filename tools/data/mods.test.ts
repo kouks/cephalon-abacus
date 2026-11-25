@@ -68,6 +68,7 @@ describe('the seed mods', () => {
         "Split Chamber r5 | primary: rifle | multishot 90% | group split-chamber",
         "Point Strike r5 | primary: rifle | crit.chance 150% | group point-strike",
         "Critical Delay r5 | primary: rifle | crit.chance 200%, fireRate -19.98% | group point-strike",
+        "Galvanized Scope r10 | primary: rifle | crit.chance 120.01%, crit.chance 40% | group argon-scope",
         "Vital Sense r5 | primary: rifle | crit.damage 120%",
         "Rifle Aptitude r5 | primary: rifle | status.chance 90% | group rifle-aptitude",
         "Continuous Misery r3 | primary: rifle | status.duration 100%",
@@ -91,6 +92,8 @@ describe('the seed mods', () => {
         "Primary Acuity r10 | primary: rifle | weakPoint.damage +3.498, crit.chanceWeakPoint 349.8% | locks multishot",
         "Fast Hands r5 | primary: rifle | reload 30% | group fast-hands",
         "Magazine Warp r5 | primary: rifle | magazine 30% | group magazine-warp",
+        "Tainted Mag r10 | primary: rifle | magazine 66%, reload -33%",
+        "Depleted Reload r5 | primary: sniper | magazine -60%, reload 48%",
         "Point Blank r5 | primary: shotgun | damage.base 90% | group point-blank",
         "Primed Point Blank r10 | primary: shotgun | damage.base 165% | group point-blank",
         "Hell's Chamber r5 | primary: shotgun | multishot 120% | group hells-chamber",
@@ -127,8 +130,10 @@ describe('the seed mods', () => {
     );
     expect([...new Set(compat)].sort()).toEqual([
       'primary : any',
+      'primary : rifle',
       'primary : rifle bow crossbow launcher sniper speargun',
       'primary : shotgun',
+      'primary : sniper',
       'secondary : pistol dual-pistol shotgun-sidearm dual-shotgun thrown crossbow',
     ]);
   });
@@ -174,6 +179,13 @@ describe('ranks, as the game displays them', () => {
     ['critical-delay', 4, 'fireRate', -16.6, 1],
     ['critical-delay', 5, 'fireRate', -20, 1],
     ['primed-pistol-gambit', 4, 'crit.chance', 85, 0],
+    ['galvanized-scope', 0, 'crit.chance', 10.9, 1],
+    ['galvanized-scope', 4, 'crit.chance', 54.6, 1],
+    ['galvanized-scope', 10, 'crit.chance', 120, 1],
+    ['tainted-mag', 4, 'magazine', 30, 0],
+    ['tainted-mag', 10, 'reload', -33, 0],
+    ['depleted-reload', 2, 'magazine', -30, 0],
+    ['depleted-reload', 5, 'reload', 48, 0],
     ['primed-bane-of-grineer', 0, 'damage.faction.grineer', 5, 0],
     ['primed-bane-of-grineer', 10, 'damage.faction.grineer', 55, 0],
     ['primary-acuity', 0, 'weakPoint.damage', 32, 0],

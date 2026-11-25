@@ -7,6 +7,7 @@ import { conditionSchema } from './condition';
 import type { DamageMap, DamageType } from './damageType';
 import { DAMAGE_TYPES } from './damageType';
 import { effectSchema, spawnInstanceSchema } from './effect';
+import { goldenFixtureSchema } from './goldenFixture';
 import { moduleSchema } from './module';
 import { hookRefSchema, sourceSchema } from './primitives';
 import { scenarioSchema } from './scenario';
@@ -239,5 +240,36 @@ describe('scenarios', () => {
   ])('with %s', (_name, conditionals, isValid) => {
     const build = { ...scenario.build, conditionals };
     expect(accepts(scenarioSchema, { ...scenario, build })).toBe(isValid);
+  });
+});
+
+describe('golden fixtures', () => {
+  const fixture = {
+    id: 'T-1',
+    question: 'Does it?',
+    bible: '§6',
+    gameVersion: '44.1.4.1',
+    reports: [{ on: '2026-11-24', words: 'it does' }],
+    tolerance: { hits: 0.5 },
+    cases: [{ name: 'on the body', scenario, observed: { hits: { white: 29 } } }],
+  };
+
+  const withObserved = (observed: object) => ({ cases: [{ ...fixture.cases[0], observed }] });
+
+  it.each([
+    ['as they are', {}, true],
+    ['with a Riven', { modules: [module] }, true],
+    ['of every kind', withObserved({ arsenal: { fireRate: 5 }, neverProcs: ['slash'] }), true],
+    ['timed by the magazine', withObserved({ firing: [{ shots: 'magazine', seconds: 15 }] }), true],
+    ['timed by nothing', withObserved({ firing: [{ shots: 0, seconds: 15 }] }), false],
+    ['in an unknown colour', withObserved({ hits: { blue: 29 } }), false],
+    ['that observe nothing', withObserved({}), false],
+    ['without cases', { cases: [] }, false],
+    ['without a report', { reports: [] }, false],
+    ['reported on no day', { reports: [{ on: 'yesterday', words: 'it does' }] }, false],
+    ['with another id', { id: 'test-1' }, false],
+    ['of no section', { bible: 'section 6' }, false],
+  ])('%s', (_name, change, isValid) => {
+    expect(accepts(goldenFixtureSchema, { ...fixture, ...change })).toBe(isValid);
   });
 });

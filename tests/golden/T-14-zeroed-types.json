@@ -1,0 +1,89 @@
+{
+  "id": "T-14",
+  "question": "Can a type that rounds to zero still proc?",
+  "bible": "§6",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-24",
+      "words": "T14 - if a damage type is quantized to 0 it does not proc status despite the ingame overlay showing a non 0 chance (tested with -98% puncture jupiter and -117%+20% slash vectis)."
+    }
+  ],
+  "notes": "No numbers were reported, only the outcome. The weapon is called Vectis in the report; its other magazine reports fit Vectis Prime. The Riven's other stats and the source of the +20% were not reported. Jupiter is not in the library.",
+  "modules": [
+    {
+      "id": "riven",
+      "name": "Riven",
+      "source": "https://wiki.warframe.com/w/Riven_Mods",
+      "gameVersion": "44.1.4.1",
+      "kind": "riven",
+      "compat": {
+        "slots": ["primary"]
+      },
+      "effects": [
+        {
+          "bucket": "damage.ips.slash",
+          "op": "STACKING_MULTIPLY",
+          "value": -1.17
+        }
+      ]
+    },
+    {
+      "id": "slash-bonus",
+      "name": "Slash bonus",
+      "source": "https://wiki.warframe.com/w/Riven_Mods",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "compat": {
+        "slots": ["primary"]
+      },
+      "effects": [
+        {
+          "bucket": "damage.ips.slash",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.2
+        }
+      ]
+    }
+  ],
+  "tolerance": {},
+  "cases": [
+    {
+      "name": "Vectis Prime with -117% and +20% Slash",
+      "scenario": {
+        "build": {
+          "weaponId": "vectis-prime",
+          "modules": [
+            {
+              "moduleId": "riven"
+            },
+            {
+              "moduleId": "slash-bonus"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "charger",
+          "level": 100,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "neverProcs": ["slash"]
+      }
+    }
+  ]
+}

@@ -105,9 +105,9 @@ export const GALVANIZED_CHAMBER = mod('galvanized-chamber', [
   add('multishot', 0.3, when('onKill', 5)),
 ]);
 
-/** On headshot +120% crit chance; on weak point kill +40%, up to 5 stacks. */
+/** On weak point hit +120% crit chance; on weak point kill +40%, up to 5 stacks. */
 export const GALVANIZED_SCOPE = mod('galvanized-scope', [
-  add('crit.chance', 1.2, when('onHeadshot')),
+  add('crit.chance', 1.2, when('onWeakPointHit')),
   add('crit.chance', 0.4, when('onWeakPointKill', 5)),
 ]);
 

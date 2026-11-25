@@ -1,0 +1,51 @@
+{
+  "id": "T-1",
+  "question": "Do plain hits show quantized damage, rounded?",
+  "bible": "§6",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-24",
+      "words": "T1 and T2 both match the quantized values. T3 is correct as stated in the table."
+    }
+  ],
+  "notes": "The prediction that matched: 29 and 46, where unquantized damage would show 28 and 45.",
+  "tolerance": {
+    "hits": 0.5
+  },
+  "cases": [
+    {
+      "name": "Braton on the body",
+      "scenario": {
+        "build": {
+          "weaponId": "braton",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "charger",
+          "level": 100,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 29,
+          "yellow": 46
+        }
+      }
+    }
+  ]
+}

@@ -38,30 +38,3 @@ describe('the seed weapons', () => {
     `);
   });
 });
-
-/** What the arsenal shows: damage before quantization. */
-const inArsenal = (...args: Parameters<typeof compose>) => {
-  const { moddedBase, types } = compose(...args);
-  return [...types].map(
-    ([type, { ratio }]) => `${type} ${Number((ratio * moddedBase.value).toFixed(1))}`,
-  );
-};
-
-describe('as measured in the game', () => {
-  it.each([
-    [
-      ['hellfire', 'cryo-rounds', 'infected-clip'],
-      ['blast 39.6', 'corrosive 41.8'],
-    ],
-    [
-      ['cryo-rounds', 'infected-clip', 'hellfire'],
-      ['viral 39.6', 'radiation 41.8'],
-    ],
-    [
-      ['hellfire', 'infected-clip', 'cryo-rounds'],
-      ['gas 39.6', 'magnetic 41.8'],
-    ],
-  ])('T-3: Amprex with %j', (modules, expected) => {
-    expect(inArsenal('amprex', 'normal', modules)).toEqual(expected);
-  });
-});

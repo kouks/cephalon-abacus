@@ -17,6 +17,11 @@ const GOLDEN_API = {
   message: 'Fixtures run through the public API, exactly as the app does.',
 };
 
+const GOLDEN_SHORTCUT = {
+  regex: '^#engine/',
+  message: 'Fixtures run through the public API, exactly as the app does.',
+};
+
 export const boundaries = defineConfig(
   {
     files: TS_FILES,
@@ -43,7 +48,7 @@ export const boundaries = defineConfig(
     rules: {
       '@typescript-eslint/no-restricted-imports': [
         'error',
-        { paths: [GOLDEN_API], patterns: [...BASE_RESTRICTED_IMPORTS] },
+        { paths: [GOLDEN_API], patterns: [...BASE_RESTRICTED_IMPORTS, GOLDEN_SHORTCUT] },
       ],
     },
   },

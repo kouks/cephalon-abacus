@@ -10,12 +10,7 @@ import { realAttack, realLibrary as library } from './realAttack.ts';
 
 const DUMMY = findTarget('neutral-dummy', library);
 
-/** Infested: 1.5x from Slash and Heat, and no armor. */
-const CHARGER: Target = {
-  ...DUMMY,
-  id: 'charger',
-  faction: must(library.factions.get('infested'), 'No Infested'),
-};
+const CHARGER = findTarget('charger', library);
 
 type Shot = {
   readonly modules?: readonly string[];
@@ -55,28 +50,9 @@ describe('every seed weapon', () => {
   });
 });
 
-describe('as measured in the game', () => {
-  it('T-1: Braton on a Charger', () => {
-    expect(numbers('braton', 'normal').slice(0, 2)).toEqual([29, 46]);
-  });
-
-  it('T-2: Nagantaka Prime on a Charger', () => {
-    const white = (...modules: readonly string[]) =>
-      numbers('nagantaka-prime', 'semi-auto', { modules })[0];
-    expect([white(), white('serration'), white('crash-course')]).toEqual([251, 666, 257]);
-  });
-
-  /** Galvanized Scope was on too, which only makes orange crits possible. */
+it('T-4 rules out that a headcrit doubles only the base', () => {
   const modules = ['serration', 'vital-sense', 'critical-delay'];
-  const soma = (shot: Shot) => numbers('soma-prime', 'normal', { modules, ...shot });
-
-  it('T-4: Soma Prime’s white, yellow and orange hits, on the body and the head', () => {
-    expect(soma({ on: 'body' })).toEqual([40, 262, 485]);
-    expect(soma({ on: 'head' }).slice(1)).toEqual([1574, 3030]);
-  });
-
-  it('T-4 rules out that a headcrit doubles only the base', () => {
-    const assumptions = { headcritScalesModded: false };
-    expect(soma({ on: 'head', assumptions }).slice(1)).toEqual([1145, 2171]);
-  });
+  const assumptions = { headcritScalesModded: false };
+  const shot = { modules, on: 'head', assumptions } as const;
+  expect(numbers('soma-prime', 'normal', shot).slice(1)).toEqual([1145, 2171]);
 });

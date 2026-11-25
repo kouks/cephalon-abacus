@@ -42,6 +42,7 @@ const BANNED: readonly Banned[] = [
   ['the app running the engine', APP, valueFrom('@abacus/engine', 'evaluate'), IMPORTS],
   ['the app loading the engine lazily', APP, LAZY_ENGINE, SYNTAX],
   ['a fixture using another export', GOLDEN, valueFrom('@abacus/engine', 'quantize'), IMPORTS],
+  ['a fixture reaching past the API', GOLDEN, valueFrom('#engine/api.ts', 'evaluate'), IMPORTS],
   ['two levels up in the app', APP, valueFrom('../../a'), IMPORTS],
   ['two levels up in a fixture', GOLDEN, valueFrom('../../a'), IMPORTS],
   ['an enum in the app', APP, 'export enum A { B }', SYNTAX],

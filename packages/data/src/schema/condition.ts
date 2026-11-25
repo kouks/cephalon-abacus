@@ -7,6 +7,7 @@ const namedTriggerSchema = z.enum([
   'always',
   'onKill',
   'onHeadshot',
+  'onWeakPointHit',
   'onWeakPointKill',
   'onCrit',
   'onReload',

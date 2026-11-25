@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Module:Enemies/data/infestation",
+  "items": [
+    {
+      "id": "charger",
+      "name": "Charger",
+      "uniqueName": "/Lotus/Types/Enemies/Infested/AiWeek/Quadrupeds/QuadrupedAvatar",
+      "source": "https://wiki.warframe.com/w/Charger",
+      "gameVersion": "44.1.4.1",
+      "faction": "infested",
+      "baseLevel": 1,
+      "baseHealth": 80,
+      "baseShield": 0,
+      "baseArmor": 0,
+      "baseOverguard": 0
+    }
+  ]
+}
