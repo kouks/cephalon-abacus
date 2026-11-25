@@ -7,11 +7,10 @@ import type { Target } from '@/resolve/target';
 
 import { firingModes, withLinked } from './firingModes';
 
-const leftOutOf = (attack: Attack, weapon: Weapon, distance: number): readonly LeftOut[] => {
+const leftOutOf = (attack: Attack, weapon: Weapon): readonly LeftOut[] => {
   const found: readonly (readonly [LeftOut, boolean])[] = [
     ['beamRamp', attack.beam !== undefined],
     ['spoolUp', attack.spool !== undefined],
-    ['falloff', attack.falloff !== undefined && distance > attack.falloff.start],
     ['sniperCombo', weapon.sniperCombo !== undefined],
     ['zoom', weapon.zoomLevels !== undefined],
   ];
@@ -19,11 +18,11 @@ const leftOutOf = (attack: Attack, weapon: Weapon, distance: number): readonly L
 };
 
 /** What the closed form doesn't count: a beam's ramp-up is for the timeline (ABA-26). */
-const warnLeftOut = (weapon: Weapon, distance: number): readonly Warning[] =>
+const warnLeftOut = (weapon: Weapon): readonly Warning[] =>
   firingModes(weapon)
     .flatMap((mode) => withLinked(mode, weapon))
     .flatMap((attack) =>
-      leftOutOf(attack, weapon, distance).map((what): Warning => ({
+      leftOutOf(attack, weapon).map((what): Warning => ({
         code: 'leftOut',
         attackId: attack.id,
         what,
@@ -40,11 +39,11 @@ const warnPart = ({ head, weakPoint: part = 'head' }: Scenario['aim'], { parts }
 
 /** What of a scenario the metrics can't follow. */
 export const checkMetrics = (
-  { build, aim, distance }: Scenario,
+  { build, aim }: Scenario,
   weapon: Weapon,
   target: Target,
 ): readonly Warning[] => [
   ...warnAttack(build, weapon),
   ...warnPart(aim, target),
-  ...warnLeftOut(weapon, distance),
+  ...warnLeftOut(weapon),
 ];

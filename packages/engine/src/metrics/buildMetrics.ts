@@ -31,11 +31,11 @@ export const buildMetrics = (
   library: Library,
   assumptions: Partial<Assumptions> = {},
 ): BuildMetrics => {
-  const { build, enemy, aim } = scenario;
+  const { build, enemy, aim, distance } = scenario;
   const loadout = makeLoadout(scenario, library, assumptions);
   const target = findTarget(enemy.id, library);
   const byAttack = firingModes(loadout.weapon).map((attack) =>
-    attackMetrics(loadout, attack, { target, aim }),
+    attackMetrics(loadout, attack, { target, aim, distance }),
   );
 
   const asked = byAttack.find(({ attackId }) => attackId === build.attackId);

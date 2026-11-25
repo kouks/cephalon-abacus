@@ -219,6 +219,30 @@
       ]
     },
     {
+      "id": "fatal-acceleration",
+      "name": "Fatal Acceleration",
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponProjectileSpeedMod",
+      "source": "https://wiki.warframe.com/w/Fatal_Acceleration",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 3,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["shotgun"]
+      },
+      "exclusiveGroup": "fatal-acceleration",
+      "effects": [
+        {
+          "bucket": "projectileSpeed",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.4
+        }
+      ]
+    },
+    {
       "id": "incendiary-coat",
       "name": "Incendiary Coat",
       "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponFireDamageMod",

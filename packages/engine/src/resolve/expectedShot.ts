@@ -23,6 +23,7 @@ type Shot = {
   readonly buildFor: (bodyParts: readonly BodyPart[]) => BuiltAttack;
   readonly target: Target;
   readonly aim: Scenario['aim'];
+  readonly distance: number;
 };
 
 /** An attack that can't headshot hits the body, wherever it is aimed: most AoE. */
@@ -45,7 +46,10 @@ export const expectedShot = (shot: Shot): ExpectedShot => {
   const pellets = Math.max(shot.buildFor([]).stats.multishot.value, 0);
   const hits = partsHit(shot).map(({ part, share }) => {
     const built = shot.buildFor(part.bodyParts);
-    return { share, hit: resolveHit(built, { target: shot.target, part }) };
+    return {
+      share,
+      hit: resolveHit(built, { target: shot.target, part, distance: shot.distance }),
+    };
   });
   const perType = addUp(hits, pellets);
   const total = [...perType.values()].reduce((sum, damage) => sum + damage, 0);

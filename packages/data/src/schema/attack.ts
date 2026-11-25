@@ -31,7 +31,12 @@ const spoolSchema = object({
   startRate: positive.exactOptional(),
 });
 
-const falloffSchema = object({ start: nonNegative, end: positive, minPct: nonNegative });
+/** Metres, and the share of the damage that is left at the end. */
+const falloffSchema = object({
+  start: nonNegative,
+  end: positive,
+  minPct: nonNegative.max(1),
+}).refine(({ start, end }) => start < end, 'Falloff ends further away than it starts');
 
 const aoeSchema = object({
   radius: positive,

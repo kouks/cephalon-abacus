@@ -11,6 +11,7 @@ export type FactorName =
   | `final.${string}`
   | 'crit'
   | 'bodyPart'
+  | 'falloff'
   | 'vulnerability'
   | 'layer'
   | 'armor'

@@ -10,6 +10,7 @@ import { hitCrit } from './crit/hitCrit';
 import { bodyPartFactor } from './factors/bodyPartFactor';
 import { factionFactor, finalFactors } from './factors/bonusFactors';
 import { effectsOf, factor } from './factors/factor';
+import { falloffFactor } from './factors/falloffFactor';
 import { damageFactors, layerFactors, vulnerabilityFactors } from './factors/typeFactors';
 import type { Target, TargetPart } from './target';
 
@@ -22,15 +23,20 @@ export type HitResult = {
   readonly trace: HitTrace;
 };
 
-type At = { readonly target: Target; readonly part: TargetPart };
+type At = {
+  readonly target: Target;
+  readonly part: TargetPart;
+  /** Metres to the target. */
+  readonly distance: number;
+};
 
 const critFactor = ({ chance, multiplier, expected }: HitCrit) =>
   factor('crit', expected, effectsOf([...chance.totals, ...multiplier.totals]));
 
 /** The direct-damage chain, in the order of BIBLE §3. */
 const chainOf = (
-  { totals, composition }: BuiltAttack,
-  { target, part }: At,
+  { attack, totals, composition }: BuiltAttack,
+  { target, part, distance }: At,
   crit: HitCrit,
 ): readonly Factor[] => [
   ...damageFactors(composition),
@@ -38,6 +44,7 @@ const chainOf = (
   ...finalFactors(totals),
   critFactor(crit),
   bodyPartFactor(totals, part),
+  falloffFactor(attack, totals, distance),
   ...vulnerabilityFactors(composition.types.keys(), target),
   ...layerFactors(),
 ];
