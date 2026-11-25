@@ -305,64 +305,13 @@
       }
     },
     {
-      "id": "star-chart",
-      "name": "Star chart",
+      "id": "steel-path",
+      "name": "Steel Path",
       "source": "https://wiki.warframe.com/w/The_Steel_Path",
       "gameVersion": "44.1.4.1",
-      "kind": "mission",
-      "steelPath": {
-        "levels": 100,
-        "health": 2.5,
-        "shield": 2.5
-      }
-    },
-    {
-      "id": "archwing",
-      "name": "Archwing",
-      "source": "https://wiki.warframe.com/w/The_Steel_Path",
-      "gameVersion": "44.1.4.1",
-      "kind": "mission",
-      "steelPath": {
-        "levels": 50,
-        "health": 2.5,
-        "shield": 2.5
-      }
-    },
-    {
-      "id": "empyrean",
-      "name": "Empyrean",
-      "source": "https://wiki.warframe.com/w/The_Steel_Path",
-      "gameVersion": "44.1.4.1",
-      "kind": "mission",
-      "steelPath": {
-        "levels": 50,
-        "health": 2.5,
-        "shield": 2.5
-      }
-    },
-    {
-      "id": "duviri",
-      "name": "Duviri",
-      "source": "https://wiki.warframe.com/w/The_Steel_Path",
-      "gameVersion": "44.1.4.1",
-      "kind": "mission",
-      "steelPath": {
-        "levels": 20,
-        "health": 1,
-        "shield": 1
-      }
-    },
-    {
-      "id": "simulacrum",
-      "name": "Simulacrum",
-      "source": "https://wiki.warframe.com/w/The_Steel_Path",
-      "gameVersion": "44.1.4.1",
-      "kind": "mission",
-      "steelPath": {
-        "levels": 0,
-        "health": 2.5,
-        "shield": 2.5
-      }
+      "kind": "steelPath",
+      "health": 2.5,
+      "shield": 2.5
     }
   ]
 }

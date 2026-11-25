@@ -47,7 +47,7 @@ describe('evaluate', () => {
     expect(() => evaluate(scenarioOf({ enemy: charger }), library)).toThrow('No enemy "charger"');
     expect(evaluate(scenarioOf(), library)).not.toHaveProperty('enemy');
     const withEnemy = makeLibrary(modules, {}, [enemy]);
-    const met = { ...charger, id: 'test-enemy', level: 1 };
+    const met = { ...charger, id: 'test-enemy', level: 101 };
     const { enemy: stats } = evaluate(scenarioOf({ enemy: met }), withEnemy);
     expect(stats?.level).toBe(101);
     expect(stats?.health.value).toBeCloseTo(2.5 * 100 * 101, 1);

@@ -150,7 +150,7 @@ data  →  importers
 - **When a report differs from the wiki, push back.** Quote what the wiki says, repeat the conditions as you understood them (enemy and body part, weapon, firing mode, every mod and its rank, aiming, what was read off), and ask for the conditions and results to be stated back. Until they are, the wiki's rule stands, the fixture waits, and nothing is written down as wrong. Look for the mundane reason first: another enemy, another variant of the weapon, a Riven, a buff.
 - Ask for the numbers that were seen, not whether predictions match, when the wiki says something else.
 - **Distances in the Simulacrum:** the lines of the floor are 4 m apart, and Follie's barrel on a crossing is a neutral target that stays put. Readings of a waypoint are a metre coarse.
-- Gates: Gate 1 is T-1 to T-4, T-14, T-17 to T-35 and T-41, all answered; Gate 2 is T-5 to T-10 and T-13; Gate 3 is T-11, T-12, T-15 and T-16; Gate 4 is the sample builds.
+- Gates: Gate 1 is T-1 to T-4, T-14, T-17 to T-35 and T-41, all answered; Gate 2 is T-5 to T-10, T-13 and T-36 to T-40; Gate 3 is T-11, T-12, T-15 and T-16; Gate 4 is the sample builds.
 
 ## The app
 

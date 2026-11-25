@@ -1,5 +1,4 @@
 import type { ScalingCurve, ScalingRule } from '@/schema/scaling';
-import { DEFAULT_MISSION } from '@/schema/scaling';
 
 import { isCurve } from './findCurve';
 import type { LibraryError } from './libraryError';
@@ -26,17 +25,18 @@ const checkCurves = (located: readonly Located<ScalingRule>[]): readonly Library
   });
 };
 
+/** Rules there is one of. */
+const SINGLE = [
+  ['eximus', 'Eximus'],
+  ['steelPath', 'Steel Path'],
+] as const;
+
 /** The curves don't overlap, and the rules that everything else relies on are there. */
 export const checkScaling = (located: readonly Located<ScalingRule>[]): readonly LibraryError[] => {
-  const rules = located.map(({ item }) => item);
-  const hasDefault = rules.some(({ kind, id }) => kind === 'mission' && id === DEFAULT_MISSION);
-  const eximus = rules.filter(({ kind }) => kind === 'eximus');
-  const missing = [
-    ...(hasDefault ? [] : [`No mission "${DEFAULT_MISSION}"`]),
-    ...(eximus.length === 1 ? [] : [`Expected one Eximus rule, found ${eximus.length}`]),
-  ];
-  return [
-    ...checkCurves(located),
-    ...missing.map((message) => errorAt(SCALING_FILE, ['items'], message)),
-  ];
+  const countOf = (kind: ScalingRule['kind']) =>
+    located.filter(({ item }) => item.kind === kind).length;
+  const wrong = SINGLE.filter(([kind]) => countOf(kind) !== 1).map(([kind, name]) =>
+    errorAt(SCALING_FILE, ['items'], `Expected one ${name} rule, found ${countOf(kind)}`),
+  );
+  return [...checkCurves(located), ...wrong];
 };

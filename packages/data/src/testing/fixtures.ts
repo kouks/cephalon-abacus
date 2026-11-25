@@ -3,7 +3,7 @@
 import { DAMAGE_TYPES } from '@/schema/damageType';
 
 import { item } from './item';
-import { curve, eximus, mission } from './scaling';
+import { curve, eximus, steelPath } from './scaling';
 
 export const attack = {
   id: 'normal',
@@ -113,5 +113,5 @@ export const referenceFiles = [
   libraryFile('damageTypes.json', ...damageTypes),
   libraryFile('buckets.json', bucket, family),
   libraryFile('factions.json', faction),
-  libraryFile('scaling.json', curve, eximus, mission),
+  libraryFile('scaling.json', curve, eximus, steelPath),
 ];

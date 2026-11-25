@@ -3,8 +3,7 @@ import { findCurve } from '@abacus/data/load/findCurve';
 import type { Library } from '@abacus/data/load/library';
 import type { Enemy } from '@abacus/data/schema/enemy';
 import { baseOf } from '@abacus/data/schema/enemy';
-import type { ScaledStat, ScalingCurve, ScalingRule } from '@abacus/data/schema/scaling';
-import { DEFAULT_MISSION } from '@abacus/data/schema/scaling';
+import type { ScaledStat, ScalingCurve } from '@abacus/data/schema/scaling';
 import type { Scenario } from '@abacus/data/schema/scenario';
 
 import { eximusBase } from './eximusBase';
@@ -23,19 +22,21 @@ export type EnemyStat = { readonly value: number; readonly terms: readonly Scali
 /** An enemy's stats at its level (BIBLE §10). */
 export type EnemyStats = { readonly level: number } & Readonly<Record<ScaledStat, EnemyStat>>;
 
-/** Where an enemy is met: its level before the Steel Path adds to it. */
-export type Met = Pick<Scenario['enemy'], 'level' | 'steelPath' | 'mission'>;
+/** How an enemy is met. Its level is the one it has, on the Steel Path too. */
+export type Met = Pick<Scenario['enemy'], 'level' | 'steelPath'>;
 
-const LEVEL_CAP = 9999;
+const PLAIN: Readonly<Record<ScaledStat, number>> = {
+  health: 1,
+  shield: 1,
+  armor: 1,
+  overguard: 1,
+};
 
-type SteelPath = Extract<ScalingRule, { kind: 'mission' }>['steelPath'];
-
-const OFF: SteelPath = { levels: 0, health: 1, shield: 1 };
-
-const steelPathOf = ({ steelPath, mission = DEFAULT_MISSION }: Met, { scaling }: Library) => {
-  const rule = scaling.get(mission);
-  if (rule?.kind !== 'mission') throw new Error(`No mission "${mission}"`);
-  return steelPath ? rule.steelPath : OFF;
+/** What the Steel Path multiplies each stat by. */
+const ratesOf = ({ steelPath }: Met, { scaling }: Library) => {
+  const rule = [...scaling.values()].find(({ kind }) => kind === 'steelPath');
+  if (!steelPath || rule?.kind !== 'steelPath') return PLAIN;
+  return { ...PLAIN, health: rule.health, shield: rule.shield };
 };
 
 /** What the stats grow from: Eximus units start from more health and shields. */
@@ -79,11 +80,10 @@ const scaleStat = (stat: Stat, levels: { level: number; baseLevel: number }): En
 };
 
 export const scaleEnemy = (enemy: Enemy, met: Met, library: Library): EnemyStats => {
-  const steelPath = steelPathOf(met, library);
-  const level = Math.min(met.level + steelPath.levels, LEVEL_CAP);
+  const { level } = met;
+  const rates = ratesOf(met, library);
   const base = baseOf(enemy);
   const start = startOf(enemy, level, library);
-  const rates = { ...steelPath, armor: 1, overguard: 1 };
   const scale = (stat: ScaledStat) =>
     scaleStat(
       {

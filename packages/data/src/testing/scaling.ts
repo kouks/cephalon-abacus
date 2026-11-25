@@ -26,8 +26,4 @@ export const eximus = {
   healthShare: { protected: 0.25, bare: 0.375 },
 };
 
-export const mission = {
-  ...item('star-chart'),
-  kind: 'mission',
-  steelPath: { levels: 100, health: 2.5, shield: 2.5 },
-};
+export const steelPath = { ...item('steel-path'), kind: 'steelPath', health: 2.5, shield: 2 };

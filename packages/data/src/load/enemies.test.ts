@@ -5,7 +5,7 @@ import { baseOf, enemySchema } from '@/schema/enemy';
 import type { ScaledStat } from '@/schema/scaling';
 import { scalingRuleSchema } from '@/schema/scaling';
 import { enemy, libraryFile, referenceFiles } from '@/testing/fixtures';
-import { curve, eximus, mission } from '@/testing/scaling';
+import { curve, eximus, steelPath } from '@/testing/scaling';
 
 import { findCurve } from './findCurve';
 import { formatError } from './libraryError';
@@ -23,7 +23,7 @@ const errorsOf = (scaling: readonly object[], ...enemies: readonly object[]) => 
   return result.ok ? [] : result.errors.map(formatError);
 };
 
-const RULES = [curve, eximus, mission];
+const RULES = [curve, eximus, steelPath];
 
 /** The same curve for every profile. */
 const forEveryone = (change: object = {}): object => {
@@ -85,7 +85,9 @@ describe('an enemy', () => {
 describe('scaling.json', () => {
   it('can have one curve for every profile', () => {
     const everyone = forEveryone();
-    expect(errorsOf([everyone, eximus, mission], { ...enemy, scalingProfile: 'any' })).toEqual([]);
+    expect(errorsOf([everyone, eximus, steelPath], { ...enemy, scalingProfile: 'any' })).toEqual(
+      [],
+    );
   });
 
   it.each([
@@ -103,17 +105,18 @@ describe('scaling.json', () => {
     expect(errorsOf([...RULES, shield, corpus])).toEqual([]);
   });
 
-  it('has the star chart, and one Eximus rule', () => {
+  it('has one Eximus rule and one Steel Path rule', () => {
     expect(errorsOf([curve])).toEqual([
-      'scaling.json: items: No mission "star-chart"',
       'scaling.json: items: Expected one Eximus rule, found 0',
+      'scaling.json: items: Expected one Steel Path rule, found 0',
     ]);
-    expect(errorsOf([curve, eximus, { ...mission, id: 'archwing' }])).toEqual([
-      'scaling.json: items: No mission "star-chart"',
-    ]);
-    const second = { ...eximus, id: 'eximus-2' };
-    expect(errorsOf([...RULES, second])).toEqual([
+    const again = [
+      { ...eximus, id: 'eximus-2' },
+      { ...steelPath, id: 'steel-path-2' },
+    ];
+    expect(errorsOf([...RULES, ...again])).toEqual([
       'scaling.json: items: Expected one Eximus rule, found 2',
+      'scaling.json: items: Expected one Steel Path rule, found 2',
     ]);
   });
 

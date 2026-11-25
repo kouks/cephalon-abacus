@@ -52,24 +52,22 @@ const eximusSchema = object({
   healthShare: object({ protected: positive, bare: positive }),
 });
 
-/** A kind of mission, and what the Steel Path adds there. */
-const missionSchema = object({
+/** What the Steel Path multiplies. It is a game mode: an enemy's level is the one it has in it. */
+const steelPathSchema = object({
   ...itemShape,
-  kind: z.literal('mission'),
-  steelPath: object({ levels: nonNegativeInt, health: positive, shield: positive }),
+  kind: z.literal('steelPath'),
+  health: positive,
+  shield: positive,
 });
 
 export const scalingRuleSchema = z.discriminatedUnion('kind', [
   curveSchema,
   eximusSchema,
-  missionSchema,
+  steelPathSchema,
 ]);
-
-/** The mission of a scenario that names none. */
-export const DEFAULT_MISSION = 'star-chart';
 
 export type ScaledStat = (typeof SCALED_STATS)[number];
 export type ScalingRule = z.infer<typeof scalingRuleSchema>;
 export type ScalingCurve = z.infer<typeof curveSchema>;
 export type EximusRule = z.infer<typeof eximusSchema>;
-export type MissionRule = z.infer<typeof missionSchema>;
+export type SteelPathRule = z.infer<typeof steelPathSchema>;

@@ -101,25 +101,17 @@ describe('an Eximus unit', () => {
 });
 
 describe('the Steel Path', () => {
-  it('adds levels, health and shields by mission', () => {
-    const rules = [...library.scaling.values()].flatMap((rule) =>
-      rule.kind === 'mission' ? [{ id: rule.id, ...rule.steelPath }] : [],
-    );
-    expect(rules).toEqual([
-      { id: 'star-chart', levels: 100, health: 2.5, shield: 2.5 },
-      { id: 'archwing', levels: 50, health: 2.5, shield: 2.5 },
-      { id: 'empyrean', levels: 50, health: 2.5, shield: 2.5 },
-      { id: 'duviri', levels: 20, health: 1, shield: 1 },
-      { id: 'simulacrum', levels: 0, health: 2.5, shield: 2.5 },
-    ]);
-  });
-
-  it('makes a level 100 Runner a level 200 one with 2.5 times the health', () => {
+  it('multiplies health and shields by 2.5, and leaves the level alone', () => {
     const runner = library.enemies.get('runner');
     if (runner === undefined) throw new Error('No Runner');
-    const health = (met: Met) => Number(scaleEnemy(runner, met, library).health.value.toFixed(2));
-    expect(health({ level: 200, steelPath: false })).toBe(72877.11);
-    expect(health({ level: 100, steelPath: true })).toBe(182192.78);
-    expect(health({ level: 200, steelPath: true, mission: 'simulacrum' })).toBe(182192.78);
+    const at = (steelPath: boolean) => scaleEnemy(runner, { level: 200, steelPath }, library);
+    expect([at(false).level, at(true).level]).toEqual([200, 200]);
+    const health = [at(false), at(true)].map((stats) => Number(stats.health.value.toFixed(2)));
+    expect(health).toEqual([72877.11, 182192.78]);
+    const shielded = { scalingProfile: 'corpus', baseShield: 100 };
+    const shields = [false, true].map((steelPath) =>
+      Number(scale(shielded, { level: 100, steelPath }).shield.value.toFixed(2)),
+    );
+    expect(shields).toEqual([6672.23, 16680.57]);
   });
 });

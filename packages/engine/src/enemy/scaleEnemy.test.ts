@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import type { Library } from '@abacus/data/load/library';
 import { loadLibrary } from '@abacus/data/load/loadLibrary';
 import { enemy, libraryFile, referenceFiles } from '@abacus/data/testing/fixtures';
-import { curve, eximus, mission } from '@abacus/data/testing/scaling';
+import { curve, eximus, steelPath } from '@abacus/data/testing/scaling';
 
 import type { Met } from './scaleEnemy';
 import { enemyStats, scaleEnemy } from './scaleEnemy';
@@ -16,8 +16,7 @@ const RULES = [
   stat('armor', { limits: { least: 200, most: 2700 } }),
   stat('overguard', { above: 'one' }),
   eximus,
-  mission,
-  { ...mission, id: 'archwing', steelPath: { levels: 50, health: 3, shield: 2 } },
+  steelPath,
 ];
 
 const FULL = { baseShield: 10, baseArmor: 100, baseOverguard: 12 };
@@ -80,40 +79,22 @@ describe('an enemy at its level', () => {
     expect(scale({ baseArmor: 150 }, { level: 11 }).armor.terms.at(-1)?.name).toBe('growth');
     expect(scale({ baseHealth: 1 }, { level: 1 }).health.value).toBe(1);
   });
-
-  it('is no higher than 9,999', () => {
-    expect(scale({}, { level: 9950, steelPath: true }).level).toBe(9999);
-  });
 });
 
 describe('on the Steel Path, an enemy', () => {
-  it('is 100 levels higher, with 2.5 times the health and shields, and no more armor', () => {
-    const normal = scale({ ...FULL, baseArmor: 10 }, { level: 101 });
-    const steel = scale({ ...FULL, baseArmor: 10 }, { level: 1, steelPath: true });
-    expect(steel.level).toBe(101);
+  const normal = scale({ ...FULL, baseArmor: 10 }, { level: 101 });
+  const steel = scale({ ...FULL, baseArmor: 10 }, { level: 101, steelPath: true });
+
+  it('has the same level', () => {
+    expect([normal.level, steel.level]).toEqual([101, 101]);
+  });
+
+  it('has more health and shields, and no more armor or Overguard', () => {
     expect(steel.health.value).toBeCloseTo(2.5 * normal.health.value, 3);
-    expect(steel.shield.value).toBeCloseTo(2.5 * normal.shield.value, 3);
+    expect(steel.shield.value).toBeCloseTo(2 * normal.shield.value, 3);
     expect([steel.armor, steel.overguard]).toEqual([normal.armor, normal.overguard]);
     expect(steel.health.terms.at(-1)).toEqual({ name: 'steelPath', value: 2.5 });
-  });
-
-  it('depends on the mission', () => {
-    const { level, health, shield } = scale(FULL, {
-      level: 1,
-      steelPath: true,
-      mission: 'archwing',
-    });
-    expect(level).toBe(51);
-    expect([health.value, shield.value]).toEqual([
-      expect.closeTo(3 * 100 * 26, 2),
-      expect.closeTo(2 * 10 * 26, 3),
-    ]);
-  });
-
-  it('is the same as ever in a mission off it, which has to exist', () => {
-    expect(scale(FULL, { mission: 'archwing' })).toEqual(scale(FULL));
-    expect(() => scale({}, { mission: 'lua' })).toThrow('No mission "lua"');
-    expect(() => scale({}, { mission: 'grineer-health' })).toThrow('No mission "grineer-health"');
+    expect(steel.shield.terms.at(-1)).toEqual({ name: 'steelPath', value: 2 });
   });
 });
 
@@ -126,7 +107,7 @@ describe('an Eximus unit', () => {
     expect(health.value).toBeCloseTo(600 * 6.76, 2);
     expect(shield.value).toBeCloseTo(20 * 6.76, 3);
     expect(overguard.value).toBeCloseTo(12 * 6.76, 3);
-    const steel = scale(EXIMUS, { level: 1, steelPath: true });
+    const steel = scale(EXIMUS, { level: 25, steelPath: true });
     expect(termsOf(steel.health.terms)).toMatchObject({ eximusBase: 600, steelPath: 2.5 });
   });
 
