@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Module:Enemies/data/grineer",
+  "items": [
+    {
+      "id": "butcher",
+      "name": "Butcher",
+      "source": "https://wiki.warframe.com/w/Butcher",
+      "gameVersion": "44.1.4.1",
+      "faction": "grineer",
+      "scalingProfile": "grineer",
+      "baseLevel": 1,
+      "baseHealth": 50,
+      "baseShield": 0,
+      "baseArmor": 5,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 3,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ]
+    },
+    {
+      "id": "lancer",
+      "name": "Lancer",
+      "source": "https://wiki.warframe.com/w/Lancer",
+      "gameVersion": "44.1.4.1",
+      "faction": "grineer",
+      "scalingProfile": "grineer",
+      "baseLevel": 1,
+      "baseHealth": 100,
+      "baseShield": 0,
+      "baseArmor": 100,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 3,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ]
+    },
+    {
+      "id": "heavy-gunner",
+      "name": "Heavy Gunner",
+      "source": "https://wiki.warframe.com/w/Heavy_Gunner",
+      "gameVersion": "44.1.4.1",
+      "faction": "grineer",
+      "scalingProfile": "grineer",
+      "baseLevel": 8,
+      "baseHealth": 300,
+      "baseShield": 0,
+      "baseArmor": 500,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 3,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ]
+    },
+    {
+      "id": "kuva-lancer",
+      "name": "Kuva Lancer",
+      "source": "https://wiki.warframe.com/w/Kuva_Lancer",
+      "gameVersion": "44.1.4.1",
+      "faction": "kuva-grineer",
+      "scalingProfile": "grineer",
+      "baseLevel": 1,
+      "baseHealth": 100,
+      "baseShield": 0,
+      "baseArmor": 100,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 3,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ]
+    },
+    {
+      "id": "drekar-lancer-eximus",
+      "name": "Drekar Lancer Eximus",
+      "source": "https://wiki.warframe.com/w/Lancer",
+      "gameVersion": "44.1.4.1",
+      "faction": "grineer",
+      "scalingProfile": "grineer",
+      "baseLevel": 1,
+      "baseHealth": 100,
+      "baseShield": 0,
+      "baseArmor": 100,
+      "baseOverguard": 12,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 3,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ],
+      "flags": ["eximus"]
+    }
+  ]
+}

@@ -2,7 +2,14 @@ import { describe, expect, it } from 'vitest';
 
 import { scenario } from '@abacus/data/testing/fixtures';
 
-import { DEFAULT_TEXT, parseText, scenarioIn, withModules, withWeapon } from './scenarioText';
+import {
+  DEFAULT_TEXT,
+  parseText,
+  scenarioIn,
+  withModules,
+  withTarget,
+  withWeapon,
+} from './scenarioText';
 
 const TEXT = JSON.stringify({
   ...scenario,
@@ -66,5 +73,29 @@ describe('picking modules', () => {
 
   it('takes out the others', () => {
     expect(buildIn(withModules(TEXT, [])).modules).toEqual([]);
+  });
+});
+
+describe('picking a target', () => {
+  const aimed = JSON.stringify({
+    ...scenario,
+    enemy: { ...scenario.enemy, level: 120, steelPath: true },
+    aim: { head: 0.25, body: 0.75, weakPoint: 'maw', missBy: 2 },
+  });
+
+  it('keeps its level and the Steel Path, and the rest of the scenario', () => {
+    const { enemy, build, distance } = scenarioIn(withTarget(aimed, 'lancer'));
+    expect(enemy).toEqual({ ...scenario.enemy, id: 'lancer', level: 120, steelPath: true });
+    expect(build).toEqual(scenarioIn(aimed).build);
+    expect(distance).toBe(scenario.distance);
+  });
+
+  it('aims at its head instead of a part of the last one', () => {
+    const { aim } = scenarioIn(withTarget(aimed, 'lancer'));
+    expect(aim).toEqual({ head: 0.25, body: 0.75, missBy: 2 });
+  });
+
+  it('starts over if there is no scenario', () => {
+    expect(scenarioIn(withTarget('{', 'lancer')).enemy.id).toBe('lancer');
   });
 });

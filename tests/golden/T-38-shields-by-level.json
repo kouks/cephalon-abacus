@@ -57,33 +57,6 @@
       ]
     }
   ],
-  "enemies": [
-    {
-      "id": "crewman",
-      "name": "Crewman",
-      "source": "https://wiki.warframe.com/w/Crewman",
-      "gameVersion": "44.1.4.1",
-      "faction": "corpus",
-      "scalingProfile": "corpus",
-      "baseLevel": 1,
-      "baseHealth": 90,
-      "baseShield": 120,
-      "baseArmor": 0,
-      "baseOverguard": 0,
-      "bodyParts": [
-        {
-          "id": "body",
-          "multiplier": 1
-        },
-        {
-          "id": "head",
-          "multiplier": 3,
-          "countsAs": ["head", "weakPoint"],
-          "headcrit": 2
-        }
-      ]
-    }
-  ],
   "tolerance": {},
   "cases": [
     {

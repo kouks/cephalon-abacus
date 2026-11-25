@@ -12,6 +12,7 @@ const CHARGER = {
     { id: 'body', multiplier: 0.5 },
     { id: 'head', multiplier: 1, countsAs: ['head', 'weakPoint'] },
     { id: 'maw', multiplier: 10, countsAs: ['weakPoint'], headcrit: 4 },
+    { id: 'tank', multiplier: 1.5, countsAs: ['weakPoint'], promotes: true },
   ],
 };
 
@@ -40,6 +41,7 @@ describe('a target', () => {
       ['body', { multiplier: 0.5, bodyParts: [] }],
       ['head', { multiplier: 1, bodyParts: ['head', 'weakPoint'] }],
       ['maw', { multiplier: 10, bodyParts: ['weakPoint'], headcrit: 4 }],
+      ['tank', { multiplier: 1.5, bodyParts: ['weakPoint'], raises: [{ chance: 1, from: 0 }] }],
     ]);
   });
 

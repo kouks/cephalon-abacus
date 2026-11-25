@@ -68,6 +68,10 @@ describe('an enemy', () => {
 
   it.each([
     ['a part that counts as nothing', { bodyParts: [{ id: 'body', multiplier: 1, countsAs: [] }] }],
+    [
+      'a part that says it is plain',
+      { bodyParts: [{ id: 'body', multiplier: 1, promotes: false }] },
+    ],
     ['an unknown status', { statusCaps: { freeze: 4 } }],
     ['an unknown flag', { flags: ['elite'] }],
     ['no health', { baseHealth: 0 }],

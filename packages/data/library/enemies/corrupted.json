@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Module:Enemies/data/orokin",
+  "items": [
+    {
+      "id": "corrupted-lancer",
+      "name": "Corrupted Lancer",
+      "source": "https://wiki.warframe.com/w/Corrupted_Lancer",
+      "gameVersion": "44.1.4.1",
+      "faction": "orokin",
+      "scalingProfile": "orokin",
+      "baseLevel": 1,
+      "baseHealth": 100,
+      "baseShield": 0,
+      "baseArmor": 200,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 3,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ]
+    },
+    {
+      "id": "corrupted-heavy-gunner",
+      "name": "Corrupted Heavy Gunner",
+      "source": "https://wiki.warframe.com/w/Corrupted_Heavy_Gunner",
+      "gameVersion": "44.1.4.1",
+      "faction": "orokin",
+      "scalingProfile": "orokin",
+      "baseLevel": 8,
+      "baseHealth": 700,
+      "baseShield": 0,
+      "baseArmor": 500,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 3,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ]
+    }
+  ]
+}

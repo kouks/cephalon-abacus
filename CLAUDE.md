@@ -138,6 +138,7 @@ data  →  importers
 - **Reference files** (`damageTypes.json`, `buckets.json`, `factions.json`, `scaling.json`) are needed by every library and written by hand. The 20 damage type ids are a fixed list in `schema/damageType.ts`; their rules are data. `tools/data/library.test.ts` snapshots the first three and `scaling.test.ts` checks spot values of the last, so a balance patch shows up as a diff.
 - **Buckets:** a bucket with `members` is a family (`damage.faction.<group>`); look names up with `findBucket`. Its `scope` says how many times it applies to direct hits, procs, extra hits and AoE, and its `bodyPart` that it needs a weak point or a head.
 - **Damage types list the layers they hit**, with a multiplier for each. A layer that is absent is skipped: Toxin has no `shield`.
+- **Enemies:** an Eximus is an enemy of its own, with its own id. Body parts follow the wiki's Enemy Body Parts table (its marks say what isn't a headshot or has no headcrit), and where its enemy data disagrees, the table wins until a test decides.
 - **Importers never guess.** A field or phrase with no mapping rule is logged and goes to `importers/overrides/*.json` for a person to write. Overrides apply last and are reviewed like code.
 - Generated library files are committed, and only `data:update` writes them. To correct one, edit its override, never the generated file.
 - An update for a new game version writes `CHANGELOG/<version>.md`. A change that touches a golden fixture names it, so its test gets requested again.

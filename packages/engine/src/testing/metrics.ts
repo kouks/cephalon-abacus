@@ -11,6 +11,7 @@ type Setup = {
   readonly attacks?: readonly object[];
   readonly weaponChange?: object;
   readonly build?: object;
+  readonly enemies?: readonly object[];
   /** Changes to the rest of the scenario. */
   readonly scenario?: object;
   readonly assumptions?: Partial<Assumptions>;
@@ -49,6 +50,6 @@ export const measureBuild = (setup: Setup = {}) => {
     enemy: { id: 'neutral-dummy', level: 1, steelPath: false, modifiers: [] },
     ...setup.scenario,
   };
-  const library = makeLibrary(modules, { attacks, ...weaponChange });
+  const library = makeLibrary(modules, { attacks, ...weaponChange }, setup.enemies);
   return buildMetrics(scenario, library, setup.assumptions);
 };

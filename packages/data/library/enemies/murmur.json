@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Module:Enemies/data/themurmur",
+  "items": [
+    {
+      "id": "rogue-arcocanid",
+      "name": "Rogue Arcocanid",
+      "source": "https://wiki.warframe.com/w/Rogue_Arcocanid",
+      "gameVersion": "44.1.4.1",
+      "faction": "murmur",
+      "scalingProfile": "murmur",
+      "baseLevel": 1,
+      "baseHealth": 80,
+      "baseShield": 0,
+      "baseArmor": 100,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 1.5,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ]
+    }
+  ]
+}

@@ -26,6 +26,9 @@ export type Conditional = {
 /** What the weapon does that the metrics don't count. */
 export type LeftOut = 'beamRamp' | 'spoolUp' | 'sniperCombo' | 'zoom';
 
+/** What an enemy takes off damage that the metrics don't count: armor until ABA-22. */
+export type EnemyLeftOut = 'armor' | 'attenuation';
+
 /** Something about the build that doesn't work as written. The result is still usable. */
 export type Warning =
   | { readonly code: 'unknownModule'; readonly moduleId: string }
@@ -68,7 +71,8 @@ export type Warning =
       /** The widest explosion of the shot, or 0. */
       readonly radius: number;
     }
-  | { readonly code: 'leftOut'; readonly attackId: string; readonly what: LeftOut };
+  | { readonly code: 'leftOut'; readonly attackId: string; readonly what: LeftOut }
+  | { readonly code: 'enemyLeftOut'; readonly enemyId: string; readonly what: EnemyLeftOut };
 
 /** Everything a build's modules bring, before stacks, filters and sums. */
 export type Collected = {

@@ -8,6 +8,8 @@ export type Catalog = {
     /** The modules that fit it. */
     readonly modules: readonly Named[];
   })[];
+  /** What can be shot at. */
+  readonly targets: readonly Named[];
 };
 
 /** The answer to a scenario: a result, what is wrong with the scenario, or what went wrong. */

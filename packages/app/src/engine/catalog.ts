@@ -2,7 +2,10 @@ import type { Library } from '@abacus/data/load/library';
 import type { Module } from '@abacus/data/schema/module';
 import type { Weapon } from '@abacus/data/schema/weapon';
 
-import type { Catalog } from './protocol';
+import type { Catalog, Named } from './protocol';
+
+/** The target that the library doesn't have. */
+const NEUTRAL_DUMMY: Named = { id: 'neutral-dummy', name: 'Neutral dummy' };
 
 /** Any of them will do, if any are asked for. */
 const hasAny = <T>(asked: readonly T[] | undefined, has: readonly T[]) =>
@@ -11,12 +14,13 @@ const hasAny = <T>(asked: readonly T[] | undefined, has: readonly T[]) =>
 const fits = ({ compat }: Module, { slot, class: classes, compatTags = [] }: Weapon) =>
   compat.slots.includes(slot) && hasAny(compat.classes, classes) && hasAny(compat.tags, compatTags);
 
-const named = ({ id, name }: Module | Weapon) => ({ id, name });
+const named = ({ id, name }: Named): Named => ({ id, name });
 
-/** Every weapon of the library, with the modules that fit it. */
-export const catalogOf = ({ weapons, modules }: Library): Catalog => ({
+/** Every weapon of the library, with the modules that fit it, and every target. */
+export const catalogOf = ({ weapons, modules, enemies }: Library): Catalog => ({
   weapons: [...weapons.values()].map((weapon) => ({
     ...named(weapon),
     modules: [...modules.values()].filter((module) => fits(module, weapon)).map(named),
   })),
+  targets: [NEUTRAL_DUMMY, ...[...enemies.values()].map(named)],
 });

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Module:Enemies/data/scaldra",
+  "items": [
+    {
+      "id": "scaldra-eradicator",
+      "name": "Scaldra Eradicator",
+      "source": "https://wiki.warframe.com/w/Scaldra_Eradicator",
+      "gameVersion": "44.1.4.1",
+      "faction": "scaldra",
+      "scalingProfile": "scaldra",
+      "baseLevel": 1,
+      "baseHealth": 325,
+      "baseShield": 0,
+      "baseArmor": 500,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 3,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ]
+    }
+  ]
+}

@@ -35,6 +35,17 @@ describe('the engine in a Web Worker', () => {
     expect(modsOf('braton')).not.toContain('sinister-reach');
   });
 
+  it('lists the real library’s enemies, which can all be shot at', async () => {
+    const { targets } = await engine.catalog();
+    expect(targets.map(({ id }) => id)).toContain('techrot-obsolyte');
+    expect(targets).toHaveLength(19);
+    for (const { id } of targets) {
+      const { perShot, enemy } = await evaluated({ ...braton, enemy: { ...braton.enemy, id } });
+      expect(perShot).toBeGreaterThan(0);
+      expect(enemy === undefined).toBe(id === 'neutral-dummy');
+    }
+  });
+
   it('sends a result back whole, maps and infinities included', async () => {
     const { perShot, trace, byAttack } = await evaluated(braton);
     expect(perShot).toBeCloseTo(24.75 * 2.65 * (1 + 0.12 * ((205 * 32) / 4095 - 1)), 9);

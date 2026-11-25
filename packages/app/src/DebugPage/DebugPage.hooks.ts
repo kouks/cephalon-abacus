@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react';
 
 import { outcomeOf } from '@/debug/outcome';
-import { DEFAULT_TEXT, parseText, scenarioIn, withModules, withWeapon } from '@/debug/scenarioText';
+import {
+  DEFAULT_TEXT,
+  parseText,
+  scenarioIn,
+  withModules,
+  withTarget,
+  withWeapon,
+} from '@/debug/scenarioText';
 import type { Engine } from '@/engine/connectEngine';
 import type { Catalog, Reply } from '@/engine/protocol';
 
-const NOTHING: Catalog = { weapons: [] };
+const NOTHING: Catalog = { weapons: [], targets: [] };
 
 /** What the engine has to say: what can be picked, and the answer to the text. */
 const useEngine = (engine: Engine, text: string) => {
@@ -26,13 +33,15 @@ const useEngine = (engine: Engine, text: string) => {
     });
   }, [engine, text]);
 
-  return { weapons: catalog.weapons, reply };
+  return { catalog, reply };
 };
 
 export const useDebugPage = (engine: Engine) => {
   const [text, setText] = useState(DEFAULT_TEXT);
-  const { weapons, reply } = useEngine(engine, text);
-  const { weaponId, modules } = scenarioIn(text).build;
+  const { catalog, reply } = useEngine(engine, text);
+  const { weapons, targets } = catalog;
+  const { build, enemy } = scenarioIn(text);
+  const { weaponId, modules } = build;
   const modulesFor = (id: string) => weapons.find((weapon) => weapon.id === id)?.modules ?? [];
 
   const handleWeaponChange = (id: string) => {
@@ -44,15 +53,22 @@ export const useDebugPage = (engine: Engine) => {
     setText(withModules(text, ids));
   };
 
+  const handleTargetChange = (id: string) => {
+    setText(withTarget(text, id));
+  };
+
   return {
     weapons,
     weaponId,
     modules: modulesFor(weaponId),
     moduleIds: modules.map(({ moduleId }) => moduleId),
+    targets,
+    targetId: enemy.id,
     text,
     outcome: outcomeOf(parseText(text), reply),
     handleWeaponChange,
     handleModulesChange,
+    handleTargetChange,
     handleTextChange: setText,
   };
 };

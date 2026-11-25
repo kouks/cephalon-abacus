@@ -1,8 +1,9 @@
+import type { Library } from '@abacus/data/load/library';
 import type { Attack } from '@abacus/data/schema/attack';
 import type { Scenario } from '@abacus/data/schema/scenario';
 import type { Weapon } from '@abacus/data/schema/weapon';
 
-import type { LeftOut, Warning } from '@/build/types';
+import type { EnemyLeftOut, LeftOut, Warning } from '@/build/types';
 import { blastRadius } from '@/resolve/factors/landingFactor';
 import { isInRange } from '@/resolve/factors/rangeFactor';
 import type { Target } from '@/resolve/target';
@@ -32,6 +33,18 @@ const warnLeftOut = (weapon: Weapon): readonly Warning[] =>
       })),
     );
 
+/** What an enemy takes off damage that isn't counted. The neutral dummy takes nothing off. */
+const warnEnemy = ({ id }: Scenario['enemy'], { enemies }: Library): readonly Warning[] => {
+  const enemy = enemies.get(id);
+  const found: readonly (readonly [EnemyLeftOut, boolean])[] = [
+    ['armor', (enemy?.baseArmor ?? 0) > 0],
+    ['attenuation', enemy?.flags?.includes('hasAttenuation') === true],
+  ];
+  return found
+    .filter(([, isLeftOut]) => isLeftOut)
+    .map(([what]): Warning => ({ code: 'enemyLeftOut', enemyId: id, what }));
+};
+
 const warnAttack = ({ attackId }: Scenario['build'], weapon: Weapon): readonly Warning[] =>
   attackId === undefined || firingModes(weapon).some(({ id }) => id === attackId)
     ? []
@@ -40,15 +53,17 @@ const warnAttack = ({ attackId }: Scenario['build'], weapon: Weapon): readonly W
 const warnPart = ({ head, weakPoint: part = 'head' }: Scenario['aim'], { parts }: Target) =>
   head === 0 || parts.has(part) ? [] : [{ code: 'unknownPart', part } as const];
 
+type Met = { readonly weapon: Weapon; readonly target: Target; readonly library: Library };
+
 /** What of a scenario the metrics can't follow. */
 export const checkMetrics = (
-  { build, aim }: Scenario,
-  weapon: Weapon,
-  target: Target,
+  { build, aim, enemy }: Scenario,
+  { weapon, target, library }: Met,
 ): readonly Warning[] => [
   ...warnAttack(build, weapon),
   ...warnPart(aim, target),
   ...warnLeftOut(weapon),
+  ...warnEnemy(enemy, library),
 ];
 
 /** The firing modes that don't reach the target, and deal nothing to it. */

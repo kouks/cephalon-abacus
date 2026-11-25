@@ -1,16 +1,17 @@
 import { expect, it } from 'vitest';
 
 import { loadLibrary } from '@abacus/data/load/loadLibrary';
-import { libraryFile, module, referenceFiles, weapon } from '@abacus/data/testing/fixtures';
+import { enemy, libraryFile, module, referenceFiles, weapon } from '@abacus/data/testing/fixtures';
 
 import { catalogOf } from './catalog';
 
 const fitting = (id: string, compat: object) => ({ ...module, id, name: `The ${id}`, compat });
 
-it('lists the modules that fit each weapon, by slot, class and tag', () => {
+it('lists the modules that fit each weapon, by slot, class and tag, and the targets', () => {
   const loaded = loadLibrary([
     ...referenceFiles,
     libraryFile('weapons/a.json', { ...weapon, class: ['rifle', 'beam'], compatTags: ['BEAM'] }),
+    libraryFile('enemies/a.json', { ...enemy, name: 'The enemy' }),
     libraryFile(
       'mods/a.json',
       fitting('rifles', { slots: ['primary'], classes: ['rifle'] }),
@@ -35,6 +36,10 @@ it('lists the modules that fit each weapon, by slot, class and tag', () => {
           { id: 'extensions', name: 'The extensions' },
         ],
       },
+    ],
+    targets: [
+      { id: 'neutral-dummy', name: 'Neutral dummy' },
+      { id: 'test-enemy', name: 'The enemy' },
     ],
   });
 });

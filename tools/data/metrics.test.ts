@@ -74,7 +74,7 @@ describe('unmodded metrics', () => {
 });
 
 const describeWarning = (warning: Warning) =>
-  'what' in warning ? `${warning.attackId} ${warning.what}` : warning.code;
+  warning.code === 'leftOut' ? `${warning.attackId} ${warning.what}` : warning.code;
 
 describe('every seed weapon', () => {
   it.each([...library.weapons.keys()])('%s has four metrics and a trace', (weaponId) => {
