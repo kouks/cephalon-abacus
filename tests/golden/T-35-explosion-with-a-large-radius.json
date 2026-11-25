@@ -1,0 +1,289 @@
+{
+  "id": "T-35",
+  "question": "Does the rim of a large explosion scale with its radius?",
+  "bible": "§11",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "Aegrit testing: 9m range 70% falloff, screenshots attached"
+    },
+    {
+      "on": "2026-11-25",
+      "words": "[A level 200 Runner, Steel Path off, Aegrit with no mods, no arcanes, companion, abilities or shards, the first image is the row of the second, and the third is the row of the fourth:] yes that is correct. I was not throwing another one, it's just the \"ready to attack\" animation. Numbers are correct. [Crit multiplier of the explosion:] 1.9x cd"
+    }
+  ],
+  "notes": "A level 200 Runner, paused in the Simulacrum, and no numbers were predicted to Pavel. The numbers were read off the screenshots: 1,222 (yellow), 920 (yellow), 305 and 65; 647, 348, 661 (yellow) and 68. The distances are measured from the lines of the floor, from where the Runner stood in T-33, because its feet are hidden: 2.71, 4.90, 7.08 and 9.16 m; 2.63, 5.06, 7.48 and 9.25 m. Its body is taken to be 0.4 m nearer, as in T-33. The middle two bombs of the second row have no case: 661 is 348 × 1.9, so they dealt the same from 2.4 m apart, which no rule explains. The first row and T-41 are in order. The tolerance is a decimetre near the rim, where the numbers are steepest. Aegrit's explosion crits for 1.9x by the arsenal, as Pavel read it, where the wiki says 2x. The wiki's straight line to the edge damage is far off near the rim. Aegrit is not in the library yet.",
+  "weapons": [
+    {
+      "id": "aegrit",
+      "name": "Aegrit",
+      "uniqueName": "/Lotus/Weapons/Grineer/ThrowingWeapons/GrnVorStickyBomb/GrnVorStickyBomb",
+      "source": "https://wiki.warframe.com/w/Aegrit",
+      "gameVersion": "44.1.4.1",
+      "slot": "secondary",
+      "class": ["thrown"],
+      "compatTags": ["PROJECTILE", "THROWN", "AOE"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 2,
+        "maxAmmo": 4,
+        "reloadStyle": "magazine",
+        "reloadTime": 1.3
+      },
+      "attacks": [
+        {
+          "id": "direct-hit",
+          "name": "Direct Hit",
+          "damage": {
+            "impact": 4.5,
+            "puncture": 1.8,
+            "slash": 2.7
+          },
+          "trigger": "active",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.37,
+          "critMultiplier": 1.9,
+          "statusChance": 0.19,
+          "fireRate": 2,
+          "ammoCost": 1,
+          "projectileSpeed": 30,
+          "linkedAttacks": ["detonation"],
+          "flags": ["canHeadshot", "canCrit"]
+        },
+        {
+          "id": "detonation",
+          "name": "Detonation",
+          "damage": {
+            "blast": 797
+          },
+          "shotType": "aoe",
+          "multishot": 1,
+          "critChance": 0.37,
+          "critMultiplier": 1.9,
+          "statusChance": 0.19,
+          "fireRate": 2,
+          "ammoCost": 0,
+          "trigger": "active",
+          "aoe": {
+            "radius": 9,
+            "centerPct": 1,
+            "edgePct": 0.3,
+            "losRequired": false
+          },
+          "flags": ["canCrit", "isAoE"]
+        }
+      ]
+    }
+  ],
+  "tolerance": {
+    "hits": 25
+  },
+  "cases": [
+    {
+      "name": "row 1, bomb 1",
+      "scenario": {
+        "build": {
+          "weaponId": "aegrit",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 2.31
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "yellow": 1222
+        },
+        "hitsOf": "detonation"
+      }
+    },
+    {
+      "name": "row 1, bomb 2",
+      "scenario": {
+        "build": {
+          "weaponId": "aegrit",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 4.5
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "yellow": 920
+        },
+        "hitsOf": "detonation"
+      }
+    },
+    {
+      "name": "row 1, bomb 3",
+      "scenario": {
+        "build": {
+          "weaponId": "aegrit",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 6.68
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 305
+        },
+        "hitsOf": "detonation"
+      }
+    },
+    {
+      "name": "row 1, bomb 4",
+      "scenario": {
+        "build": {
+          "weaponId": "aegrit",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 8.76
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 65
+        },
+        "hitsOf": "detonation"
+      }
+    },
+    {
+      "name": "row 2, bomb 1",
+      "scenario": {
+        "build": {
+          "weaponId": "aegrit",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 2.23
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 647
+        },
+        "hitsOf": "detonation"
+      }
+    },
+    {
+      "name": "row 2, bomb 4",
+      "scenario": {
+        "build": {
+          "weaponId": "aegrit",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1,
+          "missBy": 8.85
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 68
+        },
+        "hitsOf": "detonation"
+      }
+    }
+  ]
+}

@@ -7,9 +7,17 @@
     {
       "on": "2026-11-25",
       "words": "| body | 2x80 |\n| ~2 m | 80 |\n| ~2.5 m | 80 |\n| ~3 m | 80 |\n| ~3.5 m | 80 |\n| ~4 m | 0 |\nWeapon (Zakti or Zakti Prime): Zakti\nArsenal radius and falloff: 3.5m, no falloff"
+    },
+    {
+      "on": "2026-11-25",
+      "words": "One dart that exploded on the body directly did the damage twice, I rechecked multiple times. [The dart that did nothing is the] purple glow."
+    },
+    {
+      "on": "2026-11-25",
+      "words": "We found a better and a much more precise way to test the radial falloff. Follie can spawn a barrel and that can be aligned almost perfectly with the grid lines that seem to be exactly 4m. Tested with Zakti and the range limit of 3.5m holds. Also Opticor 6m explosion holds."
     }
   ],
-  "notes": "A level 200 Runner, paused in the Simulacrum, and no numbers were predicted to Pavel. One dart at a time, in the floor. An explosion counts up to the enemy's body, which is about half a metre out from where the distance is taken to. The dart that did nothing is 4.2 m from the Runner's feet in the screenshot, measured from the lines of the floor, and its body is taken to be 0.4 m nearer, as in T-33. Why the dart in the body showed 80 twice is an open question to Pavel. It agrees with the wiki. Zakti is not in the library yet.",
+  "notes": "A level 200 Runner, paused in the Simulacrum, and no numbers were predicted to Pavel. One dart at a time, in the floor. An explosion counts up to the enemy's body, which is taken to be 0.4 m nearer, as in T-33. It agrees with the wiki. That a dart in the body shows 80 twice is not in the engine: the second one is left out here. Zakti is not in the library yet.",
   "weapons": [
     {
       "id": "zakti",
@@ -130,7 +138,7 @@
         "aim": {
           "head": 0,
           "body": 1,
-          "missBy": 1.5
+          "missBy": 1.6
         },
         "distance": 5,
         "duration": 1,
@@ -164,7 +172,7 @@
         "aim": {
           "head": 0,
           "body": 1,
-          "missBy": 2.0
+          "missBy": 2.1
         },
         "distance": 5,
         "duration": 1,
@@ -198,7 +206,7 @@
         "aim": {
           "head": 0,
           "body": 1,
-          "missBy": 2.5
+          "missBy": 2.6
         },
         "distance": 5,
         "duration": 1,
@@ -232,7 +240,7 @@
         "aim": {
           "head": 0,
           "body": 1,
-          "missBy": 3.0
+          "missBy": 3.1
         },
         "distance": 5,
         "duration": 1,
@@ -266,7 +274,7 @@
         "aim": {
           "head": 0,
           "body": 1,
-          "missBy": 3.8
+          "missBy": 3.6
         },
         "distance": 5,
         "duration": 1,
