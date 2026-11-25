@@ -127,6 +127,83 @@
       ]
     },
     {
+      "id": "vectis",
+      "name": "Vectis",
+      "uniqueName": "/Lotus/Weapons/Tenno/Rifle/TennoSniperRifle",
+      "source": "https://wiki.warframe.com/w/Vectis",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["sniper"],
+      "compatTags": ["SNIPER_AMMO", "SINGLESHOT"],
+      "maxRank": 30,
+      "zoomLevels": [
+        {
+          "zoom": 3,
+          "effects": [
+            {
+              "bucket": "headshot.damage",
+              "op": "STACKING_MULTIPLY",
+              "value": 0.3,
+              "filter": {
+                "bodyPart": "head"
+              }
+            }
+          ]
+        },
+        {
+          "zoom": 4.5,
+          "effects": [
+            {
+              "bucket": "headshot.damage",
+              "op": "STACKING_MULTIPLY",
+              "value": 0.5,
+              "filter": {
+                "bodyPart": "head"
+              }
+            }
+          ]
+        }
+      ],
+      "sniperCombo": {
+        "minHits": 1,
+        "reset": 2
+      },
+      "ammo": {
+        "magazine": 1,
+        "maxAmmo": 72,
+        "reloadStyle": "magazine",
+        "reloadTime": 1,
+        "reloadHidesDelay": true
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 90,
+            "puncture": 78.75,
+            "slash": 56.25
+          },
+          "trigger": "semi",
+          "shotType": "hitscan",
+          "multishot": 1,
+          "critChance": 0.25,
+          "critMultiplier": 2,
+          "statusChance": 0.3,
+          "fireRate": 1.5,
+          "ammoCost": 1,
+          "falloff": {
+            "start": 400,
+            "end": 600,
+            "minPct": 0.5
+          },
+          "punchThrough": 1,
+          "range": 1000,
+          "flags": ["canHeadshot", "canCrit"]
+        }
+      ]
+    },
+    {
       "id": "vectis-prime",
       "name": "Vectis Prime",
       "uniqueName": "/Lotus/Weapons/Tenno/LongGuns/PrimeVectis/PrimeVectisRifle",

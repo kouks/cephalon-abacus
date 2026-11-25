@@ -24,6 +24,7 @@ describe('the seed weapons', () => {
         "Braton, Normal Attack: impact 7.92 to 8.25, puncture 7.92 to 8.25, slash 8.16 to 8.25",
         "Soma Prime, Fully Spooled: impact 1.2 to 1.13, puncture 4.8 to 4.88, slash 6 to 6",
         "Tigris Prime, Normal Attack: impact 19.5 to 18.28, puncture 19.5 to 18.28, slash 156 to 158.44",
+        "Vectis, Normal Attack: impact 90 to 91.41, puncture 78.75 to 77.34, slash 56.25 to 56.25",
         "Vectis Prime, Normal Attack: impact 140 to 142.19, puncture 157.5 to 153.13, slash 52.5 to 54.69",
         "Paris, Uncharged Shot: impact 8 to 10, puncture 120 to 120, slash 32 to 30",
         "Paris, Charged Shot: impact 16 to 20, puncture 256 to 260, slash 48 to 50",

@@ -6,26 +6,26 @@
   "reports": [
     {
       "on": "2026-11-24",
-      "words": "mag size rounds to nearest integer"
+      "words": "Mag size rounds to nearest integer."
     },
     {
       "on": "2026-11-24",
-      "words": "braton with maxed magazine has 58 actually but with tainteg mag (+66%) it has 75 so it rounds up but exact .5 rounds down"
+      "words": "Braton with maxed magazine has 58 actually but with Tainted Mag (+66%) it has 75 so it rounds up but exact .5 rounds down."
     },
     {
       "on": "2026-11-24",
-      "words": "vectis with depleted reload (-60%) still keeps 1 magazine"
+      "words": "Braton Prime with 1/5 Warp is indeed 50 mag."
     },
     {
-      "on": "2026-11-24",
-      "words": "vectis with 4/5 magazine warp (25%) gives 3 magazine"
+      "on": "2026-11-25",
+      "words": "Normal Vectis with Depleted Reload keeps 1."
     },
     {
-      "on": "2026-11-24",
-      "words": "braton prime with 1/5 warp is indeed 50 mag"
+      "on": "2026-11-25",
+      "words": "Vectis PRIME with +25% gives 3."
     }
   ],
-  "notes": "3 rounds fit only Vectis Prime (2), not Vectis (1), and 50 fits only Braton (45), not Braton Prime (75). 58.5 shows 58 because the product is 58.499996 in 32 bits; 49.5 and 2.5 are exact and round up.",
+  "notes": "50 fits only Braton (45 rounds), not Braton Prime (75). 58.5 shows 58 because the product is 58.499996 in 32 bits; 49.5 and 2.5 are exact and round up. Vectis has 1 round, and 0.4 doesn't round to 0.",
   "tolerance": {
     "arsenal": 0
   },
@@ -177,10 +177,10 @@
       }
     },
     {
-      "name": "Vectis Prime with Depleted Reload",
+      "name": "Vectis with Depleted Reload",
       "scenario": {
         "build": {
-          "weaponId": "vectis-prime",
+          "weaponId": "vectis",
           "modules": [
             {
               "moduleId": "depleted-reload"

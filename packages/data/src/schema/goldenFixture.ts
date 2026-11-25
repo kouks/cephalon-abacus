@@ -35,7 +35,7 @@ const toleranceSchema = object({
 
 const reportSchema = object({
   on: z.iso.date(),
-  /** Word for word. */
+  /** Word for word, with typos fixed. */
   words: z.string().min(1),
 });
 

@@ -6,14 +6,10 @@
   "reports": [
     {
       "on": "2026-11-24",
-      "words": "T4 on the body matches 30, 262 and 485, on the head however it's 1574 and 3030, not 3029 as you predicted."
-    },
-    {
-      "on": "2026-11-24",
-      "words": "it was 40, was a typo sorry"
+      "words": "T4 on the body matches 40, 262 and 485, on the head however it's 1574 and 3030, not 3029 as you predicted."
     }
   ],
-  "notes": "The first report's 30 is the typo that the second corrects to 40. 3029 was the prediction before base crit multipliers were quantized; 1145 and 2171 would mean that a headcrit multiplies only the base. Aiming throughout.",
+  "notes": "The first message said 30, which was a typo for 40. 3029 was the prediction before base crit multipliers were quantized; 1145 and 2171 would mean that a headcrit multiplies only the base. Aiming throughout.",
   "tolerance": {
     "hits": 0.5
   },

@@ -6,7 +6,7 @@
   "reports": [
     {
       "on": "2026-11-24",
-      "words": "default charge time: 0.5s speed trigger r5 charge time: 0.23s"
+      "words": "Default charge time: 0.5s. Speed Trigger R5 charge time: 0.23s."
     }
   ],
   "notes": "Once would be 0.3125 s.",

@@ -27,6 +27,7 @@ describe('the seed weapons', () => {
         "Braton, Normal Attack: 8.75/s, 45 shots, shooting 72%",
         "Soma Prime, Fully Spooled: 15/s, 200 shots, shooting 81.63%",
         "Tigris Prime, Normal Attack: 2/s, 2 shots, shooting 35.71%",
+        "Vectis, Normal Attack: 1.5/s, 1 shots, shooting 66.67%",
         "Vectis Prime, Normal Attack: 2.67/s, 2 shots, shooting 61.22%",
         "Paris, Uncharged Shot: 1/s, 1 shots, shooting 60.61%",
         "Paris, Charged Shot: 0.87/s, 1 shots, shooting 100%",

@@ -485,6 +485,29 @@
       ]
     },
     {
+      "id": "fanged-fusillade",
+      "name": "Fanged Fusillade",
+      "uniqueName": "/Lotus/Upgrades/Mods/Rifle/WeaponEventSlashDamageMod",
+      "source": "https://wiki.warframe.com/w/Fanged_Fusillade",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["rifle", "bow", "crossbow", "launcher", "sniper", "speargun"]
+      },
+      "effects": [
+        {
+          "bucket": "damage.ips.slash",
+          "op": "STACKING_MULTIPLY",
+          "value": 1.2
+        }
+      ]
+    },
+    {
       "id": "speed-trigger",
       "name": "Speed Trigger",
       "uniqueName": "/Lotus/Upgrades/Mods/Rifle/WeaponFireRateMod",

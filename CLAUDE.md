@@ -145,7 +145,7 @@ data  →  importers
 
 - Pavel runs tests in the game on request. Ask in batches of 3–4, and only once the engine has the code a test exercises, so each report can be replayed at once.
 - Use the request template in BIBLE §16: Simulacrum, enemy and level, weapon and rank, every mod and its rank, no arcanes, companion or abilities unless they are the variable, body or head, and what to report. Change one variable per test.
-- Each report becomes `tests/golden/T-<n>-<topic>.json` (`T-5-cold-crit.json`) with the report word for word, the observed values exactly as reported, the game version, and a tolerance (`schema/goldenFixture.ts`). Each case holds a whole `Scenario`, which the debug page takes as it is. Never edit an observed value to make a test pass.
+- Each report becomes `tests/golden/T-<n>-<topic>.json` (`T-5-cold-crit.json`) with the report word for word (typos fixed), the observed values exactly as reported, the game version, and a tolerance (`schema/goldenFixture.ts`). Each case holds a whole `Scenario`, which the debug page takes as it is. Never edit an observed value to make a test pass.
 - Gates: Gate 1 is T-1 to T-4, T-14 and T-17 to T-21, all answered; Gate 2 is T-5 to T-10 and T-13; Gate 3 is T-11, T-12, T-15 and T-16; Gate 4 is the sample builds.
 
 ## The app

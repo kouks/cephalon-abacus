@@ -6,7 +6,7 @@
   "reports": [
     {
       "on": "2026-11-24",
-      "words": "base burston fire rate is 5 and it seems to take and 3.2 seconds to fire 10 bursts"
+      "words": "Base Burston fire rate is 5 and it seems to take 3.2 seconds to fire 10 bursts."
     }
   ],
   "notes": "Two delays per burst take 3.22 s, and three 3.83 s.",

@@ -6,10 +6,14 @@
   "reports": [
     {
       "on": "2026-11-24",
-      "words": "T14 - if a damage type is quantized to 0 it does not proc status despite the ingame overlay showing a non 0 chance (tested with -98% puncture jupiter and -117%+20% slash vectis)."
+      "words": "T14 - if a damage type is quantized to 0 it does not proc status despite the in-game overlay showing a non-0 chance (tested with -98% Puncture Jupiter and -117%+20% Slash Vectis)."
+    },
+    {
+      "on": "2026-11-25",
+      "words": "T-14 was indeed done on normal Vectis and \"Slash bonus\" is just unranked Fanged Fusillade mod."
     }
   ],
-  "notes": "No numbers were reported, only the outcome. The weapon is called Vectis in the report; its other magazine reports fit Vectis Prime. The Riven's other stats and the source of the +20% were not reported. Jupiter is not in the library.",
+  "notes": "No numbers were reported, only the outcome. The Riven's other stats were not reported. Jupiter is not in the library.",
   "modules": [
     {
       "id": "riven",
@@ -27,38 +31,22 @@
           "value": -1.17
         }
       ]
-    },
-    {
-      "id": "slash-bonus",
-      "name": "Slash bonus",
-      "source": "https://wiki.warframe.com/w/Riven_Mods",
-      "gameVersion": "44.1.4.1",
-      "kind": "mod",
-      "compat": {
-        "slots": ["primary"]
-      },
-      "effects": [
-        {
-          "bucket": "damage.ips.slash",
-          "op": "STACKING_MULTIPLY",
-          "value": 0.2
-        }
-      ]
     }
   ],
   "tolerance": {},
   "cases": [
     {
-      "name": "Vectis Prime with -117% and +20% Slash",
+      "name": "Vectis with a -117% Slash Riven and unranked Fanged Fusillade",
       "scenario": {
         "build": {
-          "weaponId": "vectis-prime",
+          "weaponId": "vectis",
           "modules": [
             {
               "moduleId": "riven"
             },
             {
-              "moduleId": "slash-bonus"
+              "moduleId": "fanged-fusillade",
+              "rank": 0
             }
           ],
           "conditionals": {

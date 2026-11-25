@@ -6,7 +6,7 @@
   "reports": [
     {
       "on": "2026-11-24",
-      "words": "takes about 15s, listed fire rate is 10"
+      "words": "Takes about 15s, listed fire rate is 10."
     }
   ],
   "notes": "77 rounds, trigger held. 0.5 ammo per tick takes 15.4 s. The wiki's data says 1, which would take 7.7 s.",
