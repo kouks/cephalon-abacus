@@ -35,7 +35,11 @@ export type AttackMetrics = Headline & {
   readonly shots: readonly { readonly attackId: string; readonly shot: ExpectedShot }[];
 };
 
-type Fight = { readonly target: Target; readonly aim: Scenario['aim'] };
+type Fight = {
+  readonly target: Target;
+  readonly aim: Scenario['aim'];
+  readonly distance: number;
+};
 
 /** N × (1 + max ammo ÷ magazine): the loaded magazine, and the rest in reserve. */
 const shotsCarried = ({ magazine, maxAmmo }: AttackStats, { shotsPerMagazine }: AttackRates) =>

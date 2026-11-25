@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest';
 import { attackOf, BLAST, GRENADE, measureBuild } from '@/testing/metrics';
 
 const BEAM = { rampStartPct: 0.3, rampTime: 0.6, decayDelay: 0.8, decayTime: 2 };
-const FALLOFF = { start: 10, end: 20, minPct: 0.5 };
 
 const warningsOf = (setup: Parameters<typeof measureBuild>[0]) => measureBuild(setup).warnings;
 
@@ -18,12 +17,6 @@ describe('the metrics say that they leave out', () => {
     expect(leftOut(attack)).toEqual([{ code: 'leftOut', attackId: 'normal', what }]);
   });
 
-  it('falloff, beyond where it starts', () => {
-    const at = (distance: number) => leftOut({ falloff: FALLOFF }, { scenario: { distance } });
-    expect(at(10)).toEqual([]);
-    expect(at(10.5)).toEqual([{ code: 'leftOut', attackId: 'normal', what: 'falloff' }]);
-  });
-
   it('what a sniper rifle adds', () => {
     const weaponChange = {
       sniperCombo: { minHits: 5, reset: 2 },
@@ -34,9 +27,9 @@ describe('the metrics say that they leave out', () => {
   });
 
   it('what an attack that is set off has', () => {
-    const blast = { ...BLAST, falloff: FALLOFF };
-    const warnings = warningsOf({ attacks: [GRENADE, blast], scenario: { distance: 15 } });
-    expect(warnings).toEqual([{ code: 'leftOut', attackId: 'blast', what: 'falloff' }]);
+    const blast = { ...BLAST, trigger: 'autoSpool', spool: { shotsToMax: 4 } };
+    const warnings = warningsOf({ attacks: [GRENADE, blast] });
+    expect(warnings).toEqual([{ code: 'leftOut', attackId: 'blast', what: 'spoolUp' }]);
   });
 });
 

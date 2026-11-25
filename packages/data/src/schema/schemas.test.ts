@@ -183,6 +183,18 @@ describe('conditionals of one item', () => {
   });
 });
 
+describe('falloff', () => {
+  it.each([
+    ['from 10 to 20 m', { start: 10, end: 20, minPct: 0.5 }, true],
+    ['from the muzzle, to nothing', { start: 0, end: 20, minPct: 0 }, true],
+    ['that ends where it starts', { start: 10, end: 10, minPct: 0.5 }, false],
+    ['that ends closer than it starts', { start: 20, end: 10, minPct: 0.5 }, false],
+    ['that adds damage', { start: 10, end: 20, minPct: 1.5 }, false],
+  ])('%s', (_name, falloff, isValid) => {
+    expect(accepts(weaponSchema, { ...weapon, attacks: [{ ...attack, falloff }] })).toBe(isValid);
+  });
+});
+
 describe('scenarios', () => {
   const withProgenitor = (progenitor: object) => ({ build: { ...scenario.build, progenitor } });
 

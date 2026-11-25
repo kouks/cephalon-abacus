@@ -1,0 +1,88 @@
+{
+  "id": "T-23",
+  "question": "How does damage fall off with distance?",
+  "bible": "§11",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "Tigris Prime no mods, level 200 Runner body. Under 8m: 274 white, 549 yellow (69 bleed). Close to 15m: white spread 141 to 147, yellow 281 to 292 (Slash procs 35-41). More than 25m: 141 white, 281 yellow (35 bleed)."
+    },
+    {
+      "on": "2026-11-25",
+      "words": "Falloff seems to be more aggressive than stated on the wiki. Tigris has no mods. Your expected numbers seem to happen at around 13m. Maybe the waypoint distance is misleading (offset by 2m compared to shooting distance). Bleed under 8m is indeed 69, my mistake (up close, Tigris body shot on 200 Runner with no mods)."
+    }
+  ],
+  "notes": "The expected numbers were not given. The first message had a bleed of 67, corrected to 69; bleeds are for ABA-25. What is between the ends is T-25.",
+  "tolerance": {
+    "hits": 0.5
+  },
+  "cases": [
+    {
+      "name": "under 8 m",
+      "scenario": {
+        "build": {
+          "weaponId": "tigris-prime",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 7,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 274,
+          "yellow": 549
+        }
+      }
+    },
+    {
+      "name": "more than 25 m",
+      "scenario": {
+        "build": {
+          "weaponId": "tigris-prime",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 26,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 141,
+          "yellow": 281
+        }
+      }
+    }
+  ]
+}

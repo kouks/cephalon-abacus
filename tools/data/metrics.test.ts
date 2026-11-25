@@ -8,10 +8,13 @@ import { buildMetrics } from '#engine/metrics/buildMetrics.ts';
 
 import { realLibrary as library } from './realAttack.ts';
 
-const metricsOf = (weaponId: string, aim: object = { head: 0, body: 1 }) => {
-  const build = { ...scenario.build, weaponId, modules: [] };
+const metricsOf = (weaponId: string, change: object = {}, mods: readonly string[] = []) => {
+  const modules = mods.map((moduleId) => ({ moduleId }));
+  const build = { ...scenario.build, weaponId, modules };
   const enemy = { ...scenario.enemy, id: 'neutral-dummy' };
-  return buildMetrics(scenarioSchema.parse({ ...scenario, build, enemy, aim }), library);
+  const aim = { head: 0, body: 1 };
+  const parsed = scenarioSchema.parse({ ...scenario, build, enemy, aim, ...change });
+  return buildMetrics(parsed, library);
 };
 
 const modeOf = (weaponId: string, attackId: string) =>
@@ -75,7 +78,7 @@ const describeWarning = (warning: Warning) =>
 
 describe('every seed weapon', () => {
   it.each([...library.weapons.keys()])('%s has four metrics and a trace', (weaponId) => {
-    const metrics = metricsOf(weaponId, { head: 0.5, body: 0.5 });
+    const metrics = metricsOf(weaponId, { aim: { head: 0.5, body: 0.5 } });
     const { perShot, burstDps, sustainedDps, lifetimeDamage, trace } = metrics;
     for (const value of [perShot, burstDps, sustainedDps, lifetimeDamage]) {
       expect(value).toBeGreaterThan(0);
@@ -95,6 +98,7 @@ describe('every seed weapon', () => {
         "braton: ",
         "soma-prime: normal spoolUp",
         "tigris-prime: ",
+        "hek: ",
         "vectis: normal sniperCombo, normal zoom",
         "vectis-prime: normal sniperCombo, normal zoom",
         "paris: ",
@@ -111,6 +115,23 @@ describe('every seed weapon', () => {
 
 it('Penta’s explosion gets no headshot', () => {
   const grenade = 3 * 75 * (1 + 0.1 * (2 * stored(2) - 1));
-  const { perShot } = metricsOf('penta', { head: 1, body: 0 });
+  const { perShot } = metricsOf('penta', { aim: { head: 1, body: 0 } });
   expect(perShot).toBeCloseTo(grenade + mean(350, [0.1, 2]), 6);
+});
+
+const tigrisAt = (distance: number, mods: readonly string[] = []) => {
+  const { perShot } = metricsOf('tigris-prime', { distance }, mods);
+  return Number((perShot / (8 * mean(195, [0.1, 2]))).toFixed(9));
+};
+
+describe('Tigris Prime', () => {
+  it('loses damage from 10 m on, down to 51.28%', () => {
+    const shares = [10, 12.5, 15, 30].map((distance) => tigrisAt(distance));
+    expect(shares).toEqual([1, 0.75, 0.5128, 0.5128]);
+  });
+
+  it('loses it from 14 m on with Fatal Acceleration', () => {
+    const shares = [14, 17.5, 21, 28].map((distance) => tigrisAt(distance, ['fatal-acceleration']));
+    expect(shares).toEqual([1, 0.75, 0.5128, 0.5128]);
+  });
 });

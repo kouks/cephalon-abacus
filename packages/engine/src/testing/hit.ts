@@ -25,6 +25,7 @@ type Setup = {
   readonly build?: object;
   readonly assumptions?: Partial<Assumptions>;
   readonly target?: Target;
+  readonly distance?: number;
 };
 
 const [baseAttack] = weapon.attacks;
@@ -65,7 +66,8 @@ export const hit = (setup: Setup = {}, part: TargetPart = BODY): HitResult => {
   const loadout = loadoutOf(setup);
   const attack = must(loadout.weapon.attacks[0], 'no attack');
   const built = buildAttack(loadout, attack, { bodyParts: part.bodyParts });
-  return resolveHit(built, { target: setup.target ?? makeTarget(), part });
+  const { target = makeTarget(), distance = 10 } = setup;
+  return resolveHit(built, { target, part, distance });
 };
 
 /** One shot of the test rifle, on average. */
@@ -76,6 +78,7 @@ export const shot = (setup: Setup & { readonly aim: Scenario['aim'] }) => {
     buildFor: (bodyParts) => buildAttack(loadout, attack, { bodyParts }),
     target: setup.target ?? makeTarget(),
     aim: setup.aim,
+    distance: setup.distance ?? 10,
   });
 };
 

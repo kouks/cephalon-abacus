@@ -38,6 +38,7 @@ describe('a hit on a neutral target', () => {
       'faction',
       'crit',
       'bodyPart',
+      'falloff',
       'vulnerability impact',
       'vulnerability puncture',
       'vulnerability slash',

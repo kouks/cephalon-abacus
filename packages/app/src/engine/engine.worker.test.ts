@@ -25,7 +25,7 @@ const evaluated = async (input: unknown) => {
 describe('the engine in a Web Worker', () => {
   it('lists the real library’s weapons and the mods that fit them', async () => {
     const { weapons } = await engine.catalog();
-    expect(weapons).toHaveLength(12);
+    expect(weapons).toHaveLength(13);
     const modsOf = (id: string) =>
       weapons.find((weapon) => weapon.id === id)?.modules.map((module) => module.id) ?? [];
     expect(modsOf('braton')).toContain('serration');

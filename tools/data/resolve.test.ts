@@ -24,7 +24,7 @@ const resolve = (weaponId: string, attackId: string, shot: Shot = {}) => {
   const part = must(target.parts.get(on), `No ${on}`);
   const { bodyParts } = part;
   const built = realAttack(weaponId, attackId, { modules, bodyParts, assumptions });
-  return resolveHit(built, { target, part });
+  return resolveHit(built, { target, part, distance: 10 });
 };
 
 /** White, yellow and orange, as the game shows them. */

@@ -24,7 +24,7 @@ export type Conditional = {
 };
 
 /** What the weapon does that the metrics don't count. */
-export type LeftOut = 'beamRamp' | 'spoolUp' | 'falloff' | 'sniperCombo' | 'zoom';
+export type LeftOut = 'beamRamp' | 'spoolUp' | 'sniperCombo' | 'zoom';
 
 /** Something about the build that doesn't work as written. The result is still usable. */
 export type Warning =
