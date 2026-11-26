@@ -60,6 +60,10 @@ const fullOf = (stats: EnemyStats | undefined): LayersLeft => ({
 
 const ORDER: readonly Layer[] = ['overguard', 'shield', 'health'];
 
+/** The first layer an enemy has something left of: health always has. */
+export const layerLeft = (left: LayersLeft): Layer =>
+  ORDER.find((entry) => entry !== 'health' && left[entry] > 0) ?? 'health';
+
 /** What armor would be over the cap, and how the game keeps it whole, where either applies. */
 const armorExtras = (uncapped: number | undefined, armorRounding: Rounding | undefined) => ({
   ...(uncapped === undefined ? {} : { uncappedArmor: uncapped }),
@@ -68,7 +72,7 @@ const armorExtras = (uncapped: number | undefined, armorRounding: Rounding | und
 
 export const defenceOf = ({ layer, left = {}, stats, rules, armorRounding }: Met): Defence => {
   const full = { ...fullOf(stats), ...left };
-  const met = layer ?? ORDER.find((entry) => entry !== 'health' && full[entry] > 0) ?? 'health';
+  const met = layer ?? layerLeft(full);
   const before = ORDER.slice(0, ORDER.indexOf(met));
   const gone = Object.fromEntries(before.map((entry) => [entry, 0]));
   return {

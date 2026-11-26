@@ -59,6 +59,7 @@
         "kind": "capped",
         "most": 10
       },
+      "overguardMost": 4,
       "confidence": "W"
     },
     {
@@ -176,7 +177,22 @@
         "kind": "capped",
         "most": 10
       },
+      "effect": {
+        "on": "statusChanceTaken",
+        "first": 0.1,
+        "more": 0.1
+      },
       "confidence": "W"
+    },
+    {
+      "id": "microwave",
+      "name": "Microwave",
+      "source": "https://wiki.warframe.com/w/Microwave",
+      "gameVersion": "44.1.4.1",
+      "stacking": {
+        "kind": "independent"
+      },
+      "confidence": "C"
     }
   ]
 }

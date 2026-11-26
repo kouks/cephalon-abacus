@@ -61,7 +61,7 @@ describe('a hit on a neutral target', () => {
   it('lands on health, at once, with its status chance in procs', () => {
     const { t, pellet, layer, procs } = hit().trace;
     expect([t, pellet, layer]).toEqual([0, 0, 'health']);
-    expect(procs.map(({ type }) => type)).toEqual(['impact', 'puncture', 'slash']);
+    expect(procs.map(({ status }) => status)).toEqual(['knockback', 'weakened', 'bleed']);
     expect(procs.reduce((sum, { count }) => sum + count, 0)).toBeCloseTo(0.1, 12);
   });
 

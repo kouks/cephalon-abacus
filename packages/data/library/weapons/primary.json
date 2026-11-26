@@ -565,7 +565,7 @@
           "projectileSpeed": 100,
           "forcedProcs": [
             {
-              "type": "impact",
+              "status": "knockback",
               "count": 1
             }
           ],

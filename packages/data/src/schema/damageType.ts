@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { object, positive } from './primitives';
+import { positive } from './primitives';
 
 /** The 20 damage types (BIBLE §6). Their rules are data: see damageTypes.json. */
 export const DAMAGE_TYPES = [
@@ -38,9 +38,5 @@ export const damageMapSchema = z
   })
   .readonly();
 
-/** A status effect applied on purpose, or recorded in a trace (fractional in expected-value mode). */
-export const procRefSchema = object({ type: damageTypeSchema, count: positive });
-
 export type DamageType = z.infer<typeof damageTypeSchema>;
 export type DamageMap = z.infer<typeof damageMapSchema>;
-export type ProcRef = z.infer<typeof procRefSchema>;

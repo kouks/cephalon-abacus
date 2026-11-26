@@ -110,7 +110,7 @@ describe('the seed weapons', () => {
         "Amprex, Normal Attack: continuous {ammoCost:0.5,beam:{rampStartPct:0.3,rampTime:0.6,decayDelay:0.8,decayTime:2,chain:{targets:3,range:10}},range:18,flags:[canHeadshot,canCrit,mergeMultishotHits]}",
         "Penta, Grenade Impact: projectile {ammoCost:1,projectileSpeed:20,linkedAttacks:[grenade-detonation],flags:[canHeadshot,canCrit]}",
         "Penta, Grenade Detonation: aoe {ammoCost:0,aoe:{radius:4,centerPct:1,edgePct:0.5,losRequired:false},flags:[canCrit,isAoE]}",
-        "Nagantaka Prime, Semi-Auto: projectile {ammoCost:1,projectileSpeed:100,forcedProcs:[{type:impact,count:1}],flags:[canHeadshot,canCrit]}",
+        "Nagantaka Prime, Semi-Auto: projectile {ammoCost:1,projectileSpeed:100,forcedProcs:[{status:knockback,count:1}],flags:[canHeadshot,canCrit]}",
         "Lex, Normal Attack: hitscan {ammoCost:1,range:300,flags:[canHeadshot,canCrit]}",
         "Kuva Nukor, Normal Attack: continuous {ammoCost:0.5,beam:{rampStartPct:0.3,rampTime:0.6,decayDelay:0.8,decayTime:2,chain:{targets:2,range:9}},range:29,flags:[canHeadshot,canCrit,mergeMultishotHits]}",
       ]

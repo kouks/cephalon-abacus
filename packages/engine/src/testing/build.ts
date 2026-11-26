@@ -11,7 +11,6 @@ import {
   libraryFile,
   module,
   scenario,
-  status,
   weapon,
 } from '@abacus/data/testing/fixtures';
 import { armorCurve, curve, eximus, shieldCurve, steelPath } from '@abacus/data/testing/scaling';
@@ -19,6 +18,7 @@ import { armorCurve, curve, eximus, shieldCurve, steelPath } from '@abacus/data/
 import type { Selection } from '@/build/selectEffects';
 
 import { damageTypeItems, ELEMENTS } from './damageTypes';
+import { STATUS_ITEMS } from './statuses';
 
 const stat = (id: string, change: object = {}) => ({ ...bucket, id, stage: 'stats', ...change });
 
@@ -135,7 +135,7 @@ export const makeLibrary = (
     buckets,
     factions,
     libraryFile('scaling.json', curve, armorCurve, shieldCurve, eximus, steelPath),
-    libraryFile('statuses.json', status),
+    libraryFile('statuses.json', ...STATUS_ITEMS),
     libraryFile('mods/a.json', ...modules),
     libraryFile('weapons/a.json', { ...weapon, ...weaponChange }),
     libraryFile('enemies/a.json', ...enemies),

@@ -4,6 +4,8 @@ import type { DamageType } from '@abacus/data/schema/damageType';
 import { damageTypeRuleSchema } from '@abacus/data/schema/damageTypeRule';
 import { damageTypes } from '@abacus/data/testing/fixtures';
 
+import { PROCS } from './statuses';
+
 const PHYSICAL: readonly DamageType[] = ['impact', 'puncture', 'slash'];
 const PRIMARIES: readonly DamageType[] = ['heat', 'cold', 'electricity', 'toxin'];
 
@@ -28,10 +30,12 @@ export const ELEMENTS: readonly string[] = [...PRIMARIES, ...Object.keys(COMBINA
 /** As items of damageTypes.json. */
 export const damageTypeItems = damageTypes.map((item) => {
   const combinesFrom = COMBINATIONS[item.id];
+  const proc = PROCS[item.id];
   return {
     ...item,
     group: groupOf(item.id),
     ...(combinesFrom === undefined ? {} : { combinesFrom }),
+    ...(proc === undefined ? {} : { proc }),
   };
 });
 

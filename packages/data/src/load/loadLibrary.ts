@@ -80,7 +80,7 @@ const checkReferences = (found: Read, library: Library): readonly LibraryError[]
   ...checkWeaponEffects(found.weapons.items, library),
   ...checkModuleEffects(found.modules.items, library),
   ...checkScaling(found.scaling.items),
-  ...checkStatuses(found.damageTypes.items, library),
+  ...checkStatuses({ damageTypes: found.damageTypes.items, weapons: found.weapons.items }, library),
   ...checkEnemies(found.enemies.items, library),
 ];
 

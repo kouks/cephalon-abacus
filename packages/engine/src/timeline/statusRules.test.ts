@@ -1,47 +1,37 @@
 import { describe, expect, it } from 'vitest';
 
-import { loadLibrary } from '@abacus/data/load/loadLibrary';
-import { damageTypes, libraryFile, referenceFiles } from '@abacus/data/testing/fixtures';
+import { makeLibrary } from '@/testing/build';
 
 import { statusRuleOf } from './statusRules';
 
-const FREEZE = {
-  id: 'freeze',
-  name: 'Freeze',
-  source: 'https://wiki.warframe.com/w/Damage/Cold_Damage',
-  gameVersion: '44.1.4.1',
-  duration: 6,
-  stacking: { kind: 'capped', most: 10 },
-  confidence: 'W',
-};
+const library = makeLibrary([]);
 
-const library = (() => {
-  const types = damageTypes.map((item) =>
-    item.id === 'cold' ? { ...item, proc: 'freeze' } : item,
-  );
-  const result = loadLibrary([
-    libraryFile('damageTypes.json', ...types),
-    ...referenceFiles.filter(({ path }) => !['damageTypes.json', 'statuses.json'].includes(path)),
-    libraryFile('statuses.json', FREEZE),
-  ]);
-  if (!result.ok) throw new Error(JSON.stringify(result.errors));
-  return result.library;
-})();
-
-describe('the status a type procs', () => {
-  it('is the one its proc names, with its stacking', () => {
-    expect(statusRuleOf('cold', library)).toMatchObject({
-      status: { id: 'freeze', duration: 6 },
+describe('a status’s rule', () => {
+  it('is its stacking, with no cap of the enemy’s own', () => {
+    expect(statusRuleOf('freeze', library)).toEqual({
+      status: expect.objectContaining({ id: 'freeze', duration: 6 }) as unknown,
       stacking: { kind: 'capped', most: 10 },
     });
   });
 
-  it('has the enemy’s own cap, where it has one', () => {
-    expect(statusRuleOf('cold', library, { statusCaps: { cold: 4 } })?.cap).toBe(4);
-    expect(statusRuleOf('cold', library, { statusCaps: { heat: 4 } })).not.toHaveProperty('cap');
+  it('has the enemy’s own cap, which statusCaps names by the damage type', () => {
+    expect(statusRuleOf('freeze', library, { statusCaps: { cold: 4 } }).cap).toBe(4);
+    expect(statusRuleOf('freeze', library, { statusCaps: { heat: 4 } })).not.toHaveProperty('cap');
   });
 
-  it('is none for a type that procs none', () => {
-    expect(statusRuleOf('true', library)).toBeUndefined();
+  it('has Cold’s 4 while the enemy has Overguard left (the wiki’s Cold page)', () => {
+    expect(statusRuleOf('freeze', library, { hasOverguard: true }).cap).toBe(4);
+    expect(statusRuleOf('freeze', library, { hasOverguard: false })).not.toHaveProperty('cap');
+    expect(
+      statusRuleOf('freeze', library, { hasOverguard: true, statusCaps: { cold: 2 } }).cap,
+    ).toBe(2);
+  });
+
+  it('has no Overguard cap for a status that has none', () => {
+    expect(statusRuleOf('virus', library, { hasOverguard: true })).not.toHaveProperty('cap');
+  });
+
+  it('is an error for a status the library lacks', () => {
+    expect(() => statusRuleOf('nowhere', library)).toThrow('No status "nowhere"');
   });
 });

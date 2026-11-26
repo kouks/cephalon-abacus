@@ -222,3 +222,16 @@ describe('statuses.json', () => {
     ]);
   });
 });
+
+describe('a forced proc', () => {
+  it('names a status in statuses.json', () => {
+    const forced = { ...attack, forcedProcs: [{ status: 'nowhere', count: 1 }] };
+    const result = loadLibrary([
+      ...referenceFiles,
+      libraryFile('weapons/a.json', { ...weapon, attacks: [forced] }),
+    ]);
+    expect(result.ok ? [] : result.errors.map(formatError)).toEqual([
+      'weapons/a.json: items[0].attacks[0].forcedProcs[0].status: No status "nowhere" in statuses.json',
+    ]);
+  });
+});

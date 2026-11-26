@@ -1,4 +1,6 @@
-import type { DamageType, ProcRef } from '@abacus/data/schema/damageType';
+import { must } from '@abacus/data/assert';
+import type { DamageType } from '@abacus/data/schema/damageType';
+import type { Proc } from '@abacus/data/schema/status';
 
 import type { Assumptions } from '@/assumptions';
 import type { BuiltAttack } from '@/build/buildAttack';
@@ -21,19 +23,31 @@ export const receivedChance = (
 ): number => (tauChanceMultiplied ? chance * (1 + vulnerability) : chance + vulnerability);
 
 /** The statuses an attack inflicts whatever its chance, on a target within their reach. */
-const forcedAt = ({ attack }: BuiltAttack, distance: number): ReadonlyMap<DamageType, number> =>
+const forcedAt = ({ attack }: BuiltAttack, distance: number): ReadonlyMap<string, number> =>
   new Map(
     (attack.forcedProcs ?? [])
       .filter(({ within }) => within === undefined || distance <= within)
-      .map(({ type, count }) => [type, count]),
+      .map(({ status, count }) => [status, count]),
   );
 
-const merged = (...counts: readonly ReadonlyMap<DamageType, number>[]): readonly ProcRef[] => {
-  const byType = new Map<DamageType, number>();
-  for (const [type, count] of counts.flatMap((entry) => [...entry])) {
-    byType.set(type, (byType.get(type) ?? 0) + count);
+/** Picked types, as the statuses they proc. */
+const statusesOf = (
+  picked: ReadonlyMap<DamageType, number>,
+  { composition }: BuiltAttack,
+): ReadonlyMap<string, number> =>
+  new Map(
+    [...picked].map(([type, count]) => [
+      must(composition.procStatuses.get(type), 'procWeights has only types that proc'),
+      count,
+    ]),
+  );
+
+const merged = (...counts: readonly ReadonlyMap<string, number>[]): readonly Proc[] => {
+  const byStatus = new Map<string, number>();
+  for (const [status, count] of counts.flatMap((entry) => [...entry])) {
+    byStatus.set(status, (byStatus.get(status) ?? 0) + count);
   }
-  return [...byType].map(([type, count]) => ({ type, count }));
+  return [...byStatus].map(([status, count]) => ({ status, count }));
 };
 
 /**
@@ -48,5 +62,5 @@ export const rollProcs = (
 ) => {
   const chance = receivedChance(built.stats.statusChance.value, vulnerability, built.assumptions);
   const rolled = roller.pick(built.composition.procWeights, roller.count(chance));
-  return merged(forcedAt(built, distance), rolled);
+  return merged(forcedAt(built, distance), statusesOf(rolled, built));
 };
