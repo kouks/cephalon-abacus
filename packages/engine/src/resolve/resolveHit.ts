@@ -14,11 +14,14 @@ import { falloffFactor } from './factors/falloffFactor';
 import { landingFactor } from './factors/landingFactor';
 import { radialFalloffFactor } from './factors/radialFalloffFactor';
 import { rangeFactor } from './factors/rangeFactor';
+import type { Met } from './factors/layerFactors';
 import { layerFactors } from './factors/layerFactors';
+import { reductionFactor } from './factors/reductionFactor';
 import { damageFactors, vulnerabilityFactors } from './factors/typeFactors';
 import type { TypeDamage } from './leastDamage';
 import { leastFactors, tierTypes } from './leastDamage';
 import type { Defence } from './defence';
+import { armorMet } from './strips';
 import type { Target, TargetPart } from './target';
 
 export type HitResult = {
@@ -49,11 +52,11 @@ type At = {
 const critFactor = ({ chance, multiplier, expected }: HitCrit) =>
   factor('crit', expected, effectsOf([...chance.totals, ...multiplier.totals]));
 
-/** The direct-damage chain, in the order of BIBLE §3. */
+/** The direct-damage chain, in the order of BIBLE §3, up to the least of 1 that armor leaves. */
 const chainOf = (
   built: BuiltAttack,
-  { target, part, distance, reach = built.stats.range, missBy = 0, defence }: At,
-  crit: HitCrit,
+  { target, part, distance, reach = built.stats.range, missBy = 0 }: At,
+  { crit, met }: { readonly crit: HitCrit; readonly met: Met | undefined },
 ): readonly Factor[] => [
   ...damageFactors(built.composition),
   factionFactor(built.totals, target),
@@ -65,7 +68,7 @@ const chainOf = (
   landingFactor(built, missBy),
   radialFalloffFactor(built, missBy),
   ...vulnerabilityFactors(built.composition.types.keys(), target),
-  ...layerFactors(built.composition.types.keys(), defence),
+  ...layerFactors(built.composition.types.keys(), met),
 ];
 
 const damageOf = (type: DamageType, factors: readonly Factor[]) =>
@@ -87,20 +90,43 @@ const typesOf = (types: readonly DamageType[], chain: readonly Factor[]): readon
   }));
 };
 
+const reduced = (byType: ReadonlyMap<DamageType, number>, by: number) =>
+  new Map([...byType].map(([type, damage]) => [type, damage * by]));
+
+type Traced = Pick<HitTrace, 'factors' | 'perType'> & { readonly met: Met | undefined };
+
+/** The layer the hit met, and the armor on it after strips. */
+const traceOf = ({ factors, perType, met }: Traced): HitTrace => {
+  const trace = {
+    t: 0,
+    pellet: 0,
+    factors,
+    perType,
+    layer: met?.defence.layer ?? 'health',
+    procs: [],
+  };
+  return met === undefined ? trace : { ...trace, armor: met.armor.value };
+};
+
 /** Phase B (BIBLE §3): one hit on one part of a target, with the mean of its crit tiers. */
 export const resolveHit = (built: BuiltAttack, at: At): HitResult => {
   const { attack, totals, assumptions, composition } = built;
   const crit = hitCrit(attack, { ...at.part, totals, assumptions });
-  const chain = chainOf(built, at, crit);
+  const met =
+    at.defence === undefined
+      ? undefined
+      : { defence: at.defence, armor: armorMet(at.defence, built) };
+  const chain = chainOf(built, at, { crit, met });
   const types = typesOf([...composition.types.keys()], chain);
   const multiplier = crit.multiplier.value;
-  const factors = [...chain, ...leastFactors(types, { tiers: crit.tiers, multiplier })];
+  const reduction = reductionFactor(totals);
+  const least = leastFactors(types, { tiers: crit.tiers, multiplier });
+  const factors = [...chain, ...least, reduction];
   const perType = new Map(types.map(({ type }) => [type, damageOf(type, factors)]));
   const tiers = crit.tiers.map(({ tier, chance }) => {
-    const byType = tierTypes(types, tier, multiplier);
+    const byType = reduced(tierTypes(types, tier, multiplier), reduction.value);
     return { tier, chance, total: sum(byType.values()), perType: byType };
   });
-  const layer = at.defence?.layer ?? 'health';
-  const trace = { t: 0, pellet: 0, factors, perType, layer, procs: [] } as const;
+  const trace = traceOf({ factors, perType, met });
   return { perType, total: sum(perType.values()), crit, tiers, trace };
 };

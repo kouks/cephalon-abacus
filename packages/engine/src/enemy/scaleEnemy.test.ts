@@ -77,6 +77,9 @@ describe('an enemy at its level', () => {
     });
     expect(scale({ baseArmor: 1000 }, { level: 101 }).armor.value).toBe(2700);
     expect(scale({ baseArmor: 150 }, { level: 11 }).armor.terms.at(-1)?.name).toBe('growth');
+    expect(scale({ baseArmor: 1000 }, { level: 101 }).armor.uncapped).toBeCloseTo(1000 * 101, 0);
+    expect(scale({ baseArmor: 100 }, { level: 1 }).armor.uncapped).toBeUndefined();
+    expect(scale({ baseArmor: 150 }, { level: 11 }).armor.uncapped).toBeUndefined();
     expect(scale({ baseHealth: 1 }, { level: 1 }).health.value).toBe(1);
   });
 });

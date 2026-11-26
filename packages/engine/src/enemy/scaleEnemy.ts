@@ -26,7 +26,12 @@ export type ScalingTerm = {
 };
 
 /** A stat, and the terms that made it: base × growth × steelPath, within the limit. */
-export type EnemyStat = { readonly value: number; readonly terms: readonly ScalingTerm[] };
+export type EnemyStat = {
+  readonly value: number;
+  readonly terms: readonly ScalingTerm[];
+  /** What it would be above its highest limit, where that limit lowered it: armor over 2,700. */
+  readonly uncapped?: number;
+};
 
 /** An enemy's stats at its level (BIBLE §10). */
 export type EnemyStats = { readonly level: number } & Readonly<Record<ScaledStat, EnemyStat>>;
@@ -92,7 +97,7 @@ const scaleStat = (stat: Stat, levels: { level: number; baseLevel: number }): En
   if (steelPath !== 1) terms.push({ name: 'steelPath', value: steelPath });
   if (limited !== scaled) terms.push({ name: 'limit', value: limited });
   if (value !== limited) terms.push({ name: 'whole', value });
-  return { value, terms };
+  return scaled > limited ? { value, terms, uncapped: scaled } : { value, terms };
 };
 
 export const scaleEnemy = (enemy: Enemy, met: Met, library: Library): EnemyStats => {

@@ -8,7 +8,10 @@ import type { LayersLeft } from './applyHit';
 /** What a hit meets on an enemy: the layer, and the armor on its health (BIBLE §10). */
 export type Defence = {
   readonly layer: Layer;
+  /** Within its limits: at least 200 and at most 2,700. */
   readonly armor: number;
+  /** What it would be over 2,700, where the cap lowered it. */
+  readonly uncappedArmor?: number;
   /** What the enemy has left of each layer. Those before the layer the hit meets are gone. */
   readonly left: LayersLeft;
   /** What each type does to each layer, from damageTypes.json. */
@@ -57,5 +60,7 @@ export const defenceOf = ({ layer, left = {}, stats, rules }: Met): Defence => {
   const met = layer ?? ORDER.find((entry) => entry !== 'health' && full[entry] > 0) ?? 'health';
   const before = ORDER.slice(0, ORDER.indexOf(met));
   const gone = Object.fromEntries(before.map((entry) => [entry, 0]));
-  return { layer: met, armor: stats?.armor.value ?? 0, left: { ...full, ...gone }, rules };
+  const uncapped = stats?.armor.uncapped;
+  const defence = { layer: met, armor: stats?.armor.value ?? 0, left: { ...full, ...gone }, rules };
+  return uncapped === undefined ? defence : { ...defence, uncappedArmor: uncapped };
 };

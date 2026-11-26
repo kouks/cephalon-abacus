@@ -40,5 +40,7 @@ export type HitTrace = {
   readonly factors: readonly Factor[];
   readonly perType: ReadonlyMap<DamageType, number>;
   readonly layer: Layer;
+  /** The armor on the enemy's health, after strips. Absent on the neutral dummy. */
+  readonly armor?: number;
   readonly procs: readonly ProcRef[];
 };

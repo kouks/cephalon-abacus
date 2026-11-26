@@ -51,10 +51,10 @@ describe('a hit on a neutral target', () => {
       'armor puncture',
       'layer slash',
       'armor slash',
-      'reduction',
       'least impact',
       'least puncture',
       'least slash',
+      'reduction',
     ]);
   });
 

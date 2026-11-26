@@ -27,6 +27,11 @@ export const ASSUMPTIONS = {
    * the number on health, as on a Bursa.
    */
   breakShownInOwnTerms: { default: true, test: 'T-47', bible: '§15' },
+  /**
+   * Strips work from armor within its limits, at most 2,700, as the wiki's Armor page has the level
+   * clamp it. If not: from the armor the level gives, and the cap after them.
+   */
+  armorCappedBeforeStrips: { default: true, test: 'T-6', bible: '§10' },
 } as const satisfies Readonly<Record<string, Assumption>>;
 
 export type Assumptions = Readonly<Record<keyof typeof ASSUMPTIONS, boolean>>;
@@ -39,4 +44,5 @@ export const DEFAULT_ASSUMPTIONS: Assumptions = {
   procWeightsQuantized: ASSUMPTIONS.procWeightsQuantized.default,
   falloffHeadsForZero: ASSUMPTIONS.falloffHeadsForZero.default,
   breakShownInOwnTerms: ASSUMPTIONS.breakShownInOwnTerms.default,
+  armorCappedBeforeStrips: ASSUMPTIONS.armorCappedBeforeStrips.default,
 };
