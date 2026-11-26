@@ -56,10 +56,10 @@ describe('the wiki’s curves, at levels 1, 50, 75, 100, 150 and 300', () => {
     ['grineer', [100, 1914.99, 3940.67, 5121.65, 6923.54, 11604.65]],
     ['sentient', [100, 1914.99, 3940.67, 5121.65, 6923.54, 11604.65]],
     ['techrot', [100, 1987.01, 5871.2, 11601.4, 15792.41, 26742.69]],
-  ])('shields: %s', (scalingProfile, expected) => {
+  ])('shields: %s, kept whole (T-46)', (scalingProfile, expected) => {
     const change = { scalingProfile, baseShield: 100 };
     const values = LEVELS.map((level) => scale(change, { level }).shield.value);
-    expect(values.map((value) => Number(value.toFixed(2)))).toEqual(expected);
+    expect(values).toEqual(expected.map((value) => Math.round(value)));
   });
 
   it('armor, from 200 to 2,700 for everyone', () => {
@@ -112,6 +112,6 @@ describe('the Steel Path', () => {
     const shields = [false, true].map((steelPath) =>
       Number(scale(shielded, { level: 100, steelPath }).shield.value.toFixed(2)),
     );
-    expect(shields).toEqual([6672.23, 16680.57]);
+    expect(shields).toEqual([6672, 16681]);
   });
 });

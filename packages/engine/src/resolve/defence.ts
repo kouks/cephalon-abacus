@@ -3,10 +3,14 @@ import type { DamageTypeRule, Layer } from '@abacus/data/schema/damageTypeRule';
 
 import type { EnemyStats } from '@/enemy/scaleEnemy';
 
+import type { LayersLeft } from './applyHit';
+
 /** What a hit meets on an enemy: the layer, and the armor on its health (BIBLE §10). */
 export type Defence = {
   readonly layer: Layer;
   readonly armor: number;
+  /** What the enemy has left of each layer. Those before the layer the hit meets are gone. */
+  readonly left: LayersLeft;
   /** What each type does to each layer, from damageTypes.json. */
   readonly rules: ReadonlyMap<DamageType, DamageTypeRule>;
 };
@@ -31,14 +35,27 @@ export const hasLayer = (layer: Layer, stats: EnemyStats | undefined): boolean =
   layer === 'health' || (stats?.[layer].value ?? 0) > 0;
 
 type Met = {
-  /** The layer the scenario names. Absent: the first the enemy has. */
+  /** The layer the scenario names. Absent: the first the enemy has left. */
   readonly layer?: Layer | undefined;
+  /** What the scenario says the enemy has left. Absent: all of it. */
+  readonly left?: Partial<LayersLeft> | undefined;
   readonly stats: EnemyStats | undefined;
   readonly rules: Defence['rules'];
 };
 
-export const defenceOf = ({ layer, stats, rules }: Met): Defence => ({
-  layer: layer ?? firstLayer(stats),
-  armor: stats?.armor.value ?? 0,
-  rules,
+/** All of each layer, and endless health on the neutral dummy, which has no stats. */
+const fullOf = (stats: EnemyStats | undefined): LayersLeft => ({
+  overguard: stats?.overguard.value ?? 0,
+  shield: stats?.shield.value ?? 0,
+  health: stats?.health.value ?? Number.POSITIVE_INFINITY,
 });
+
+const ORDER: readonly Layer[] = ['overguard', 'shield', 'health'];
+
+export const defenceOf = ({ layer, left = {}, stats, rules }: Met): Defence => {
+  const full = { ...fullOf(stats), ...left };
+  const met = layer ?? ORDER.find((entry) => entry !== 'health' && full[entry] > 0) ?? 'health';
+  const before = ORDER.slice(0, ORDER.indexOf(met));
+  const gone = Object.fromEntries(before.map((entry) => [entry, 0]));
+  return { layer: met, armor: stats?.armor.value ?? 0, left: { ...full, ...gone }, rules };
+};

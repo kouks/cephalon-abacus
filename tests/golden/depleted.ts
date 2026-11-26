@@ -1,61 +1,55 @@
-import { must } from '@abacus/data/assert';
-import type { Colour, Depleted, Observed } from '@abacus/data/schema/goldenFixture';
-import { COLOURS } from '@abacus/data/schema/goldenFixture';
-import type { EnemyStats, HitResult } from '@abacus/engine';
+import type { Depleted, Observed } from '@abacus/data/schema/goldenFixture';
+import type { EnemyStats, LayersLeft } from '@abacus/engine';
 
 import type { Comparison } from './comparison';
+import type { Run } from './replay';
+import { damageOn, inOrder, replay } from './replay';
 
-type Hit = Pick<HitResult, 'tiers'>;
-
-const damageOf = (colour: Colour, { tiers }: Hit): number => {
-  const found = tiers.find(({ tier }) => tier === COLOURS.indexOf(colour));
-  return must(found, `No ${colour} hit can happen at this crit chance`).total;
+/** All of a stage's hits but one of the colour that finished it, and that one last. */
+const beforeLast = ({ hits, last }: Depleted) => {
+  const all = inOrder(hits);
+  const index = all.lastIndexOf(last);
+  return [...all.slice(0, index), ...all.slice(index + 1)];
 };
 
-const sum = (values: readonly number[]) => values.reduce((total, value) => total + value, 0);
-
-const dealtIn = (stages: readonly Depleted[], hit: Hit): number =>
-  sum(
-    stages.flatMap(({ hits }) =>
-      COLOURS.map((colour) => {
-        const count = hits[colour] ?? 0;
-        return count === 0 ? 0 : count * damageOf(colour, hit);
-      }),
+const explainStage = ({ layer }: Depleted, enemy: EnemyStats, left: number): string =>
+  [
+    ...enemy[layer].terms.map(
+      ({ name, value }) => `${layer} ${name} ${Number(value.toPrecision(8))}`,
     ),
-  );
+    `${layer} left before the last hit ${Number(left.toPrecision(8))}`,
+  ].join('\n');
 
-const explainLayers = (stages: readonly Depleted[], enemy: EnemyStats): string =>
-  stages
-    .flatMap(({ layer }) =>
-      enemy[layer].terms.map(
-        ({ name, value }) => `${layer} ${name} ${Number(value.toPrecision(8))}`,
-      ),
-    )
-    .join('\n');
+type Stage = { readonly comparison: Comparison; readonly left: LayersLeft | undefined };
+
+const stageOf = (stage: Depleted, run: Run, from: LayersLeft | undefined): Stage => {
+  const enemy = run.result.enemy;
+  const what = stage.layer;
+  const before = replay(run, from, beforeLast(stage));
+  const after = replay(run, before, [stage.last]);
+  if (enemy === undefined || before === undefined) {
+    return { comparison: { what, moreThan: 0, atMost: 0, computed: undefined }, left: after };
+  }
+  const full = enemy[stage.layer].value;
+  const taken = full - before[stage.layer];
+  const last = damageOn(run, before, { layer: stage.layer, colour: stage.last });
+  const explain = () => explainStage(stage, enemy, before[stage.layer]);
+  return {
+    comparison: { what, moreThan: taken, atMost: taken + last, computed: full, explain },
+    left: after,
+  };
+};
 
 /**
- * The hits until a layer was gone, against its size at the enemy's level: all but the last weren't
- * enough. What was left of that one goes on to the next layer, as it does from Overguard (BIBLE §10).
+ * The hits until a layer was gone, one after another through the layers as the engine has them: all but
+ * the last weren't enough, and the last was. What is left of a hit that breaks a layer goes on as the
+ * engine says (BIBLE §10).
  */
-export const compareDepleted = (
-  { depleted = [] }: Observed,
-  hitOf: () => Hit,
-  enemy: EnemyStats | undefined,
-): readonly Comparison[] =>
-  depleted.map(({ last }, index) => {
-    const hit = hitOf();
-    const stages = depleted.slice(0, index + 1);
-    const atMost = dealtIn(stages, hit);
-    const comparison = {
-      what: stages.map(({ layer }) => layer).join(' and '),
-      moreThan: atMost - damageOf(last, hit),
-      atMost,
-    };
-    return enemy === undefined
-      ? { ...comparison, computed: undefined }
-      : {
-          ...comparison,
-          computed: sum(stages.map(({ layer }) => enemy[layer].value)),
-          explain: () => explainLayers(stages, enemy),
-        };
+export const compareDepleted = ({ depleted = [] }: Observed, run: Run): readonly Comparison[] => {
+  let left: LayersLeft | undefined;
+  return depleted.map((stage) => {
+    const done = stageOf(stage, run, left);
+    left = done.left;
+    return done.comparison;
   });
+};

@@ -37,8 +37,10 @@ const targetSchema = object({
   /** More health and shields. It leaves the level alone. */
   steelPath: z.boolean(),
   modifiers: list(moduleInstanceSchema),
-  /** The layer the hits meet. Absent: the first the enemy has, as on a fresh one (BIBLE §10). */
+  /** The layer the hits meet. Absent: the first the enemy has left, as on a fresh one (BIBLE §10). */
   layer: layerSchema.exactOptional(),
+  /** What it has left of each layer. Absent: all of it. */
+  left: z.partialRecord(layerSchema, nonNegative).readonly().exactOptional(),
 });
 
 const TOLERANCE = 1e-9;

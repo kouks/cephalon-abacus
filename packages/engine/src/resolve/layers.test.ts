@@ -1,30 +1,19 @@
 import { describe, expect, it } from 'vitest';
 
-import type { DamageType } from '@abacus/data/schema/damageType';
-import type { DamageTypeRule, Layer } from '@abacus/data/schema/damageTypeRule';
+import type { Layer } from '@abacus/data/schema/damageTypeRule';
 
-import { factorOf, hit } from '@/testing/hit';
+import { factorOf, hit, LAYER_RULES } from '@/testing/hit';
 
 const TWO = (256 * 32) / 4095;
 const WHITE = 103.125;
 
-const rule = (layers: DamageTypeRule['layers'], bypassArmor = false) =>
-  ({ layers, bypassArmor }) as unknown as DamageTypeRule;
+const RULES = LAYER_RULES;
 
-const ALL = { overguard: 1, shield: 1, health: 1 };
-
-/** The test rifle's three types, as damageTypes.json has them, and a few others. */
-const RULES = new Map<DamageType, DamageTypeRule>([
-  ['impact', rule(ALL)],
-  ['puncture', rule(ALL)],
-  ['slash', rule(ALL)],
-  ['toxin', rule({ overguard: 1, health: 1 })],
-  ['void', rule({ ...ALL, overguard: 1.5 })],
-  ['true', rule({ overguard: 1, health: 1 }, true)],
-]);
+/** Nothing in the way of the layer a hit meets. */
+const OPEN = { overguard: 0, shield: 0, health: Number.POSITIVE_INFINITY };
 
 const meeting = (layer: Layer, armor = 0, attack: object = {}) =>
-  hit({ attack, defence: { layer, armor, rules: RULES } });
+  hit({ attack, defence: { layer, armor, rules: RULES, left: OPEN } });
 
 const perTypeOf = (layer: Layer, damage: object, armor = 0) =>
   Object.fromEntries(

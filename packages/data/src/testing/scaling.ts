@@ -31,3 +31,6 @@ export const eximus = {
 };
 
 export const steelPath = { ...item('steel-path'), kind: 'steelPath', health: 2.5, shield: 2 };
+
+/** The game keeps shields whole (T-46). */
+export const whole = { ...item('whole-stats'), kind: 'whole', stats: ['shield'] };

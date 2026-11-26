@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import type { Library } from '@abacus/data/load/library';
 import { loadLibrary } from '@abacus/data/load/loadLibrary';
 import { enemy, libraryFile, referenceFiles } from '@abacus/data/testing/fixtures';
-import { curve, eximus, steelPath } from '@abacus/data/testing/scaling';
+import { curve, eximus, steelPath, whole } from '@abacus/data/testing/scaling';
 
 import type { Met } from './scaleEnemy';
 import { enemyStats, scaleEnemy } from './scaleEnemy';
@@ -21,10 +21,10 @@ const RULES = [
 
 const FULL = { baseShield: 10, baseArmor: 100, baseOverguard: 12 };
 
-const libraryWith = (change: object): Library => {
+const libraryWith = (change: object, rules: readonly object[] = RULES): Library => {
   const result = loadLibrary([
     ...referenceFiles.filter(({ path }) => path !== 'scaling.json'),
-    libraryFile('scaling.json', ...RULES),
+    libraryFile('scaling.json', ...rules),
     libraryFile('enemies/a.json', { ...enemy, ...change }),
   ]);
   if (!result.ok) throw new Error(JSON.stringify(result.errors));
@@ -79,6 +79,16 @@ describe('an enemy at its level', () => {
     expect(scale({ baseArmor: 150 }, { level: 11 }).armor.terms.at(-1)?.name).toBe('growth');
     expect(scale({ baseHealth: 1 }, { level: 1 }).health.value).toBe(1);
   });
+});
+
+it('keeps whole the stats the game keeps whole, to the nearest (T-46)', () => {
+  const library = libraryWith(FULL, [...RULES, whole]);
+  const found = library.enemies.get('test-enemy');
+  if (found === undefined) throw new Error('No enemy');
+  const { health, shield } = scaleEnemy(found, { level: 76, steelPath: false }, library);
+  expect([Number(health.value.toFixed(2)), shield.value]).toEqual([7242.63, 724]);
+  expect(shield.terms.at(-1)).toEqual({ name: 'whole', value: 724 });
+  expect(scale(FULL, { level: 76 }).shield.value).toBeCloseTo(724.263, 3);
 });
 
 describe('on the Steel Path, an enemy', () => {

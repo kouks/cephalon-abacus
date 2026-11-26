@@ -60,10 +60,18 @@ const steelPathSchema = object({
   shield: positive,
 });
 
+/** The stats the game keeps as whole numbers once grown: rounded to the nearest (T-46). */
+const wholeSchema = object({
+  ...itemShape,
+  kind: z.literal('whole'),
+  stats: z.array(z.enum(SCALED_STATS)).min(1).readonly(),
+});
+
 export const scalingRuleSchema = z.discriminatedUnion('kind', [
   curveSchema,
   eximusSchema,
   steelPathSchema,
+  wholeSchema,
 ]);
 
 export type ScaledStat = (typeof SCALED_STATS)[number];
@@ -71,3 +79,4 @@ export type ScalingRule = z.infer<typeof scalingRuleSchema>;
 export type ScalingCurve = z.infer<typeof curveSchema>;
 export type EximusRule = z.infer<typeof eximusSchema>;
 export type SteelPathRule = z.infer<typeof steelPathSchema>;
+export type WholeRule = z.infer<typeof wholeSchema>;

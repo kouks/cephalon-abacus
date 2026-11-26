@@ -9,6 +9,8 @@ export type { Assumptions } from '@/assumptions';
 export type { Contribution, Warning } from '@/build/types';
 export type { EnemyStat, EnemyStats, ScalingTerm } from '@/enemy/scaleEnemy';
 export type { AttackMetrics } from '@/metrics/attackMetrics';
+export type { Dealt, LayersLeft } from '@/resolve/applyHit';
+export type { TierDealt } from '@/resolve/dealtOnLayers';
 export type { HitResult } from '@/resolve/resolveHit';
 export type { Factor, HitTrace } from '@/trace/hitTrace';
 

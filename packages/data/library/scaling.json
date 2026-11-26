@@ -312,6 +312,14 @@
       "kind": "steelPath",
       "health": 2.5,
       "shield": 2.5
+    },
+    {
+      "id": "whole-stats",
+      "name": "Stats kept whole",
+      "source": "https://wiki.warframe.com/w/Enemy_Level_Scaling",
+      "gameVersion": "44.1.4.1",
+      "kind": "whole",
+      "stats": ["shield"]
     }
   ]
 }

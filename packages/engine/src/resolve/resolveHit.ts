@@ -17,7 +17,7 @@ import { rangeFactor } from './factors/rangeFactor';
 import { layerFactors } from './factors/layerFactors';
 import { damageFactors, vulnerabilityFactors } from './factors/typeFactors';
 import type { TypeDamage } from './leastDamage';
-import { leastFactors, tierTotal } from './leastDamage';
+import { leastFactors, tierTypes } from './leastDamage';
 import type { Defence } from './defence';
 import type { Target, TargetPart } from './target';
 
@@ -25,8 +25,11 @@ export type HitResult = {
   readonly perType: ReadonlyMap<DamageType, number>;
   readonly total: number;
   readonly crit: HitCrit;
-  /** The number each crit tier shows: white, yellow, orange… */
-  readonly tiers: readonly (TierChance & { readonly total: number })[];
+  /** The number each crit tier shows: white, yellow, orange… and its damage by type. */
+  readonly tiers: readonly (TierChance & {
+    readonly total: number;
+    readonly perType: ReadonlyMap<DamageType, number>;
+  })[];
   readonly trace: HitTrace;
 };
 
@@ -93,11 +96,10 @@ export const resolveHit = (built: BuiltAttack, at: At): HitResult => {
   const multiplier = crit.multiplier.value;
   const factors = [...chain, ...leastFactors(types, { tiers: crit.tiers, multiplier })];
   const perType = new Map(types.map(({ type }) => [type, damageOf(type, factors)]));
-  const tiers = crit.tiers.map(({ tier, chance }) => ({
-    tier,
-    chance,
-    total: tierTotal(types, tier, multiplier),
-  }));
+  const tiers = crit.tiers.map(({ tier, chance }) => {
+    const byType = tierTypes(types, tier, multiplier);
+    return { tier, chance, total: sum(byType.values()), perType: byType };
+  });
   const layer = at.defence?.layer ?? 'health';
   const trace = { t: 0, pellet: 0, factors, perType, layer, procs: [] } as const;
   return { perType, total: sum(perType.values()), crit, tiers, trace };

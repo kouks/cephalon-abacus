@@ -29,6 +29,16 @@ const depletedSchema = object({
   last: colourSchema,
 }).refine(({ hits, last }) => hits[last] !== undefined, 'Expected the last hit among the hits');
 
+/** The numbers one hit showed on each layer: on a fresh enemy, or after other hits of the same attack. */
+const layeredSchema = object({
+  before: z.partialRecord(colourSchema, positiveInt).readonly().exactOptional(),
+  colour: colourSchema,
+  shown: z
+    .partialRecord(layerSchema, nonNegative)
+    .readonly()
+    .refine((shown) => Object.keys(shown).length > 0, 'Expected a number on some layer'),
+});
+
 /** What was seen in the game, exactly as it was reported. */
 const observedSchema = object({
   /** The arsenal's damage per type, which is not quantized. */
@@ -45,8 +55,9 @@ const observedSchema = object({
   firing: list(
     object({ shots: z.union([positive, z.literal('magazine')]), seconds: positive }),
   ).exactOptional(),
-  /** What wore an enemy down, layer by layer. The rest of a layer's last hit goes to the next. */
+  /** What wore an enemy down, layer by layer. The hits go through the layers as the engine has them. */
   depleted: z.array(depletedSchema).min(1).readonly().exactOptional(),
+  layered: z.array(layeredSchema).min(1).readonly().exactOptional(),
   /** Types that never proc'd. */
   neverProcs: list(damageTypeSchema).exactOptional(),
 })
@@ -88,6 +99,7 @@ export const goldenFixtureSchema = object({
 
 export type Colour = z.infer<typeof colourSchema>;
 export type Depleted = z.infer<typeof depletedSchema>;
+export type Layered = z.infer<typeof layeredSchema>;
 export type Observed = z.infer<typeof observedSchema>;
 export type Tolerance = z.infer<typeof toleranceSchema>;
 export type GoldenFixture = z.infer<typeof goldenFixtureSchema>;

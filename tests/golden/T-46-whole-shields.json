@@ -1,0 +1,397 @@
+{
+  "id": "T-46",
+  "question": "Are an enemy's shields whole numbers?",
+  "bible": "§10",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-26",
+      "words": "A plain Crewman. The Lanka build from T-38. Charged shots.\n| Level | On the shield | On health |\n| 50 | 14078 | 616 | 7097/248 white\n| 67 | 14157 | 537 | 7175/170 white\n| 80 | 14296 | 398 | 7314/31 white\n| 145 | 14490 | 204 | 7345 white, did not break shield (~33% remained)"
+    },
+    {
+      "on": "2026-11-26",
+      "words": "[With a screenshot of the arsenal] Plain Crewman, Steel Path off, fresh one every shot. Levels 50, 67, 80 and 145. Lanka with the same setup (screenshot 2). Charged shots, from about 10 m. No scoping. Retested numbers, they match exactly."
+    }
+  ],
+  "notes": "Asked for in the Simulacrum with AI paused, Steel Path off, a fresh enemy for every hit, one hit on its body, no arcanes, companion, abilities or shards, and no numbers were predicted to Pavel. Lanka's charged shot from about 10 m, unscoped, with the T-38 build (Serration, Radiated Reload, Primed Bane of Corpus, Stormbringer, Hellfire, Critical Delay, all at max); the arsenal shows 75% crit chance, Lanka's 25% with Critical Delay's +200%. The wiki's formula, in 32 bits, gives shields of 2,384.417, 3,944.799, 6,724.602 and 10,604.959 at these levels. With those, the yellow at level 50 would put 615 on health (615.495), where 616 was seen, in T-38 too. Shields rounded down would put 538, 399 and 205 at 67, 80 and 145, where 537, 398 and 204 were seen, and rounded up, 615 at 50. Rounded to the nearest fits all eight shots, and every earlier one. The white at level 145 doesn't break the shield, and has no number on health. Lanka's charged shot is in the fixture, with Radiated Reload, for the reason in T-38.",
+  "weapons": [
+    {
+      "id": "lanka",
+      "name": "Lanka",
+      "uniqueName": "/Lotus/Weapons/ClanTech/Energy/Railgun",
+      "source": "https://wiki.warframe.com/w/Lanka",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["sniper"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 10,
+        "maxAmmo": 72,
+        "reloadStyle": "magazine",
+        "reloadTime": 2
+      },
+      "attacks": [
+        {
+          "id": "partially-charged",
+          "name": "Partially Charged Shot",
+          "damage": {
+            "electricity": 200
+          },
+          "trigger": "charge",
+          "chargeTime": 0.33,
+          "afterCharge": "none",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.2,
+          "critMultiplier": 2,
+          "statusChance": 0.25,
+          "fireRate": 1,
+          "ammoCost": 1,
+          "falloff": {
+            "start": 400,
+            "end": 600,
+            "minPct": 0.5
+          },
+          "projectileSpeed": 200,
+          "punchThrough": 1.5,
+          "flags": ["canHeadshot", "canCrit"]
+        },
+        {
+          "id": "charged",
+          "name": "Charged Shot",
+          "damage": {
+            "electricity": 525
+          },
+          "trigger": "charge",
+          "chargeTime": 1,
+          "afterCharge": "none",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.25,
+          "critMultiplier": 2,
+          "statusChance": 0.25,
+          "fireRate": 1,
+          "ammoCost": 1,
+          "projectileSpeed": 250,
+          "punchThrough": 5,
+          "flags": ["canHeadshot", "canCrit"]
+        }
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "id": "radiated-reload",
+      "name": "Radiated Reload",
+      "source": "https://wiki.warframe.com/w/Radiated_Reload",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 3,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["rifle", "bow", "crossbow", "launcher", "sniper", "speargun"]
+      },
+      "effects": [
+        {
+          "bucket": "damage.element.radiation",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.6
+        },
+        {
+          "bucket": "reload",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.4
+        }
+      ]
+    }
+  ],
+  "tolerance": {},
+  "cases": [
+    {
+      "name": "Level 50",
+      "scenario": {
+        "build": {
+          "weaponId": "lanka",
+          "attackId": "charged",
+          "modules": [
+            {
+              "moduleId": "serration",
+              "rank": 10
+            },
+            {
+              "moduleId": "radiated-reload",
+              "rank": 3
+            },
+            {
+              "moduleId": "primed-bane-of-corpus",
+              "rank": 10
+            },
+            {
+              "moduleId": "stormbringer",
+              "rank": 5
+            },
+            {
+              "moduleId": "hellfire",
+              "rank": 5
+            },
+            {
+              "moduleId": "critical-delay",
+              "rank": 5
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "crewman",
+          "level": 50,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "layered": [
+          {
+            "colour": "yellow",
+            "shown": {
+              "shield": 14078,
+              "health": 616
+            }
+          },
+          {
+            "colour": "white",
+            "shown": {
+              "shield": 7097,
+              "health": 248
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Level 67",
+      "scenario": {
+        "build": {
+          "weaponId": "lanka",
+          "attackId": "charged",
+          "modules": [
+            {
+              "moduleId": "serration",
+              "rank": 10
+            },
+            {
+              "moduleId": "radiated-reload",
+              "rank": 3
+            },
+            {
+              "moduleId": "primed-bane-of-corpus",
+              "rank": 10
+            },
+            {
+              "moduleId": "stormbringer",
+              "rank": 5
+            },
+            {
+              "moduleId": "hellfire",
+              "rank": 5
+            },
+            {
+              "moduleId": "critical-delay",
+              "rank": 5
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "crewman",
+          "level": 67,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "layered": [
+          {
+            "colour": "yellow",
+            "shown": {
+              "shield": 14157,
+              "health": 537
+            }
+          },
+          {
+            "colour": "white",
+            "shown": {
+              "shield": 7175,
+              "health": 170
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Level 80",
+      "scenario": {
+        "build": {
+          "weaponId": "lanka",
+          "attackId": "charged",
+          "modules": [
+            {
+              "moduleId": "serration",
+              "rank": 10
+            },
+            {
+              "moduleId": "radiated-reload",
+              "rank": 3
+            },
+            {
+              "moduleId": "primed-bane-of-corpus",
+              "rank": 10
+            },
+            {
+              "moduleId": "stormbringer",
+              "rank": 5
+            },
+            {
+              "moduleId": "hellfire",
+              "rank": 5
+            },
+            {
+              "moduleId": "critical-delay",
+              "rank": 5
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "crewman",
+          "level": 80,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "layered": [
+          {
+            "colour": "yellow",
+            "shown": {
+              "shield": 14296,
+              "health": 398
+            }
+          },
+          {
+            "colour": "white",
+            "shown": {
+              "shield": 7314,
+              "health": 31
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Level 145",
+      "scenario": {
+        "build": {
+          "weaponId": "lanka",
+          "attackId": "charged",
+          "modules": [
+            {
+              "moduleId": "serration",
+              "rank": 10
+            },
+            {
+              "moduleId": "radiated-reload",
+              "rank": 3
+            },
+            {
+              "moduleId": "primed-bane-of-corpus",
+              "rank": 10
+            },
+            {
+              "moduleId": "stormbringer",
+              "rank": 5
+            },
+            {
+              "moduleId": "hellfire",
+              "rank": 5
+            },
+            {
+              "moduleId": "critical-delay",
+              "rank": 5
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "crewman",
+          "level": 145,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "layered": [
+          {
+            "colour": "yellow",
+            "shown": {
+              "shield": 14490,
+              "health": 204
+            }
+          },
+          {
+            "colour": "white",
+            "shown": {
+              "shield": 7345
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

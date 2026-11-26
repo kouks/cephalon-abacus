@@ -1,6 +1,7 @@
 /** A hit on a target, from mods to the factor chain. */
 import { must } from '@abacus/data/assert';
 import type { DamageType } from '@abacus/data/schema/damageType';
+import type { DamageTypeRule } from '@abacus/data/schema/damageTypeRule';
 import type { Faction } from '@abacus/data/schema/faction';
 import { factionSchema } from '@abacus/data/schema/faction';
 import type { Scenario } from '@abacus/data/schema/scenario';
@@ -10,6 +11,8 @@ import type { Assumptions } from '@/assumptions';
 import { buildAttack } from '@/build/buildAttack';
 import type { Loadout } from '@/build/loadout';
 import { makeLoadout } from '@/build/loadout';
+import type { TierDealt } from '@/resolve/dealtOnLayers';
+import { dealtOnLayers } from '@/resolve/dealtOnLayers';
 import type { Defence } from '@/resolve/defence';
 import { expectedShot } from '@/resolve/expectedShot';
 import type { HitResult } from '@/resolve/resolveHit';
@@ -72,6 +75,33 @@ export const hit = (setup: Setup = {}, part: TargetPart = BODY): HitResult => {
   const { target = makeTarget(), distance = 10, missBy, defence } = setup;
   return resolveHit(built, { target, part, distance, missBy, defence });
 };
+
+/** What one hit of each crit tier of the test rifle shows and applies on the defence's layers. */
+export const dealt = (
+  setup: Setup & { readonly defence: Defence },
+  part: TargetPart = BODY,
+): readonly TierDealt[] => {
+  const loadout = loadoutOf(setup);
+  const attack = must(loadout.weapon.attacks[0], 'no attack');
+  const built = buildAttack(loadout, attack, { bodyParts: part.bodyParts });
+  const { target = makeTarget(), distance = 10, missBy } = setup;
+  return dealtOnLayers(built, { target, part, distance, missBy }, setup.defence);
+};
+
+const rule = (layers: DamageTypeRule['layers'], bypassArmor = false) =>
+  ({ layers, bypassArmor }) as unknown as DamageTypeRule;
+
+const ALL = { overguard: 1, shield: 1, health: 1 };
+
+/** The test rifle's three types, as damageTypes.json has them, and a few others. */
+export const LAYER_RULES = new Map<DamageType, DamageTypeRule>([
+  ['impact', rule(ALL)],
+  ['puncture', rule(ALL)],
+  ['slash', rule(ALL)],
+  ['toxin', rule({ overguard: 1, health: 1 })],
+  ['void', rule({ ...ALL, overguard: 1.5 })],
+  ['true', rule({ overguard: 1, health: 1 }, true)],
+]);
 
 /** One shot of the test rifle, on average. */
 export const shot = (setup: Setup & { readonly aim: Scenario['aim'] }) => {

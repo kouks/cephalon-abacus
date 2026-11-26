@@ -19,12 +19,17 @@ const atLeastOne = (damage: number, isArmored: boolean) =>
 
 type Crit = { readonly tiers: readonly TierChance[]; readonly multiplier: number };
 
-/** The number a crit tier shows: every type at that tier, each at least 1 under armor. */
-export const tierTotal = (types: readonly TypeDamage[], tier: number, multiplier: number) =>
-  types.reduce(
-    (sum, { white, isArmored }) =>
-      sum + atLeastOne(white * tierMultiplier(tier, multiplier), isArmored),
-    0,
+/** Each type at a crit tier, each at least 1 under armor. */
+export const tierTypes = (
+  types: readonly TypeDamage[],
+  tier: number,
+  multiplier: number,
+): ReadonlyMap<DamageType, number> =>
+  new Map(
+    types.map(({ type, white, isArmored }) => [
+      type,
+      atLeastOne(white * tierMultiplier(tier, multiplier), isArmored),
+    ]),
   );
 
 const expectedOf = ({ white, isArmored }: TypeDamage, { tiers, multiplier }: Crit) =>

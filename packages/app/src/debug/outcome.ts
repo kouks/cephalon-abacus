@@ -4,6 +4,7 @@ import type { Result } from '@abacus/engine';
 import type { Reply } from '@/engine/protocol';
 import { formatDamage } from '@/format/numbers';
 
+import { oneHitOf } from './oneHit';
 import type { ParsedText } from './scenarioText';
 import type { TraceRow } from './traceRows';
 import { traceRows } from './traceRows';
@@ -19,6 +20,8 @@ export type Outcome =
       readonly headline: readonly HeadlineNumber[];
       /** The enemy's stats at its level. Empty for the neutral dummy. */
       readonly enemy: readonly HeadlineNumber[];
+      /** What one hit of each colour shows and applies on each layer. Empty for the dummy. */
+      readonly oneHit: readonly HeadlineNumber[];
       readonly warnings: readonly string[];
       readonly rows: readonly TraceRow[];
       readonly json: string;
@@ -55,6 +58,7 @@ const outcomeOfResult = (result: Result): Outcome => ({
   kind: 'result',
   headline: headlineOf(result),
   enemy: enemyOf(result),
+  oneHit: oneHitOf(result),
   warnings: result.warnings.map((warning) => JSON.stringify(warning)),
   rows: traceRows(result),
   json: JSON.stringify(result, toJson, 2),

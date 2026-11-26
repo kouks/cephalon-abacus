@@ -12,10 +12,12 @@ const Problems = ({ problems }: { readonly problems: readonly string[] }) => (
   </ul>
 );
 
-const Enemy = ({ numbers }: { readonly numbers: readonly HeadlineNumber[] }) =>
+type SectionProps = { readonly title: string; readonly numbers: readonly HeadlineNumber[] };
+
+const Section = ({ title, numbers }: SectionProps) =>
   numbers.length === 0 ? null : (
     <>
-      <h3>Enemy at its level</h3>
+      <h3>{title}</h3>
       <Headline numbers={numbers} />
     </>
   );
@@ -26,7 +28,8 @@ const Body = ({ outcome }: ResultViewProps) => {
   return (
     <>
       <Headline numbers={outcome.headline} />
-      <Enemy numbers={outcome.enemy} />
+      <Section title="Enemy at its level" numbers={outcome.enemy} />
+      <Section title="One hit on the enemy as it is" numbers={outcome.oneHit} />
       <Problems problems={outcome.warnings} />
       <TraceTable rows={outcome.rows} />
       <h3>Result, as JSON</h3>

@@ -6,6 +6,8 @@ import type { BuiltAttack } from '@/build/buildAttack';
 import type { AttackStats } from '@/build/stats/attackStats';
 import type { ModdedStat } from '@/build/stats/moddedStat';
 
+import type { TierDealt } from './dealtOnLayers';
+import { dealtOnLayers } from './dealtOnLayers';
 import type { Defence } from './defence';
 
 import type { HitResult } from './resolveHit';
@@ -17,8 +19,15 @@ import { aimAt, bodyOf } from './target';
 export type ExpectedShot = {
   readonly stats: AttackStats;
   readonly pellets: number;
-  /** One pellet on each part aimed at, and how many of the pellets hit it. */
-  readonly hits: readonly { readonly share: number; readonly hit: HitResult }[];
+  /**
+   * One pellet on each part aimed at, how many of the pellets hit it, and what one of each crit tier
+   * shows and applies on the enemy's layers as they are (empty without a defence).
+   */
+  readonly hits: readonly {
+    readonly share: number;
+    readonly hit: HitResult;
+    readonly dealt: readonly TierDealt[];
+  }[];
   readonly perType: ReadonlyMap<DamageType, number>;
   readonly total: number;
 };
@@ -55,8 +64,10 @@ export const expectedShot = (shot: Shot): ExpectedShot => {
   const { stats } = built;
   const pellets = Math.max(stats.multishot.value, 0);
   const hits = partsHit(built, shot).map(({ part, share }) => {
-    const at = { target, part, distance, reach, missBy: aim.missBy, defence };
-    return { share, hit: resolveHit(buildFor(part.bodyParts), at) };
+    const at = { target, part, distance, reach, missBy: aim.missBy };
+    const built = buildFor(part.bodyParts);
+    const dealt = defence === undefined ? [] : dealtOnLayers(built, at, defence);
+    return { share, hit: resolveHit(built, { ...at, defence }), dealt };
   });
   const perType = addUp(hits, pellets);
   const total = [...perType.values()].reduce((sum, damage) => sum + damage, 0);

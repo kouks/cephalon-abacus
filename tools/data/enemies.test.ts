@@ -142,7 +142,8 @@ describe('the enemies at levels 50 and 150', () => {
     for (const level of [50, 150]) {
       const [plain, steel] = [statsAt(id, level), statsAt(id, level, true)];
       expect(steel.health.value / plain.health.value).toBeCloseTo(2.5, 5);
-      expect(steel.shield.value).toBeCloseTo(plain.shield.value * 2.5, 0);
+      // Both are rounded to whole numbers (T-46): 0.5 off, and 2.5 × 0.5 off.
+      expect(Math.abs(steel.shield.value - plain.shield.value * 2.5)).toBeLessThanOrEqual(1.75);
       expect([steel.armor.value, steel.overguard.value]).toEqual([
         plain.armor.value,
         plain.overguard.value,
