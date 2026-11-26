@@ -52,7 +52,14 @@
           },
           "range": 30,
           "projectileSpeed": 60,
-          "flags": ["canCrit"]
+          "flags": ["canCrit"],
+          "forcedProcs": [
+            {
+              "type": "impact",
+              "count": 1,
+              "within": 14
+            }
+          ]
         }
       ]
     }
