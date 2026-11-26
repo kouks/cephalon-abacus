@@ -265,6 +265,7 @@ Split long files by concern, extract helpers, and use early returns and lookup t
 - **Quantization can punish a bonus:** a sliver of Toxin in front of 51% Heat and 51% Cold re-pairs the elements, and 33/32 of Blast becomes 16/32 of Gas and 16/32 of Cold.
 - **Falloff ends before its second number:** the line heads for no damage there, and stops at the weapon's least. Of 10 to 20 m, Hek (20%) is at its least from 18 m on and Tigris Prime (51.28%) from 14.9 m (T-25, T-26). The wiki draws the line to the least at the end.
 - **An explosion falls off as a power:** (1 − distance ÷ radius)^falloff, nothing at the radius, and even all over without falloff (T-28 to T-35, T-41). The wiki draws a line to the edge damage: Carmine Penta deals 77 of 350 near its rim where that says 175. The distance is to the enemy's body, about half a metre nearer than its feet.
+- **A hit that breaks a part shows more than it deals:** the number is 2 × the hit − what the part had left, and the enemy loses the hit alone (T-43). A Scaldra backpack has 200, a Culverin canister more with every level. Read such a number as the hit before comparing it.
 - **Faction bonuses double-dip** in proc DoTs and extra hits, and triple-dip in an extra hit's DoT. That is the game, not a bug.
 - **Heat merges** into one instance per enemy that keeps the first proc's bonuses, so an unmodded first proc drags the whole stack down.
 - **Arsenal percentages are relative to the base stat:** +150% crit chance on a 20% weapon is 50%. Flat sources (Arcane Avenger, Puncture stacks) add points afterwards.
