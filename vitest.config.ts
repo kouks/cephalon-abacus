@@ -6,6 +6,13 @@ const project = (name: string, root: string, include: string) => ({
   test: { name, root, include: [include] },
 });
 
+/**
+ * The first lint in each ESLint config test loads the whole config and its plugins, which can take
+ * more than Vitest's 5 s on CI (ABA-63).
+ */
+const tools = project('tools', 'tools', '**/*.test.ts');
+const LINTING = { ...tools, test: { ...tools.test, testTimeout: 30_000 } };
+
 export default defineConfig({
   test: {
     projects: [
@@ -13,7 +20,7 @@ export default defineConfig({
       project('engine', 'packages/engine', 'src/**/*.test.ts'),
       project('importers', 'packages/importers', 'src/**/*.test.ts'),
       project('app', 'packages/app', 'src/**/*.test.{ts,tsx}'),
-      project('tools', 'tools', '**/*.test.ts'),
+      LINTING,
       project('golden', 'tests/golden', '**/*.test.ts'),
     ],
     coverage: {
