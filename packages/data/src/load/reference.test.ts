@@ -48,7 +48,7 @@ describe('the reference files', () => {
     expect([rules.size, buckets.size, factions.size, scaling.size]).toEqual([20, 2, 1, 3]);
   });
 
-  it.each(['damageTypes.json', 'buckets.json', 'factions.json', 'scaling.json'])(
+  it.each(['damageTypes.json', 'buckets.json', 'factions.json', 'scaling.json', 'statuses.json'])(
     'need %s',
     (name) => {
       expect(errorsOf(referenceFiles.filter(({ path }) => path !== name))).toEqual([

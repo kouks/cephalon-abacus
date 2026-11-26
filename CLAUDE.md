@@ -72,7 +72,7 @@ packages/
     src/load/       the loader: validates library files, collects every error
     src/testing/    made-up items for tests
     src/assert.ts   the shared assert module
-    library/        damageTypes.json, buckets.json, factions.json, scaling.json,
+    library/        damageTypes.json, buckets.json, factions.json, scaling.json, statuses.json,
                     weapons/, mods/, arcanes/, buffs/, enemies/, stances/
     CHANGELOG/      one file per game version, written by data:update
   engine/
@@ -121,6 +121,7 @@ data  →  importers
 - **Hooks are pure.** They get a read-only context and return changes. They never mutate state, and each writes a trace entry.
 - **A hit meets one layer:** the scenario's `enemy.layer`, or the first the enemy has left (`enemy.left`, all of each layer when absent). Each type's `layer` factor comes from `damageTypes.json`, armor reduces health alone, and each type it reduces deals at least 1 (the `least` factor), so a type's damage stays the product of its factors (BIBLE §10).
 - **Enemy debuffs are effects.** A strip is an effect on `enemy.armor`, and its op is its kind: `STACKING_MULTIPLY` a share of the most armor (Corrosive Projection, abilities), `MULTIPLY` a share of what is left (Heat, Corrosive), `ADD` a flat amount. They apply in that order to the capped armor (T-6, `armorCappedBeforeStrips`), can go below 200 and never below 0, and the armor factor names them. What the enemy takes less of (Eximus auras, mission binds) is a `MULTIPLY` on `enemy.damage`: the `reduction` factor, after the least of 1, so it has no least of its own. A player's aura goes in the build's modules; what isn't the player's goes in `enemy.modifiers`.
+- **Statuses are stacks over simulated time.** `timeline/statuses.ts` keeps each type's stacks oldest first, joined as `statuses.json` says, under the enemy's own `statusCaps`. Its functions take the time; a stack's amount is a share in expected value.
 - **Every factor is traced.** A multiplier that changes a number appears in the `HitTrace` under a stable name, with the effects that made it. A type's damage is the product of its factors, so a new multiplier is a new factor, even while its value is 1. Tests assert on the trace, not just the total.
 - **Unknowns are named assumptions.** Each [T] rule is a flag in `assumptions.ts` that names its test and BIBLE section (`bowFireRateDoubled: { default: true, test: 'T-10', bible: '§9' }`), and code takes the flags as an `Assumptions` argument. Never settle one quietly in code. When a test answers it: set the default, add the fixture, update the BIBLE.
 - **Precision.** Keep full precision through the pipeline. Quantize only where the BIBLE says: each type's ratio, to 1/32 of base damage (§6), and the base crit multiplier, to 32/4095 (§7). Round only for display. Proc DoTs are never quantized. Enemy stats are worked out in 32 bits, step by step, as the wiki says (§10): `f32` in `enemy/growth.ts`.
@@ -139,8 +140,9 @@ data  →  importers
 - Percentages are fractions. Per-rank values follow the linear rule or an explicit array of shares of the max-rank value.
 - **Schemas refuse unknown keys** and fill in no defaults, so a misspelt field is an error and the data says what it means. Checks inside one item live in its schema, so items players write get them too; checks across items live in the loader.
 - **The loader reads no files:** it takes their text and returns a library or every error, so it runs in the browser, in tests and in `data:validate` alike.
-- **Reference files** (`damageTypes.json`, `buckets.json`, `factions.json`, `scaling.json`) are needed by every library and written by hand. The 20 damage type ids are a fixed list in `schema/damageType.ts`; their rules are data. `tools/data/library.test.ts` snapshots the first three and `scaling.test.ts` checks spot values of the last, so a balance patch shows up as a diff.
+- **Reference files** (`damageTypes.json`, `buckets.json`, `factions.json`, `scaling.json`, `statuses.json`) are needed by every library and written by hand. The 20 damage type ids are a fixed list in `schema/damageType.ts`; their rules are data. `tools/data/library.test.ts` snapshots the first three, `scaling.test.ts` checks spot values of `scaling.json`, and `statuses.test.ts` snapshots `statuses.json`, so a balance patch shows up as a diff.
 - **Buckets:** a bucket with `members` is a family (`damage.faction.<group>`); look names up with `findBucket`. Its `scope` says how many times it applies to direct hits, procs, extra hits and AoE, and its `bodyPart` that it needs a weak point or a head.
+- **Statuses are data.** `statuses.json` has each status a damage type procs, by its `proc` slug: how long a stack lasts and how a new one joins (independent; capped, the oldest replaced past the most; merged, as Heat). The loader checks that every proc has one.
 - **Damage types list the layers they hit**, with a multiplier for each. A layer that is absent is skipped: Toxin has no `shield`.
 - **Enemies:** an Eximus is an enemy of its own, with its own id. Body parts follow the wiki's Enemy Body Parts table (its marks say what isn't a headshot or has no headcrit), and where its enemy data disagrees, the table wins until a test decides.
 - **Importers never guess.** A field or phrase with no mapping rule is logged and goes to `importers/overrides/*.json` for a person to write. Overrides apply last and are reviewed like code.

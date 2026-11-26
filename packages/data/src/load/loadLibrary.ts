@@ -4,12 +4,14 @@ import { enemySchema } from '@/schema/enemy';
 import { factionSchema } from '@/schema/faction';
 import { moduleSchema } from '@/schema/module';
 import { scalingRuleSchema } from '@/schema/scaling';
+import { statusSchema } from '@/schema/status';
 import { weaponSchema } from '@/schema/weapon';
 
 import { checkDamageTypes } from './checkDamageTypes';
 import { checkModuleEffects, checkWeaponEffects } from './checkEffects';
 import { checkEnemies } from './checkEnemies';
 import { checkScaling } from './checkScaling';
+import { checkStatuses } from './checkStatuses';
 import type { Library } from './library';
 import type { LibraryError } from './libraryError';
 import { errorAt } from './libraryError';
@@ -24,6 +26,7 @@ import {
   MODULE_FOLDERS,
   REFERENCE_FILES,
   SCALING_FILE,
+  STATUSES_FILE,
   straysIn,
   WEAPON_FOLDERS,
 } from './places';
@@ -40,6 +43,7 @@ const read = (files: readonly LibraryFile[]) => ({
   buckets: readItems(bucketSchema, filesAt(files, [BUCKETS_FILE])),
   factions: readItems(factionSchema, filesAt(files, [FACTIONS_FILE])),
   scaling: readItems(scalingRuleSchema, filesAt(files, [SCALING_FILE])),
+  statuses: readItems(statusSchema, filesAt(files, [STATUSES_FILE])),
   weapons: readItems(weaponSchema, filesAt(files, WEAPON_FOLDERS)),
   modules: readItems(moduleSchema, filesAt(files, MODULE_FOLDERS)),
   enemies: readItems(enemySchema, filesAt(files, ENEMY_FOLDERS)),
@@ -55,6 +59,7 @@ const toLibrary = (found: Read): Library => ({
   buckets: byId(found.buckets.items),
   factions: byId(found.factions.items),
   scaling: byId(found.scaling.items),
+  statuses: byId(found.statuses.items),
   weapons: byId(found.weapons.items),
   modules: byId(found.modules.items),
   enemies: byId(found.enemies.items),
@@ -75,6 +80,7 @@ const checkReferences = (found: Read, library: Library): readonly LibraryError[]
   ...checkWeaponEffects(found.weapons.items, library),
   ...checkModuleEffects(found.modules.items, library),
   ...checkScaling(found.scaling.items),
+  ...checkStatuses(found.damageTypes.items, library),
   ...checkEnemies(found.enemies.items, library),
 ];
 

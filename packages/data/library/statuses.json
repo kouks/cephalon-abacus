@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Status_Effect",
+  "items": [
+    {
+      "id": "knockback",
+      "name": "Knockback",
+      "source": "https://wiki.warframe.com/w/Damage/Impact_Damage",
+      "gameVersion": "44.1.4.1",
+      "duration": 6,
+      "stacking": {
+        "kind": "capped",
+        "most": 5
+      },
+      "confidence": "W"
+    },
+    {
+      "id": "weakened",
+      "name": "Weakened",
+      "source": "https://wiki.warframe.com/w/Damage/Puncture_Damage",
+      "gameVersion": "44.1.4.1",
+      "duration": 10,
+      "stacking": {
+        "kind": "capped",
+        "most": 5
+      },
+      "confidence": "W"
+    },
+    {
+      "id": "bleed",
+      "name": "Bleed",
+      "source": "https://wiki.warframe.com/w/Status_Effect",
+      "gameVersion": "44.1.4.1",
+      "duration": 6,
+      "stacking": {
+        "kind": "independent"
+      },
+      "confidence": "W"
+    },
+    {
+      "id": "ignite",
+      "name": "Ignite",
+      "source": "https://wiki.warframe.com/w/Damage/Heat_Damage",
+      "gameVersion": "44.1.4.1",
+      "duration": 6,
+      "stacking": {
+        "kind": "merged"
+      },
+      "confidence": "W"
+    },
+    {
+      "id": "freeze",
+      "name": "Freeze",
+      "source": "https://wiki.warframe.com/w/Damage/Cold_Damage",
+      "gameVersion": "44.1.4.1",
+      "duration": 6,
+      "stacking": {
+        "kind": "capped",
+        "most": 10
+      },
+      "confidence": "W"
+    },
+    {
+      "id": "tesla-chain",
+      "name": "Tesla Chain",
+      "source": "https://wiki.warframe.com/w/Status_Effect",
+      "gameVersion": "44.1.4.1",
+      "duration": 6,
+      "stacking": {
+        "kind": "independent"
+      },
+      "confidence": "W"
+    },
+    {
+      "id": "poison",
+      "name": "Poison",
+      "source": "https://wiki.warframe.com/w/Status_Effect",
+      "gameVersion": "44.1.4.1",
+      "duration": 6,
+      "stacking": {
+        "kind": "independent"
+      },
+      "confidence": "W"
+    },
+    {
+      "id": "detonate",
+      "name": "Detonate",
+      "source": "https://wiki.warframe.com/w/Damage/Blast_Damage",
+      "gameVersion": "44.1.4.1",
+      "duration": 1.5,
+      "stacking": {
+        "kind": "capped",
+        "most": 10
+      },
+      "confidence": "W"
+    },
+    {
+      "id": "corrosion",
+      "name": "Corrosion",
+      "source": "https://wiki.warframe.com/w/Damage/Corrosive_Damage",
+      "gameVersion": "44.1.4.1",
+      "duration": 8,
+      "stacking": {
+        "kind": "capped",
+        "most": 10
+      },
+      "confidence": "W"
+    },
+    {
+      "id": "gas-cloud",
+      "name": "Gas Cloud",
+      "source": "https://wiki.warframe.com/w/Damage/Gas_Damage",
+      "gameVersion": "44.1.4.1",
+      "duration": 6,
+      "stacking": {
+        "kind": "capped",
+        "most": 10
+      },
+      "confidence": "W"
+    },
+    {
+      "id": "disrupt",
+      "name": "Disrupt",
+      "source": "https://wiki.warframe.com/w/Damage/Magnetic_Damage",
+      "gameVersion": "44.1.4.1",
+      "duration": 6,
+      "stacking": {
+        "kind": "capped",
+        "most": 10
+      },
+      "confidence": "W"
+    },
+    {
+      "id": "confusion",
+      "name": "Confusion",
+      "source": "https://wiki.warframe.com/w/Damage/Radiation_Damage",
+      "gameVersion": "44.1.4.1",
+      "duration": 12,
+      "stacking": {
+        "kind": "capped",
+        "most": 10
+      },
+      "confidence": "W"
+    },
+    {
+      "id": "virus",
+      "name": "Virus",
+      "source": "https://wiki.warframe.com/w/Damage/Viral_Damage",
+      "gameVersion": "44.1.4.1",
+      "duration": 6,
+      "stacking": {
+        "kind": "capped",
+        "most": 10
+      },
+      "confidence": "W"
+    },
+    {
+      "id": "bullet-attractor",
+      "name": "Bullet Attractor",
+      "source": "https://wiki.warframe.com/w/Damage/Void_Damage",
+      "gameVersion": "44.1.4.1",
+      "duration": 3,
+      "stacking": {
+        "kind": "independent"
+      },
+      "confidence": "C"
+    },
+    {
+      "id": "status-vulnerability",
+      "name": "Status Chance Vulnerability",
+      "source": "https://wiki.warframe.com/w/Damage/Tau_Damage",
+      "gameVersion": "44.1.4.1",
+      "duration": 8,
+      "stacking": {
+        "kind": "capped",
+        "most": 10
+      },
+      "confidence": "W"
+    }
+  ]
+}
