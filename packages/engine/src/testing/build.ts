@@ -13,7 +13,7 @@ import {
   scenario,
   weapon,
 } from '@abacus/data/testing/fixtures';
-import { armorCurve, curve, eximus, steelPath } from '@abacus/data/testing/scaling';
+import { armorCurve, curve, eximus, shieldCurve, steelPath } from '@abacus/data/testing/scaling';
 
 import type { Selection } from '@/build/selectEffects';
 
@@ -135,7 +135,7 @@ export const makeLibrary = (
     libraryFile('damageTypes.json', ...damageTypeItems),
     buckets,
     factions,
-    libraryFile('scaling.json', curve, armorCurve, eximus, steelPath),
+    libraryFile('scaling.json', curve, armorCurve, shieldCurve, eximus, steelPath),
     libraryFile('mods/a.json', ...modules),
     libraryFile('weapons/a.json', { ...weapon, ...weaponChange }),
     libraryFile('enemies/a.json', ...enemies),

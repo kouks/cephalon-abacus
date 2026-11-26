@@ -1,5 +1,6 @@
 import type { ConditionalState } from '@abacus/data/schema/conditionals';
 import type { Trigger } from '@abacus/data/schema/condition';
+import type { Layer } from '@abacus/data/schema/damageTypeRule';
 import type { Effect, Op, Variable } from '@abacus/data/schema/effect';
 
 /** Where an effect comes from: a module, or the weapon itself. */
@@ -26,8 +27,8 @@ export type Conditional = {
 /** What the weapon does that the metrics don't count. */
 export type LeftOut = 'beamRamp' | 'spoolUp' | 'sniperCombo' | 'zoom';
 
-/** What an enemy takes off damage that the metrics don't count: armor until ABA-22. */
-export type EnemyLeftOut = 'armor' | 'attenuation';
+/** What an enemy takes off damage that the metrics don't count: attenuation until ABA-50. */
+export type EnemyLeftOut = 'attenuation';
 
 /** Something about the build that doesn't work as written. The result is still usable. */
 export type Warning =
@@ -71,6 +72,7 @@ export type Warning =
       /** The widest explosion of the shot, or 0. */
       readonly radius: number;
     }
+  | { readonly code: 'missingLayer'; readonly layer: Layer }
   | { readonly code: 'leftOut'; readonly attackId: string; readonly what: LeftOut }
   | { readonly code: 'enemyLeftOut'; readonly enemyId: string; readonly what: EnemyLeftOut };
 

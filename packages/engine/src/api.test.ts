@@ -54,6 +54,15 @@ describe('evaluate', () => {
     expect(notPlain(stats)).toEqual([]);
   });
 
+  it('names the layer the hits meet', () => {
+    const shielded = makeLibrary(modules, {}, [{ ...enemy, baseShield: 50 }]);
+    const met = { id: 'test-enemy', level: 1, steelPath: false, modifiers: [] };
+    expect(evaluate(scenarioOf({ enemy: met }), shielded).layer).toBe('shield');
+    const onHealth = { ...met, layer: 'health' } as const;
+    expect(evaluate(scenarioOf({ enemy: onHealth }), shielded).layer).toBe('health');
+    expect(evaluate(scenarioOf(), library).layer).toBe('health');
+  });
+
   it('has these fields, in this version', () => {
     const result = evaluate(scenarioOf(), library);
     expect(result.apiVersion).toBe(1);
@@ -63,6 +72,7 @@ describe('evaluate', () => {
       'attackId',
       'burstDps',
       'byAttack',
+      'layer',
       'lifetimeDamage',
       'perShot',
       'sustainedDps',

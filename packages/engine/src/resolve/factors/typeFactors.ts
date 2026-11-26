@@ -24,10 +24,3 @@ export const vulnerabilityFactors = (
     ...factor('vulnerability', faction?.damageProfile[type] ?? 1),
     type,
   }));
-
-/** Amplifiers, armor and other reductions: 1 until enemies have layers (ABA-22). */
-export const layerFactors = (): readonly Factor[] => [
-  factor('layer', 1),
-  factor('armor', 1),
-  factor('reduction', 1),
-];

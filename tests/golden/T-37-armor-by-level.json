@@ -1,0 +1,381 @@
+{
+  "id": "T-37",
+  "question": "How does armor grow, and does its reduction follow a square root?",
+  "bible": "§10",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-25",
+      "words": "Loadout A, one white number per line.\n| Enemy | Level | White number |\n| Butcher | 10 | 453 |\n| Lancer | 10 | 453 |\n| Lancer | 30 | 426 |\n| Lancer | 60 | 320 |\n| Lancer | 75 | 262 |\n| Lancer | 100 | 217 |\n| Lancer | 150 | 158 |\n| Heavy Gunner | 10 | 366 |\n| Heavy Gunner | 30 | 262 |\n| Heavy Gunner | 60 | 60 |"
+    }
+  ],
+  "notes": "Asked for in the Simulacrum with AI paused, Steel Path off, one enemy at a time, at its body from about 5 m, with an unmodded Arca Plasmor (600 Radiation, to which Grineer are neutral), and no numbers were predicted to Pavel. Plain Lancers, Butchers and Heavy Gunners. A straight line, 1 − 0.9 × armor ÷ 2700, would show 544 on the level 30 Lancer, and 300 ÷ (300 + armor) 310. Arca Plasmor is in the fixture for the reason in T-27.",
+  "weapons": [
+    {
+      "id": "arca-plasmor",
+      "name": "Arca Plasmor",
+      "uniqueName": "/Lotus/Weapons/Corpus/LongGuns/CrpShotgun/CrpShotgun",
+      "source": "https://wiki.warframe.com/w/Arca_Plasmor",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["shotgun"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 10,
+        "maxAmmo": 50,
+        "reloadStyle": "magazine",
+        "reloadTime": 2.8
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "radiation": 600
+          },
+          "trigger": "semi",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.22,
+          "critMultiplier": 1.6,
+          "statusChance": 0.28,
+          "fireRate": 1.1,
+          "ammoCost": 1,
+          "falloff": {
+            "start": 10,
+            "end": 20,
+            "minPct": 0.3333
+          },
+          "range": 30,
+          "projectileSpeed": 60,
+          "flags": ["canCrit"]
+        }
+      ]
+    }
+  ],
+  "tolerance": {
+    "hits": 0.5
+  },
+  "cases": [
+    {
+      "name": "Butcher at level 10",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "butcher",
+          "level": 10,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 453
+        }
+      }
+    },
+    {
+      "name": "Lancer at level 10",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "lancer",
+          "level": 10,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 453
+        }
+      }
+    },
+    {
+      "name": "Lancer at level 30",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "lancer",
+          "level": 30,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 426
+        }
+      }
+    },
+    {
+      "name": "Lancer at level 60",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "lancer",
+          "level": 60,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 320
+        }
+      }
+    },
+    {
+      "name": "Lancer at level 75",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "lancer",
+          "level": 75,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 262
+        }
+      }
+    },
+    {
+      "name": "Lancer at level 100",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "lancer",
+          "level": 100,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 217
+        }
+      }
+    },
+    {
+      "name": "Lancer at level 150",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "lancer",
+          "level": 150,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 158
+        }
+      }
+    },
+    {
+      "name": "Heavy Gunner at level 10",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "heavy-gunner",
+          "level": 10,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 366
+        }
+      }
+    },
+    {
+      "name": "Heavy Gunner at level 30",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "heavy-gunner",
+          "level": 30,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 262
+        }
+      }
+    },
+    {
+      "name": "Heavy Gunner at level 60",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "heavy-gunner",
+          "level": 60,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 60
+        }
+      }
+    }
+  ]
+}

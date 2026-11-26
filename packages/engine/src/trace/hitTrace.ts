@@ -18,7 +18,8 @@ export type FactorName =
   | 'vulnerability'
   | 'layer'
   | 'armor'
-  | 'reduction';
+  | 'reduction'
+  | 'least';
 
 /** One multiplier of a hit. */
 export type Factor = {

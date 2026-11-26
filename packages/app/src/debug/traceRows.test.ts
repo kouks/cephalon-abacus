@@ -54,9 +54,14 @@ describe('trace rows', () => {
       'normal 1, 100% of hits | vulnerability | puncture | 1x | ',
       'normal 1, 100% of hits | vulnerability | slash | 1x | ',
       'normal 1, 100% of hits | vulnerability | heat | 1x | ',
-      'normal 1, 100% of hits | layer | all | 1x | ',
-      'normal 1, 100% of hits | armor | all | 1x | ',
+      ...['impact', 'puncture', 'slash', 'heat'].flatMap((type) => [
+        `normal 1, 100% of hits | layer | ${type} | 1x | `,
+        `normal 1, 100% of hits | armor | ${type} | 1x | `,
+      ]),
       'normal 1, 100% of hits | reduction | all | 1x | ',
+      ...['impact', 'puncture', 'slash', 'heat'].map(
+        (type) => `normal 1, 100% of hits | least | ${type} | 1x | `,
+      ),
     ]);
   });
 

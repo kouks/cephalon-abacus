@@ -8,6 +8,7 @@ import type { AttackRates } from '@/build/stats/attackRates';
 import type { AttackStats } from '@/build/stats/attackStats';
 import type { ExpectedShot } from '@/resolve/expectedShot';
 import { expectedShot } from '@/resolve/expectedShot';
+import type { Defence } from '@/resolve/defence';
 import type { Target } from '@/resolve/target';
 
 import { withLinked } from './firingModes';
@@ -37,6 +38,7 @@ export type AttackMetrics = Headline & {
 
 type Fight = {
   readonly target: Target;
+  readonly defence: Defence;
   readonly aim: Scenario['aim'];
   readonly distance: number;
 };
