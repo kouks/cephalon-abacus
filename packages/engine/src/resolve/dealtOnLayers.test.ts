@@ -53,23 +53,33 @@ describe('one hit on the layers in order', () => {
     ]);
   });
 
-  describe('a broken Overguard, which takes 1.5x of Void (T-44)', () => {
-    const left = { overguard: 100, shield: 1000 };
+  it('shows one number for a hit that breaks Overguard (T-44)', () => {
+    expect(rounded(whiteOf({ void: 100 }, { overguard: 100, shield: 1000 }))).toEqual([
+      ['overguard', 133, 100],
+      ['shield', undefined, 33.333333],
+    ]);
+  });
+
+  describe('a shield a hit breaks on a weak point, over armor (T-47)', () => {
+    const armored = (assumptions: object) =>
+      dealt(
+        {
+          attack: { damage: { impact: 100 }, critChance: 0 },
+          defence: { ...defenceWith({ shield: 50 }), armor: 300 },
+          assumptions,
+        },
+        WEAK_POINT,
+      )[0];
 
     it('shows what it had left, by default', () => {
-      expect(rounded(whiteOf({ void: 100 }, left))).toEqual([
-        ['overguard', 100, 100],
-        ['shield', 33, 33.333333],
+      expect(rounded(armored({}))).toEqual([
+        ['shield', 50, 50],
+        ['health', 35, 35],
       ]);
     });
 
-    it('shows the hit less what shields show, without breakShownInOwnTerms', () => {
-      const assumptions = { breakShownInOwnTerms: false };
-      expect(rounded(whiteOf({ void: 100 }, left, { assumptions }))?.[0]).toEqual([
-        'overguard',
-        117,
-        100,
-      ]);
+    it('shows the hit less the number on health, without breakShownInOwnTerms', () => {
+      expect(rounded(armored({ breakShownInOwnTerms: false }))?.[0]).toEqual(['shield', 65, 50]);
     });
   });
 });

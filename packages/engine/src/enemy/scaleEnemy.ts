@@ -12,7 +12,16 @@ import { f32, growthAt } from './growth';
 /** One step from a base stat to the one at a level. */
 export type ScalingTerm = {
   readonly name:
-    'base' | 'eximusBase' | 'levels' | 'low' | 'high' | 'blend' | 'growth' | 'steelPath' | 'limit';
+    | 'base'
+    | 'eximusBase'
+    | 'levels'
+    | 'low'
+    | 'high'
+    | 'blend'
+    | 'growth'
+    | 'steelPath'
+    | 'limit'
+    | 'whole';
   readonly value: number;
 };
 
@@ -50,11 +59,16 @@ const startOf = (enemy: Enemy, level: number, { scaling }: Library) => {
 const within = ({ limits }: ScalingCurve, value: number) =>
   limits === undefined ? value : Math.min(Math.max(value, limits.least), limits.most);
 
+/** Whether the game keeps a stat as a whole number (T-46). */
+const isWhole = (stat: ScaledStat, { scaling }: Library) =>
+  [...scaling.values()].some((rule) => rule.kind === 'whole' && rule.stats.includes(stat));
+
 type Stat = {
   readonly base: number;
   readonly start: number;
   readonly curve: ScalingCurve | undefined;
   readonly steelPath: number;
+  readonly isWhole: boolean;
 };
 
 const scaleStat = (stat: Stat, levels: { level: number; baseLevel: number }): EnemyStat => {
@@ -65,7 +79,8 @@ const scaleStat = (stat: Stat, levels: { level: number; baseLevel: number }): En
   const curve = must(stat.curve, 'The loader checks that every stat has a curve');
   const growth = growthAt(curve, levels);
   const scaled = f32(f32(f32(start) * growth.multiplier) * steelPath);
-  const value = within(curve, scaled);
+  const limited = within(curve, scaled);
+  const value = stat.isWhole ? Math.round(limited) : limited;
   if (start !== base) terms.push({ name: 'eximusBase', value: start });
   terms.push(
     { name: 'levels', value: growth.levels },
@@ -75,7 +90,8 @@ const scaleStat = (stat: Stat, levels: { level: number; baseLevel: number }): En
     { name: 'growth', value: growth.multiplier },
   );
   if (steelPath !== 1) terms.push({ name: 'steelPath', value: steelPath });
-  if (value !== scaled) terms.push({ name: 'limit', value });
+  if (limited !== scaled) terms.push({ name: 'limit', value: limited });
+  if (value !== limited) terms.push({ name: 'whole', value });
   return { value, terms };
 };
 
@@ -91,6 +107,7 @@ export const scaleEnemy = (enemy: Enemy, met: Met, library: Library): EnemyStats
         start: start[stat],
         curve: findCurve(stat, enemy.scalingProfile, library),
         steelPath: rates[stat],
+        isWhole: isWhole(stat, library),
       },
       { level, baseLevel: enemy.baseLevel },
     );

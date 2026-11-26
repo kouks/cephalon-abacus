@@ -1,7 +1,9 @@
-import { must } from '@abacus/data/assert';
 import type { DamageType } from '@abacus/data/schema/damageType';
 import type { Layer } from '@abacus/data/schema/damageTypeRule';
 import { LAYERS } from '@abacus/data/schema/damageTypeRule';
+
+import type { Dealt, Step } from './shown';
+import { dealtOf } from './shown';
 
 /** What an enemy has left of each layer. */
 export type LayersLeft = Readonly<Record<Layer, number>>;
@@ -9,8 +11,7 @@ export type LayersLeft = Readonly<Record<Layer, number>>;
 /** One hit's damage per type on each layer, as if it met that layer alone. */
 export type LayeredHit = Readonly<Record<Layer, ReadonlyMap<DamageType, number>>>;
 
-/** What one hit did to one layer: the number the game shows, and what the layer lost (BIBLE §15). */
-export type Dealt = { readonly layer: Layer; readonly shown: number; readonly applied: number };
+export type { Dealt };
 
 export type Applied = { readonly dealt: readonly Dealt[]; readonly left: LayersLeft };
 
@@ -20,7 +21,7 @@ export const SHIELD_GATE = 0.05;
 type Options = {
   /** Weak points bypass the shield gate (BIBLE §10). */
   readonly isWeakPoint: boolean;
-  /** The assumption `breakShownInOwnTerms` (T-44). */
+  /** The assumption `breakShownInOwnTerms` (T-47). */
   readonly isShownInOwnTerms: boolean;
 };
 
@@ -30,16 +31,6 @@ type Context = { readonly hit: LayeredHit; readonly options: Options };
 type Share = { readonly share: number; readonly brokeAt?: Layer };
 
 type Carry = ReadonlyMap<DamageType, Share>;
-
-type Step = {
-  readonly layer: Layer;
-  readonly damage: number;
-  readonly applied: number;
-  /** What of the hit went on, as this layer took it. */
-  readonly wentOn: number;
-  /** What of the damage came through the break of each layer before. */
-  readonly throughBreaks: ReadonlyMap<Layer, number>;
-};
 
 const sum = (values: Iterable<number>) => [...values].reduce((total, value) => total + value, 0);
 
@@ -78,22 +69,6 @@ const throughBreaksOf = (layer: Layer, carry: Carry, hit: LayeredHit) => {
   return byLayer;
 };
 
-/** What of the hit a layer doesn't show: what went on, as it took it or as the later layers show it. */
-const furtherOf = (steps: readonly Step[], index: number, isShownInOwnTerms: boolean) => {
-  const { layer, wentOn } = must(steps[index], 'A step of the hit');
-  if (isShownInOwnTerms) return wentOn;
-  return sum(steps.slice(index + 1).map(({ throughBreaks }) => throughBreaks.get(layer) ?? 0));
-};
-
-/** A layer the hit broke shows the hit less what of it went on (BIBLE §15, T-44). */
-const dealtOf = (steps: readonly Step[], { isShownInOwnTerms }: Options): readonly Dealt[] =>
-  steps
-    .map(({ layer, damage, applied }, index) => {
-      const further = furtherOf(steps, index, isShownInOwnTerms);
-      return { layer, shown: Math.round(damage) - Math.round(further), applied };
-    })
-    .filter(({ applied }) => applied > 0);
-
 /**
  * One hit on an enemy's layers, in order: Overguard, shields, health (BIBLE §10). A layer that is gone
  * is skipped; a hit that breaks one goes on with what is left of it.
@@ -111,5 +86,5 @@ export const applyHit = (left: LayersLeft, hit: LayeredHit, options: Options): A
     steps.push({ layer, damage, applied, wentOn, throughBreaks });
     carry = met.next;
   }
-  return { dealt: dealtOf(steps, options), left: remaining };
+  return { dealt: dealtOf(steps, options.isShownInOwnTerms), left: remaining };
 };

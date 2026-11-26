@@ -49,13 +49,33 @@ describe('a hit that breaks shields', () => {
   });
 });
 
-it('a hit that breaks Overguard carries all of the rest on', () => {
-  const applied = applyHit(left({ overguard: 100, shield: 50 }), even({ void: 300 }), BODY);
-  expect(rounded(applied)).toEqual([
-    ['overguard', 100, 100],
-    ['shield', 192, 50],
-    ['health', 8, 7.5],
-  ]);
+describe('a hit that breaks Overguard (T-44)', () => {
+  it('carries all of the rest on, and shows one number for all it does', () => {
+    const applied = applyHit(left({ overguard: 100, shield: 50 }), even({ void: 300 }), BODY);
+    expect(rounded(applied)).toEqual([
+      ['overguard', 300, 100],
+      ['shield', undefined, 50],
+      ['health', undefined, 7.5],
+    ]);
+  });
+
+  /** T-44: 130 of Overguard, and armor that leaves 75.5% of the rest on health, show 485. */
+  it('shows what Overguard had left and what health took after armor, rounded once', () => {
+    const armored = {
+      ...even({ radiation: 600 }),
+      health: new Map<DamageType, number>([['radiation', 600 * 0.75505]]),
+    };
+    const applied = applyHit(left({ overguard: 130.098 }), armored, BODY);
+    expect(rounded(applied)).toEqual([
+      ['overguard', 485, 130.1],
+      ['health', undefined, 354.8],
+    ]);
+  });
+
+  it('shows its own number when it holds', () => {
+    const applied = applyHit(left({ overguard: 1000 }), even({ impact: 300 }), BODY);
+    expect(rounded(applied)).toEqual([['overguard', 300, 300]]);
+  });
 });
 
 it('a layer that is gone is skipped', () => {
@@ -82,15 +102,15 @@ it('Toxin goes past shields to health, and the rest stays on them', () => {
   ]);
 });
 
-it('Toxin that breaks through Overguard shows on health, and not on Overguard as well', () => {
+it('Toxin that breaks through Overguard and passes shields counts once in its number', () => {
   const impact = new Map<DamageType, number>([['impact', 100]]);
   const both = new Map<DamageType, number>([...impact, ['toxin', 100]]);
   const hit = { overguard: both, shield: impact, health: both };
   const applied = applyHit(left({ overguard: 100, shield: 1000 }), hit, BODY);
   expect(rounded(applied)).toEqual([
-    ['overguard', 100, 100],
-    ['shield', 50, 50],
-    ['health', 50, 50],
+    ['overguard', 200, 100],
+    ['shield', undefined, 50],
+    ['health', undefined, 50],
   ]);
 });
 
@@ -100,7 +120,7 @@ it('the hit that kills shows all of it, and applies what health was left', () =>
   expect(applied.left.health).toBe(0);
 });
 
-describe('a layer a hit breaks, where the next takes it differently (T-44)', () => {
+describe('a shield a hit breaks, where health takes it differently (T-47)', () => {
   /** Armor halves the rest on health; the head bypasses the gate. */
   const armored = {
     ...even({ impact: 600 }),
@@ -136,18 +156,19 @@ describe('a layer a hit breaks, where the next takes it differently (T-44)', () 
     ]);
   });
 
-  it('on Overguard, which takes 1.5x of Void, shows what it had left or the hit less what shields show', () => {
+  it('leaves Overguard’s one number alone: Void counts as Overguard took it, the rest as shields did', () => {
     const voidHit = {
       ...even({ void: 200 }),
       overguard: new Map<DamageType, number>([['void', 300]]),
     };
     const fresh = left({ overguard: 100, shield: 1000 });
-    expect(rounded(applyHit(fresh, voidHit, BODY))).toEqual([
-      ['overguard', 100, 100],
-      ['shield', 133, 133.33],
-    ]);
+    const expected = [
+      ['overguard', 233, 100],
+      ['shield', undefined, 133.33],
+    ];
+    expect(rounded(applyHit(fresh, voidHit, BODY))).toEqual(expected);
     const later = applyHit(fresh, voidHit, { ...BODY, isShownInOwnTerms: false });
-    expect(rounded(later)[0]).toEqual(['overguard', 167, 100]);
+    expect(rounded(later)).toEqual(expected);
   });
 
   it('counts Toxin that broke through Overguard and passed shields either way', () => {

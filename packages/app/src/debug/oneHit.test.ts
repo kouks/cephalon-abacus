@@ -31,6 +31,21 @@ describe('one hit on the enemy as it is', () => {
     ]);
   });
 
+  it('puts a layer with no number of its own in the one before it', () => {
+    const merged: TierDealt = {
+      tier: 0,
+      chance: 1,
+      dealt: [
+        { layer: 'overguard', shown: 485, applied: 130.1 },
+        { layer: 'health', applied: 354.8 },
+      ],
+      left: LEFT,
+    };
+    expect(oneHitOf(firedWith([merged]))[0]?.value).toBe(
+      'Overguard 485 (130 applied), Health 355 applied, in the number before',
+    );
+  });
+
   it('names every tier by the colour the game draws it in', () => {
     const tiers = [0, 1, 2, 3, 4].map((tier) => ({
       tier,

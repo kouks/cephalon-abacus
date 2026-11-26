@@ -12,10 +12,15 @@ const colourOf = (tier: number) =>
 
 const LAYER_NAMES = { overguard: 'Overguard', shield: 'Shields', health: 'Health' } as const;
 
-/** "1,958 (1,079 applied)": the game's number first, and what the enemy loses if it differs. */
+/**
+ * "1,958 (1,079 applied)": the game's number first, and what the enemy loses if it differs. A layer
+ * that shows no number of its own is in the one before it (T-44).
+ */
 const shownOf = ({ shown, applied }: Dealt) => {
+  const lost = formatDamage(applied);
+  if (shown === undefined) return `${lost} applied, in the number before`;
   const number = formatDamage(shown);
-  return formatDamage(applied) === number ? number : `${number} (${formatDamage(applied)} applied)`;
+  return lost === number ? number : `${number} (${lost} applied)`;
 };
 
 const rowOf = ({ tier, dealt }: TierDealt): HeadlineNumber => ({

@@ -22,11 +22,11 @@ export const ASSUMPTIONS = {
   /** Falloff drops in a line to nothing at its end, and stops at the least. Confirmed. */
   falloffHeadsForZero: { default: true, test: 'T-26', bible: '§11' },
   /**
-   * A layer a hit breaks shows the hit less what of it went on, as that layer took it. If not: less
-   * what the later layers show of it. T-38 fits both; they part where a later layer takes the hit
-   * differently: Void on Overguard, armor on health.
+   * A shield a hit breaks shows the hit less what of it went on, as the shield took it: 5% of the
+   * rest. If not: less the number on health. T-38 and T-45 fit both; they part where armor lowers
+   * the number on health, as on a Bursa.
    */
-  breakShownInOwnTerms: { default: true, test: 'T-44', bible: '§15' },
+  breakShownInOwnTerms: { default: true, test: 'T-47', bible: '§15' },
 } as const satisfies Readonly<Record<string, Assumption>>;
 
 export type Assumptions = Readonly<Record<keyof typeof ASSUMPTIONS, boolean>>;

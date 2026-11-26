@@ -13,7 +13,7 @@
       "words": "| Level | On the shield | On health |\n| 50 | 14078 yellow | 616 |\n| 75 | 7247 white | 98 |\n| 100 | 14360 yellow | 334 |\n| 150 | 14503 yellow | 191 |\n| 150 | 14503 yellow | 191 |\n| 200 | 14636 yellow | 58 |\nAttaching Lanka build, always used charged shot. [Serration, Radiated Reload, Primed Bane of Corpus, Stormbringer, Hellfire and Critical Delay, all at max; the arsenal shows 4,730.2 Radiation, 75% crit chance and 2x for the charged shot.]"
     }
   ],
-  "notes": "Asked for in the Simulacrum with AI paused, one enemy at a time, at its body from about 5 m, with Arca Plasmor, and no numbers were predicted to Pavel. The hits are counted until the shield is gone, so all but the last of them were not enough. Loadout A has no mods. Its rows at level 150 have no case: they don't agree with one another, as the shields could grow back during a reload. The second report replaces them, with single shots of Lanka that each break a whole shield: 5% of what is left of one reaches health, so the shield is the number on it less 19 times the one on health. That puts it at 2,364 to 2,384 at level 50, 5,375 to 5,395 at 75, 8,004 to 8,024 at 100, 10,864 to 10,884 at 150 and 13,524 to 13,544 at 200, where the wiki says 2,384.4, 5,376.5, 8,006.7, 10,880.5 and 13,527.2. Level 50 is on the edge: 615.495 should reach health, and 616 was seen. They replay through the layers, as do the two numbers of each shot that broke a shield in the first report: the shield shows the rounded hit less the rounded health number. The tolerance is 1, because level 50 is on a rounding edge: 615.495 reaches health, and 616 was seen, so the shield shows 14079 where 14078 was seen. Lanka's charged shot is in the fixture, with Radiated Reload, neither of which the library has; Pavel used Serration, Radiated Reload, Primed Bane of Corpus, Stormbringer, Hellfire and Critical Delay, all at max. Arca Plasmor is in the fixture for the reason in T-27.",
+  "notes": "Asked for in the Simulacrum with AI paused, one enemy at a time, at its body from about 5 m, with Arca Plasmor, and no numbers were predicted to Pavel. The hits are counted until the shield is gone, so all but the last of them were not enough. Loadout A has no mods. Its rows at level 150 have no case: they don't agree with one another, as the shields could grow back during a reload. The second report replaces them, with single shots of Lanka that each break a whole shield: 5% of what is left of one reaches health, so the shield is the number on it less 19 times the one on health. That puts it at 2,364 to 2,384 at level 50, 5,375 to 5,395 at 75, 8,004 to 8,024 at 100, 10,864 to 10,884 at 150 and 13,524 to 13,544 at 200, where the wiki says 2,384.4, 5,376.5, 8,006.7, 10,880.5 and 13,527.2. Level 50 is on the edge: with 2,384.4 shields, 615.495 would reach health, and 616 was seen. T-46 settles it: the game keeps shields whole, rounded to the nearest, so 2,384 and 615.516. They replay through the layers, as do the two numbers of each shot that broke a shield in the first report: the shield shows the rounded hit less the rounded health number. Lanka's charged shot is in the fixture, with Radiated Reload, neither of which the library has; Pavel used Serration, Radiated Reload, Primed Bane of Corpus, Stormbringer, Hellfire and Critical Delay, all at max. Arca Plasmor is in the fixture for the reason in T-27.",
   "weapons": [
     {
       "id": "arca-plasmor",
@@ -120,9 +120,7 @@
       ]
     }
   ],
-  "tolerance": {
-    "hits": 1
-  },
+  "tolerance": {},
   "cases": [
     {
       "name": "level 100, run 1",
