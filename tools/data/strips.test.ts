@@ -24,10 +24,12 @@ const hitOn = (id: string, level: number, { withAura, assumptions = {} }: Met) =
 };
 
 describe('Corrosive Projection at max', () => {
-  it('takes 18% of the armor, and the armor factor names it', () => {
+  it('takes 18% of the armor, keeps the rest whole, and the armor factor names it', () => {
     const plain = hitOn('lancer', 60, { withAura: false });
     const stripped = hitOn('lancer', 60, { withAura: true });
-    expect(stripped.armor).toBeCloseTo(must(plain.armor, 'Armor') * 0.82, 9);
+    // What is left is kept whole, rounded down (T-48): 728 × 0.82 is 596.96, and 596 is left.
+    expect(stripped.armor).toBe(Math.floor(must(plain.armor, 'Armor') * 0.82));
+    expect(stripped.armor).toBe(596);
     const armor = must(
       stripped.factors.find(({ name, type }) => name === 'armor' && type === 'slash'),
       'An armor factor',

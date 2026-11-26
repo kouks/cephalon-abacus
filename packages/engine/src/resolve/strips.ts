@@ -1,4 +1,5 @@
 import { aggregate } from '@/build/aggregate';
+import { toWhole } from '@/enemy/whole';
 import type { BuiltAttack } from '@/build/buildAttack';
 import type { Contribution } from '@/build/types';
 
@@ -14,18 +15,19 @@ export const STRIPS = 'enemy.armor';
 export type ArmorMet = { readonly value: number; readonly strips: readonly Contribution[] };
 
 /**
- * The armor after the strips the attack sees. It can go below the least of 200, never below 0. The
- * cap of 2,700 comes first, unless the assumption armorCappedBeforeStrips says otherwise (T-6).
+ * The armor after the strips the attack sees, kept whole as the game keeps it: rounded down (T-48).
+ * It can go below the least of 200, never below 0. The cap of 2,700 comes first, unless the
+ * assumption armorCappedBeforeStrips says otherwise (T-6).
  */
 export const armorMet = (
-  { armor, uncappedArmor }: Defence,
+  { armor, uncappedArmor, armorRounding }: Defence,
   { totals, assumptions }: Pick<BuiltAttack, 'totals' | 'assumptions'>,
 ): ArmorMet => {
   const total = totals.get(STRIPS);
   if (total === undefined || total.contributions.length === 0) return { value: armor, strips: [] };
   const isCappedFirst = assumptions.armorCappedBeforeStrips;
   const from = isCappedFirst ? armor : (uncappedArmor ?? armor);
-  const stripped = Math.max(aggregate(total, from), 0);
+  const stripped = Math.max(toWhole(aggregate(total, from), armorRounding), 0);
   const value = isCappedFirst || uncappedArmor === undefined ? stripped : Math.min(stripped, armor);
   return { value, strips: total.contributions };
 };

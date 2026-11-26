@@ -5,6 +5,8 @@ import type { Op } from '@abacus/data/schema/effect';
 import { DEFAULT_ASSUMPTIONS } from '@/assumptions';
 import { totalOf } from '@/build/aggregate';
 
+import type { Rounding } from '@/enemy/whole';
+
 import type { Defence } from './defence';
 import { armorMet, STRIPS } from './strips';
 
@@ -17,12 +19,17 @@ const strip = (op: Op, value: number) => ({
 
 const PROJECTION = strip('STACKING_MULTIPLY', -0.18);
 
-type Options = { readonly uncapped?: number; readonly isCappedFirst?: boolean };
+type Options = {
+  readonly uncapped?: number;
+  readonly isCappedFirst?: boolean;
+  readonly rounding?: Rounding;
+};
 
-const defenceOf = (armor: number, uncapped?: number): Defence => ({
+const defenceOf = (armor: number, { uncapped, rounding }: Options = {}): Defence => ({
   layer: 'health',
   armor,
   ...(uncapped === undefined ? {} : { uncappedArmor: uncapped }),
+  ...(rounding === undefined ? {} : { armorRounding: rounding }),
   left: { overguard: 0, shield: 0, health: 1000 },
   rules: new Map(),
 });
@@ -30,9 +37,9 @@ const defenceOf = (armor: number, uncapped?: number): Defence => ({
 const armorAfter = (
   armor: number,
   strips: readonly ReturnType<typeof strip>[],
-  { uncapped, isCappedFirst = true }: Options = {},
+  { isCappedFirst = true, ...options }: Options = {},
 ) =>
-  armorMet(defenceOf(armor, uncapped), {
+  armorMet(defenceOf(armor, options), {
     totals: new Map([[STRIPS, totalOf(STRIPS, strips, {})]]),
     assumptions: { ...DEFAULT_ASSUMPTIONS, armorCappedBeforeStrips: isCappedFirst },
   }).value;
@@ -68,6 +75,15 @@ describe('strips', () => {
       assumptions: DEFAULT_ASSUMPTIONS,
     });
     expect(met.strips.map(({ source }) => source.id)).toEqual(['strip-STACKING_MULTIPLY--0.18']);
+  });
+});
+
+describe('what strips leave', () => {
+  /** T-6 and T-48: a level 60 Lancer's 728 armor, less 18%, is 596.96 and shows as 596. */
+  it('is kept whole as the game keeps armor: rounded down', () => {
+    expect(armorAfter(728, [PROJECTION], { rounding: 'down' })).toBe(596);
+    expect(armorAfter(728, [PROJECTION], { rounding: 'nearest' })).toBe(597);
+    expect(armorAfter(728, [PROJECTION])).toBeCloseTo(596.96, 9);
   });
 });
 

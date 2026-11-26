@@ -60,11 +60,15 @@ const steelPathSchema = object({
   shield: positive,
 });
 
-/** The stats the game keeps as whole numbers once grown: rounded to the nearest (T-46). */
+/**
+ * The stats the game keeps as whole numbers once grown, and how it rounds them: shields to the
+ * nearest (T-46), armor down, after strips too (T-48).
+ */
 const wholeSchema = object({
   ...itemShape,
   kind: z.literal('whole'),
   stats: z.array(z.enum(SCALED_STATS)).min(1).readonly(),
+  rounding: z.enum(['nearest', 'down']),
 });
 
 export const scalingRuleSchema = z.discriminatedUnion('kind', [

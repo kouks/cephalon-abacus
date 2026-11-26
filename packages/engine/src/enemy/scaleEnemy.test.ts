@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import type { Library } from '@abacus/data/load/library';
 import { loadLibrary } from '@abacus/data/load/loadLibrary';
 import { enemy, libraryFile, referenceFiles } from '@abacus/data/testing/fixtures';
-import { curve, eximus, steelPath, whole } from '@abacus/data/testing/scaling';
+import { curve, eximus, steelPath, whole, wholeArmor } from '@abacus/data/testing/scaling';
 
 import type { Met } from './scaleEnemy';
 import { enemyStats, scaleEnemy } from './scaleEnemy';
@@ -92,6 +92,16 @@ it('keeps whole the stats the game keeps whole, to the nearest (T-46)', () => {
   expect([Number(health.value.toFixed(2)), shield.value]).toEqual([7242.63, 724]);
   expect(shield.terms.at(-1)).toEqual({ name: 'whole', value: 724 });
   expect(scale(FULL, { level: 76 }).shield.value).toBeCloseTo(724.263, 3);
+});
+
+it('rounds armor down where the game keeps it whole that way (T-48)', () => {
+  const library = libraryWith({ baseArmor: 150 }, [...RULES, wholeArmor]);
+  const found = library.enemies.get('test-enemy');
+  if (found === undefined) throw new Error('No enemy');
+  const { armor } = scaleEnemy(found, { level: 12, steelPath: false }, library);
+  expect(armor.value).toBe(331);
+  expect(armor.terms.at(-1)).toEqual({ name: 'whole', value: 331 });
+  expect(scale({ baseArmor: 150 }, { level: 12 }).armor.value).toBeCloseTo(331.5, 4);
 });
 
 describe('on the Steel Path, an enemy', () => {

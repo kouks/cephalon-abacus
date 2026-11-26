@@ -2,6 +2,7 @@ import type { DamageType } from '@abacus/data/schema/damageType';
 import type { DamageTypeRule, Layer } from '@abacus/data/schema/damageTypeRule';
 
 import type { EnemyStats } from '@/enemy/scaleEnemy';
+import type { Rounding } from '@/enemy/whole';
 
 import type { LayersLeft } from './applyHit';
 
@@ -12,6 +13,8 @@ export type Defence = {
   readonly armor: number;
   /** What it would be over 2,700, where the cap lowered it. */
   readonly uncappedArmor?: number;
+  /** How the game keeps armor whole once strips have lowered it (T-48). Absent: with its fraction. */
+  readonly armorRounding?: Rounding;
   /** What the enemy has left of each layer. Those before the layer the hit meets are gone. */
   readonly left: LayersLeft;
   /** What each type does to each layer, from damageTypes.json. */
@@ -44,6 +47,8 @@ type Met = {
   readonly left?: Partial<LayersLeft> | undefined;
   readonly stats: EnemyStats | undefined;
   readonly rules: Defence['rules'];
+  /** How the game keeps armor whole, from scaling.json. */
+  readonly armorRounding?: Rounding | undefined;
 };
 
 /** All of each layer, and endless health on the neutral dummy, which has no stats. */
@@ -55,12 +60,22 @@ const fullOf = (stats: EnemyStats | undefined): LayersLeft => ({
 
 const ORDER: readonly Layer[] = ['overguard', 'shield', 'health'];
 
-export const defenceOf = ({ layer, left = {}, stats, rules }: Met): Defence => {
+/** What armor would be over the cap, and how the game keeps it whole, where either applies. */
+const armorExtras = (uncapped: number | undefined, armorRounding: Rounding | undefined) => ({
+  ...(uncapped === undefined ? {} : { uncappedArmor: uncapped }),
+  ...(armorRounding === undefined ? {} : { armorRounding }),
+});
+
+export const defenceOf = ({ layer, left = {}, stats, rules, armorRounding }: Met): Defence => {
   const full = { ...fullOf(stats), ...left };
   const met = layer ?? ORDER.find((entry) => entry !== 'health' && full[entry] > 0) ?? 'health';
   const before = ORDER.slice(0, ORDER.indexOf(met));
   const gone = Object.fromEntries(before.map((entry) => [entry, 0]));
-  const uncapped = stats?.armor.uncapped;
-  const defence = { layer: met, armor: stats?.armor.value ?? 0, left: { ...full, ...gone }, rules };
-  return uncapped === undefined ? defence : { ...defence, uncappedArmor: uncapped };
+  return {
+    layer: met,
+    armor: stats?.armor.value ?? 0,
+    left: { ...full, ...gone },
+    rules,
+    ...armorExtras(stats?.armor.uncapped, armorRounding),
+  };
 };

@@ -86,6 +86,14 @@ describe('a defence', () => {
     );
   });
 
+  it('carries how the game keeps armor whole, where it does', () => {
+    const stats = statsOf(0, 0, 300);
+    expect(defenceOf({ stats, rules: new Map(), armorRounding: 'down' }).armorRounding).toBe(
+      'down',
+    );
+    expect(defenceOf({ stats, rules: new Map() })).not.toHaveProperty('armorRounding');
+  });
+
   it('of the neutral dummy is endless health without armor', () => {
     expect(defenceOf({ stats: undefined, rules })).toEqual({
       layer: 'health',

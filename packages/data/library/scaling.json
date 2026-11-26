@@ -315,11 +315,21 @@
     },
     {
       "id": "whole-stats",
-      "name": "Stats kept whole",
+      "name": "Shields kept whole, to the nearest",
       "source": "https://wiki.warframe.com/w/Enemy_Level_Scaling",
       "gameVersion": "44.1.4.1",
       "kind": "whole",
-      "stats": ["shield"]
+      "stats": ["shield"],
+      "rounding": "nearest"
+    },
+    {
+      "id": "whole-armor",
+      "name": "Armor kept whole, rounded down",
+      "source": "https://wiki.warframe.com/w/Armor",
+      "gameVersion": "44.1.4.1",
+      "kind": "whole",
+      "stats": ["armor"],
+      "rounding": "down"
     }
   ]
 }
