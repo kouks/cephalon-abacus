@@ -5,7 +5,6 @@ import type { ModdedStat } from '@/build/stats/moddedStat';
 import type { Factor, HitTrace } from '@/trace/hitTrace';
 
 import type { TierChance } from './crit/critTiers';
-import { tierMultiplier } from './crit/critTiers';
 import type { HitCrit } from './crit/hitCrit';
 import { hitCrit } from './crit/hitCrit';
 import { bodyPartFactor } from './factors/bodyPartFactor';
@@ -15,7 +14,11 @@ import { falloffFactor } from './factors/falloffFactor';
 import { landingFactor } from './factors/landingFactor';
 import { radialFalloffFactor } from './factors/radialFalloffFactor';
 import { rangeFactor } from './factors/rangeFactor';
-import { damageFactors, layerFactors, vulnerabilityFactors } from './factors/typeFactors';
+import { layerFactors } from './factors/layerFactors';
+import { damageFactors, vulnerabilityFactors } from './factors/typeFactors';
+import type { TypeDamage } from './leastDamage';
+import { leastFactors, tierTotal } from './leastDamage';
+import type { Defence } from './defence';
 import type { Target, TargetPart } from './target';
 
 export type HitResult = {
@@ -36,6 +39,8 @@ type At = {
   readonly reach?: ModdedStat | undefined;
   /** Metres from the target that the shot lands. Absent: it hits. */
   readonly missBy?: number | undefined;
+  /** The layer it meets, and the armor. Absent: bare health, as on the neutral dummy. */
+  readonly defence?: Defence | undefined;
 };
 
 const critFactor = ({ chance, multiplier, expected }: HitCrit) =>
@@ -44,7 +49,7 @@ const critFactor = ({ chance, multiplier, expected }: HitCrit) =>
 /** The direct-damage chain, in the order of BIBLE §3. */
 const chainOf = (
   built: BuiltAttack,
-  { target, part, distance, reach = built.stats.range, missBy = 0 }: At,
+  { target, part, distance, reach = built.stats.range, missBy = 0, defence }: At,
   crit: HitCrit,
 ): readonly Factor[] => [
   ...damageFactors(built.composition),
@@ -57,7 +62,7 @@ const chainOf = (
   landingFactor(built, missBy),
   radialFalloffFactor(built, missBy),
   ...vulnerabilityFactors(built.composition.types.keys(), target),
-  ...layerFactors(),
+  ...layerFactors(built.composition.types.keys(), defence),
 ];
 
 const damageOf = (type: DamageType, factors: readonly Factor[]) =>
@@ -67,19 +72,33 @@ const damageOf = (type: DamageType, factors: readonly Factor[]) =>
 
 const sum = (values: Iterable<number>) => [...values].reduce((total, value) => total + value, 0);
 
+/** Each type before crits, and whether armor reduced it. */
+const typesOf = (types: readonly DamageType[], chain: readonly Factor[]): readonly TypeDamage[] => {
+  const withoutCrit = chain.filter(({ name }) => name !== 'crit');
+  return types.map((type) => ({
+    type,
+    white: damageOf(type, withoutCrit),
+    isArmored: chain.some(
+      (entry) => entry.name === 'armor' && entry.type === type && entry.value < 1,
+    ),
+  }));
+};
+
 /** Phase B (BIBLE §3): one hit on one part of a target, with the mean of its crit tiers. */
 export const resolveHit = (built: BuiltAttack, at: At): HitResult => {
   const { attack, totals, assumptions, composition } = built;
   const crit = hitCrit(attack, { ...at.part, totals, assumptions });
-  const factors = chainOf(built, at, crit);
-  const types = [...composition.types.keys()];
-  const perType = new Map(types.map((type) => [type, damageOf(type, factors)]));
-
-  const withoutCrit = factors.filter(({ name }) => name !== 'crit');
-  const white = sum(types.map((type) => damageOf(type, withoutCrit)));
-  const tiers = crit.tiers.map(({ tier, chance }) => {
-    return { tier, chance, total: white * tierMultiplier(tier, crit.multiplier.value) };
-  });
-  const trace = { t: 0, pellet: 0, factors, perType, layer: 'health', procs: [] } as const;
+  const chain = chainOf(built, at, crit);
+  const types = typesOf([...composition.types.keys()], chain);
+  const multiplier = crit.multiplier.value;
+  const factors = [...chain, ...leastFactors(types, { tiers: crit.tiers, multiplier })];
+  const perType = new Map(types.map(({ type }) => [type, damageOf(type, factors)]));
+  const tiers = crit.tiers.map(({ tier, chance }) => ({
+    tier,
+    chance,
+    total: tierTotal(types, tier, multiplier),
+  }));
+  const layer = at.defence?.layer ?? 'health';
+  const trace = { t: 0, pellet: 0, factors, perType, layer, procs: [] } as const;
   return { perType, total: sum(perType.values()), crit, tiers, trace };
 };

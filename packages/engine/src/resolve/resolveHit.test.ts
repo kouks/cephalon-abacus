@@ -45,9 +45,16 @@ describe('a hit on a neutral target', () => {
       'vulnerability impact',
       'vulnerability puncture',
       'vulnerability slash',
-      'layer',
-      'armor',
+      'layer impact',
+      'armor impact',
+      'layer puncture',
+      'armor puncture',
+      'layer slash',
+      'armor slash',
       'reduction',
+      'least impact',
+      'least puncture',
+      'least slash',
     ]);
   });
 

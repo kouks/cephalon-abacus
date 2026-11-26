@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { conditionalsSchema } from './conditionals';
+import { layerSchema } from './damageTypeRule';
 import {
   list,
   nonNegative,
@@ -36,6 +37,8 @@ const targetSchema = object({
   /** More health and shields. It leaves the level alone. */
   steelPath: z.boolean(),
   modifiers: list(moduleInstanceSchema),
+  /** The layer the hits meet. Absent: the first the enemy has, as on a fresh one (BIBLE §10). */
+  layer: layerSchema.exactOptional(),
 });
 
 const TOLERANCE = 1e-9;

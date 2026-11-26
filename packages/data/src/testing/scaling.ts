@@ -16,6 +16,8 @@ export const curve = {
 
 export const armorCurve = { ...curve, id: 'grineer-armor', stat: 'armor' };
 
+export const shieldCurve = { ...curve, id: 'grineer-shield', stat: 'shield' };
+
 export const eximus = {
   ...item('eximus'),
   kind: 'eximus',

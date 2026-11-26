@@ -6,6 +6,8 @@ import type { BuiltAttack } from '@/build/buildAttack';
 import type { AttackStats } from '@/build/stats/attackStats';
 import type { ModdedStat } from '@/build/stats/moddedStat';
 
+import type { Defence } from './defence';
+
 import type { HitResult } from './resolveHit';
 import { resolveHit } from './resolveHit';
 import type { AimedPart, Target } from './target';
@@ -28,6 +30,7 @@ type Shot = {
   readonly aim: Scenario['aim'];
   readonly distance: number;
   readonly reach?: ModdedStat | undefined;
+  readonly defence?: Defence | undefined;
 };
 
 /** An attack that can't headshot hits the body, wherever it is aimed: most AoE. */
@@ -47,12 +50,12 @@ const addUp = (hits: ExpectedShot['hits'], pellets: number) => {
 };
 
 export const expectedShot = (shot: Shot): ExpectedShot => {
-  const { target, distance, reach, aim, buildFor } = shot;
+  const { target, distance, reach, aim, buildFor, defence } = shot;
   const built = buildFor([]);
   const { stats } = built;
   const pellets = Math.max(stats.multishot.value, 0);
   const hits = partsHit(built, shot).map(({ part, share }) => {
-    const at = { target, part, distance, reach, missBy: aim.missBy };
+    const at = { target, part, distance, reach, missBy: aim.missBy, defence };
     return { share, hit: resolveHit(buildFor(part.bodyParts), at) };
   });
   const perType = addUp(hits, pellets);

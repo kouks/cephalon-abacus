@@ -1,11 +1,14 @@
 import type { Library } from '@abacus/data/load/library';
 import type { Attack } from '@abacus/data/schema/attack';
+import type { Layer } from '@abacus/data/schema/damageTypeRule';
 import type { Scenario } from '@abacus/data/schema/scenario';
 import type { Weapon } from '@abacus/data/schema/weapon';
 
 import type { EnemyLeftOut, LeftOut, Warning } from '@/build/types';
+import type { EnemyStats } from '@/enemy/scaleEnemy';
 import { blastRadius } from '@/resolve/factors/landingFactor';
 import { isInRange } from '@/resolve/factors/rangeFactor';
+import { hasLayer } from '@/resolve/defence';
 import type { Target } from '@/resolve/target';
 
 import type { AttackMetrics } from './attackMetrics';
@@ -37,7 +40,6 @@ const warnLeftOut = (weapon: Weapon): readonly Warning[] =>
 const warnEnemy = ({ id }: Scenario['enemy'], { enemies }: Library): readonly Warning[] => {
   const enemy = enemies.get(id);
   const found: readonly (readonly [EnemyLeftOut, boolean])[] = [
-    ['armor', (enemy?.baseArmor ?? 0) > 0],
     ['attenuation', enemy?.flags?.includes('hasAttenuation') === true],
   ];
   return found
@@ -65,6 +67,10 @@ export const checkMetrics = (
   ...warnLeftOut(weapon),
   ...warnEnemy(enemy, library),
 ];
+
+/** A layer the scenario names, which the enemy doesn't have at its level: the hits meet it anyway. */
+export const checkLayer = (layer: Layer, stats: EnemyStats | undefined): readonly Warning[] =>
+  hasLayer(layer, stats) ? [] : [{ code: 'missingLayer', layer }];
 
 /** The firing modes that don't reach the target, and deal nothing to it. */
 export const checkRange = (

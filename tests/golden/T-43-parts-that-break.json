@@ -1,0 +1,235 @@
+{
+  "id": "T-43",
+  "question": "What are a Scaldra Jaeger's backpack and a Rogue Culverin's canisters, and what does the hit that breaks them show?",
+  "bible": "§11",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-26",
+      "words": "Part 1: Aklex, unmodded, one hit that breaks the part\n| Jaeger | backpack | 1034 yellow | yes |\n| Jaeger | backpack | 1034 yellow | yes |\n| Jaeger | backpack | 1034 yellow | yes |\n| Culverin | left canister | 1155 yellow | yes |\n| Culverin | left canister | 1155 yellow | yes |\n| Culverin | left canister | 2029 orange | yes |\nPart 2: Lato, unmodded, not its Incarnon form\n| Jaeger | body, one hit | 34 white, 61 yellow (2 tests) | not needed |\n| Jaeger | backpack, one hit at a time until it breaks (same Jaeger) | 183 yellow, 349 yellow broke after second | second |\n| Culverin | body, one hit | 30 white, 54 yellow (2 tests) | not needed |\n| Culverin | one canister, one hit at a time until it breaks (same Culverin) | 313 yellow, 1 hit | first hit broke it |\n| Culverin level 80 | body | 9 white, 16 yellow (2 tests) | - |\n| Culverin level 80 | one canister, one hit at a time until it breaks (same Culverin) | 6 yellow at 47, 1 orange at 82, last yellow (8th shot) at 73 | 8th shot |\nThoughts: there seems to be a breaking bonus."
+    },
+    {
+      "on": "2026-11-26",
+      "words": "The extra damage on break seems to be dependent on the HP left on the part. If I only do yellow, the last shot does 85 damage but if I do 1 orange while breaking the part, it does 73."
+    },
+    {
+      "on": "2026-11-26",
+      "words": "[One hit on the backpack of a fresh plain Scaldra Jaeger at level 10, Steel Path off, unmodded Aklex, which broke it and showed 1958 orange:] That is correct, I just retested. 1034 yellow, 1958 orange."
+    },
+    {
+      "on": "2026-11-26",
+      "words": "Level 10 Culverin takes about half its health in damage when I break the arm."
+    }
+  ],
+  "notes": "Asked for in the Simulacrum with AI paused, Steel Path off, level 10 unless the row says 80, plain enemies, single hits from about 10 m, and no numbers were predicted to Pavel. The parts are 1.5x with a headcrit and a promotion. The hits that break a part have no case: they show 2 × the hit − what the part had left, and the enemy loses the hit alone, which needs a part's own health (ABA-59). Aklex is not in the library yet, and nor is Lato.",
+  "weapons": [
+    {
+      "id": "lato",
+      "name": "Lato",
+      "uniqueName": "/Lotus/Weapons/Tenno/Pistol/Pistol",
+      "source": "https://wiki.warframe.com/w/Lato",
+      "gameVersion": "44.1.4.1",
+      "slot": "secondary",
+      "class": ["pistol"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 15,
+        "maxAmmo": 210,
+        "reloadStyle": "magazine",
+        "reloadTime": 1
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 10,
+            "puncture": 10,
+            "slash": 20
+          },
+          "trigger": "semi",
+          "shotType": "hitscan",
+          "multishot": 1,
+          "critChance": 0.1,
+          "critMultiplier": 1.8,
+          "statusChance": 0.06,
+          "fireRate": 4.5,
+          "ammoCost": 1,
+          "range": 300,
+          "flags": ["canHeadshot", "canCrit"]
+        }
+      ]
+    }
+  ],
+  "tolerance": {
+    "hits": 0.5
+  },
+  "cases": [
+    {
+      "name": "Scaldra Jaeger, body",
+      "scenario": {
+        "build": {
+          "weaponId": "lato",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "scaldra-jaeger",
+          "level": 10,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 34,
+          "yellow": 61
+        }
+      }
+    },
+    {
+      "name": "Scaldra Jaeger, backpack before it breaks",
+      "scenario": {
+        "build": {
+          "weaponId": "lato",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "scaldra-jaeger",
+          "level": 10,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 1,
+          "body": 0,
+          "weakPoint": "backpack"
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "yellow": 183
+        }
+      }
+    },
+    {
+      "name": "Rogue Culverin, body",
+      "scenario": {
+        "build": {
+          "weaponId": "lato",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "rogue-culverin",
+          "level": 10,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 30,
+          "yellow": 54
+        }
+      }
+    },
+    {
+      "name": "Rogue Culverin at level 80, body",
+      "scenario": {
+        "build": {
+          "weaponId": "lato",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "rogue-culverin",
+          "level": 80,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 9,
+          "yellow": 16
+        }
+      }
+    },
+    {
+      "name": "Rogue Culverin at level 80, canister before it breaks",
+      "scenario": {
+        "build": {
+          "weaponId": "lato",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "rogue-culverin",
+          "level": 80,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 1,
+          "body": 0,
+          "weakPoint": "canisters"
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "yellow": 47,
+          "orange": 82
+        }
+      }
+    }
+  ]
+}

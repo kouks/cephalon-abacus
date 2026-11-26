@@ -14,6 +14,7 @@ const result: Result = {
   sustainedDps: 0,
   lifetimeDamage: Infinity,
   byAttack: [],
+  layer: 'health',
   trace: [
     {
       t: 0,
@@ -69,9 +70,13 @@ describe('what the page shows', () => {
       armor: stat(2700),
       overguard: stat(12.5),
     };
-    const outcome = outcomeOf(TEXT, { status: 'evaluated', result: { ...result, enemy } });
+    const outcome = outcomeOf(TEXT, {
+      status: 'evaluated',
+      result: { ...result, enemy, layer: 'overguard' },
+    });
     expect(outcome).toMatchObject({
       enemy: [
+        { label: 'Hits meet', value: 'Overguard' },
         { label: 'Level', value: '1,200' },
         { label: 'Health', value: '72,877' },
         { label: 'Shields', value: '0' },

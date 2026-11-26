@@ -37,10 +37,13 @@ const headlineOf = ({ perShot, burstDps, sustainedDps, lifetimeDamage }: Result)
   { label: 'Lifetime damage', value: formatDamage(lifetimeDamage) },
 ];
 
-const enemyOf = ({ enemy }: Result): readonly HeadlineNumber[] =>
+const LAYER_NAMES = { overguard: 'Overguard', shield: 'Shields', health: 'Health' } as const;
+
+const enemyOf = ({ enemy, layer }: Result): readonly HeadlineNumber[] =>
   enemy === undefined
     ? []
     : [
+        { label: 'Hits meet', value: LAYER_NAMES[layer] },
         { label: 'Level', value: formatDamage(enemy.level) },
         { label: 'Health', value: formatDamage(enemy.health.value) },
         { label: 'Shields', value: formatDamage(enemy.shield.value) },

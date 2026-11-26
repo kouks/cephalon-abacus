@@ -9,7 +9,7 @@
       "words": "Steel Path on.\n| Runner 50 | B | 13 white 1 yellow last white |\n| Runner 50 | B | 8 white 4 yellow last white |\n| Lancer 100 | A | one white number | 217 |\n| the level shown with Steel Path on | 100 lancer is level 100 |"
     }
   ],
-  "notes": "Asked for in the Simulacrum with AI paused, one enemy at a time, at its body from about 5 m, with Arca Plasmor, and no numbers were predicted to Pavel. Loadout A has no mods, and B has Primed Point Blank at max, as Pavel confirmed. The hits are counted until the enemy is gone, so all but the last of them were not enough. Without the Steel Path the Lancer showed 217 too (T-37), so its armor stays as it is. Its number waits for armor, in ABA-22. Arca Plasmor is in the fixture for the reason in T-27.",
+  "notes": "Asked for in the Simulacrum with AI paused, one enemy at a time, at its body from about 5 m, with Arca Plasmor, and no numbers were predicted to Pavel. Loadout A has no mods, and B has Primed Point Blank at max, as Pavel confirmed. The hits are counted until the enemy is gone, so all but the last of them were not enough. Without the Steel Path the Lancer showed 217 too (T-37), so its armor stays as it is. Arca Plasmor is in the fixture for the reason in T-27.",
   "weapons": [
     {
       "id": "arca-plasmor",
@@ -53,7 +53,9 @@
       ]
     }
   ],
-  "tolerance": {},
+  "tolerance": {
+    "hits": 0.5
+  },
   "cases": [
     {
       "name": "level 50, run 1",
@@ -141,6 +143,38 @@
             "last": "white"
           }
         ]
+      }
+    },
+    {
+      "name": "Lancer at level 100",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "lancer",
+          "level": 100,
+          "steelPath": true,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 217
+        }
       }
     }
   ]

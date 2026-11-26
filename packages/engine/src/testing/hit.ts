@@ -10,6 +10,7 @@ import type { Assumptions } from '@/assumptions';
 import { buildAttack } from '@/build/buildAttack';
 import type { Loadout } from '@/build/loadout';
 import { makeLoadout } from '@/build/loadout';
+import type { Defence } from '@/resolve/defence';
 import { expectedShot } from '@/resolve/expectedShot';
 import type { HitResult } from '@/resolve/resolveHit';
 import { resolveHit } from '@/resolve/resolveHit';
@@ -27,6 +28,7 @@ type Setup = {
   readonly target?: Target;
   readonly distance?: number;
   readonly missBy?: number;
+  readonly defence?: Defence;
 };
 
 const [baseAttack] = weapon.attacks;
@@ -67,8 +69,8 @@ export const hit = (setup: Setup = {}, part: TargetPart = BODY): HitResult => {
   const loadout = loadoutOf(setup);
   const attack = must(loadout.weapon.attacks[0], 'no attack');
   const built = buildAttack(loadout, attack, { bodyParts: part.bodyParts });
-  const { target = makeTarget(), distance = 10, missBy } = setup;
-  return resolveHit(built, { target, part, distance, missBy });
+  const { target = makeTarget(), distance = 10, missBy, defence } = setup;
+  return resolveHit(built, { target, part, distance, missBy, defence });
 };
 
 /** One shot of the test rifle, on average. */

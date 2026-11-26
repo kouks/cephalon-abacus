@@ -128,11 +128,9 @@ describe('the metrics warn of what an enemy takes off damage', () => {
       scenario: { enemy: { id: 'test-enemy', level: 1, steelPath: false, modifiers: [] } },
     });
 
-  it('of armor', () => {
+  it('but not of its armor, which the hit counts', () => {
     expect(met({})).toEqual([]);
-    expect(met({ baseArmor: 5 })).toEqual([
-      { code: 'enemyLeftOut', enemyId: 'test-enemy', what: 'armor' },
-    ]);
+    expect(met({ baseArmor: 5 })).toEqual([]);
   });
 
   it('and of attenuation, which a boss may not have', () => {
@@ -140,5 +138,30 @@ describe('the metrics warn of what an enemy takes off damage', () => {
     expect(met({ flags: ['boss', 'hasAttenuation'] })).toEqual([
       { code: 'enemyLeftOut', enemyId: 'test-enemy', what: 'attenuation' },
     ]);
+  });
+});
+
+describe('the metrics warn of a layer the enemy lacks', () => {
+  const meeting = (layer: string, change: object = {}) =>
+    warningsOf({
+      enemies: [{ ...enemy, ...change }],
+      scenario: { enemy: { id: 'test-enemy', level: 1, steelPath: false, modifiers: [], layer } },
+    });
+
+  it('and hits it anyway', () => {
+    expect(meeting('health')).toEqual([]);
+    expect(meeting('shield')).toEqual([{ code: 'missingLayer', layer: 'shield' }]);
+    expect(meeting('shield', { baseShield: 50 })).toEqual([]);
+  });
+
+  it('of the neutral dummy too, which has health alone', () => {
+    const dummy = (layer: string) =>
+      warningsOf({
+        scenario: {
+          enemy: { id: 'neutral-dummy', level: 1, steelPath: false, modifiers: [], layer },
+        },
+      });
+    expect(dummy('health')).toEqual([]);
+    expect(dummy('overguard')).toEqual([{ code: 'missingLayer', layer: 'overguard' }]);
   });
 });

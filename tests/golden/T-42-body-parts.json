@@ -17,7 +17,7 @@
       "words": "The orange crits are 1365. But the 1461 was yellow. I even got a 2386 orange for some reason on the screen (screenshot attached). The numbers are mostly 780/1365. There is probably some weird bug in the game engine causing the outliers."
     }
   ],
-  "notes": "Asked for in the Simulacrum at level 10, Steel Path off, with an unmodded Lex, single hits from about 10 m, and no numbers were predicted to Pavel. Aklex was used, which has Lex's damage, crit and status per shot. Pavel has a MOA's legs as its body. The Obsolyte's screen was shot again with its shield gone, at level 40 in the screenshots, which changes nothing on a target without armor: 780 yellow and 1365 orange are 1.5x, a headcrit and a promotion, as the wiki's enemy data has the screen (the parts table has 1x, which would show 520 and 910). The outliers have no case: 1172 in the first report, 783, 1461 yellow and 2386 orange; Pavel takes them for a bug of the game. The Jaeger's backpack and the Culverin's canisters have no case: their numbers agree with neither of the wiki's answers, and the Jaeger's two with one another neither. The Jaeger and the Culverin need armor (ABA-22), and are in no library yet. Aklex is not in the library yet.",
+  "notes": "Asked for in the Simulacrum at level 10, Steel Path off, with an unmodded Lex, single hits from about 10 m, and no numbers were predicted to Pavel. Aklex was used, which has Lex's damage, crit and status per shot. Pavel has a MOA's legs as its body. The Obsolyte's screen was shot again with its shield gone, at level 40 in the screenshots, which changes nothing on a target without armor: 780 yellow and 1365 orange are 1.5x, a headcrit and a promotion, as the wiki's enemy data has the screen (the parts table has 1x, which would show 520 and 910). The outliers have no case: 1172 in the first report, 783, 1461 yellow and 2386 orange; Pavel takes them for a bug of the game. The Jaeger's backpack and the Culverin's canisters have no case: their numbers agree with neither of the wiki's answers, and the Jaeger's two with one another neither. The Jaeger's and the Culverin's bodies and the Jaeger's head are on armored health. Aklex is not in the library yet.",
   "weapons": [
     {
       "id": "aklex",
@@ -141,7 +141,8 @@
           "id": "techrot-obsolyte",
           "level": 40,
           "steelPath": false,
-          "modifiers": []
+          "modifiers": [],
+          "layer": "health"
         },
         "aim": {
           "head": 1,
@@ -255,6 +256,102 @@
       "observed": {
         "hits": {
           "white": 548
+        }
+      }
+    },
+    {
+      "name": "Scaldra Jaeger, body",
+      "scenario": {
+        "build": {
+          "weaponId": "aklex",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "scaldra-jaeger",
+          "level": 10,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 103
+        }
+      }
+    },
+    {
+      "name": "Scaldra Jaeger, head",
+      "scenario": {
+        "build": {
+          "weaponId": "aklex",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "scaldra-jaeger",
+          "level": 10,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 1,
+          "body": 0
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 308
+        }
+      }
+    },
+    {
+      "name": "Rogue Culverin, body",
+      "scenario": {
+        "build": {
+          "weaponId": "aklex",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "rogue-culverin",
+          "level": 10,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 97
         }
       }
     }
