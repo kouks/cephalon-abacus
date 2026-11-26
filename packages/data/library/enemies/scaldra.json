@@ -4,6 +4,38 @@
   "source": "https://wiki.warframe.com/w/Module:Enemies/data/scaldra",
   "items": [
     {
+      "id": "scaldra-jaeger",
+      "name": "Scaldra Jaeger",
+      "source": "https://wiki.warframe.com/w/Scaldra_Jaeger",
+      "gameVersion": "44.1.4.1",
+      "faction": "scaldra",
+      "scalingProfile": "scaldra",
+      "baseLevel": 1,
+      "baseHealth": 125,
+      "baseShield": 0,
+      "baseArmor": 100,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 3,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        },
+        {
+          "id": "backpack",
+          "multiplier": 1.5,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2,
+          "promotes": true
+        }
+      ]
+    },
+    {
       "id": "scaldra-eradicator",
       "name": "Scaldra Eradicator",
       "source": "https://wiki.warframe.com/w/Scaldra_Eradicator",

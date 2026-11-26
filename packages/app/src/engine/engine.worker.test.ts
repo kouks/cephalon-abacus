@@ -38,7 +38,7 @@ describe('the engine in a Web Worker', () => {
   it('lists the real library’s enemies, which can all be shot at', async () => {
     const { targets } = await engine.catalog();
     expect(targets.map(({ id }) => id)).toContain('techrot-obsolyte');
-    expect(targets).toHaveLength(20);
+    expect(targets).toHaveLength(21);
     for (const { id } of targets) {
       const { perShot, enemy } = await evaluated({ ...braton, enemy: { ...braton.enemy, id } });
       expect(perShot).toBeGreaterThan(0);

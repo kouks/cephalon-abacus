@@ -44,6 +44,7 @@ it('the enemies have the body parts of the game', () => {
     ['zealoid-prelate', HEAD],
     ['rogue-arcocanid', 'body 1x, head 1.5x head weakPoint headcrit 2'],
     ['rogue-culverin', 'body 1x, canisters 1.5x head weakPoint headcrit 2 promotes'],
+    ['scaldra-jaeger', `${HEAD}, backpack 1.5x head weakPoint headcrit 2 promotes`],
     ['scaldra-eradicator', HEAD],
     ['techrot-obsolyte', `${HEAD}, monitors 1.5x head weakPoint headcrit 2 promotes`],
   ]);
@@ -79,6 +80,7 @@ it('the enemies have the base stats of the game', () => {
     'zealoid-prelate: infested 1, 9000 health, 0 shield, 0 armor, 0 overguard, boss, hasAttenuation',
     'rogue-arcocanid: murmur 1, 80 health, 0 shield, 100 armor, 0 overguard',
     'rogue-culverin: murmur 1, 500 health, 0 shield, 175 armor, 0 overguard',
+    'scaldra-jaeger: scaldra 1, 125 health, 0 shield, 100 armor, 0 overguard',
     'scaldra-eradicator: scaldra 1, 325 health, 0 shield, 500 armor, 0 overguard',
     'techrot-obsolyte: techrot 1, 400 health, 200 shield, 0 armor, 0 overguard',
   ]);
@@ -128,6 +130,7 @@ describe('the enemies at levels 50 and 150', () => {
     ['zealoid-prelate', [784605, 0, 0, 0], [5327109, 0, 0, 0]],
     ['rogue-arcocanid', [2961, 0, 554, 0], [10561, 0, 1806, 0]],
     ['rogue-culverin', [18508, 0, 969, 0], [66008, 0, 2700, 0]],
+    ['scaldra-jaeger', [7307, 0, 554, 0], [49367, 0, 1806, 0]],
     ['scaldra-eradicator', [18997, 0, 2700, 0], [128354, 0, 2700, 0]],
     ['techrot-obsolyte', [31041, 3974, 0, 0], [200968, 31585, 0, 0]],
   ])('%s', (id, at50, at150) => {
