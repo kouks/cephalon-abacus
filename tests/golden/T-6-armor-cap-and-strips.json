@@ -7,9 +7,13 @@
     {
       "on": "2026-11-26",
       "words": "| Enemy | Level | Corrosive Projection | Numbers and colours |\n| Lancer | 60 | yes | 555 yellow, 346 white |\n| Heavy Gunner | 60 | yes | 178 yellow, 111 white |\n| Heavy Gunner | 100 | yes | 178 yellow, 111 white |\n| Heavy Gunner | 100 | no | 96 yellow, 60 white |"
+    },
+    {
+      "on": "2026-11-26",
+      "words": "[A screenshot of the level 60 Lancer's 555 yellow, with two Impact stacks on it] That's Impact. Only Plasmor, just had to fish for a crit, yes, CP is equipped. I believe Arca Plasmor's projectile has forced Impact."
     }
   ],
-  "notes": "Asked for in the Simulacrum with AI paused, Steel Path off, plain enemies, an unmodded Arca Plasmor at their body from about 5 m, Corrosive Projection at max in the aura slot where the row says so, nothing else that strips armor, and no numbers were predicted to Pavel. The same enemy until a white number. A Heavy Gunner would have 3,017 armor at level 60 and 6,441 at 100 without the cap. With the cap first, Corrosive Projection leaves 2,214 at both, and 111 white; with the strip first, 2,474 and 2,700 would leave 83 and 60. So the cap comes first, as the wiki's Armor page has it. The Lancer's yellow (555) has no case yet: the engine has 554.4 next to its white of 346, and Pavel has been asked to confirm it. Arca Plasmor is in the fixture for the reason in T-27.",
+  "notes": "Asked for in the Simulacrum with AI paused, Steel Path off, plain enemies, an unmodded Arca Plasmor at their body from about 5 m, Corrosive Projection at max in the aura slot where the row says so, nothing else that strips armor, and no numbers were predicted to Pavel. The same enemy until a white number. A Heavy Gunner would have 3,017 armor at level 60 and 6,441 at 100 without the cap. With the cap first, Corrosive Projection leaves 2,214 at both, and 111 white; with the strip first, 2,474 and 2,700 would leave 83 and 60. So the cap comes first, as the wiki's Armor page has it. The Lancer's yellow (555) has no case yet: the engine has 554.4 next to its white of 346. The screenshot confirms it, and the two Impact stacks on that Lancer are Arca Plasmor's forced Impact, which doesn't change damage. White and yellow put its armor after Corrosive Projection at 595.0 to 596.7, where the engine has 596.96: stripped armor kept whole and rounded down, a strip of 18.04% to 18.14%, or a level 60 Lancer with 725.6 to 727.7 armor would each fit. T-48 tells them apart. Arca Plasmor is in the fixture for the reason in T-27.",
   "weapons": [
     {
       "id": "arca-plasmor",
