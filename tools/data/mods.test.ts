@@ -37,6 +37,7 @@ describe('the seed mods', () => {
   it('have the max-rank stats of the game', () => {
     expect(mods.map(describeMod)).toMatchInlineSnapshot(`
       [
+        "Corrosive Projection r5 | primary secondary melee archgun archmelee companion exalted amp railjack: any | enemy.armor -18%",
         "Hornet Strike r10 | secondary: pistol | damage.base 220%",
         "Barrel Diffusion r5 | secondary: pistol | multishot 120% | group barrel-diffusion",
         "Lethal Torrent r5 | secondary: pistol | fireRate 60%, multishot 60%",
@@ -134,7 +135,7 @@ describe('the seed mods', () => {
     expect(unknown).toEqual([]);
   });
 
-  it('fit one kind of weapon each', () => {
+  it('fit one kind of weapon each, or all of them for an aura', () => {
     const compat = mods.map(({ compat: { slots, classes, tags = [] } }) =>
       [...slots, ':', ...(classes ?? ['any']), ...tags].join(' '),
     );
@@ -145,6 +146,7 @@ describe('the seed mods', () => {
       'primary : rifle bow crossbow launcher sniper speargun',
       'primary : shotgun',
       'primary : sniper',
+      'primary secondary melee archgun archmelee companion exalted amp railjack : any',
       'secondary : any BEAM',
       'secondary : pistol dual-pistol shotgun-sidearm dual-shotgun thrown crossbow',
     ]);

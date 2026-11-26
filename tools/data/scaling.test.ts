@@ -62,10 +62,11 @@ describe('the wiki’s curves, at levels 1, 50, 75, 100, 150 and 300', () => {
     expect(values).toEqual(expected.map((value) => Math.round(value)));
   });
 
-  it('armor, from 200 to 2,700 for everyone', () => {
+  it('armor, from 200 to 2,700 for everyone, kept whole and rounded down (T-48)', () => {
     const armorAt = (baseArmor: number) => (level: number) =>
-      Number(scale({ baseArmor, scalingProfile: 'techrot' }, { level }).armor.value.toFixed(2));
-    expect(LEVELS.map(armorAt(100))).toEqual([200, 553.75, 1060.17, 1355.41, 1805.88, 2700]);
+      scale({ baseArmor, scalingProfile: 'techrot' }, { level }).armor.value;
+    const wiki = [200, 553.75, 1060.17, 1355.41, 1805.88, 2700];
+    expect(LEVELS.map(armorAt(100))).toEqual(wiki.map((value) => Math.floor(value)));
     expect(LEVELS.map(armorAt(500))).toEqual([500, 2700, 2700, 2700, 2700, 2700]);
   });
 

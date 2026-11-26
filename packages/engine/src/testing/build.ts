@@ -47,14 +47,12 @@ const buckets = libraryFile(
   stat('crit.damageFlat', { scope: { direct: 1, aoe: 1 }, op: 'ADD' }),
   stat('crit.damageFinal', { scope: { direct: 1, aoe: 1 }, op: 'MULTIPLY' }),
   stat('status.chance', { scope: { direct: 1 } }),
-  stat('fireRate', { scope: {} }),
-  ...['status.chanceFlat', 'status.duration', 'magazine', 'ammoMax'].map((id) =>
-    stat(id, { scope: {} }),
-  ),
-  ...['reload', 'punchThrough', 'range', 'projectileSpeed', 'aoeRadius'].map((id) =>
-    stat(id, { scope: {} }),
-  ),
+  ...[
+    ...['fireRate', 'status.chanceFlat', 'status.duration', 'magazine', 'ammoMax', 'reload'],
+    ...['punchThrough', 'range', 'projectileSpeed', 'aoeRadius'],
+  ].map((id) => stat(id, { scope: {} })),
   stat('ammoEfficiency', { scope: {}, op: 'ADD', max: 0.75 }),
+  { ...members('enemy', 'armor', 'damage'), scope: {}, stage: 'target', op: 'MULTIPLY' },
 );
 
 const factions = libraryFile('factions.json', faction, {

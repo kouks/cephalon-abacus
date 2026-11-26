@@ -8,6 +8,7 @@ import { makeLoadout } from '@/build/loadout';
 import type { Warning } from '@/build/types';
 import type { EnemyStats } from '@/enemy/scaleEnemy';
 import { enemyStats } from '@/enemy/scaleEnemy';
+import { roundingOf } from '@/enemy/whole';
 import { defenceOf } from '@/resolve/defence';
 import { findTarget } from '@/resolve/target';
 import type { HitTrace } from '@/trace/hitTrace';
@@ -44,7 +45,8 @@ export const buildMetrics = (
   const target = findTarget(enemy.id, library);
   const stats = enemyStats(enemy, library);
   const { layer, left } = enemy;
-  const defence = defenceOf({ layer, left, stats, rules: library.damageTypes });
+  const armorRounding = roundingOf('armor', library);
+  const defence = defenceOf({ layer, left, stats, rules: library.damageTypes, armorRounding });
   const byAttack = firingModes(loadout.weapon).map((attack) =>
     attackMetrics(loadout, attack, { target, defence, aim, distance }),
   );

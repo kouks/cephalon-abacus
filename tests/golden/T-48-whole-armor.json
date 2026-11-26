@@ -1,0 +1,360 @@
+{
+  "id": "T-48",
+  "question": "Is an enemy's armor a whole number, is Corrosive Projection exactly 18%, or is a level 60 Lancer's armor a touch below the formula?",
+  "bible": "§10",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-26",
+      "words": "[Eight screenshots, one per number, the enemy and its level shown on all but the level 30 Lancer's close-ups] | Enemy | Level | Corrosive Projection | White | Yellow |\n| Heavy Gunner | 100 | yes | 877 | 1,754 |\n| Lancer | 30 | yes | 3,494 | 6,990 |\n| Lancer | 50 | no | 2,809 | 5,619 |\n| Lancer | 60 | no | 2,524 | 5,050 |"
+    },
+    {
+      "on": "2026-11-26",
+      "words": "[Asked to confirm: Simulacrum, AI paused, Steel Path off, plain enemies, the T-46 Lanka build at max, charged and unscoped at the body from about 10 m, Corrosive Projection at max only on the level 100 Heavy Gunner and the level 30 Lancer, nothing else; and that the close-ups were a plain level 30 Lancer] Yes."
+    }
+  ],
+  "notes": "Asked for in the Simulacrum with AI paused, Steel Path off, plain enemies, the T-46 Lanka build (Serration, Radiated Reload, Primed Bane of Corpus, Stormbringer, Hellfire, Critical Delay, all at max), charged and unscoped at the middle of the body from about 10 m, Corrosive Projection at max only where the row says so, and no other aura, arcanes, companion, abilities or shards. The numbers each reading would give were shown to Pavel before the test by mistake, so every number was read off a screenshot. T-6's level 60 Lancer showed 555 where the engine had 554.4. Three rules fit that: armor kept whole and rounded down, a strip of 18.04% to 18.14%, or a Lancer with 725.6 to 727.7 armor. Only the first fits all eight numbers here: the level 50 Lancer's 553.75 armor shows as 553 (2,809 and 5,619, where 553.75 gives 2,807 and 5,616), the level 30 Lancer's 281.2 less 18% shows as 230 (3,494 and 6,990, where 230.6 gives 3,493 and 6,987), the Heavy Gunner's 2,700 less 18% is 2,214 either way (877 and 1,754, where a bigger strip gives 878 and more), and the level 60 Lancer has the formula's 728 (2,524 and 5,050, where less armor gives 2,525 and more). Pavel confirmed every condition and result, so the game keeps armor whole, rounded down, once grown and once stripped, where the wiki's formula keeps the fraction. Lanka's charged shot is in the fixture, with Radiated Reload, for the reason in T-38.",
+  "weapons": [
+    {
+      "id": "lanka",
+      "name": "Lanka",
+      "uniqueName": "/Lotus/Weapons/ClanTech/Energy/Railgun",
+      "source": "https://wiki.warframe.com/w/Lanka",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["sniper"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 10,
+        "maxAmmo": 72,
+        "reloadStyle": "magazine",
+        "reloadTime": 2
+      },
+      "attacks": [
+        {
+          "id": "partially-charged",
+          "name": "Partially Charged Shot",
+          "damage": {
+            "electricity": 200
+          },
+          "trigger": "charge",
+          "chargeTime": 0.33,
+          "afterCharge": "none",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.2,
+          "critMultiplier": 2,
+          "statusChance": 0.25,
+          "fireRate": 1,
+          "ammoCost": 1,
+          "falloff": {
+            "start": 400,
+            "end": 600,
+            "minPct": 0.5
+          },
+          "projectileSpeed": 200,
+          "punchThrough": 1.5,
+          "flags": ["canHeadshot", "canCrit"]
+        },
+        {
+          "id": "charged",
+          "name": "Charged Shot",
+          "damage": {
+            "electricity": 525
+          },
+          "trigger": "charge",
+          "chargeTime": 1,
+          "afterCharge": "none",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.25,
+          "critMultiplier": 2,
+          "statusChance": 0.25,
+          "fireRate": 1,
+          "ammoCost": 1,
+          "projectileSpeed": 250,
+          "punchThrough": 5,
+          "flags": ["canHeadshot", "canCrit"]
+        }
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "id": "radiated-reload",
+      "name": "Radiated Reload",
+      "source": "https://wiki.warframe.com/w/Radiated_Reload",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 3,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["primary"],
+        "classes": ["rifle", "bow", "crossbow", "launcher", "sniper", "speargun"]
+      },
+      "effects": [
+        {
+          "bucket": "damage.element.radiation",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.6
+        },
+        {
+          "bucket": "reload",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.4
+        }
+      ]
+    }
+  ],
+  "tolerance": {
+    "hits": 0.5
+  },
+  "cases": [
+    {
+      "name": "Heavy Gunner at level 100, with Corrosive Projection",
+      "scenario": {
+        "build": {
+          "weaponId": "lanka",
+          "attackId": "charged",
+          "modules": [
+            {
+              "moduleId": "serration",
+              "rank": 10
+            },
+            {
+              "moduleId": "radiated-reload",
+              "rank": 3
+            },
+            {
+              "moduleId": "primed-bane-of-corpus",
+              "rank": 10
+            },
+            {
+              "moduleId": "stormbringer",
+              "rank": 5
+            },
+            {
+              "moduleId": "hellfire",
+              "rank": 5
+            },
+            {
+              "moduleId": "critical-delay",
+              "rank": 5
+            },
+            {
+              "moduleId": "corrosive-projection",
+              "rank": 5
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "heavy-gunner",
+          "level": 100,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 877,
+          "yellow": 1754
+        }
+      }
+    },
+    {
+      "name": "Lancer at level 30, with Corrosive Projection",
+      "scenario": {
+        "build": {
+          "weaponId": "lanka",
+          "attackId": "charged",
+          "modules": [
+            {
+              "moduleId": "serration",
+              "rank": 10
+            },
+            {
+              "moduleId": "radiated-reload",
+              "rank": 3
+            },
+            {
+              "moduleId": "primed-bane-of-corpus",
+              "rank": 10
+            },
+            {
+              "moduleId": "stormbringer",
+              "rank": 5
+            },
+            {
+              "moduleId": "hellfire",
+              "rank": 5
+            },
+            {
+              "moduleId": "critical-delay",
+              "rank": 5
+            },
+            {
+              "moduleId": "corrosive-projection",
+              "rank": 5
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "lancer",
+          "level": 30,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 3494,
+          "yellow": 6990
+        }
+      }
+    },
+    {
+      "name": "Lancer at level 50",
+      "scenario": {
+        "build": {
+          "weaponId": "lanka",
+          "attackId": "charged",
+          "modules": [
+            {
+              "moduleId": "serration",
+              "rank": 10
+            },
+            {
+              "moduleId": "radiated-reload",
+              "rank": 3
+            },
+            {
+              "moduleId": "primed-bane-of-corpus",
+              "rank": 10
+            },
+            {
+              "moduleId": "stormbringer",
+              "rank": 5
+            },
+            {
+              "moduleId": "hellfire",
+              "rank": 5
+            },
+            {
+              "moduleId": "critical-delay",
+              "rank": 5
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "lancer",
+          "level": 50,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 2809,
+          "yellow": 5619
+        }
+      }
+    },
+    {
+      "name": "Lancer at level 60",
+      "scenario": {
+        "build": {
+          "weaponId": "lanka",
+          "attackId": "charged",
+          "modules": [
+            {
+              "moduleId": "serration",
+              "rank": 10
+            },
+            {
+              "moduleId": "radiated-reload",
+              "rank": 3
+            },
+            {
+              "moduleId": "primed-bane-of-corpus",
+              "rank": 10
+            },
+            {
+              "moduleId": "stormbringer",
+              "rank": 5
+            },
+            {
+              "moduleId": "hellfire",
+              "rank": 5
+            },
+            {
+              "moduleId": "critical-delay",
+              "rank": 5
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "lancer",
+          "level": 60,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 2524,
+          "yellow": 5050
+        }
+      }
+    }
+  ]
+}

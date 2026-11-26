@@ -1,0 +1,212 @@
+{
+  "id": "T-6",
+  "question": "Does the 2,700 armor cap come before or after strips?",
+  "bible": "§10",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-26",
+      "words": "| Enemy | Level | Corrosive Projection | Numbers and colours |\n| Lancer | 60 | yes | 555 yellow, 346 white |\n| Heavy Gunner | 60 | yes | 178 yellow, 111 white |\n| Heavy Gunner | 100 | yes | 178 yellow, 111 white |\n| Heavy Gunner | 100 | no | 96 yellow, 60 white |"
+    },
+    {
+      "on": "2026-11-26",
+      "words": "[A screenshot of the level 60 Lancer's 555 yellow, with two Impact stacks on it] That's Impact. Only Plasmor, just had to fish for a crit, yes, CP is equipped. I believe Arca Plasmor's projectile has forced Impact."
+    }
+  ],
+  "notes": "Asked for in the Simulacrum with AI paused, Steel Path off, plain enemies, an unmodded Arca Plasmor at their body from about 5 m, Corrosive Projection at max in the aura slot where the row says so, nothing else that strips armor, and no numbers were predicted to Pavel. The same enemy until a white number. A Heavy Gunner would have 3,017 armor at level 60 and 6,441 at 100 without the cap. With the cap first, Corrosive Projection leaves 2,214 at both, and 111 white; with the strip first, 2,474 and 2,700 would leave 83 and 60. So the cap comes first, as the wiki's Armor page has it. The Lancer's yellow (555) was 0.6 above the engine's 554.4 at first; the screenshot confirmed it, and its two Impact stacks are Arca Plasmor's forced Impact, which doesn't change damage. T-48 settled it: the game keeps armor whole, rounded down, and 728 less 18% is 596, not 596.96. Arca Plasmor is in the fixture for the reason in T-27.",
+  "weapons": [
+    {
+      "id": "arca-plasmor",
+      "name": "Arca Plasmor",
+      "uniqueName": "/Lotus/Weapons/Corpus/LongGuns/CrpShotgun/CrpShotgun",
+      "source": "https://wiki.warframe.com/w/Arca_Plasmor",
+      "gameVersion": "44.1.4.1",
+      "slot": "primary",
+      "class": ["shotgun"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 10,
+        "maxAmmo": 50,
+        "reloadStyle": "magazine",
+        "reloadTime": 2.8
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "radiation": 600
+          },
+          "trigger": "semi",
+          "shotType": "projectile",
+          "multishot": 1,
+          "critChance": 0.22,
+          "critMultiplier": 1.6,
+          "statusChance": 0.28,
+          "fireRate": 1.1,
+          "ammoCost": 1,
+          "falloff": {
+            "start": 10,
+            "end": 20,
+            "minPct": 0.3333
+          },
+          "range": 30,
+          "projectileSpeed": 60,
+          "flags": ["canCrit"]
+        }
+      ]
+    }
+  ],
+  "tolerance": {
+    "hits": 0.5
+  },
+  "cases": [
+    {
+      "name": "Lancer at level 60, with Corrosive Projection",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [
+            {
+              "moduleId": "corrosive-projection",
+              "rank": 5
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "lancer",
+          "level": 60,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 346,
+          "yellow": 555
+        }
+      }
+    },
+    {
+      "name": "Heavy Gunner at level 60, with Corrosive Projection",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [
+            {
+              "moduleId": "corrosive-projection",
+              "rank": 5
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "heavy-gunner",
+          "level": 60,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 111,
+          "yellow": 178
+        }
+      }
+    },
+    {
+      "name": "Heavy Gunner at level 100, with Corrosive Projection",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [
+            {
+              "moduleId": "corrosive-projection",
+              "rank": 5
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "heavy-gunner",
+          "level": 100,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 111,
+          "yellow": 178
+        }
+      }
+    },
+    {
+      "name": "Heavy Gunner at level 100, without",
+      "scenario": {
+        "build": {
+          "weaponId": "arca-plasmor",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "heavy-gunner",
+          "level": 100,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 5,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 60,
+          "yellow": 96
+        }
+      }
+    }
+  ]
+}

@@ -110,7 +110,10 @@ const statsAt = (id: string, level: number, steelPath = false): EnemyStats =>
 const rounded = ({ health, shield, armor, overguard }: EnemyStats) =>
   [health, shield, armor, overguard].map(({ value }) => Math.round(value));
 
-/** Health, shield, armor and Overguard, worked out from the wiki's formulas apart from the code. */
+/**
+ * Health, shield, armor and Overguard, worked out from the wiki's formulas apart from the code. The
+ * game keeps shields whole to the nearest (T-46), and armor whole rounded down (T-48).
+ */
 describe('the enemies at levels 50 and 150', () => {
   it.each([
     ['crewman', [5261, 2384, 0, 0], [19019, 10881, 0, 0]],
@@ -119,18 +122,18 @@ describe('the enemies at levels 50 and 150', () => {
     ['corrupted-lancer', [5415, 0, 1107, 0], [33164, 0, 2700, 0]],
     ['corrupted-heavy-gunner', [27616, 0, 2232, 0], [224647, 0, 2700, 0]],
     ['butcher', [2923, 0, 200, 0], [19747, 0, 200, 0]],
-    ['lancer', [5845, 0, 554, 0], [39493, 0, 1806, 0]],
+    ['lancer', [5845, 0, 553, 0], [39493, 0, 1805, 0]],
     ['heavy-gunner', [12731, 0, 2232, 0], [114456, 0, 2700, 0]],
-    ['kuva-lancer', [5845, 0, 554, 0], [39493, 0, 1806, 0]],
-    ['drekar-lancer-eximus', [65759, 0, 554, 103623], [592401, 0, 1806, 281865]],
+    ['kuva-lancer', [5845, 0, 553, 0], [39493, 0, 1805, 0]],
+    ['drekar-lancer-eximus', [65759, 0, 553, 103623], [592401, 0, 1805, 281865]],
     ['charger', [6974, 0, 0, 0], [47352, 0, 0, 0]],
     ['runner', [8718, 0, 0, 0], [59190, 0, 0, 0]],
     ['charger-eximus', [144171, 0, 0, 103623], [1305142, 0, 0, 281865]],
     ['deimos-runner', [8718, 0, 0, 0], [59190, 0, 0, 0]],
     ['zealoid-prelate', [784605, 0, 0, 0], [5327109, 0, 0, 0]],
-    ['rogue-arcocanid', [2961, 0, 554, 0], [10561, 0, 1806, 0]],
+    ['rogue-arcocanid', [2961, 0, 553, 0], [10561, 0, 1805, 0]],
     ['rogue-culverin', [18508, 0, 969, 0], [66008, 0, 2700, 0]],
-    ['scaldra-jaeger', [7307, 0, 554, 0], [49367, 0, 1806, 0]],
+    ['scaldra-jaeger', [7307, 0, 553, 0], [49367, 0, 1805, 0]],
     ['scaldra-eradicator', [18997, 0, 2700, 0], [128354, 0, 2700, 0]],
     ['techrot-obsolyte', [31041, 3974, 0, 0], [200968, 31585, 0, 0]],
   ])('%s', (id, at50, at150) => {
@@ -153,7 +156,7 @@ describe('the enemies at levels 50 and 150', () => {
 
   it('three of them on the Steel Path, to the point', () => {
     expect(rounded(statsAt('crewman', 150, true))).toEqual([47548, 27201, 0, 0]);
-    expect(rounded(statsAt('lancer', 50, true))).toEqual([14613, 0, 554, 0]);
+    expect(rounded(statsAt('lancer', 50, true))).toEqual([14613, 0, 553, 0]);
     expect(rounded(statsAt('charger-eximus', 150, true))).toEqual([3262854, 0, 0, 281865]);
   });
 });

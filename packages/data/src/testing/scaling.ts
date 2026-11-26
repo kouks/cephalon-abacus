@@ -32,5 +32,18 @@ export const eximus = {
 
 export const steelPath = { ...item('steel-path'), kind: 'steelPath', health: 2.5, shield: 2 };
 
-/** The game keeps shields whole (T-46). */
-export const whole = { ...item('whole-stats'), kind: 'whole', stats: ['shield'] };
+/** The game keeps shields whole, to the nearest (T-46). */
+export const whole = {
+  ...item('whole-stats'),
+  kind: 'whole',
+  stats: ['shield'],
+  rounding: 'nearest',
+};
+
+/** The game keeps armor whole, rounded down (T-48). */
+export const wholeArmor = {
+  ...item('whole-armor'),
+  kind: 'whole',
+  stats: ['armor'],
+  rounding: 'down',
+};

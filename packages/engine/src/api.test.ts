@@ -92,6 +92,7 @@ describe('evaluate', () => {
       'sustainedDps',
     ]);
     expect(Object.keys(result.trace[0] ?? {}).sort()).toEqual([
+      'armor',
       'factors',
       'layer',
       'pellet',

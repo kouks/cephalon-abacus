@@ -42,17 +42,26 @@ const headlineOf = ({ perShot, burstDps, sustainedDps, lifetimeDamage }: Result)
 
 const LAYER_NAMES = { overguard: 'Overguard', shield: 'Shields', health: 'Health' } as const;
 
-const enemyOf = ({ enemy, layer }: Result): readonly HeadlineNumber[] =>
-  enemy === undefined
-    ? []
-    : [
-        { label: 'Hits meet', value: LAYER_NAMES[layer] },
-        { label: 'Level', value: formatDamage(enemy.level) },
-        { label: 'Health', value: formatDamage(enemy.health.value) },
-        { label: 'Shields', value: formatDamage(enemy.shield.value) },
-        { label: 'Armor', value: formatDamage(enemy.armor.value) },
-        { label: 'Overguard', value: formatDamage(enemy.overguard.value) },
-      ];
+/** The armor the first hit met, where strips lowered it. */
+const strippedOf = ({ enemy, trace }: Result): readonly HeadlineNumber[] => {
+  const armor = trace[0]?.armor;
+  if (armor === undefined || armor === enemy?.armor.value) return [];
+  return [{ label: 'Armor after strips', value: formatDamage(armor) }];
+};
+
+const enemyOf = (result: Result): readonly HeadlineNumber[] => {
+  const { enemy, layer } = result;
+  if (enemy === undefined) return [];
+  return [
+    { label: 'Hits meet', value: LAYER_NAMES[layer] },
+    { label: 'Level', value: formatDamage(enemy.level) },
+    { label: 'Health', value: formatDamage(enemy.health.value) },
+    { label: 'Shields', value: formatDamage(enemy.shield.value) },
+    { label: 'Armor', value: formatDamage(enemy.armor.value) },
+    ...strippedOf(result),
+    { label: 'Overguard', value: formatDamage(enemy.overguard.value) },
+  ];
+};
 
 const outcomeOfResult = (result: Result): Outcome => ({
   kind: 'result',

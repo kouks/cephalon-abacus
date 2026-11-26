@@ -58,10 +58,10 @@ describe('trace rows', () => {
         `normal 1, 100% of hits | layer | ${type} | 1x | `,
         `normal 1, 100% of hits | armor | ${type} | 1x | `,
       ]),
-      'normal 1, 100% of hits | reduction | all | 1x | ',
       ...['impact', 'puncture', 'slash', 'heat'].map(
         (type) => `normal 1, 100% of hits | least | ${type} | 1x | `,
       ),
+      'normal 1, 100% of hits | reduction | all | 1x | ',
     ]);
   });
 

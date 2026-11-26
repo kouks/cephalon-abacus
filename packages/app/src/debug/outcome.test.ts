@@ -88,6 +88,31 @@ describe('what the page shows', () => {
     expect(outcomeOf(TEXT, { status: 'evaluated', result })).toMatchObject({ enemy: [] });
   });
 
+  it('has the armor after strips, where they lowered it', () => {
+    const stat = (value: number) => ({ value, terms: [] });
+    const enemy = {
+      level: 100,
+      health: stat(1),
+      shield: stat(0),
+      armor: stat(2700),
+      overguard: stat(0),
+    };
+    const [first] = result.trace;
+    const withArmor = (armor: number) =>
+      outcomeOf(TEXT, {
+        status: 'evaluated',
+        result: { ...result, enemy, trace: first === undefined ? [] : [{ ...first, armor }] },
+      });
+    const labels = (armor: number) => {
+      const outcome = withArmor(armor);
+      return outcome.kind === 'result'
+        ? outcome.enemy.map(({ label, value }) => `${label} ${value}`)
+        : [];
+    };
+    expect(labels(2214)).toContain('Armor after strips 2,214');
+    expect(labels(2700).some((line) => line.startsWith('Armor after strips'))).toBe(false);
+  });
+
   it('has maps and infinity in its JSON', () => {
     const outcome = outcomeOf(TEXT, { status: 'evaluated', result });
     const json: unknown = JSON.parse(outcome.kind === 'result' ? outcome.json : '');

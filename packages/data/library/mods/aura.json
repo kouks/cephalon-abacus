@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Module:Mods/data",
+  "items": [
+    {
+      "id": "corrosive-projection",
+      "name": "Corrosive Projection",
+      "source": "https://wiki.warframe.com/w/Corrosive_Projection",
+      "gameVersion": "44.1.4.1",
+      "kind": "aura",
+      "rank": {
+        "max": 5,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": [
+          "primary",
+          "secondary",
+          "melee",
+          "archgun",
+          "archmelee",
+          "companion",
+          "exalted",
+          "amp",
+          "railjack"
+        ]
+      },
+      "effects": [
+        {
+          "bucket": "enemy.armor",
+          "op": "STACKING_MULTIPLY",
+          "value": -0.18
+        }
+      ]
+    }
+  ]
+}

@@ -8,6 +8,8 @@ import type { Scenario } from '@abacus/data/schema/scenario';
 
 import { eximusBase } from './eximusBase';
 import { f32, growthAt } from './growth';
+import type { Rounding } from './whole';
+import { roundingOf, toWhole } from './whole';
 
 /** One step from a base stat to the one at a level. */
 export type ScalingTerm = {
@@ -26,7 +28,12 @@ export type ScalingTerm = {
 };
 
 /** A stat, and the terms that made it: base × growth × steelPath, within the limit. */
-export type EnemyStat = { readonly value: number; readonly terms: readonly ScalingTerm[] };
+export type EnemyStat = {
+  readonly value: number;
+  readonly terms: readonly ScalingTerm[];
+  /** What it would be above its highest limit, where that limit lowered it: armor over 2,700. */
+  readonly uncapped?: number;
+};
 
 /** An enemy's stats at its level (BIBLE §10). */
 export type EnemyStats = { readonly level: number } & Readonly<Record<ScaledStat, EnemyStat>>;
@@ -59,16 +66,12 @@ const startOf = (enemy: Enemy, level: number, { scaling }: Library) => {
 const within = ({ limits }: ScalingCurve, value: number) =>
   limits === undefined ? value : Math.min(Math.max(value, limits.least), limits.most);
 
-/** Whether the game keeps a stat as a whole number (T-46). */
-const isWhole = (stat: ScaledStat, { scaling }: Library) =>
-  [...scaling.values()].some((rule) => rule.kind === 'whole' && rule.stats.includes(stat));
-
 type Stat = {
   readonly base: number;
   readonly start: number;
   readonly curve: ScalingCurve | undefined;
   readonly steelPath: number;
-  readonly isWhole: boolean;
+  readonly rounding: Rounding | undefined;
 };
 
 const scaleStat = (stat: Stat, levels: { level: number; baseLevel: number }): EnemyStat => {
@@ -80,7 +83,7 @@ const scaleStat = (stat: Stat, levels: { level: number; baseLevel: number }): En
   const growth = growthAt(curve, levels);
   const scaled = f32(f32(f32(start) * growth.multiplier) * steelPath);
   const limited = within(curve, scaled);
-  const value = stat.isWhole ? Math.round(limited) : limited;
+  const value = toWhole(limited, stat.rounding);
   if (start !== base) terms.push({ name: 'eximusBase', value: start });
   terms.push(
     { name: 'levels', value: growth.levels },
@@ -92,7 +95,8 @@ const scaleStat = (stat: Stat, levels: { level: number; baseLevel: number }): En
   if (steelPath !== 1) terms.push({ name: 'steelPath', value: steelPath });
   if (limited !== scaled) terms.push({ name: 'limit', value: limited });
   if (value !== limited) terms.push({ name: 'whole', value });
-  return { value, terms };
+  if (scaled <= limited) return { value, terms };
+  return { value, terms, uncapped: scaled };
 };
 
 export const scaleEnemy = (enemy: Enemy, met: Met, library: Library): EnemyStats => {
@@ -107,7 +111,7 @@ export const scaleEnemy = (enemy: Enemy, met: Met, library: Library): EnemyStats
         start: start[stat],
         curve: findCurve(stat, enemy.scalingProfile, library),
         steelPath: rates[stat],
-        isWhole: isWhole(stat, library),
+        rounding: roundingOf(stat, library),
       },
       { level, baseLevel: enemy.baseLevel },
     );

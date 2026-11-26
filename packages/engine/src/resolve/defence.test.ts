@@ -77,6 +77,23 @@ describe('a defence', () => {
     expect([met.layer, met.left]).toEqual(['shield', { overguard: 0, shield: 20, health: 100 }]);
   });
 
+  it('carries the armor over the cap, where the cap lowered it', () => {
+    const capped = { ...statsOf(0, 0), armor: { value: 2700, terms: [], uncapped: 6441 } };
+    const defence = defenceOf({ stats: capped, rules: new Map() });
+    expect([defence.armor, defence.uncappedArmor]).toEqual([2700, 6441]);
+    expect(defenceOf({ stats: statsOf(0, 0, 300), rules: new Map() })).not.toHaveProperty(
+      'uncappedArmor',
+    );
+  });
+
+  it('carries how the game keeps armor whole, where it does', () => {
+    const stats = statsOf(0, 0, 300);
+    expect(defenceOf({ stats, rules: new Map(), armorRounding: 'down' }).armorRounding).toBe(
+      'down',
+    );
+    expect(defenceOf({ stats, rules: new Map() })).not.toHaveProperty('armorRounding');
+  });
+
   it('of the neutral dummy is endless health without armor', () => {
     expect(defenceOf({ stats: undefined, rules })).toEqual({
       layer: 'health',

@@ -150,7 +150,7 @@ describe('buckets.json', () => {
         "aoeRadius | STACKING_MULTIPLY | stats |  |  | ",
         "punchThrough | ADD | stats |  |  | ",
         "projectileSpeed | STACKING_MULTIPLY | stats |  |  | ",
-        "enemy | MULTIPLY | target |  | any | ",
+        "enemy | MULTIPLY | target |  | armor,damage | ",
       ]
     `);
   });
