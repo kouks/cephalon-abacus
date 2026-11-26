@@ -23,13 +23,14 @@ export const ASSUMPTIONS = {
   falloffHeadsForZero: { default: true, test: 'T-26', bible: '§11' },
   /**
    * A shield a hit breaks shows the hit less what of it went on, as the shield took it: 5% of the
-   * rest. If not: less the number on health. T-38 and T-45 fit both; they part where armor lowers
-   * the number on health, as on a Bursa.
+   * rest. If not: less the number on health. Confirmed on a Bursa: 7,137, where the other would be
+   * 7,207.
    */
   breakShownInOwnTerms: { default: true, test: 'T-47', bible: '§15' },
   /**
    * Strips work from armor within its limits, at most 2,700, as the wiki's Armor page has the level
-   * clamp it. If not: from the armor the level gives, and the cap after them.
+   * clamp it. If not: from the armor the level gives, and the cap after them. Confirmed: Heavy
+   * Gunners at levels 60 and 100 show 111 with Corrosive Projection, where the other would be 83 and 60.
    */
   armorCappedBeforeStrips: { default: true, test: 'T-6', bible: '§10' },
 } as const satisfies Readonly<Record<string, Assumption>>;
