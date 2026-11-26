@@ -1,0 +1,262 @@
+{
+  "id": "T-42",
+  "question": "Which of the wiki's two multipliers do some weak points have, and do they promote hits?",
+  "bible": "§11",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-26",
+      "words": "Weapon used: normal Aklex, no mods\n| Techrot Obsolyte | body | 130 white |\n| Techrot Obsolyte | head | 390 white |\n| Techrot Obsolyte | one of its monitors (CRT screens) | 1172 yellow |\n| Scaldra Jaeger | body | 103 white |\n| Scaldra Jaeger | head | 308 white |\n| Scaldra Jaeger | backpack | 1958 orange, 1034 yellow (2 separate tests) |\n| Rogue Culverin | body | 97 white |\n| Rogue Culverin | arm canister | 1155 yellow 2029 orange (2 separate tests) |\n| MOA | legs | 183 white |\n| MOA | gun (on top) | 183 yellow, 91 white (2 separate tests) |\n| MOA | fanny pack (at the back) | 548 white |"
+    },
+    {
+      "on": "2026-11-26",
+      "words": "On the Obsolyte screen (after depleting shield) the damage is mostly 780 yellow but sometimes it does more (1461 yellow)?"
+    },
+    {
+      "on": "2026-11-26",
+      "words": "The orange crits are 1365. But the 1461 was yellow. I even got a 2386 orange for some reason on the screen (screenshot attached). The numbers are mostly 780/1365. There is probably some weird bug in the game engine causing the outliers."
+    }
+  ],
+  "notes": "Asked for in the Simulacrum at level 10, Steel Path off, with an unmodded Lex, single hits from about 10 m, and no numbers were predicted to Pavel. Aklex was used, which has Lex's damage, crit and status per shot. Pavel has a MOA's legs as its body. The Obsolyte's screen was shot again with its shield gone, at level 40 in the screenshots, which changes nothing on a target without armor: 780 yellow and 1365 orange are 1.5x, a headcrit and a promotion, as the wiki's enemy data has the screen (the parts table has 1x, which would show 520 and 910). The outliers have no case: 1172 in the first report, 783, 1461 yellow and 2386 orange; Pavel takes them for a bug of the game. The Jaeger's backpack and the Culverin's canisters have no case: their numbers agree with neither of the wiki's answers, and the Jaeger's two with one another neither. The Jaeger and the Culverin need armor (ABA-22), and are in no library yet. Aklex is not in the library yet.",
+  "weapons": [
+    {
+      "id": "aklex",
+      "name": "Aklex",
+      "uniqueName": "/Lotus/Weapons/Tenno/Akimbo/AkLexPistols",
+      "source": "https://wiki.warframe.com/w/Aklex",
+      "gameVersion": "44.1.4.1",
+      "slot": "secondary",
+      "class": ["dual-pistol"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 12,
+        "maxAmmo": 210,
+        "reloadStyle": "magazine",
+        "reloadTime": 3
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 13,
+            "puncture": 104,
+            "slash": 13
+          },
+          "trigger": "semi",
+          "shotType": "hitscan",
+          "multishot": 1,
+          "critChance": 0.2,
+          "critMultiplier": 2,
+          "statusChance": 0.1,
+          "fireRate": 1.58,
+          "ammoCost": 1,
+          "range": 300,
+          "flags": ["canHeadshot", "canCrit"]
+        }
+      ]
+    }
+  ],
+  "tolerance": {
+    "hits": 0.5
+  },
+  "cases": [
+    {
+      "name": "Techrot Obsolyte, body",
+      "scenario": {
+        "build": {
+          "weaponId": "aklex",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "techrot-obsolyte",
+          "level": 10,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 130
+        }
+      }
+    },
+    {
+      "name": "Techrot Obsolyte, head",
+      "scenario": {
+        "build": {
+          "weaponId": "aklex",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "techrot-obsolyte",
+          "level": 10,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 1,
+          "body": 0
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 390
+        }
+      }
+    },
+    {
+      "name": "Techrot Obsolyte, screen",
+      "scenario": {
+        "build": {
+          "weaponId": "aklex",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "techrot-obsolyte",
+          "level": 40,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 1,
+          "body": 0,
+          "weakPoint": "monitors"
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "yellow": 780,
+          "orange": 1365
+        }
+      }
+    },
+    {
+      "name": "MOA, legs",
+      "scenario": {
+        "build": {
+          "weaponId": "aklex",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "moa",
+          "level": 10,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 183
+        }
+      }
+    },
+    {
+      "name": "MOA, gun",
+      "scenario": {
+        "build": {
+          "weaponId": "aklex",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "moa",
+          "level": 10,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 1,
+          "body": 0,
+          "weakPoint": "gun"
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 91,
+          "yellow": 183
+        }
+      }
+    },
+    {
+      "name": "MOA, fanny pack",
+      "scenario": {
+        "build": {
+          "weaponId": "aklex",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "moa",
+          "level": 10,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 1,
+          "body": 0,
+          "weakPoint": "fanny-pack"
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 548
+        }
+      }
+    }
+  ]
+}

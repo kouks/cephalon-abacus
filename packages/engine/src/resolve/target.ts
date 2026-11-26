@@ -5,6 +5,7 @@ import type { EnemyPart } from '@abacus/data/schema/enemy';
 import type { Faction } from '@abacus/data/schema/faction';
 import type { Scenario } from '@abacus/data/schema/scenario';
 
+import type { TierRaise } from './crit/critTiers';
 import type { CritLocation } from './crit/hitCrit';
 
 /** A part of a target: its multiplier, and what it counts as (BIBLE §11). */
@@ -39,10 +40,14 @@ const NEUTRAL_DUMMY: Target = {
 /** Targets that are not in the library. */
 const BUILT_IN: ReadonlyMap<string, Target> = new Map([[NEUTRAL_DUMMY.id, NEUTRAL_DUMMY]]);
 
-const partOf = ({ multiplier, countsAs = [], headcrit }: EnemyPart): TargetPart => ({
+/** Every hit, white ones too, is of one tier more. */
+const PROMOTION: TierRaise = { chance: 1, from: 0 };
+
+const partOf = ({ multiplier, countsAs = [], headcrit, promotes }: EnemyPart): TargetPart => ({
   multiplier,
   bodyParts: countsAs,
   ...(headcrit === undefined ? {} : { headcrit }),
+  ...(promotes === undefined ? {} : { raises: [PROMOTION] }),
 });
 
 export const findTarget = (id: string, { enemies, factions }: Library): Target => {

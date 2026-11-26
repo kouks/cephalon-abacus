@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Module:Enemies/data/corpus",
+  "items": [
+    {
+      "id": "crewman",
+      "name": "Crewman",
+      "source": "https://wiki.warframe.com/w/Crewman",
+      "gameVersion": "44.1.4.1",
+      "faction": "corpus",
+      "scalingProfile": "corpus",
+      "baseLevel": 1,
+      "baseHealth": 90,
+      "baseShield": 120,
+      "baseArmor": 0,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 3,
+          "countsAs": ["head", "weakPoint"]
+        }
+      ]
+    },
+    {
+      "id": "moa",
+      "name": "MOA",
+      "source": "https://wiki.warframe.com/w/MOA",
+      "gameVersion": "44.1.4.1",
+      "faction": "corpus",
+      "scalingProfile": "corpus",
+      "baseLevel": 1,
+      "baseHealth": 90,
+      "baseShield": 120,
+      "baseArmor": 0,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "gun",
+          "multiplier": 0.5
+        },
+        {
+          "id": "head",
+          "multiplier": 1,
+          "countsAs": ["head", "weakPoint"]
+        },
+        {
+          "id": "fanny-pack",
+          "multiplier": 3,
+          "countsAs": ["weakPoint"]
+        }
+      ]
+    },
+    {
+      "id": "amalgam-heqet",
+      "name": "Amalgam Heqet",
+      "source": "https://wiki.warframe.com/w/Amalgam_Heqet",
+      "gameVersion": "44.1.4.1",
+      "faction": "corpus-amalgam",
+      "scalingProfile": "corpus",
+      "baseLevel": 1,
+      "baseHealth": 500,
+      "baseShield": 400,
+      "baseArmor": 0,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 1,
+          "countsAs": ["head", "weakPoint"]
+        },
+        {
+          "id": "backpack",
+          "multiplier": 2,
+          "countsAs": ["weakPoint"]
+        }
+      ]
+    }
+  ]
+}

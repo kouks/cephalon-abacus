@@ -14,6 +14,8 @@ export const curve = {
   blend: { from: 70, to: 80 },
 };
 
+export const armorCurve = { ...curve, id: 'grineer-armor', stat: 'armor' };
+
 export const eximus = {
   ...item('eximus'),
   kind: 'eximus',

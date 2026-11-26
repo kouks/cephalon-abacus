@@ -125,6 +125,7 @@ data  →  importers
 - **Units.** Percentages are fractions (+165% is `1.65`), times are seconds, distances are metres. Field names follow the BIBLE (`critChance`, `critMultiplier`, `fireRate`, `chargeTime`).
 - **One code path, two modes.** Expected value and Monte Carlo differ only in the `Roller`. What works in one mode works in both; the convergence property test guards it.
 - **Conditionals are switches.** A conditional is the effects of one module (or the weapon) on one trigger. What an effect `requires` as well (Galvanized Scope: `whileAiming`) is a switch of its own. The scenario has a global on/off and overrides per conditional. A switch sets the stacks it starts with: on is all of them, off is none. In a simulation they expire as in the game. `collectEffects` never bakes stacks in, so a simulation can change them without reading modules again.
+- **Shown and applied.** Where the game's number differs from what the enemy loses (the hit that breaks a part, the hit that breaks shields, the hit that kills), a hit carries both, and the app shows the game's first: "1,958 (1,079 applied)". A number players can't find in the game is one they won't trust (BIBLE §15).
 - **A build that doesn't work as written returns warnings**, as codes with data, and a usable result. So does a result that leaves out something the weapon does (`leftOut`). It throws only when there is nothing to evaluate.
 - **Pellets resolve one at a time** against the shared enemy state, so later pellets see earlier procs (BIBLE §5). Direct hits and their AoE share that state too.
 
@@ -138,6 +139,7 @@ data  →  importers
 - **Reference files** (`damageTypes.json`, `buckets.json`, `factions.json`, `scaling.json`) are needed by every library and written by hand. The 20 damage type ids are a fixed list in `schema/damageType.ts`; their rules are data. `tools/data/library.test.ts` snapshots the first three and `scaling.test.ts` checks spot values of the last, so a balance patch shows up as a diff.
 - **Buckets:** a bucket with `members` is a family (`damage.faction.<group>`); look names up with `findBucket`. Its `scope` says how many times it applies to direct hits, procs, extra hits and AoE, and its `bodyPart` that it needs a weak point or a head.
 - **Damage types list the layers they hit**, with a multiplier for each. A layer that is absent is skipped: Toxin has no `shield`.
+- **Enemies:** an Eximus is an enemy of its own, with its own id. Body parts follow the wiki's Enemy Body Parts table (its marks say what isn't a headshot or has no headcrit), and where its enemy data disagrees, the table wins until a test decides.
 - **Importers never guess.** A field or phrase with no mapping rule is logged and goes to `importers/overrides/*.json` for a person to write. Overrides apply last and are reviewed like code.
 - Generated library files are committed, and only `data:update` writes them. To correct one, edit its override, never the generated file.
 - An update for a new game version writes `CHANGELOG/<version>.md`. A change that touches a golden fixture names it, so its test gets requested again.
@@ -264,6 +266,7 @@ Split long files by concern, extract helpers, and use early returns and lookup t
 - **Quantization can punish a bonus:** a sliver of Toxin in front of 51% Heat and 51% Cold re-pairs the elements, and 33/32 of Blast becomes 16/32 of Gas and 16/32 of Cold.
 - **Falloff ends before its second number:** the line heads for no damage there, and stops at the weapon's least. Of 10 to 20 m, Hek (20%) is at its least from 18 m on and Tigris Prime (51.28%) from 14.9 m (T-25, T-26). The wiki draws the line to the least at the end.
 - **An explosion falls off as a power:** (1 − distance ÷ radius)^falloff, nothing at the radius, and even all over without falloff (T-28 to T-35, T-41). The wiki draws a line to the edge damage: Carmine Penta deals 77 of 350 near its rim where that says 175. The distance is to the enemy's body, about half a metre nearer than its feet.
+- **A hit that breaks a part shows more than it deals:** the number is 2 × the hit − what the part had left, and the enemy loses the hit alone (T-43). A Scaldra backpack has 200, a Culverin canister more with every level. Both numbers belong in the result (see Shown and applied).
 - **Faction bonuses double-dip** in proc DoTs and extra hits, and triple-dip in an extra hit's DoT. That is the game, not a bug.
 - **Heat merges** into one instance per enemy that keeps the first proc's bonuses, so an unmodded first proc drags the whole stack down.
 - **Arsenal percentages are relative to the base stat:** +150% crit chance on a 20% weapon is 50%. Flat sources (Arcane Avenger, Puncture stacks) add points afterwards.

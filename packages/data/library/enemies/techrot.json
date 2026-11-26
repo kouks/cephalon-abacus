@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "44.1.4.1",
+  "source": "https://wiki.warframe.com/w/Module:Enemies/data/techrot",
+  "items": [
+    {
+      "id": "techrot-obsolyte",
+      "name": "Techrot Obsolyte",
+      "source": "https://wiki.warframe.com/w/Techrot_Obsolyte",
+      "gameVersion": "44.1.4.1",
+      "faction": "techrot",
+      "scalingProfile": "techrot",
+      "baseLevel": 1,
+      "baseHealth": 400,
+      "baseShield": 200,
+      "baseArmor": 0,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 3,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        },
+        {
+          "id": "monitors",
+          "multiplier": 1.5,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2,
+          "promotes": true
+        }
+      ]
+    }
+  ]
+}

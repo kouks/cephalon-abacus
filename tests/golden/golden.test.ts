@@ -7,7 +7,7 @@ import { describeMismatch, isMatch } from './comparison';
 import { libraryWith, loadFixtures } from './loadFixtures';
 
 /** What a result says about itself even when it is right: a test can be about a miss. */
-const FINE = ['leftOut', 'missesTarget'];
+const FINE = ['leftOut', 'enemyLeftOut', 'missesTarget'];
 
 describe.each(loadFixtures())('$fixture.id: $fixture.question', ({ file, fixture }) => {
   it('is in a file of its name', () => {

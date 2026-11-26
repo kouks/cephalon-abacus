@@ -57,7 +57,7 @@ export const buildMetrics = (
     trace: tracesOf(chosen),
     warnings: [
       ...loadout.collected.warnings,
-      ...checkMetrics(scenario, loadout.weapon, target),
+      ...checkMetrics(scenario, { weapon: loadout.weapon, target, library }),
       ...checkRange(byAttack, distance),
       ...checkLanding(byAttack, aim),
     ],

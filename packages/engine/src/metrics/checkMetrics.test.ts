@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
+import { enemy } from '@abacus/data/testing/fixtures';
+
 import { add, mod } from '@/testing/build';
 import { AOE, attackOf, BLAST, GRENADE, measureBuild } from '@/testing/metrics';
 
@@ -116,5 +118,27 @@ describe('the metrics warn of an attack that lands beside the target', () => {
     const aim = { head: 0, body: 1, missBy: 4.5 };
     const attacks = [GRENADE, BLAST];
     expect(warningsOf({ attacks, modules, scenario: { aim } })).toEqual([]);
+  });
+});
+
+describe('the metrics warn of what an enemy takes off damage', () => {
+  const met = (change: object) =>
+    warningsOf({
+      enemies: [{ ...enemy, ...change }],
+      scenario: { enemy: { id: 'test-enemy', level: 1, steelPath: false, modifiers: [] } },
+    });
+
+  it('of armor', () => {
+    expect(met({})).toEqual([]);
+    expect(met({ baseArmor: 5 })).toEqual([
+      { code: 'enemyLeftOut', enemyId: 'test-enemy', what: 'armor' },
+    ]);
+  });
+
+  it('and of attenuation, which a boss may not have', () => {
+    expect(met({ flags: ['boss'] })).toEqual([]);
+    expect(met({ flags: ['boss', 'hasAttenuation'] })).toEqual([
+      { code: 'enemyLeftOut', enemyId: 'test-enemy', what: 'attenuation' },
+    ]);
   });
 });

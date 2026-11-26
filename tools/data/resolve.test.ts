@@ -14,7 +14,7 @@ const RUNNER = findTarget('runner', library);
 
 type Shot = {
   readonly modules?: readonly string[];
-  readonly on?: 'body' | 'head';
+  readonly on?: 'body' | 'head' | 'monitors';
   readonly target?: Target;
   readonly assumptions?: Partial<Assumptions>;
 };
@@ -48,6 +48,20 @@ describe('every seed weapon', () => {
       expect(factors.reduce((product, { value }) => product * value, 1)).toBeCloseTo(damage, 9);
     }
   });
+});
+
+it('every hit on an Obsolyte’s monitors is of a tier more', () => {
+  const target = findTarget('techrot-obsolyte', library);
+  const tiersOn = (on: 'body' | 'monitors') =>
+    resolve('braton', 'normal', { target, on }).tiers.map(({ tier, chance }) => [tier, chance]);
+  expect(tiersOn('body')).toEqual([
+    [0, 0.88],
+    [1, 0.12],
+  ]);
+  expect(tiersOn('monitors')).toEqual([
+    [1, 0.88],
+    [2, 0.12],
+  ]);
 });
 
 it('T-4 rules out that a headcrit doubles only the base', () => {

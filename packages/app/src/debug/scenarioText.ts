@@ -47,6 +47,13 @@ export const withWeapon = (text: string, weaponId: string, fitting: readonly str
   return textOf({ ...rest, build: { weaponId, modules: kept, conditionals, elementOrder } });
 };
 
+/** The same text with another target, aimed at its head and body: its other parts are its own. */
+export const withTarget = (text: string, id: string): string => {
+  const { aim, enemy, ...rest } = scenarioIn(text);
+  const { head, body, missBy = 0 } = aim;
+  return textOf({ ...rest, enemy: { ...enemy, id }, aim: { head, body, missBy } });
+};
+
 /** The same text with these modules. Those it already had keep their place and rank. */
 export const withModules = (text: string, ids: readonly string[]): string => {
   const { build, ...rest } = scenarioIn(text);

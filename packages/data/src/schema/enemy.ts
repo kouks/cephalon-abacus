@@ -23,6 +23,8 @@ const enemyPartSchema = object({
   countsAs: z.array(bodyPartSchema).min(1).readonly().exactOptional(),
   /** What it multiplies the crit multiplier by: 2 on most heads that have one. */
   headcrit: positive.exactOptional(),
+  /** It raises every hit by a crit tier, white ones too (BIBLE §7). */
+  promotes: z.literal(true).exactOptional(),
 });
 
 const partsSchema = list(enemyPartSchema)

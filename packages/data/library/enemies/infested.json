@@ -54,6 +54,86 @@
           "headcrit": 2
         }
       ]
+    },
+    {
+      "id": "charger-eximus",
+      "name": "Charger Eximus",
+      "source": "https://wiki.warframe.com/w/Charger",
+      "gameVersion": "44.1.4.1",
+      "faction": "infested",
+      "scalingProfile": "infested",
+      "baseLevel": 1,
+      "baseHealth": 80,
+      "baseShield": 0,
+      "baseArmor": 0,
+      "baseOverguard": 12,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 1,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ],
+      "flags": ["eximus"]
+    },
+    {
+      "id": "deimos-runner",
+      "name": "Deimos Runner",
+      "source": "https://wiki.warframe.com/w/Runner",
+      "gameVersion": "44.1.4.1",
+      "faction": "infested-deimos",
+      "scalingProfile": "infested",
+      "baseLevel": 1,
+      "baseHealth": 100,
+      "baseShield": 0,
+      "baseArmor": 0,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 3,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ]
+    },
+    {
+      "id": "zealoid-prelate",
+      "name": "Zealoid Prelate",
+      "source": "https://wiki.warframe.com/w/Zealoid_Prelate",
+      "gameVersion": "44.1.4.1",
+      "faction": "infested",
+      "scalingProfile": "infested",
+      "baseLevel": 1,
+      "baseHealth": 9000,
+      "baseShield": 0,
+      "baseArmor": 0,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        },
+        {
+          "id": "head",
+          "multiplier": 3,
+          "countsAs": ["head", "weakPoint"],
+          "headcrit": 2
+        }
+      ],
+      "statusCaps": {
+        "cold": 4
+      },
+      "flags": ["boss", "hasAttenuation"]
     }
   ]
 }

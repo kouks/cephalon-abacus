@@ -22,7 +22,7 @@ const makeWorker = () => {
   };
 };
 
-const catalog = { weapons: [] };
+const catalog = { weapons: [], targets: [] };
 
 describe('the bridge', () => {
   it('matches answers to requests, in any order', async () => {
@@ -42,7 +42,7 @@ describe('the bridge', () => {
   it('ignores an answer to nothing', async () => {
     const { engine, answer } = makeWorker();
     const first = engine.catalog();
-    answer({ kind: 'catalog', id: 7, catalog: { weapons: [] } });
+    answer({ kind: 'catalog', id: 7, catalog: { weapons: [], targets: [] } });
     answer({ kind: 'catalog', id: 1, catalog });
     expect(await first).toBe(catalog);
   });
