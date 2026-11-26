@@ -33,6 +33,11 @@ export const ASSUMPTIONS = {
    * Gunners at levels 60 and 100 show 111 with Corrosive Projection, where the other would be 83 and 60.
    */
   armorCappedBeforeStrips: { default: true, test: 'T-6', bible: '§10' },
+  /**
+   * Tau's vulnerability multiplies the status chance a hit brings (the wiki's Tau page): 30% with
+   * three stacks is 30% × 1.3. If not, it adds points: 30% + 30%.
+   */
+  tauChanceMultiplied: { default: true, test: 'T-9', bible: '§8' },
 } as const satisfies Readonly<Record<string, Assumption>>;
 
 export type Assumptions = Readonly<Record<keyof typeof ASSUMPTIONS, boolean>>;
@@ -46,4 +51,5 @@ export const DEFAULT_ASSUMPTIONS: Assumptions = {
   falloffHeadsForZero: ASSUMPTIONS.falloffHeadsForZero.default,
   breakShownInOwnTerms: ASSUMPTIONS.breakShownInOwnTerms.default,
   armorCappedBeforeStrips: ASSUMPTIONS.armorCappedBeforeStrips.default,
+  tauChanceMultiplied: ASSUMPTIONS.tauChanceMultiplied.default,
 };

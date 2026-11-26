@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { damageMapSchema, procRefSchema } from './damageType';
+import { damageMapSchema, damageTypeSchema } from './damageType';
 import { list, nonNegative, object, positive, positiveInt, slugSchema } from './primitives';
 
 export const attackTriggerSchema = z.enum([
@@ -57,6 +57,16 @@ const beamSchema = object({
   chain: object({ targets: positiveInt, range: positive }).exactOptional(),
 });
 
+/**
+ * A status the attack always inflicts, whatever its status chance: Nagantaka's Impact. `within` is
+ * how near the target has to be: Arca Plasmor's Impact reaches 14 m.
+ */
+const forcedProcSchema = object({
+  type: damageTypeSchema,
+  count: positive,
+  within: positive.exactOptional(),
+});
+
 /** Timing and geometry that only some attacks have. */
 const optionalShape = {
   chargeTime: positive.exactOptional(),
@@ -71,7 +81,7 @@ const optionalShape = {
   punchThrough: nonNegative.exactOptional(),
   range: positive.exactOptional(),
   projectileSpeed: positive.exactOptional(),
-  forcedProcs: list(procRefSchema).exactOptional(),
+  forcedProcs: list(forcedProcSchema).exactOptional(),
   /** Attacks of the same weapon that this one sets off, by id. */
   linkedAttacks: list(slugSchema).exactOptional(),
   flags: list(flagSchema).exactOptional(),
