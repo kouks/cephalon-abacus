@@ -44,7 +44,7 @@ it('the enemies have the body parts of the game', () => {
     ['zealoid-prelate', HEAD],
     ['rogue-arcocanid', 'body 1x, head 1.5x head weakPoint headcrit 2'],
     ['scaldra-eradicator', HEAD],
-    ['techrot-obsolyte', `${HEAD}, monitors 1x head weakPoint headcrit 2 promotes`],
+    ['techrot-obsolyte', `${HEAD}, monitors 1.5x head weakPoint headcrit 2 promotes`],
   ]);
 });
 

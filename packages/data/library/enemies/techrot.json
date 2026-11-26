@@ -28,7 +28,7 @@
         },
         {
           "id": "monitors",
-          "multiplier": 1,
+          "multiplier": 1.5,
           "countsAs": ["head", "weakPoint"],
           "headcrit": 2,
           "promotes": true
