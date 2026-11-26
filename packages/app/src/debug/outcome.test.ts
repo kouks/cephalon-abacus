@@ -56,6 +56,7 @@ describe('what the page shows', () => {
         { label: 'Sustained DPS', value: '0' },
         { label: 'Lifetime damage', value: 'Unlimited' },
       ],
+      oneHit: [],
       warnings: ['{"code":"unknownAttack","attackId":"alternate"}'],
       rows: [],
     });

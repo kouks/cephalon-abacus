@@ -21,6 +21,12 @@ export const ASSUMPTIONS = {
   procWeightsQuantized: { default: true, test: 'T-14', bible: '§6' },
   /** Falloff drops in a line to nothing at its end, and stops at the least. Confirmed. */
   falloffHeadsForZero: { default: true, test: 'T-26', bible: '§11' },
+  /**
+   * A layer a hit breaks shows the hit less what of it went on, as that layer took it. If not: less
+   * what the later layers show of it. T-38 fits both; they part where a later layer takes the hit
+   * differently: Void on Overguard, armor on health.
+   */
+  breakShownInOwnTerms: { default: true, test: 'T-44', bible: '§15' },
 } as const satisfies Readonly<Record<string, Assumption>>;
 
 export type Assumptions = Readonly<Record<keyof typeof ASSUMPTIONS, boolean>>;
@@ -32,4 +38,5 @@ export const DEFAULT_ASSUMPTIONS: Assumptions = {
   coldCritDamageAbsolute: ASSUMPTIONS.coldCritDamageAbsolute.default,
   procWeightsQuantized: ASSUMPTIONS.procWeightsQuantized.default,
   falloffHeadsForZero: ASSUMPTIONS.falloffHeadsForZero.default,
+  breakShownInOwnTerms: ASSUMPTIONS.breakShownInOwnTerms.default,
 };

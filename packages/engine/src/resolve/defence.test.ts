@@ -56,17 +56,33 @@ it('a layer is there if the enemy has some of it, and health always', () => {
 
 describe('a defence', () => {
   const rules = new Map();
+  const stats = statsOf(12, 50, 300);
 
-  it('meets the layer the scenario names, or the first the enemy has', () => {
-    expect(defenceOf({ stats: statsOf(0, 50, 300), rules })).toEqual({
-      layer: 'shield',
+  it('meets the first layer the enemy has, with all of each', () => {
+    expect(defenceOf({ stats, rules })).toEqual({
+      layer: 'overguard',
       armor: 300,
+      left: { overguard: 12, shield: 50, health: 100 },
       rules,
     });
-    expect(defenceOf({ layer: 'health', stats: statsOf(0, 50, 300), rules }).layer).toBe('health');
   });
 
-  it('of the neutral dummy is health without armor', () => {
-    expect(defenceOf({ stats: undefined, rules })).toEqual({ layer: 'health', armor: 0, rules });
+  it('meets the layer the scenario names, and those before it are gone', () => {
+    const met = defenceOf({ layer: 'health', stats, rules });
+    expect([met.layer, met.left]).toEqual(['health', { overguard: 0, shield: 0, health: 100 }]);
+  });
+
+  it('meets the first layer the enemy has left, if the scenario says what that is', () => {
+    const met = defenceOf({ left: { overguard: 0, shield: 20 }, stats, rules });
+    expect([met.layer, met.left]).toEqual(['shield', { overguard: 0, shield: 20, health: 100 }]);
+  });
+
+  it('of the neutral dummy is endless health without armor', () => {
+    expect(defenceOf({ stats: undefined, rules })).toEqual({
+      layer: 'health',
+      armor: 0,
+      left: { overguard: 0, shield: 0, health: Number.POSITIVE_INFINITY },
+      rules,
+    });
   });
 });

@@ -43,7 +43,8 @@ export const buildMetrics = (
   const loadout = makeLoadout(scenario, library, assumptions);
   const target = findTarget(enemy.id, library);
   const stats = enemyStats(enemy, library);
-  const defence = defenceOf({ layer: enemy.layer, stats, rules: library.damageTypes });
+  const { layer, left } = enemy;
+  const defence = defenceOf({ layer, left, stats, rules: library.damageTypes });
   const byAttack = firingModes(loadout.weapon).map((attack) =>
     attackMetrics(loadout, attack, { target, defence, aim, distance }),
   );

@@ -2,11 +2,11 @@ import { describe, expect, it } from 'vitest';
 
 import { must } from '@abacus/data/assert';
 import type { GoldenFixture, Observed } from '@abacus/data/schema/goldenFixture';
-import { evaluate } from '@abacus/engine';
 
 import { compare } from './compare';
 import { describeMismatch, isMatch } from './comparison';
-import { libraryWith, loadFixtures } from './loadFixtures';
+import { loadFixtures } from './loadFixtures';
+import { runOf } from './runOf';
 
 const fixtureOf = (id: string): GoldenFixture =>
   must(
@@ -18,8 +18,7 @@ const fixtureOf = (id: string): GoldenFixture =>
 const mismatchesOf = (id: string, observed: Observed, caseIndex = 0) => {
   const fixture = fixtureOf(id);
   const { scenario } = must(fixture.cases[caseIndex], 'No such case');
-  const result = evaluate(scenario, libraryWith(fixture));
-  return compare(observed, result, fixture.tolerance)
+  return compare(observed, runOf(fixture, scenario), fixture.tolerance)
     .filter((comparison) => !isMatch(comparison))
     .map(describeMismatch);
 };
@@ -40,8 +39,8 @@ describe('a mismatch', () => {
     const { scenario } = must(fixture.cases[0], 'No case');
     const build = { ...scenario.build, weaponId: 'penta' };
     const aim = { head: 0, body: 1, missBy: 3 };
-    const result = evaluate({ ...scenario, build, aim }, libraryWith(fixture));
-    const computed = (seen: Observed) => compare(seen, result, {}).map((entry) => entry.computed);
+    const run = runOf(fixture, { ...scenario, build, aim });
+    const computed = (seen: Observed) => compare(seen, run, {}).map((entry) => entry.computed);
     const hits = { white: 175 };
     expect(computed({ hits, hitsOf: 'grenade-detonation' })).toEqual([175]);
     expect(computed({ hits })).toEqual([0]);
@@ -98,13 +97,20 @@ describe('a mismatch', () => {
     expect(line).toMatch(/^health base 100$/m);
   });
 
+  it('can be in what one hit showed on each layer', () => {
+    const seen = { layered: [{ colour: 'white', shown: { health: 1 } } as const] };
+    const [line = ''] = mismatchesOf('T-36', seen);
+    expect(line).toMatch(/^white hit, shown on health: reported 1, computed 600$/m);
+    expect(line).toMatch(/^health: shows 600, loses 600$/m);
+  });
+
   it('needs to be about one part', () => {
     const fixture = fixtureOf('T-1');
     const { scenario } = must(fixture.cases[0], 'No case');
     const both = { ...scenario, aim: { head: 0.5, body: 0.5 } };
-    const result = evaluate(both, libraryWith(fixture));
+    const run = runOf(fixture, both);
     const seen = { hits: { white: 29 } };
-    expect(() => compare(seen, result, {})).toThrow('A fixture aims at one part');
+    expect(() => compare(seen, run, {})).toThrow('A fixture aims at one part');
   });
 });
 

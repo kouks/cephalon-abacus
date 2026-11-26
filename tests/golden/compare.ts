@@ -2,10 +2,12 @@ import { must } from '@abacus/data/assert';
 import { DAMAGE_TYPES } from '@abacus/data/schema/damageType';
 import { COLOURS } from '@abacus/data/schema/goldenFixture';
 import type { Colour, Observed, Tolerance } from '@abacus/data/schema/goldenFixture';
-import type { AttackMetrics, Result } from '@abacus/engine';
+import type { AttackMetrics } from '@abacus/engine';
 
 import type { Comparison } from './comparison';
 import { compareDepleted } from './depleted';
+import { compareLayered } from './layered';
+import type { Run } from './replay';
 import { explainHit } from './explain';
 
 type Side = {
@@ -98,9 +100,10 @@ const compareProcs = ({ neverProcs = [] }: Observed, { attack }: Side) =>
 /** Everything that was observed, against what the engine computes. */
 export const compare = (
   observed: Observed,
-  { byAttack, attackId, enemy }: Result,
+  run: Run,
   tolerance: Tolerance,
 ): readonly Comparison[] => {
+  const { byAttack, attackId } = run.result;
   const found = byAttack.find((attack) => attack.attackId === attackId);
   const attack = must(found, 'The headline is of a firing mode');
   const side = { attack, tolerance, hitsOf: observed.hitsOf };
@@ -110,6 +113,7 @@ export const compare = (
     ...compareTotal(observed.arsenalTotal, side),
     ...compareFiring(observed, side),
     ...compareProcs(observed, side),
-    ...compareDepleted(observed, () => hitOf(side.attack), enemy),
+    ...compareDepleted(observed, run),
+    ...compareLayered(observed, run, tolerance),
   ];
 };
