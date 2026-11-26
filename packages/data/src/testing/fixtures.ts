@@ -108,10 +108,19 @@ export const faction = {
   factionModGroup: 'grineer',
 };
 
+/** A made-up status: ten stacks of 6 s, the oldest replaced past them. */
+export const status = {
+  ...item('test-status'),
+  duration: 6,
+  stacking: { kind: 'capped', most: 10 },
+  confidence: 'W',
+};
+
 /** The files every library needs. */
 export const referenceFiles = [
   libraryFile('damageTypes.json', ...damageTypes),
   libraryFile('buckets.json', bucket, family),
   libraryFile('factions.json', faction),
   libraryFile('scaling.json', curve, eximus, steelPath),
+  libraryFile('statuses.json', status),
 ];

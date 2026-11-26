@@ -11,6 +11,7 @@ import {
   libraryFile,
   module,
   scenario,
+  status,
   weapon,
 } from '@abacus/data/testing/fixtures';
 import { armorCurve, curve, eximus, shieldCurve, steelPath } from '@abacus/data/testing/scaling';
@@ -134,6 +135,7 @@ export const makeLibrary = (
     buckets,
     factions,
     libraryFile('scaling.json', curve, armorCurve, shieldCurve, eximus, steelPath),
+    libraryFile('statuses.json', status),
     libraryFile('mods/a.json', ...modules),
     libraryFile('weapons/a.json', { ...weapon, ...weaponChange }),
     libraryFile('enemies/a.json', ...enemies),

@@ -4,8 +4,15 @@ export const DAMAGE_TYPES_FILE = 'damageTypes.json';
 export const BUCKETS_FILE = 'buckets.json';
 export const FACTIONS_FILE = 'factions.json';
 export const SCALING_FILE = 'scaling.json';
+export const STATUSES_FILE = 'statuses.json';
 
-export const REFERENCE_FILES = [DAMAGE_TYPES_FILE, BUCKETS_FILE, FACTIONS_FILE, SCALING_FILE];
+export const REFERENCE_FILES = [
+  DAMAGE_TYPES_FILE,
+  BUCKETS_FILE,
+  FACTIONS_FILE,
+  SCALING_FILE,
+  STATUSES_FILE,
+];
 
 export const WEAPON_FOLDERS = ['weapons'];
 export const MODULE_FOLDERS = ['mods', 'arcanes', 'buffs'];

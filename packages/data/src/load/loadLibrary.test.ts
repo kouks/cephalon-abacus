@@ -1,7 +1,15 @@
 import { describe, expect, it } from 'vitest';
 
 import { must } from '@/assert';
-import { attack, enemy, libraryFile, module, referenceFiles, weapon } from '@/testing/fixtures';
+import {
+  attack,
+  damageTypes,
+  enemy,
+  libraryFile,
+  module,
+  referenceFiles,
+  weapon,
+} from '@/testing/fixtures';
 
 import { formatError } from './libraryError';
 import { loadLibrary } from './loadLibrary';
@@ -87,7 +95,7 @@ describe('a bad file', () => {
 
   it('in an unknown folder', () => {
     expect(errorsOf(libraryFile('rifles/a.json', weapon))).toEqual([
-      'rifles/a.json: No schema for this file. Places: damageTypes.json, buckets.json, factions.json, scaling.json, weapons, mods, arcanes, buffs, enemies',
+      'rifles/a.json: No schema for this file. Places: damageTypes.json, buckets.json, factions.json, scaling.json, statuses.json, weapons, mods, arcanes, buffs, enemies',
     ]);
   });
 });
@@ -199,6 +207,18 @@ describe('cross-references', () => {
   it('finds an attack id used twice in a weapon', () => {
     expect(errorsOf(inWeapon({ attacks: [attack, attack] }))).toEqual([
       'weapons/a.json: items[0].attacks[1].id: Another attack of this weapon has the id "normal"',
+    ]);
+  });
+});
+
+describe('statuses.json', () => {
+  it('has every status a damage type procs', () => {
+    const [first, ...rest] = damageTypes;
+    const procs = libraryFile('damageTypes.json', { ...first, proc: 'nowhere' }, ...rest);
+    const files = [procs, ...referenceFiles.filter(({ path }) => path !== 'damageTypes.json')];
+    const result = loadLibrary(files);
+    expect(result.ok ? [] : result.errors.map(formatError)).toEqual([
+      'damageTypes.json: items[0].proc: No status "nowhere" in statuses.json',
     ]);
   });
 });
