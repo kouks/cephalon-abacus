@@ -60,7 +60,12 @@ const { id, name, source, gameVersion } = faction;
 export const makeFaction = (change: object): Faction =>
   factionSchema.parse({ id, name, source, gameVersion, damageProfile: {}, ...change });
 
-const loadoutOf = ({ modules = [], attack = {}, weaponChange = {}, ...rest }: Setup): Loadout => {
+export const loadoutOf = ({
+  modules = [],
+  attack = {},
+  weaponChange = {},
+  ...rest
+}: Setup): Loadout => {
   const attacks = [{ ...baseAttack, ...attack }];
   const ids = modules.map(({ id }) => ({ moduleId: id }));
   return makeLoadout(

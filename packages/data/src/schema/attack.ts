@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { damageMapSchema, damageTypeSchema } from './damageType';
+import { damageMapSchema } from './damageType';
 import { list, nonNegative, object, positive, positiveInt, slugSchema } from './primitives';
 
 export const attackTriggerSchema = z.enum([
@@ -58,11 +58,12 @@ const beamSchema = object({
 });
 
 /**
- * A status the attack always inflicts, whatever its status chance: Nagantaka's Impact. `within` is
- * how near the target has to be: Arca Plasmor's Impact reaches 14 m.
+ * A status the attack always inflicts, whatever its status chance, by its id in statuses.json:
+ * Nagantaka's Knockback (Impact). `within` is how near the target has to be: Arca Plasmor's reaches
+ * 14 m.
  */
 const forcedProcSchema = object({
-  type: damageTypeSchema,
+  status: slugSchema,
   count: positive,
   within: positive.exactOptional(),
 });

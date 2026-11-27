@@ -60,6 +60,12 @@ it('Toxin wears health down under shields: the last hit counts as it lands on he
   expect(matches([two], { ...toxin, health: 100 })).toEqual([false]);
 });
 
+it('a first layer gone with one hit starts from the fresh enemy', () => {
+  const one: Depleted = { layer: 'shield', hits: { white: 1 }, last: 'white' };
+  expect(matches([one], { shield: 50 })).toEqual([true]);
+  expect(matches([one], { shield: WHITE + 1 })).toEqual([false]);
+});
+
 it('a mismatch shows the bracket, the terms and what was left', () => {
   // A health of 5 is gone with the first hit, so the hits before the last took all of it.
   const [line] = compareDepleted({ depleted: [health] }, runOn({ health: 5 })).map(

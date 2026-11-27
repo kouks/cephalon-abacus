@@ -42,6 +42,8 @@ export type Composition = {
   readonly elements: readonly FinalElement[];
   /** How likely a proc is to be of each type, relative to the others. */
   readonly procWeights: ByType<number>;
+  /** The status each type in procWeights procs, by its id in statuses.json. */
+  readonly procStatuses: ByType<string>;
 };
 
 type Context = {
@@ -88,10 +90,24 @@ const modBase = (base: number, totals: BucketTotals): ModdedStat => {
   return { base, value: Math.max(aggregate(bonus, base), 0), totals: [bonus] };
 };
 
+/** The status each type procs. A type that procs none is out of the pool, as an immune one is. */
+const statusesOf = (types: ByType<TypeDamage>, { damageTypes }: Library): ByType<string> =>
+  new Map(
+    [...types.keys()].flatMap((type) => {
+      const status = damageTypes.get(type)?.proc;
+      return status === undefined ? [] : [[type, status] as const];
+    }),
+  );
+
 /** A type quantized to zero can't proc (T-14). */
-const weigh = (types: ByType<TypeDamage>, { procWeightsQuantized }: Assumptions) =>
+const weigh = (
+  types: ByType<TypeDamage>,
+  statuses: ByType<string>,
+  { procWeightsQuantized }: Assumptions,
+) =>
   new Map(
     [...types]
+      .filter(([type]) => statuses.has(type))
       .map(
         ([type, { ratio, quantized }]) => [type, procWeightsQuantized ? quantized : ratio] as const,
       )
@@ -115,6 +131,7 @@ export const composeDamage = (weapon: Weapon, attack: Attack, context: Context):
       return [type, { ratio, quantized, damage: quantized * moddedBase.value, effects }];
     }),
   );
-  const procWeights = weigh(types, context.assumptions);
-  return { moddedBase, types, physical, elements, procWeights };
+  const procStatuses = statusesOf(types, context.library);
+  const procWeights = weigh(types, procStatuses, context.assumptions);
+  return { moddedBase, types, physical, elements, procWeights, procStatuses };
 };

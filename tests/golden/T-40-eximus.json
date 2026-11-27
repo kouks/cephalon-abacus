@@ -51,7 +51,7 @@
           "flags": ["canCrit"],
           "forcedProcs": [
             {
-              "type": "impact",
+              "status": "knockback",
               "count": 1,
               "within": 14
             }

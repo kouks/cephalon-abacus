@@ -1,5 +1,6 @@
-import type { DamageType, ProcRef } from '@abacus/data/schema/damageType';
+import type { DamageType } from '@abacus/data/schema/damageType';
 import type { Layer } from '@abacus/data/schema/damageTypeRule';
+import type { Proc } from '@abacus/data/schema/status';
 
 import type { Contribution } from '@/build/types';
 
@@ -42,5 +43,6 @@ export type HitTrace = {
   readonly layer: Layer;
   /** The armor on the enemy's health, after strips. Absent on the neutral dummy. */
   readonly armor?: number;
-  readonly procs: readonly ProcRef[];
+  /** The statuses the hit inflicts: shares in expected value. */
+  readonly procs: readonly Proc[];
 };

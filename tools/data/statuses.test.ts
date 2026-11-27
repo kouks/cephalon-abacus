@@ -5,11 +5,13 @@ import { loadRealLibrary } from './loadRealLibrary.ts';
 const library = loadRealLibrary();
 
 describe('statuses.json', () => {
-  it('has every status a damage type procs, and no other', () => {
+  it('has every status a damage type procs, and Microwave, which no type procs', () => {
     const procs = [...library.damageTypes.values()].flatMap(({ proc }) =>
       proc === undefined ? [] : [proc],
     );
-    expect([...library.statuses.keys()].sort()).toEqual([...procs].sort());
+    const others = [...library.statuses.keys()].filter((id) => !procs.includes(id));
+    expect(procs.every((proc) => library.statuses.has(proc))).toBe(true);
+    expect(others).toEqual(['microwave']);
   });
 
   /** Checked against the wiki's status pages for Update 44 (BIBLE §8). */
@@ -17,7 +19,7 @@ describe('statuses.json', () => {
     const table = [...library.statuses.values()].map(({ id, duration, stacking, confidence }) =>
       [
         id,
-        `${duration} s`,
+        duration === undefined ? 'until it dies' : `${duration} s`,
         stacking.kind === 'capped' ? `most ${stacking.most}` : stacking.kind,
         confidence,
       ].join(' | '),
@@ -39,6 +41,7 @@ describe('statuses.json', () => {
         "virus | 6 s | most 10 | W",
         "bullet-attractor | 3 s | independent | C",
         "status-vulnerability | 8 s | most 10 | W",
+        "microwave | until it dies | independent | C",
       ]
     `);
   });
