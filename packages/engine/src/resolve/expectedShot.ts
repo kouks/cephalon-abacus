@@ -9,6 +9,7 @@ import type { ModdedStat } from '@/build/stats/moddedStat';
 import type { TierDealt } from './dealtOnLayers';
 import { dealtOnLayers } from './dealtOnLayers';
 import type { Defence } from './defence';
+import { dotDamageOf } from './dot/dotDamage';
 
 import type { HitResult } from './resolveHit';
 import { resolveHit } from './resolveHit';
@@ -30,6 +31,8 @@ export type ExpectedShot = {
   }[];
   readonly perType: ReadonlyMap<DamageType, number>;
   readonly total: number;
+  /** What its procs deal over time, apart from the total (BIBLE §8). */
+  readonly dot: number;
 };
 
 type Shot = {
@@ -71,5 +74,9 @@ export const expectedShot = (shot: Shot): ExpectedShot => {
   });
   const perType = addUp(hits, pellets);
   const total = [...perType.values()].reduce((sum, damage) => sum + damage, 0);
-  return { stats, pellets, hits, perType, total };
+  const dot = hits.reduce(
+    (sum, { share, hit }) => sum + pellets * share * dotDamageOf(hit.trace),
+    0,
+  );
+  return { stats, pellets, hits, perType, total, dot };
 };
