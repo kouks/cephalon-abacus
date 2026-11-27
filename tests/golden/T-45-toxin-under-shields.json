@@ -13,7 +13,7 @@
       "words": "[A screenshot of the level 20 yellow hit: 940 in the shields' blue, and 892 yellow, each with Radiation's icon] Attached screenshot, that is indeed what happened."
     }
   ],
-  "notes": "Asked for in the Simulacrum with AI paused, Steel Path off, a fresh enemy for every hit, one hit on its body, no arcanes, companion, abilities or shards, and no numbers were predicted to Pavel. Arca Plasmor with Contagious Spread at rank 5 from about 5 m: 600 Radiation and 540 Toxin, 543.75 once quantized. Toxin passes the shields to health, and while they hold, the hit shows two numbers. When they break, Toxin and the 5% of the rest show as one number on health: 543.75 + 2.6 = 546 at level 20 (547.4 shields), and 871.1 + 20.7 = 892 for the yellow, which kills. The first report had 950 on the shield of that yellow; the screenshot shows 940, and Pavel confirmed it, so 940 is the observed value. The Toxin ticks (571 white, 914 yellow) have no case until the engine has proc DoTs; they fit what is left: at level 30, 1,790.7 health less 544 and two ticks of 571 leaves 104.7, and the yellow and its first tick of 914 leave 5.6. Arca Plasmor is in the fixture for the reason in T-27.",
+  "notes": "Asked for in the Simulacrum with AI paused, Steel Path off, a fresh enemy for every hit, one hit on its body, no arcanes, companion, abilities or shards, and no numbers were predicted to Pavel. Arca Plasmor with Contagious Spread at rank 5 from about 5 m: 600 Radiation and 540 Toxin, 543.75 once quantized. Toxin passes the shields to health, and while they hold, the hit shows two numbers. When they break, Toxin and the 5% of the rest show as one number on health: 543.75 + 2.6 = 546 at level 20 (547.4 shields), and 871.1 + 20.7 = 892 for the yellow, which kills. The first report had 950 on the shield of that yellow; the screenshot shows 940, and Pavel confirmed it, so 940 is the observed value. The Toxin ticks (571 white, 914 yellow) have no case until the engine has proc DoTs; they fit what is left: at level 30, 1,790.7 health less 544 and two ticks of 571 leaves 104.7, and the yellow and its first tick of 914 leave 5.6. Arca Plasmor is in the fixture for the reason in T-27. The Toxin ticks (571 after the white hit, 914 after the yellow) are cases since ABA-67.",
   "weapons": [
     {
       "id": "arca-plasmor",
@@ -64,7 +64,9 @@
       ]
     }
   ],
-  "tolerance": {},
+  "tolerance": {
+    "hits": 0.5
+  },
   "cases": [
     {
       "name": "Level 30, the shields hold",
@@ -112,6 +114,18 @@
               "shield": 961,
               "health": 871
             }
+          }
+        ],
+        "ticks": [
+          {
+            "status": "poison",
+            "of": "white",
+            "shown": 571
+          },
+          {
+            "status": "poison",
+            "of": "yellow",
+            "shown": 914
           }
         ]
       }

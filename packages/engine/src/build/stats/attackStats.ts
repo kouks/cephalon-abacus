@@ -86,7 +86,12 @@ const modTiming = (attack: Attack, weapon: Weapon, { totals, assumptions }: Buil
 };
 
 /** The bucket totals of the attack, and the rules to read them by. */
-export type Build = { readonly totals: BucketTotals; readonly assumptions: Assumptions };
+export type Build = {
+  readonly totals: BucketTotals;
+  /** The totals for its procs, which status duration is scoped to (buckets.json). */
+  readonly procTotals: BucketTotals;
+  readonly assumptions: Assumptions;
+};
 
 export const attackStats = (weapon: Weapon, attack: Attack, build: Build): AttackStats => {
   const { totals } = build;
@@ -94,7 +99,7 @@ export const attackStats = (weapon: Weapon, attack: Attack, build: Build): Attac
     critChance: modCritChance(attack, totals),
     critMultiplier: modCritMultiplier(attack, build),
     statusChance: modStat(totals, attack.statusChance, ['status.chance', 'status.chanceFlat']),
-    statusDuration: modStat(totals, 1, ['status.duration']),
+    statusDuration: modStat(build.procTotals, 1, ['status.duration']),
     multishot: modStat(totals, attack.multishot, ['multishot']),
     punchThrough: modStat(totals, attack.punchThrough ?? 0, ['punchThrough']),
     ammoEfficiency: modStat(totals, 0, ['ammoEfficiency']),

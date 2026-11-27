@@ -12,7 +12,7 @@ export type { AttackMetrics } from '@/metrics/attackMetrics';
 export type { Dealt, LayersLeft } from '@/resolve/applyHit';
 export type { TierDealt } from '@/resolve/dealtOnLayers';
 export type { HitResult } from '@/resolve/resolveHit';
-export type { Factor, HitTrace } from '@/trace/hitTrace';
+export type { DotTrace, Factor, HitTrace } from '@/trace/hitTrace';
 
 /** Goes up when a Scenario or a Result changes in a way that breaks what reads or writes it. */
 export const API_VERSION = 1;

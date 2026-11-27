@@ -4,7 +4,7 @@ import type { Proc } from '@abacus/data/schema/status';
 
 import type { Contribution } from '@/build/types';
 
-/** The links of the direct-damage chain (BIBLE §3). A final multiplier has one of its own. */
+/** The links of the direct-damage chain (BIBLE §3), and of a DoT tick's (§8). A final multiplier has one of its own. */
 export type FactorName =
   | 'base'
   | 'share'
@@ -21,7 +21,11 @@ export type FactorName =
   | 'armor'
   | 'amplifier'
   | 'reduction'
-  | 'least';
+  | 'least'
+  | 'seed'
+  | 'coefficient'
+  | 'element'
+  | 'statusDamage';
 
 /** One multiplier of a hit. */
 export type Factor = {
@@ -46,4 +50,23 @@ export type HitTrace = {
   readonly armor?: number;
   /** The statuses the hit inflicts: shares in expected value. */
   readonly procs: readonly Proc[];
+  /** The DoT procs among them, once for each crit tier the hit can be of. */
+  readonly dots: readonly DotTrace[];
+};
+
+/** One crit tier of a DoT proc a hit inflicts: its seed, its tick, and when it ticks (BIBLE §8). */
+export type DotTrace = {
+  readonly status: string;
+  /** How much of a proc it is: a share in expected value. */
+  readonly count: number;
+  readonly tier: number;
+  /** How likely the hit is to be of the tier. */
+  readonly chance: number;
+  readonly seed: number;
+  /** In the order of the tick formula. A tick is their product. */
+  readonly factors: readonly Factor[];
+  /** One tick, not rounded. */
+  readonly damage: number;
+  /** The seconds after the hit that it ticks. */
+  readonly times: readonly number[];
 };

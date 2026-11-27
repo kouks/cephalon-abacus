@@ -40,7 +40,11 @@ export const equip = ({ effects = [], attack = {}, weaponChange = {}, ...rest }:
 /** The test rifle: 8 shots/s, 45 rounds, 2 s reload, 20% crit at 2x, 10% status. */
 export const measure = (setup: Setup = {}) => {
   const { library, rifle, fired, collected, assumptions } = equip(setup);
-  const totals = totalBuckets(collected, library, { selection: selectionOf(rifle, fired) });
-  const stats = attackStats(rifle, fired, { totals, assumptions });
+  const selection = selectionOf(rifle, fired);
+  const totals = totalBuckets(collected, library, { selection });
+  const procTotals = totalBuckets(collected, library, {
+    selection: { ...selection, scope: 'proc' },
+  });
+  const stats = attackStats(rifle, fired, { totals, procTotals, assumptions });
   return { stats, rates: attackRates(rifle, fired, stats) };
 };

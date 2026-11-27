@@ -23,6 +23,7 @@ const result: Result = {
       perType: new Map([['slash', 12]]),
       layer: 'health',
       procs: [],
+      dots: [],
     },
   ],
   warnings: [{ code: 'unknownAttack', attackId: 'alternate' }],

@@ -38,6 +38,17 @@ export const ASSUMPTIONS = {
    * three stacks is 30% × 1.3. If not, it adds points: 30% + 30%.
    */
   tauChanceMultiplied: { default: true, test: 'T-9', bible: '§8' },
+  /**
+   * A combined element's DoT, Gas, takes its components' bonuses too. If not, Gas mods alone, as the
+   * wiki says. Confirmed: Aklex with Scorch and Pistol Pestilence ticks 66 Gas, not 144.
+   */
+  dotsTakeComponentBonuses: { default: false, test: 'T-8', bible: '§8' },
+  /**
+   * Electricity and Gas tick every second from the proc while it lasts: ⌈D⌉ times, as the wiki's
+   * ⌊D⌋ + 1 less a tick at the very end. If not, ⌊D − 1⌋ + 1, as the DoTs that wait a second.
+   * Confirmed: with +90% status duration (11.4 s), one Gas proc deals 12 ticks.
+   */
+  immediateDotsTickToTheEnd: { default: true, test: 'T-8', bible: '§8' },
 } as const satisfies Readonly<Record<string, Assumption>>;
 
 export type Assumptions = Readonly<Record<keyof typeof ASSUMPTIONS, boolean>>;
@@ -52,4 +63,6 @@ export const DEFAULT_ASSUMPTIONS: Assumptions = {
   breakShownInOwnTerms: ASSUMPTIONS.breakShownInOwnTerms.default,
   armorCappedBeforeStrips: ASSUMPTIONS.armorCappedBeforeStrips.default,
   tauChanceMultiplied: ASSUMPTIONS.tauChanceMultiplied.default,
+  dotsTakeComponentBonuses: ASSUMPTIONS.dotsTakeComponentBonuses.default,
+  immediateDotsTickToTheEnd: ASSUMPTIONS.immediateDotsTickToTheEnd.default,
 };

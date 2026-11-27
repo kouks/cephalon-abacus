@@ -1,0 +1,322 @@
+{
+  "id": "T-8",
+  "question": "Do DoT ticks take the faction's weakness, does Gas take Heat and Toxin mods, and how many times do Electricity and Gas tick?",
+  "bible": "§8",
+  "gameVersion": "44.1.4.1",
+  "reports": [
+    {
+      "on": "2026-11-27",
+      "words": "Aklex at rank 30 with Scorch at max (3), Pistol Pestilence at max (3) and Sure Shot at max (5), level 200, Steel Path off.\n| Part | Enemy | Perpetual Agony | Colour of the shot that procced Gas | The Gas numbers, in order | How many |\n| 1 | Runner | no | 290 white | 66 | 6 |\n| 2 | Runner | no | 581 yellow | 131 | 6 |\n| 3 | Deimos Venin Mutalist | no | 362 white | 98 | 6 |\n| 4 | Deimos Venin Mutalist | no | 723 yellow | 196 | 6 |\n| 5 | Runner | yes | 290 white | 66 | 12 |\n| 6 | Runner | yes | 581 yellow | 131 | 12 |"
+    }
+  ],
+  "notes": "Asked for in the Simulacrum, AI paused, Steel Path off, a fresh enemy for each part, body shots one at a time until one Gas proc, with no aura, arcanes, companion, abilities or shards, and no numbers were predicted to Pavel. The sheet first asked for Heated Charge and Pathogen Rounds, then for the 60/60 mods Scorch and Pistol Pestilence, which Pavel suggested for their status chance; they and Sure Shot change no Gas tick but its element. A Deimos Venin Mutalist stood in for a Deimos Runner, which Pavel hasn't scanned: both are Infested Deimos, weak to Gas, without armor or shields; its stats are the wiki's enemy data, which gives it no body parts but the body. What the rows show: the Gas ticks take none of Scorch's or Pistol Pestilence's bonuses (66, where they would make it 144); they take the Gas weakness of Infested Deimos (98 = 66 × 1.5), as the bleeds of T-23 take no Slash weakness, since a bleed deals Cinematic damage; and a Gas proc of 11.4 s ticks 12 times, every second while it lasts.",
+  "modules": [
+    {
+      "id": "scorch",
+      "name": "Scorch",
+      "source": "https://wiki.warframe.com/w/Scorch_(Mod)",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 3,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "effects": [
+        {
+          "bucket": "damage.element.heat",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.6
+        },
+        {
+          "bucket": "status.chance",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.6
+        }
+      ]
+    },
+    {
+      "id": "pistol-pestilence",
+      "name": "Pistol Pestilence",
+      "source": "https://wiki.warframe.com/w/Pistol_Pestilence",
+      "gameVersion": "44.1.4.1",
+      "kind": "mod",
+      "rank": {
+        "max": 3,
+        "perRank": "linear"
+      },
+      "compat": {
+        "slots": ["secondary"],
+        "classes": [
+          "pistol",
+          "dual-pistol",
+          "shotgun-sidearm",
+          "dual-shotgun",
+          "thrown",
+          "crossbow"
+        ]
+      },
+      "effects": [
+        {
+          "bucket": "damage.element.toxin",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.6
+        },
+        {
+          "bucket": "status.chance",
+          "op": "STACKING_MULTIPLY",
+          "value": 0.6
+        }
+      ]
+    }
+  ],
+  "weapons": [
+    {
+      "id": "aklex",
+      "name": "Aklex",
+      "uniqueName": "/Lotus/Weapons/Tenno/Akimbo/AkLexPistols",
+      "source": "https://wiki.warframe.com/w/Aklex",
+      "gameVersion": "44.1.4.1",
+      "slot": "secondary",
+      "class": ["dual-pistol"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 12,
+        "maxAmmo": 210,
+        "reloadStyle": "magazine",
+        "reloadTime": 3
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 13,
+            "puncture": 104,
+            "slash": 13
+          },
+          "trigger": "semi",
+          "shotType": "hitscan",
+          "multishot": 1,
+          "critChance": 0.2,
+          "critMultiplier": 2,
+          "statusChance": 0.1,
+          "fireRate": 1.58,
+          "ammoCost": 1,
+          "range": 300,
+          "flags": ["canHeadshot", "canCrit"]
+        }
+      ]
+    }
+  ],
+  "enemies": [
+    {
+      "id": "deimos-venin-mutalist",
+      "name": "Deimos Venin Mutalist",
+      "source": "https://wiki.warframe.com/w/Module:Enemies/data/infestation",
+      "gameVersion": "44.1.4.1",
+      "faction": "infested-deimos",
+      "scalingProfile": "infested",
+      "baseLevel": 5,
+      "baseHealth": 160,
+      "baseShield": 0,
+      "baseArmor": 0,
+      "baseOverguard": 0,
+      "bodyParts": [
+        {
+          "id": "body",
+          "multiplier": 1
+        }
+      ]
+    }
+  ],
+  "tolerance": {
+    "hits": 0.5
+  },
+  "cases": [
+    {
+      "name": "Runner",
+      "scenario": {
+        "build": {
+          "weaponId": "aklex",
+          "modules": [
+            {
+              "moduleId": "scorch"
+            },
+            {
+              "moduleId": "pistol-pestilence"
+            },
+            {
+              "moduleId": "sure-shot"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 290,
+          "yellow": 581
+        },
+        "ticks": [
+          {
+            "status": "gas-cloud",
+            "of": "white",
+            "shown": 66,
+            "count": 6
+          },
+          {
+            "status": "gas-cloud",
+            "of": "yellow",
+            "shown": 131,
+            "count": 6
+          }
+        ]
+      }
+    },
+    {
+      "name": "Deimos Venin Mutalist",
+      "scenario": {
+        "build": {
+          "weaponId": "aklex",
+          "modules": [
+            {
+              "moduleId": "scorch"
+            },
+            {
+              "moduleId": "pistol-pestilence"
+            },
+            {
+              "moduleId": "sure-shot"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "deimos-venin-mutalist",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 362,
+          "yellow": 723
+        },
+        "ticks": [
+          {
+            "status": "gas-cloud",
+            "of": "white",
+            "shown": 98,
+            "count": 6
+          },
+          {
+            "status": "gas-cloud",
+            "of": "yellow",
+            "shown": 196,
+            "count": 6
+          }
+        ]
+      }
+    },
+    {
+      "name": "Runner, with Perpetual Agony",
+      "scenario": {
+        "build": {
+          "weaponId": "aklex",
+          "modules": [
+            {
+              "moduleId": "scorch"
+            },
+            {
+              "moduleId": "pistol-pestilence"
+            },
+            {
+              "moduleId": "sure-shot"
+            },
+            {
+              "moduleId": "perpetual-agony"
+            }
+          ],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "runner",
+          "level": 200,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 0,
+          "body": 1
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "hits": {
+          "white": 290,
+          "yellow": 581
+        },
+        "ticks": [
+          {
+            "status": "gas-cloud",
+            "of": "white",
+            "shown": 66,
+            "count": 12
+          },
+          {
+            "status": "gas-cloud",
+            "of": "yellow",
+            "shown": 131,
+            "count": 12
+          }
+        ]
+      }
+    }
+  ]
+}

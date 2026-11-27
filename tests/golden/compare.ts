@@ -9,6 +9,7 @@ import { compareDepleted } from './depleted';
 import { compareLayered } from './layered';
 import type { Run } from './replay';
 import { explainHit } from './explain';
+import { compareTicks } from './ticks';
 
 type Side = {
   readonly attack: AttackMetrics;
@@ -115,5 +116,6 @@ export const compare = (
     ...compareProcs(observed, side),
     ...compareDepleted(observed, run),
     ...compareLayered(observed, run, tolerance),
+    ...compareTicks(observed, () => hitOf(attack, observed.hitsOf), tolerance.hits ?? 0),
   ];
 };

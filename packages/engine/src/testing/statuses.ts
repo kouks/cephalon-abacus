@@ -42,6 +42,14 @@ const effect = (bucket: string, op: string, [first, more]: readonly [number, num
   more,
 });
 
+/** How a DoT ticks: what it deals as, and the element of the same name that raises it, except Slash's. */
+const ticks = (coefficient: number, delay: number, type: string) => ({
+  coefficient,
+  delay,
+  dealsAs: type,
+  ...(type === 'cinematic' ? {} : { scaledBy: type }),
+});
+
 const capped = (most: number) => ({ kind: 'capped', most });
 const INDEPENDENT = { kind: 'independent' };
 
@@ -52,23 +60,31 @@ export const STATUS_ITEMS = [
     stacking: capped(5),
     effects: [{ ...effect('crit.chanceFlat', 'ADD', [0.05, 0.05]), scope: ['direct'] }],
   }),
-  status('bleed', { duration: 6, stacking: INDEPENDENT }),
-  status('ignite', { duration: 6, stacking: { kind: 'merged' } }),
+  status('bleed', { duration: 6, stacking: INDEPENDENT, dot: ticks(0.35, 1, 'cinematic') }),
+  status('ignite', { duration: 6, stacking: { kind: 'merged' }, dot: ticks(0.5, 1, 'heat') }),
   status('freeze', {
     duration: 6,
     stacking: capped(10),
     overguardMost: 4,
     effects: [{ ...effect('crit.damageFlat', 'ADD', [0.1, 0.05]), atMost: 1, scope: ['direct'] }],
   }),
-  status('tesla-chain', { duration: 6, stacking: INDEPENDENT }),
-  status('poison', { duration: 6, stacking: INDEPENDENT }),
+  status('tesla-chain', {
+    duration: 6,
+    stacking: INDEPENDENT,
+    dot: { ...ticks(0.5, 0, 'electricity'), reach: 3 },
+  }),
+  status('poison', { duration: 6, stacking: INDEPENDENT, dot: ticks(0.5, 1, 'toxin') }),
   status('detonate', { duration: 1.5, stacking: capped(10) }),
   status('corrosion', {
     duration: 8,
     stacking: capped(10),
     effects: [effect('enemy.armor', 'MULTIPLY', [-0.26, -0.06])],
   }),
-  status('gas-cloud', { duration: 6, stacking: capped(10) }),
+  status('gas-cloud', {
+    duration: 6,
+    stacking: capped(10),
+    dot: { ...ticks(0.5, 0, 'gas'), reach: 3 },
+  }),
   status('disrupt', {
     duration: 6,
     stacking: capped(10),
