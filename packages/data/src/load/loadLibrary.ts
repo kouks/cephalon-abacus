@@ -8,7 +8,7 @@ import { statusSchema } from '@/schema/status';
 import { weaponSchema } from '@/schema/weapon';
 
 import { checkDamageTypes } from './checkDamageTypes';
-import { checkModuleEffects, checkWeaponEffects } from './checkEffects';
+import { checkModuleEffects, checkStatusEffects, checkWeaponEffects } from './checkEffects';
 import { checkEnemies } from './checkEnemies';
 import { checkScaling } from './checkScaling';
 import { checkStatuses } from './checkStatuses';
@@ -79,6 +79,7 @@ const checkReferences = (found: Read, library: Library): readonly LibraryError[]
   ...checkDamageTypes(found.damageTypes.items),
   ...checkWeaponEffects(found.weapons.items, library),
   ...checkModuleEffects(found.modules.items, library),
+  ...checkStatusEffects(found.statuses.items, library),
   ...checkScaling(found.scaling.items),
   ...checkStatuses({ damageTypes: found.damageTypes.items, weapons: found.weapons.items }, library),
   ...checkEnemies(found.enemies.items, library),

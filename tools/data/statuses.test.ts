@@ -4,6 +4,11 @@ import { loadRealLibrary } from './loadRealLibrary.ts';
 
 const library = loadRealLibrary();
 
+/** Every status's effects, by its id. */
+const effects = [...library.statuses.values()].flatMap(({ id, effects = [] }) =>
+  effects.map((effect) => ({ id, ...effect })),
+);
+
 describe('statuses.json', () => {
   it('has every status a damage type procs, and Microwave, which no type procs', () => {
     const procs = [...library.damageTypes.values()].flatMap(({ proc }) =>
@@ -42,6 +47,29 @@ describe('statuses.json', () => {
         "bullet-attractor | 3 s | independent | C",
         "status-vulnerability | 8 s | most 10 | W",
         "microwave | until it dies | independent | C",
+      ]
+    `);
+  });
+
+  /** What each does to the hits that meet the enemy, by its stacks: the wiki's status pages (BIBLE §8). */
+  it('has the wiki’s effects on hits', () => {
+    const table = effects.map(({ id, bucket, op, first, more, atMost, scope }) =>
+      [
+        id,
+        `${bucket} ${op}`,
+        `${first} then ${more} a stack`,
+        atMost === undefined ? 'no most' : `${atMost} at the most`,
+        scope === undefined ? 'every hit' : scope.join(', '),
+      ].join(' | '),
+    );
+    expect(table).toMatchInlineSnapshot(`
+      [
+        "weakened | crit.chanceFlat ADD | 0.05 then 0.05 a stack | no most | direct",
+        "freeze | crit.damageFlat ADD | 0.1 then 0.05 a stack | 1 at the most | direct",
+        "corrosion | enemy.armor MULTIPLY | -0.26 then -0.06 a stack | no most | every hit",
+        "disrupt | enemy.shield STACKING_MULTIPLY | 1 then 0.25 a stack | no most | every hit",
+        "virus | enemy.health STACKING_MULTIPLY | 1 then 0.25 a stack | no most | every hit",
+        "status-vulnerability | enemy.status STACKING_MULTIPLY | 0.1 then 0.1 a stack | no most | every hit",
       ]
     `);
   });

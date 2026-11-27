@@ -8,6 +8,7 @@ import {
   libraryFile,
   module,
   referenceFiles,
+  status,
   weapon,
 } from '@/testing/fixtures';
 
@@ -220,6 +221,25 @@ describe('statuses.json', () => {
     expect(result.ok ? [] : result.errors.map(formatError)).toEqual([
       'damageTypes.json: items[0].proc: No status "nowhere" in statuses.json',
     ]);
+  });
+});
+
+describe('a status’s effects', () => {
+  const withEffects = (...buckets: readonly string[]) => {
+    const effects = buckets.map((bucket) => ({ bucket, op: 'ADD', first: 0.1, more: 0.05 }));
+    const statuses = libraryFile('statuses.json', { ...status, effects });
+    return loadLibrary([
+      ...referenceFiles.filter(({ path }) => path !== 'statuses.json'),
+      statuses,
+    ]);
+  };
+
+  it('name buckets in buckets.json, as a module’s effects do', () => {
+    const result = withEffects('damage.base', 'enemy.nowhere');
+    expect(result.ok ? [] : result.errors.map(formatError)).toEqual([
+      'statuses.json: items[0].effects[1].bucket: "enemy.nowhere" is not a bucket (buckets.json)',
+    ]);
+    expect(withEffects('damage.base').ok).toBe(true);
   });
 });
 

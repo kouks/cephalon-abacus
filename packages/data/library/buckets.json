@@ -443,14 +443,14 @@
     },
     {
       "id": "enemy",
-      "name": "Enemy debuffs: armor strips and damage taken",
+      "name": "Enemy debuffs: armor strips, damage taken, and what statuses amplify",
       "source": "https://wiki.warframe.com/w/Armor",
       "gameVersion": "44.1.4.1",
       "op": "MULTIPLY",
       "scope": {},
       "stage": "target",
       "confidence": "W",
-      "members": ["armor", "damage"]
+      "members": ["armor", "damage", "health", "shield", "status"]
     }
   ]
 }

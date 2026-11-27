@@ -78,7 +78,7 @@ describe('crit damage', () => {
 });
 
 describe('Cold', () => {
-  const cold = { attack: attackWith(0.2, 1.6), effects: [add('crit.damage', 1.1)], cold: 0.5 };
+  const cold = { attack: attackWith(0.2, 1.6), effects: [add('crit.damage', 1.1)], coldStacks: 9 };
 
   it('kunai crit damage with Primed Target Cracker and 9 Cold stacks is 3.86x', () => {
     expect(multiplier(cold)).toBeCloseTo(205 * STEP * 2.1 + 0.5, 12);

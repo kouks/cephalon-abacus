@@ -1,5 +1,6 @@
 import type { Effect } from '@/schema/effect';
 import type { Module } from '@/schema/module';
+import type { Status } from '@/schema/status';
 import type { Weapon } from '@/schema/weapon';
 
 import { findBucket } from './findBucket';
@@ -12,7 +13,7 @@ type Path = readonly PropertyKey[];
 /** A bucket an item names, and where. */
 type Named = { readonly name: string; readonly path: Path };
 
-const place = (effects: readonly Effect[], path: Path): readonly Named[] =>
+const place = (effects: readonly Pick<Effect, 'bucket'>[], path: Path): readonly Named[] =>
   effects.map(({ bucket }, index) => ({ name: bucket, path: [...path, index, 'bucket'] }));
 
 const inModule = ({ effects, locks = [] }: Module, path: Path = []): readonly Named[] => [
@@ -49,3 +50,9 @@ export const checkModuleEffects = (modules: readonly Located<Module>[], referenc
 
 export const checkWeaponEffects = (weapons: readonly Located<Weapon>[], reference: Reference) =>
   check(weapons, inWeapon, reference);
+
+const inStatus = ({ effects = [] }: Status) => place(effects, ['effects']);
+
+/** What a status does names buckets that exist, as a module's effects do. */
+export const checkStatusEffects = (statuses: readonly Located<Status>[], reference: Reference) =>
+  check(statuses, inStatus, reference);

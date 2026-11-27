@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 
 import { DEFAULT_ASSUMPTIONS } from '@/assumptions';
+import { makeLibrary } from '@/testing/build';
 import { hit } from '@/testing/hit';
+import { takenOfStacks } from '@/timeline/enemyState';
 
 import { receivedChance } from './procs';
 import { drawingRoller } from './roller';
@@ -22,6 +24,9 @@ const total = (procs: Readonly<Record<string, number>>) =>
   );
 
 const IMPACT = { damage: { impact: 100 } };
+
+/** Three stacks of Tau's status vulnerability: 0.3. */
+const taken = takenOfStacks([['status-vulnerability', 3]], makeLibrary([]));
 
 describe('one pellet’s procs, in expected value', () => {
   it.each([0.5, 1.5, 2.5])('come to its status chance of %d', (statusChance) => {
@@ -69,14 +74,12 @@ describe('forced procs', () => {
 describe('Tau’s status chance vulnerability (T-9)', () => {
   it('multiplies the chance a hit brings, by default', () => {
     expect(receivedChance(0.3, 0.3, DEFAULT_ASSUMPTIONS)).toBeCloseTo(0.39, 12);
-    expect(total(procsOf({ ...IMPACT, statusChance: 0.3 }, { vulnerability: 0.3 }))).toBe(0.39);
+    expect(total(procsOf({ ...IMPACT, statusChance: 0.3 }, { taken }))).toBe(0.39);
   });
 
   it('adds points without tauChanceMultiplied', () => {
     expect(receivedChance(0.3, 0.3, { tauChanceMultiplied: false })).toBeCloseTo(0.6, 12);
     const assumptions = { tauChanceMultiplied: false };
-    expect(
-      total(procsOf({ ...IMPACT, statusChance: 0.3 }, { vulnerability: 0.3, assumptions })),
-    ).toBe(0.6);
+    expect(total(procsOf({ ...IMPACT, statusChance: 0.3 }, { taken, assumptions }))).toBe(0.6);
   });
 });

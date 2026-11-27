@@ -25,6 +25,15 @@
         "kind": "capped",
         "most": 5
       },
+      "effects": [
+        {
+          "bucket": "crit.chanceFlat",
+          "op": "ADD",
+          "first": 0.05,
+          "more": 0.05,
+          "scope": ["direct"]
+        }
+      ],
       "confidence": "W"
     },
     {
@@ -60,6 +69,16 @@
         "most": 10
       },
       "overguardMost": 4,
+      "effects": [
+        {
+          "bucket": "crit.damageFlat",
+          "op": "ADD",
+          "first": 0.1,
+          "more": 0.05,
+          "atMost": 1,
+          "scope": ["direct"]
+        }
+      ],
       "confidence": "W"
     },
     {
@@ -106,6 +125,14 @@
         "kind": "capped",
         "most": 10
       },
+      "effects": [
+        {
+          "bucket": "enemy.armor",
+          "op": "MULTIPLY",
+          "first": -0.26,
+          "more": -0.06
+        }
+      ],
       "confidence": "W"
     },
     {
@@ -130,6 +157,14 @@
         "kind": "capped",
         "most": 10
       },
+      "effects": [
+        {
+          "bucket": "enemy.shield",
+          "op": "STACKING_MULTIPLY",
+          "first": 1,
+          "more": 0.25
+        }
+      ],
       "confidence": "W"
     },
     {
@@ -154,6 +189,14 @@
         "kind": "capped",
         "most": 10
       },
+      "effects": [
+        {
+          "bucket": "enemy.health",
+          "op": "STACKING_MULTIPLY",
+          "first": 1,
+          "more": 0.25
+        }
+      ],
       "confidence": "W"
     },
     {
@@ -177,11 +220,14 @@
         "kind": "capped",
         "most": 10
       },
-      "effect": {
-        "on": "statusChanceTaken",
-        "first": 0.1,
-        "more": 0.1
-      },
+      "effects": [
+        {
+          "bucket": "enemy.status",
+          "op": "STACKING_MULTIPLY",
+          "first": 0.1,
+          "more": 0.1
+        }
+      ],
       "confidence": "W"
     },
     {
