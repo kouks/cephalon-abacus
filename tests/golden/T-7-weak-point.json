@@ -11,9 +11,13 @@
     {
       "on": "2026-11-27",
       "words": "The Crewman has a helmet that breaks off visually, I think that might be the 100 health entity we see. It only breaks once shields are broken."
+    },
+    {
+      "on": "2026-11-27",
+      "words": "Level 20 Crewman. Aklex, no mods, no other external sources of damage.\nDied after 3 shots, all white non-crits.\n1: 547 shield + 1 health damage\n2: 997 health + broken helmet (30% health-ish left)\n3: 548 health -> dead"
     }
   ],
-  "notes": "Asked for in the Simulacrum with AI paused, Steel Path off, a fresh plain Crewman for every shot, the T-46 Lanka build (Serration, Radiated Reload, Primed Bane of Corpus, Stormbringer, Hellfire, Critical Delay, all at max), charged and unscoped at the head from about 10 m, with no aura, arcanes, companion, abilities or shards, and no numbers were predicted to Pavel. The shield shows what it had left, 8,007 and 10,881 (whole shields, T-46), so the head lets all of the rest through: under the 5% gate the level 100 white would show about 21,300 on it. Health loses all of the rest too: 14,029 of 15,207.5 leaves 7.7% at level 100, and 11,155 of 19,019.3 leaves 41% at 150, which Pavel put at about 5% and 40%; the yellows kill. The yellows show no headcrit on a Crewman's head, as the library has it: with one, the level 100 yellow would show about 160,000. The numbers on health have no case: each is twice what health took less 100 (27,958 = 2 × 14,029.1 − 100, and so are the other three, to the digit), which is T-43's number for a hit that breaks a part: the Crewman's helmet, which Pavel sees break off, and only once the shields are gone. It has 100 at levels 100 and 150 alike. That needs parts with health of their own (ABA-59). Lanka's charged shot is in the fixture, with Radiated Reload, for the reason in T-38.",
+  "notes": "Asked for in the Simulacrum with AI paused, Steel Path off, a fresh plain Crewman for every shot, the T-46 Lanka build (Serration, Radiated Reload, Primed Bane of Corpus, Stormbringer, Hellfire, Critical Delay, all at max), charged and unscoped at the head from about 10 m, with no aura, arcanes, companion, abilities or shards, and no numbers were predicted to Pavel. The shield shows what it had left, 8,007 and 10,881 (whole shields, T-46), so the head lets all of the rest through: under the 5% gate the level 100 white would show about 21,300 on it. Health loses all of the rest too: 14,029 of 15,207.5 leaves 7.7% at level 100, and 11,155 of 19,019.3 leaves 41% at 150, which Pavel put at about 5% and 40%; the yellows kill. The yellows show no headcrit on a Crewman's head, as the library has it: with one, the level 100 yellow would show about 160,000. The numbers on health have no case: each is twice what health took less 100 (27,958 = 2 × 14,029.1 − 100, and so are the other three, to the digit), which is T-43's number for a hit that breaks a part: the Crewman's helmet, which Pavel sees break off, and only once the shields are gone. It has 100 at levels 100 and 150 alike. That needs parts with health of their own (ABA-59). Lanka's charged shot is in the fixture, with Radiated Reload, for the reason in T-38. The third report, three unmodded Aklex shots on a level 20 Crewman, can only be headshots: 548 is three times the 183 a body shows, and only it breaks 547 shields at once. The first shot shows what the shields had and lets 1.44 through; the second breaks the helmet and shows 997, where the engine has 548 and the Crewman keeps 234 of 784 (30%); the third shows a plain 548 and kills, so the head is 3x after the helmet is gone. 997 is 2 × 548 − 99: the breaking number seems to start from the hit as shown, as the exact 2 × 548.44 − 98.56 would show 998. The second shot has no case until ABA-59; Aklex is in the fixture for the reason in T-42.",
   "weapons": [
     {
       "id": "lanka",
@@ -74,6 +78,43 @@
           "ammoCost": 1,
           "projectileSpeed": 250,
           "punchThrough": 5,
+          "flags": ["canHeadshot", "canCrit"]
+        }
+      ]
+    },
+    {
+      "id": "aklex",
+      "name": "Aklex",
+      "uniqueName": "/Lotus/Weapons/Tenno/Akimbo/AkLexPistols",
+      "source": "https://wiki.warframe.com/w/Aklex",
+      "gameVersion": "44.1.4.1",
+      "slot": "secondary",
+      "class": ["dual-pistol"],
+      "maxRank": 30,
+      "ammo": {
+        "magazine": 12,
+        "maxAmmo": 210,
+        "reloadStyle": "magazine",
+        "reloadTime": 3
+      },
+      "attacks": [
+        {
+          "id": "normal",
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 13,
+            "puncture": 104,
+            "slash": 13
+          },
+          "trigger": "semi",
+          "shotType": "hitscan",
+          "multishot": 1,
+          "critChance": 0.2,
+          "critMultiplier": 2,
+          "statusChance": 0.1,
+          "fireRate": 1.58,
+          "ammoCost": 1,
+          "range": 300,
           "flags": ["canHeadshot", "canCrit"]
         }
       ]
@@ -244,6 +285,69 @@
             "shown": {
               "shield": 10881
             }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Level 20, three Aklex headshots",
+      "scenario": {
+        "build": {
+          "weaponId": "aklex",
+          "modules": [],
+          "conditionals": {
+            "all": "off",
+            "overrides": []
+          },
+          "elementOrder": []
+        },
+        "enemy": {
+          "id": "crewman",
+          "level": 20,
+          "steelPath": false,
+          "modifiers": []
+        },
+        "aim": {
+          "head": 1,
+          "body": 0
+        },
+        "distance": 10,
+        "duration": 1,
+        "mode": "expected"
+      },
+      "observed": {
+        "layered": [
+          {
+            "colour": "white",
+            "shown": {
+              "shield": 547,
+              "health": 1
+            }
+          },
+          {
+            "before": {
+              "white": 2
+            },
+            "colour": "white",
+            "shown": {
+              "health": 548
+            }
+          }
+        ],
+        "depleted": [
+          {
+            "layer": "shield",
+            "hits": {
+              "white": 1
+            },
+            "last": "white"
+          },
+          {
+            "layer": "health",
+            "hits": {
+              "white": 2
+            },
+            "last": "white"
           }
         ]
       }

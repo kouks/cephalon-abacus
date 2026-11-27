@@ -22,14 +22,22 @@ const explainStage = ({ layer }: Depleted, enemy: EnemyStats, left: number): str
 
 type Stage = { readonly comparison: Comparison; readonly left: LayersLeft | undefined };
 
+/** All of each layer: the enemy as the case has it, before any hit. */
+const freshOf = ({ overguard, shield, health }: EnemyStats): LayersLeft => ({
+  overguard: overguard.value,
+  shield: shield.value,
+  health: health.value,
+});
+
 const stageOf = (stage: Depleted, run: Run, from: LayersLeft | undefined): Stage => {
   const enemy = run.result.enemy;
   const what = stage.layer;
-  const before = replay(run, from, beforeLast(stage));
-  const after = replay(run, before, [stage.last]);
-  if (enemy === undefined || before === undefined) {
+  if (enemy === undefined) {
+    const after = replay(run, from, inOrder(stage.hits));
     return { comparison: { what, moreThan: 0, atMost: 0, computed: undefined }, left: after };
   }
+  const before = replay(run, from, beforeLast(stage)) ?? freshOf(enemy);
+  const after = replay(run, before, [stage.last]);
   const full = enemy[stage.layer].value;
   const taken = full - before[stage.layer];
   const last = damageOn(run, before, { layer: stage.layer, colour: stage.last });
