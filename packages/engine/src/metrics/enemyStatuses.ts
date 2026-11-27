@@ -8,7 +8,12 @@ import { takenOfStacks } from '@/timeline/enemyState';
 import type { Capped } from '@/timeline/statusRules';
 import { statusRuleOf } from '@/timeline/statusRules';
 
-type OnEnemy = { readonly taken: readonly Taken[]; readonly warnings: readonly Warning[] };
+type OnEnemy = {
+  /** Each status's stacks, at no more than the enemy takes. */
+  readonly stacks: readonly (readonly [string, number])[];
+  readonly taken: readonly Taken[];
+  readonly warnings: readonly Warning[];
+};
 
 /** The most stacks of a status this enemy takes: the status's own, and its caps. */
 const mostOf = (status: string, library: Library, enemy: Capped) => {
@@ -43,5 +48,5 @@ export const enemyStatuses = (
       .map((entry) => ({ code: 'statusAboveMost', ...entry }) as const),
   ];
   const stacks = known.map(({ status, stacks, most }) => [status, Math.min(stacks, most)] as const);
-  return { taken: takenOfStacks(stacks, library), warnings };
+  return { stacks, taken: takenOfStacks(stacks, library), warnings };
 };

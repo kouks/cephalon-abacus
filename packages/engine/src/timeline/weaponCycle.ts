@@ -42,10 +42,13 @@ const afterShot = (cycle: Cycle, { at, weight }: Fire, state: CycleState): Next 
   };
 };
 
+/** The events of the weapon cycle. */
+export type CycleEvent = Extract<TimelineEvent, { kind: 'fire' | 'reloadStart' | 'reloadEnd' }>;
+
 /** What the cycle does next, after one of its events (BIBLE §9). */
 export const advance = (
   cycle: Cycle,
-  { state, event }: { readonly state: CycleState; readonly event: TimelineEvent },
+  { state, event }: { readonly state: CycleState; readonly event: CycleEvent },
   roller: Roller,
 ): Next => {
   switch (event.kind) {

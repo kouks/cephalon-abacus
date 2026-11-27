@@ -7,15 +7,12 @@ import type { Assumptions } from '@/assumptions';
 import { makeLoadout } from '@/build/loadout';
 import type { Warning } from '@/build/types';
 import type { EnemyStats } from '@/enemy/scaleEnemy';
-import { enemyStats } from '@/enemy/scaleEnemy';
-import { roundingOf } from '@/enemy/whole';
-import { defenceOf } from '@/resolve/defence';
-import { findTarget } from '@/resolve/target';
 import type { HitTrace } from '@/trace/hitTrace';
 
 import type { AttackMetrics, Headline } from './attackMetrics';
 import { attackMetrics } from './attackMetrics';
 import { checkLanding, checkLayer, checkMetrics, checkRange } from './checkMetrics';
+import { enemyOf } from './enemyOf';
 import { enemyStatuses } from './enemyStatuses';
 import { firingModes } from './firingModes';
 
@@ -54,11 +51,7 @@ export const buildMetrics = (
 ): BuildMetrics => {
   const { build, enemy, aim, distance } = scenario;
   const loadout = makeLoadout(scenario, library, assumptions);
-  const target = findTarget(enemy.id, library);
-  const stats = enemyStats(enemy, library);
-  const { layer, left } = enemy;
-  const armorRounding = roundingOf('armor', library);
-  const defence = defenceOf({ layer, left, stats, rules: library.damageTypes, armorRounding });
+  const { target, stats, defence } = enemyOf(enemy, library);
   const onEnemy = enemyStatuses(enemy, library, defence);
   const byAttack = firingModes(loadout.weapon).map((attack) =>
     attackMetrics(loadout, attack, { target, defence, aim, distance, taken: onEnemy.taken }),

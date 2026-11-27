@@ -1,5 +1,6 @@
 import { must } from '@abacus/data/assert';
 import type { Library } from '@abacus/data/load/library';
+import type { Attack } from '@abacus/data/schema/attack';
 import type { BodyPart } from '@abacus/data/schema/effect';
 import type { EnemyPart } from '@abacus/data/schema/enemy';
 import type { Faction } from '@abacus/data/schema/faction';
@@ -71,3 +72,10 @@ export const aimAt = (
     { part: target.parts.get(weakPoint) ?? bodyOf(target), share: head },
     { part: bodyOf(target), share: body },
   ].filter(({ share }) => share > 0);
+
+/** The parts an attack hits: an attack that can't headshot hits the body, wherever it is aimed (most AoE). */
+export const partsHit = (
+  { flags = [] }: Attack,
+  { aim, target }: { readonly aim: Scenario['aim']; readonly target: Target },
+): readonly AimedPart[] =>
+  flags.includes('canHeadshot') ? aimAt(aim, target) : [{ part: bodyOf(target), share: 1 }];

@@ -25,12 +25,14 @@ type Pull = {
   readonly parts?: readonly AimedPart[];
   readonly modules?: readonly { readonly id: string }[];
   readonly at?: number;
+  /** How much of a shot the pull is. */
+  readonly weight?: number;
 };
 
 const strikeOf = (attack: object, { parts = ON_BODY, modules = [] }: Pull = {}): Strike => {
   const loadout = loadoutOf({ attack, modules });
   const built = buildAttack(loadout, must(loadout.weapon.attacks[0], 'An attack'));
-  return { built, parts, distance: 10 };
+  return { built, parts: parts.map((aimed) => ({ ...aimed, built })), distance: 10 };
 };
 
 const fightWith = ({ left = {}, fight = {} }: Pull): Fight => ({
@@ -50,7 +52,8 @@ const fightWith = ({ left = {}, fight = {} }: Pull): Fight => ({
 const pull = (attacks: readonly object[], setup: Pull = {}) => {
   const fight = fightWith(setup);
   const strikes = attacks.map((attack) => strikeOf(attack, setup));
-  return pullTrigger(stateOf(fight.defence.left, setup.at), strikes, fight);
+  const shot = { strikes, weight: setup.weight ?? 1 };
+  return pullTrigger(stateOf(fight.defence.left, setup.at), shot, fight);
 };
 
 const amplifierOf = (factors: readonly { readonly name: string; readonly value: number }[]) =>
@@ -87,6 +90,12 @@ describe('the pellets of one trigger pull', () => {
     ]);
     expect(state.left.health).toBeCloseTo(1000 - 150, 9);
     expect(stacksAt(state.statuses, VULNERABILITY, 0)).toBeCloseTo(1 + 0.5 * 1.1, 12);
+  });
+
+  it('are as much of a pellet as the shot is of a shot: the share that ends a magazine', () => {
+    const { state, hits } = pull([{ ...TAU, multishot: 1.5 }], { weight: 0.5 });
+    expect(hits.map(({ amount }) => amount)).toEqual([0.5, 0.25]);
+    expect(state.left.health).toBeCloseTo(1000 - 75, 9);
   });
 
   it('are whole when drawn, and so are their stacks', () => {
