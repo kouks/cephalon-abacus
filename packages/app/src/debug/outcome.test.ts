@@ -13,6 +13,7 @@ const result: Result = {
   burstDps: 9999.4,
   sustainedDps: 0,
   lifetimeDamage: Infinity,
+  dot: { perShot: 86.1, burstDps: 688.8, sustainedDps: 508.1, lifetimeDamage: Infinity },
   byAttack: [],
   layer: 'health',
   trace: [
@@ -56,6 +57,10 @@ describe('what the page shows', () => {
         { label: 'Burst DPS', value: '9,999' },
         { label: 'Sustained DPS', value: '0' },
         { label: 'Lifetime damage', value: 'Unlimited' },
+        { label: 'DoT per shot', value: '86' },
+        { label: 'DoT burst DPS', value: '689' },
+        { label: 'DoT sustained DPS', value: '508' },
+        { label: 'DoT lifetime damage', value: 'Unlimited' },
       ],
       oneHit: [],
       warnings: ['{"code":"unknownAttack","attackId":"alternate"}'],

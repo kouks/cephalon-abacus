@@ -21,6 +21,8 @@ import { firingModes } from './firingModes';
 
 /** A build's headline numbers, and where they come from. */
 export type BuildMetrics = Headline & {
+  /** What its procs deal over time, which the others leave out (BIBLE §8). */
+  readonly dot: Headline;
   /** The firing mode the headline is for. */
   readonly attackId: string;
   readonly byAttack: readonly AttackMetrics[];
@@ -32,6 +34,15 @@ export type BuildMetrics = Headline & {
   readonly trace: readonly HitTrace[];
   readonly warnings: readonly Warning[];
 };
+
+/** The headline of the firing mode it is for, direct damage and DoT apart. */
+const headlineOf = ({ perShot, burstDps, sustainedDps, lifetimeDamage, dot }: AttackMetrics) => ({
+  perShot,
+  burstDps,
+  sustainedDps,
+  lifetimeDamage,
+  dot,
+});
 
 const tracesOf = ({ shots }: AttackMetrics) =>
   shots.flatMap(({ shot }) => shot.hits.map(({ hit }) => hit.trace));
@@ -55,13 +66,9 @@ export const buildMetrics = (
 
   const asked = byAttack.find(({ attackId }) => attackId === build.attackId);
   const chosen = asked ?? must(byAttack[0], 'A weapon has a firing mode');
-  const { attackId, perShot, burstDps, sustainedDps, lifetimeDamage } = chosen;
   return {
-    attackId,
-    perShot,
-    burstDps,
-    sustainedDps,
-    lifetimeDamage,
+    attackId: chosen.attackId,
+    ...headlineOf(chosen),
     byAttack,
     layer: defence.layer,
     ...(stats === undefined ? {} : { enemy: stats }),

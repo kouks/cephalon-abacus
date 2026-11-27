@@ -33,11 +33,35 @@ const toJson = (_key: string, value: unknown): unknown => {
   return value === Infinity ? 'Infinity' : value;
 };
 
-const headlineOf = ({ perShot, burstDps, sustainedDps, lifetimeDamage }: Result) => [
-  { label: 'Per shot', value: formatDamage(perShot) },
-  { label: 'Burst DPS', value: formatDamage(burstDps) },
-  { label: 'Sustained DPS', value: formatDamage(sustainedDps) },
-  { label: 'Lifetime damage', value: formatDamage(lifetimeDamage) },
+type Headline = Result['dot'];
+
+const NUMBERS = ['perShot', 'burstDps', 'sustainedDps', 'lifetimeDamage'] as const;
+
+const DIRECT: Readonly<Record<keyof Headline, string>> = {
+  perShot: 'Per shot',
+  burstDps: 'Burst DPS',
+  sustainedDps: 'Sustained DPS',
+  lifetimeDamage: 'Lifetime damage',
+};
+
+const DOT: Readonly<Record<keyof Headline, string>> = {
+  perShot: 'DoT per shot',
+  burstDps: 'DoT burst DPS',
+  sustainedDps: 'DoT sustained DPS',
+  lifetimeDamage: 'DoT lifetime damage',
+};
+
+/** The four numbers of a headline, by these labels. */
+const numbersOf = (
+  headline: Headline,
+  labels: Readonly<Record<keyof Headline, string>>,
+): readonly HeadlineNumber[] =>
+  NUMBERS.map((key) => ({ label: labels[key], value: formatDamage(headline[key]) }));
+
+/** Direct damage, then what the procs deal over time, apart from it. */
+const headlineOf = (result: Result) => [
+  ...numbersOf(result, DIRECT),
+  ...numbersOf(result.dot, DOT),
 ];
 
 const LAYER_NAMES = { overguard: 'Overguard', shield: 'Shields', health: 'Health' } as const;

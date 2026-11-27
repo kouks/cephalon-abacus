@@ -28,6 +28,8 @@ export type Headline = {
 };
 
 export type AttackMetrics = Headline & {
+  /** The same numbers for what its procs deal over time, which the others leave out (BIBLE §8). */
+  readonly dot: Headline;
   readonly attackId: string;
   readonly name: string;
   readonly stats: AttackStats;
@@ -73,6 +75,20 @@ export const attackMetrics = (loadout: Loadout, attack: Attack, fight: Fight): A
     return { attackId: fired.id, shot: expectedShot({ buildFor, ...at, reach: stats.range }) };
   });
   const perShot = shots.reduce((sum, { shot }) => sum + shot.total, 0);
+  const dot = headline(
+    shots.reduce((sum, { shot }) => sum + shot.dot, 0),
+    stats,
+    rates,
+  );
   const { id: attackId, name } = attack;
-  return { attackId, name, ...headline(perShot, stats, rates), stats, rates, composition, shots };
+  return {
+    attackId,
+    name,
+    ...headline(perShot, stats, rates),
+    dot,
+    stats,
+    rates,
+    composition,
+    shots,
+  };
 };
