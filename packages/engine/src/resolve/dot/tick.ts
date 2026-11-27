@@ -40,7 +40,11 @@ const statusDamageFactor = (procTotals: BucketTotals): Factor => {
 };
 
 /** (seed + 1) × c × (1 + element) × (1 + faction) × (1 + status damage): faction a second time. */
-const attackerSide = (dot: DotRule, seed: number, context: TickContext): readonly Factor[] => [
+export const attackerSide = (
+  dot: DotRule,
+  seed: number,
+  context: Pick<TickContext, 'procTotals' | 'target'>,
+): readonly Factor[] => [
   factor('seed', seed + 1),
   factor('coefficient', dot.coefficient),
   elementFactor(context.procTotals, dot),
@@ -49,7 +53,7 @@ const attackerSide = (dot: DotRule, seed: number, context: TickContext): readonl
 ];
 
 /** The first layer from the one the hit met that the tick's type damages: Toxin's skips shields. */
-const tickLayer = (dot: DotRule, { layer, rules }: Defence): Layer =>
+export const tickLayer = (dot: DotRule, { layer, rules }: Defence): Layer =>
   must(
     LAYERS.slice(LAYERS.indexOf(layer)).find(
       (each) => rules.get(dot.dealsAs)?.layers[each] !== undefined,
@@ -58,33 +62,38 @@ const tickLayer = (dot: DotRule, { layer, rules }: Defence): Layer =>
   );
 
 /**
- * The enemy's side: the faction's weakness to the type the tick deals (T-8: Gas's to Gas, and none to
- * a bleed's Cinematic, T-23), the layer, armor, Viral or Magnetic, and reductions.
+ * The enemy's side on the layer the tick meets: the faction's weakness to the type the tick deals
+ * (T-8: Gas's to Gas, and none to a bleed's Cinematic, T-23), the layer, armor, Viral or Magnetic,
+ * and reductions.
  */
-const targetSide = (dot: DotRule, context: TickContext): readonly Factor[] => {
+export const targetSide = (
+  dot: DotRule,
+  context: Pick<TickContext, 'totals' | 'target' | 'met'>,
+): readonly Factor[] => {
   const { met, totals } = context;
-  const at =
-    met === undefined
-      ? undefined
-      : { ...met, defence: { ...met.defence, layer: tickLayer(dot, met.defence) } };
   return [
     ...vulnerabilityFactors([dot.dealsAs], context.target),
-    ...layerFactors([dot.dealsAs], at),
-    amplifierFactor(totals, at),
+    ...layerFactors([dot.dealsAs], met),
+    amplifierFactor(totals, met),
     reductionFactor(totals),
   ];
 };
 
 /** In binary32, step by step, as the game works the attacker's side (the wiki's Damage/Calculation page). */
-const f32Product = (factors: readonly Factor[]) =>
+export const f32Product = (factors: readonly Factor[]): number =>
   factors.reduce((product, { value }) => Math.fround(product * Math.fround(value)), 1);
 
-const product = (factors: readonly Factor[]) =>
+export const product = (factors: readonly Factor[]): number =>
   factors.reduce((total, { value }) => total * value, 1);
 
-/** One tick of a DoT proc with this seed, and every factor that made it (BIBLE §8). */
+/** One tick of a DoT proc with this seed on the first layer it damages, and every factor (BIBLE §8). */
 export const tickOf = (dot: DotRule, seed: number, context: TickContext) => {
+  const { met } = context;
+  const at =
+    met === undefined
+      ? undefined
+      : { ...met, defence: { ...met.defence, layer: tickLayer(dot, met.defence) } };
   const attacker = attackerSide(dot, seed, context);
-  const target = targetSide(dot, context);
+  const target = targetSide(dot, { ...context, met: at });
   return { factors: [...attacker, ...target], damage: f32Product(attacker) * product(target) };
 };

@@ -7,13 +7,13 @@ import { buildAttack } from '@/build/buildAttack';
 import type { Loadout } from '@/build/loadout';
 import { makeLoadout } from '@/build/loadout';
 import { EXPECTED_ROLLER } from '@/resolve/roller';
-import type { HitTrace } from '@/trace/hitTrace';
+import type { HitTrace, TickTrace } from '@/trace/hitTrace';
 import { cycleOf } from '@/timeline/cycle';
 import type { EnemyState } from '@/timeline/enemyState';
 import { stateOf } from '@/timeline/enemyState';
 import { fightUntil } from '@/timeline/fight';
 import type { Series } from '@/timeline/series';
-import { damageOf, sampleTraces, seriesOf } from '@/timeline/series';
+import { damageOf, sampleTraces, seriesOf, tickDamageOf } from '@/timeline/series';
 import type { Statuses } from '@/timeline/statuses';
 import { addStack, NO_STATUSES } from '@/timeline/statuses';
 import type { Capped } from '@/timeline/statusRules';
@@ -33,11 +33,13 @@ export type Simulation = Pick<BuildMetrics, 'attackId' | 'layer' | 'enemy' | 'wa
   readonly lasted: number;
   /** What the hits dealt, all told, as `evaluate` counts a shot. */
   readonly direct: number;
-  /** What the procs dealt over time. 0 until ABA-69. */
+  /** What the procs' ticks dealt, all told, each on the enemy as it was then (BIBLE §8). */
   readonly dot: number;
   readonly series: Series;
   /** Hits of the fight, as many as are kept (MOST_TRACES), evenly spread. */
   readonly trace: readonly HitTrace[];
+  /** Its ticks, as many as are kept, evenly spread. */
+  readonly ticks: readonly TickTrace[];
 };
 
 /**
@@ -96,7 +98,8 @@ export const simulation = (
 ): Simulation => {
   const { attackId, layer, enemy, warnings } = buildMetrics(scenario, library, assumptions);
   const loadout = makeLoadout(scenario, library, assumptions);
-  const { hits, diedAt } = fightUntil(setupOf(scenario, loadout, attackId), scenario.duration);
+  const fought = fightUntil(setupOf(scenario, loadout, attackId), scenario.duration);
+  const { hits, ticks, diedAt } = fought;
   const lasted = diedAt ?? scenario.duration;
   return {
     attackId,
@@ -105,9 +108,10 @@ export const simulation = (
     ...(diedAt === undefined ? {} : { timeToKill: diedAt }),
     lasted,
     direct: hits.reduce((sum, hit) => sum + damageOf(hit), 0),
-    dot: 0,
-    series: seriesOf(hits, lasted),
-    trace: sampleTraces(hits),
+    dot: ticks.reduce((sum, tick) => sum + tickDamageOf(tick), 0),
+    series: seriesOf(fought, lasted),
+    trace: sampleTraces(hits.map(({ hit }) => hit.trace)),
+    ticks: sampleTraces(ticks),
     warnings,
   };
 };

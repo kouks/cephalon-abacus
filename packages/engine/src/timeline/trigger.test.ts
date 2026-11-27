@@ -71,6 +71,12 @@ describe('the pellets of one trigger pull', () => {
     expect(state.left).toEqual({ overguard: 0, shield: 0, health: 1000 - 2.5 - 100 });
   });
 
+  it('leave the neutral dummy’s endless health endless, though all of each lands', () => {
+    const attack = { damage: { impact: 100 }, critChance: 0, statusChance: 0 };
+    const { state } = pull([attack], { left: { health: Number.POSITIVE_INFINITY } });
+    expect(state.left.health).toBe(Infinity);
+  });
+
   it('see what earlier pellets left on the enemy: Tau makes the next chance 10% more', () => {
     const { state, hits } = pull([{ ...TAU, multishot: 2 }]);
     expect(hits.map(({ hit }) => hit.trace.procs[0]?.count)).toEqual([1, expect.closeTo(1.1, 12)]);
