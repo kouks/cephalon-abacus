@@ -34,28 +34,57 @@ const status = (id: string, { duration, ...rest }: Made) => ({
   ...rest,
 });
 
+/** An effect worth `first` at one stack and `more` for each after it. */
+const effect = (bucket: string, op: string, [first, more]: readonly [number, number]) => ({
+  bucket,
+  op,
+  first,
+  more,
+});
+
 const capped = (most: number) => ({ kind: 'capped', most });
 const INDEPENDENT = { kind: 'independent' };
 
 export const STATUS_ITEMS = [
   status('knockback', { duration: 6, stacking: capped(5) }),
-  status('weakened', { duration: 10, stacking: capped(5) }),
+  status('weakened', {
+    duration: 10,
+    stacking: capped(5),
+    effects: [{ ...effect('crit.chanceFlat', 'ADD', [0.05, 0.05]), scope: ['direct'] }],
+  }),
   status('bleed', { duration: 6, stacking: INDEPENDENT }),
   status('ignite', { duration: 6, stacking: { kind: 'merged' } }),
-  status('freeze', { duration: 6, stacking: capped(10), overguardMost: 4 }),
+  status('freeze', {
+    duration: 6,
+    stacking: capped(10),
+    overguardMost: 4,
+    effects: [{ ...effect('crit.damageFlat', 'ADD', [0.1, 0.05]), atMost: 1, scope: ['direct'] }],
+  }),
   status('tesla-chain', { duration: 6, stacking: INDEPENDENT }),
   status('poison', { duration: 6, stacking: INDEPENDENT }),
   status('detonate', { duration: 1.5, stacking: capped(10) }),
-  status('corrosion', { duration: 8, stacking: capped(10) }),
+  status('corrosion', {
+    duration: 8,
+    stacking: capped(10),
+    effects: [effect('enemy.armor', 'MULTIPLY', [-0.26, -0.06])],
+  }),
   status('gas-cloud', { duration: 6, stacking: capped(10) }),
-  status('disrupt', { duration: 6, stacking: capped(10) }),
+  status('disrupt', {
+    duration: 6,
+    stacking: capped(10),
+    effects: [effect('enemy.shield', 'STACKING_MULTIPLY', [1, 0.25])],
+  }),
   status('confusion', { duration: 12, stacking: capped(10) }),
-  status('virus', { duration: 6, stacking: capped(10) }),
+  status('virus', {
+    duration: 6,
+    stacking: capped(10),
+    effects: [effect('enemy.health', 'STACKING_MULTIPLY', [1, 0.25])],
+  }),
   status('bullet-attractor', { duration: 3, stacking: INDEPENDENT }),
   status('status-vulnerability', {
     duration: 8,
     stacking: capped(10),
-    effect: { on: 'statusChanceTaken', first: 0.1, more: 0.1 },
+    effects: [effect('enemy.status', 'STACKING_MULTIPLY', [0.1, 0.1])],
   }),
   status('microwave', { stacking: INDEPENDENT }),
 ];

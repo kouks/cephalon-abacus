@@ -19,6 +19,7 @@ export type FactorName =
   | 'vulnerability'
   | 'layer'
   | 'armor'
+  | 'amplifier'
   | 'reduction'
   | 'least';
 

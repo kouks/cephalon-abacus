@@ -7,13 +7,8 @@ import type { BuiltAttack } from '@/build/buildAttack';
 
 import type { Roller } from './roller';
 
-/** Where a pellet lands, and what the enemy has that changes the procs it takes. */
-export type Rolled = {
-  /** Metres to the target: forced procs can have a reach. */
-  readonly distance: number;
-  /** Tau's status chance vulnerability on the enemy: 0.1 a stack (BIBLE §8). */
-  readonly vulnerability?: number;
-};
+/** What the statuses on the enemy add to the status chance it takes: Tau's 0.1 a stack (BIBLE §8). */
+export const STATUS_TAKEN = 'enemy.status';
 
 /** The status chance a hit brings, as the enemy takes it: Tau multiplies it, or adds points (T-9). */
 export const receivedChance = (
@@ -53,13 +48,10 @@ const merged = (...counts: readonly ReadonlyMap<string, number>[]): readonly Pro
 /**
  * One pellet's procs (BIBLE §8): the whole part of its status chance, and one more with the chance of
  * the rest, each of a type picked by its weight; then the forced ones. Above 100%, a type can come up
- * twice. In expected value the counts are shares.
+ * twice. In expected value the counts are shares. Metres to the target, as forced procs can have a reach.
  */
-export const rollProcs = (
-  built: BuiltAttack,
-  { distance, vulnerability = 0 }: Rolled,
-  roller: Roller,
-) => {
+export const rollProcs = (built: BuiltAttack, distance: number, roller: Roller) => {
+  const vulnerability = built.totals.get(STATUS_TAKEN)?.stacking ?? 0;
   const chance = receivedChance(built.stats.statusChance.value, vulnerability, built.assumptions);
   const rolled = roller.pick(built.composition.procWeights, roller.count(chance));
   return merged(forcedAt(built, distance), statusesOf(rolled, built));

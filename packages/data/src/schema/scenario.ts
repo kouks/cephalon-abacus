@@ -41,6 +41,8 @@ const targetSchema = object({
   layer: layerSchema.exactOptional(),
   /** What it has left of each layer. Absent: all of it. */
   left: z.partialRecord(layerSchema, nonNegative).readonly().exactOptional(),
+  /** The statuses on it, by their id in statuses.json, and their stacks (BIBLE §8). Absent: none. */
+  statuses: z.record(slugSchema, positive).readonly().exactOptional(),
 });
 
 const TOLERANCE = 1e-9;

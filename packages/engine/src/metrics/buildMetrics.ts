@@ -16,6 +16,7 @@ import type { HitTrace } from '@/trace/hitTrace';
 import type { AttackMetrics, Headline } from './attackMetrics';
 import { attackMetrics } from './attackMetrics';
 import { checkLanding, checkLayer, checkMetrics, checkRange } from './checkMetrics';
+import { enemyStatuses } from './enemyStatuses';
 import { firingModes } from './firingModes';
 
 /** A build's headline numbers, and where they come from. */
@@ -47,8 +48,9 @@ export const buildMetrics = (
   const { layer, left } = enemy;
   const armorRounding = roundingOf('armor', library);
   const defence = defenceOf({ layer, left, stats, rules: library.damageTypes, armorRounding });
+  const onEnemy = enemyStatuses(enemy, library, defence);
   const byAttack = firingModes(loadout.weapon).map((attack) =>
-    attackMetrics(loadout, attack, { target, defence, aim, distance }),
+    attackMetrics(loadout, attack, { target, defence, aim, distance, taken: onEnemy.taken }),
   );
 
   const asked = byAttack.find(({ attackId }) => attackId === build.attackId);
@@ -70,6 +72,7 @@ export const buildMetrics = (
       ...checkLayer(defence.layer, stats),
       ...checkRange(byAttack, distance),
       ...checkLanding(byAttack, aim),
+      ...onEnemy.warnings,
     ],
   };
 };

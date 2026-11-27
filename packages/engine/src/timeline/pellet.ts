@@ -10,10 +10,11 @@ import { layerLeft } from '@/resolve/defence';
 import type { HitResult } from '@/resolve/resolveHit';
 import { resolveHit } from '@/resolve/resolveHit';
 import type { Roller } from '@/resolve/roller';
+import { withTaken } from '@/resolve/taken';
 import type { AimedPart, Target } from '@/resolve/target';
 
 import type { EnemyState } from './enemyState';
-import { takenAt } from './enemyState';
+import { takenFrom } from './enemyState';
 import type { Statuses } from './statuses';
 import { addStack } from './statuses';
 import type { Capped } from './statusRules';
@@ -58,15 +59,15 @@ type Struck = { readonly pellet: Pellet; readonly fight: Fight };
 const landed = (state: EnemyState, strike: Strike, { pellet, fight }: Struck): Outcome => {
   const { roller, target } = fight;
   const defence = { ...fight.defence, left: state.left, layer: layerLeft(state.left) };
-  const vulnerability = takenAt(state, 'statusChanceTaken', fight.library);
+  const built = withTaken(strike.built, takenFrom(state, fight.library));
   const parts = roller.pick(
     new Map(strike.parts.map((aimed) => [aimed, aimed.share])),
     pellet.weight,
   );
   const outcomes = [...parts].map(([{ part }, amount]): Outcome => {
     const at = { target, part, distance: strike.distance };
-    const hit = resolveHit(strike.built, { ...at, defence, vulnerability, roller });
-    const dealt = dealtOnLayers(strike.built, at, defence);
+    const hit = resolveHit(built, { ...at, defence, roller });
+    const dealt = dealtOnLayers(built, at, defence);
     const tiers = roller.pick(new Map(dealt.map((tier) => [tier, tier.chance])), amount);
     const trace = { ...hit.trace, t: state.at, pellet: pellet.index };
     return {

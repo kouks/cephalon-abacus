@@ -9,6 +9,8 @@ import type { AttackStats } from '@/build/stats/attackStats';
 import type { ExpectedShot } from '@/resolve/expectedShot';
 import { expectedShot } from '@/resolve/expectedShot';
 import type { Defence } from '@/resolve/defence';
+import type { Taken } from '@/resolve/taken';
+import { withTaken } from '@/resolve/taken';
 import type { Target } from '@/resolve/target';
 
 import { withLinked } from './firingModes';
@@ -41,6 +43,8 @@ type Fight = {
   readonly defence: Defence;
   readonly aim: Scenario['aim'];
   readonly distance: number;
+  /** What the statuses on the enemy do to the hits. Absent: nothing. */
+  readonly taken?: readonly Taken[];
 };
 
 /** N × (1 + max ammo ÷ magazine): the loaded magazine, and the rest in reserve. */
@@ -62,10 +66,11 @@ const headline = (perShot: number, stats: AttackStats, rates: AttackRates): Head
 /** What a firing mode does to a target on average, in closed form. */
 export const attackMetrics = (loadout: Loadout, attack: Attack, fight: Fight): AttackMetrics => {
   const { stats, rates, composition } = buildAttack(loadout, attack);
+  const { taken = [], ...at } = fight;
   const shots = withLinked(attack, loadout.weapon).map((fired) => {
     const buildFor: Parameters<typeof expectedShot>[0]['buildFor'] = (bodyParts) =>
-      buildAttack(loadout, fired, { bodyParts });
-    return { attackId: fired.id, shot: expectedShot({ buildFor, ...fight, reach: stats.range }) };
+      withTaken(buildAttack(loadout, fired, { bodyParts }), taken);
+    return { attackId: fired.id, shot: expectedShot({ buildFor, ...at, reach: stats.range }) };
   });
   const perShot = shots.reduce((sum, { shot }) => sum + shot.total, 0);
   const { id: attackId, name } = attack;

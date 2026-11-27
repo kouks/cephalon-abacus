@@ -73,6 +73,30 @@ describe('a build’s metrics', () => {
   });
 });
 
+describe('statuses on the enemy', () => {
+  const onEnemy = (statuses: object) =>
+    measureBuild({
+      scenario: {
+        enemy: { id: 'neutral-dummy', level: 1, steelPath: false, modifiers: [], statuses },
+      },
+    });
+
+  it('change every hit: Viral at 10 stacks, and a share of a stack in expected value', () => {
+    expect(onEnemy({ virus: 10 }).perShot).toBeCloseTo(HIT * 4.25, 9);
+    expect(onEnemy({ virus: 0.5 }).perShot).toBeCloseTo(HIT * 1.5, 9);
+    const factors = onEnemy({ virus: 10 }).trace[0]?.factors ?? [];
+    expect(factors.find(({ name }) => name === 'amplifier')?.value).toBe(4.25);
+  });
+
+  it('change the explosions a shot sets off too: Viral doubles a grenade and its blast', () => {
+    const attacks = [GRENADE, BLAST];
+    const enemy = { id: 'neutral-dummy', level: 1, steelPath: false, modifiers: [] };
+    const viral = { enemy: { ...enemy, statuses: { virus: 1 } } };
+    const plain = measureBuild({ attacks }).perShot;
+    expect(measureBuild({ attacks, scenario: viral }).perShot).toBeCloseTo(plain * 2, 9);
+  });
+});
+
 describe('lifetime damage', () => {
   it('is infinite without a limit to the ammo', () => {
     const ammo = { magazine: 45, reloadStyle: 'magazine', reloadTime: 2 };

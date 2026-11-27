@@ -59,6 +59,14 @@ export type Warning =
   | { readonly code: 'noProgenitor'; readonly weaponId: string }
   | { readonly code: 'unknownAttack'; readonly attackId: string }
   | { readonly code: 'unknownPart'; readonly part: string }
+  | { readonly code: 'unknownStatus'; readonly status: string }
+  | {
+      readonly code: 'statusAboveMost';
+      readonly status: string;
+      readonly stacks: number;
+      /** The most the enemy takes: the status's own, or the enemy's cap. */
+      readonly most: number;
+    }
   | {
       readonly code: 'outOfRange';
       readonly attackId: string;

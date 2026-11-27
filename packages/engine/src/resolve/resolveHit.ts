@@ -7,6 +7,7 @@ import type { Factor, HitTrace } from '@/trace/hitTrace';
 import type { TierChance } from './crit/critTiers';
 import type { HitCrit } from './crit/hitCrit';
 import { hitCrit } from './crit/hitCrit';
+import { amplifierFactor } from './factors/amplifierFactor';
 import { bodyPartFactor } from './factors/bodyPartFactor';
 import { factionFactor, finalFactors } from './factors/bonusFactors';
 import { effectsOf, factor } from './factors/factor';
@@ -50,8 +51,6 @@ type At = {
   readonly missBy?: number | undefined;
   /** The layer it meets, and the armor. Absent: bare health, as on the neutral dummy. */
   readonly defence?: Defence | undefined;
-  /** Tau's status chance vulnerability on the enemy. Absent: none. */
-  readonly vulnerability?: number | undefined;
   /** How the procs are rolled. Absent: in expected value. */
   readonly roller?: Roller | undefined;
 };
@@ -76,6 +75,7 @@ const chainOf = (
   radialFalloffFactor(built, missBy),
   ...vulnerabilityFactors(built.composition.types.keys(), target),
   ...layerFactors(built.composition.types.keys(), met),
+  amplifierFactor(built.totals, met),
 ];
 
 const damageOf = (type: DamageType, factors: readonly Factor[]) =>
@@ -134,8 +134,7 @@ export const resolveHit = (built: BuiltAttack, at: At): HitResult => {
     const byType = reduced(tierTypes(types, tier, multiplier), reduction.value);
     return { tier, chance, total: sum(byType.values()), perType: byType };
   });
-  const { distance, vulnerability, roller = EXPECTED_ROLLER } = at;
-  const procs = rollProcs(built, { distance, vulnerability: vulnerability ?? 0 }, roller);
+  const procs = rollProcs(built, at.distance, at.roller ?? EXPECTED_ROLLER);
   const trace = traceOf({ factors, perType, procs, met });
   return { perType, total: sum(perType.values()), crit, tiers, trace };
 };

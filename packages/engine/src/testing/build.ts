@@ -4,57 +4,14 @@ import { formatError } from '@abacus/data/load/libraryError';
 import { loadLibrary } from '@abacus/data/load/loadLibrary';
 import type { Scenario } from '@abacus/data/schema/scenario';
 import { scenarioSchema } from '@abacus/data/schema/scenario';
-import {
-  bucket,
-  faction,
-  family,
-  libraryFile,
-  module,
-  scenario,
-  weapon,
-} from '@abacus/data/testing/fixtures';
+import { faction, libraryFile, module, scenario, weapon } from '@abacus/data/testing/fixtures';
 import { armorCurve, curve, eximus, shieldCurve, steelPath } from '@abacus/data/testing/scaling';
 
 import type { Selection } from '@/build/selectEffects';
 
-import { damageTypeItems, ELEMENTS } from './damageTypes';
+import { buckets } from './buckets';
+import { damageTypeItems } from './damageTypes';
 import { STATUS_ITEMS } from './statuses';
-
-const stat = (id: string, change: object = {}) => ({ ...bucket, id, stage: 'stats', ...change });
-
-const members = (id: string, ...types: readonly string[]) => ({
-  ...bucket,
-  id,
-  scope: { direct: 1, aoe: 1 },
-  members: types,
-});
-
-const buckets = libraryFile(
-  'buckets.json',
-  { ...bucket, scope: { direct: 1, proc: 1, aoe: 1 } },
-  family,
-  { ...bucket, id: 'damage.final', op: 'MULTIPLY', scope: { direct: 1, aoe: 1 }, members: 'any' },
-  stat('weakPoint.damage', { scope: { direct: 1 }, op: 'ADD', bodyPart: 'weakPoint' }),
-  stat('headshot.damage', { scope: { direct: 1 }, bodyPart: 'head' }),
-  members('damage.ips', 'impact', 'puncture', 'slash'),
-  members('damage.element', ...ELEMENTS),
-  members('damage.elementNoCombine', ...ELEMENTS),
-  stat('multishot', { scope: { direct: 1, aoe: 1 } }),
-  stat('crit.chance', { scope: { direct: 1, proc: 1, aoe: 1 } }),
-  stat('crit.chanceCombo', { scope: { direct: 1, aoe: 1 } }),
-  stat('crit.chanceWeakPoint', { scope: { direct: 1 }, bodyPart: 'weakPoint' }),
-  stat('crit.chanceFlat', { scope: { direct: 1, aoe: 1 }, op: 'ADD' }),
-  stat('crit.damage', { scope: { direct: 1, proc: 1, aoe: 1 } }),
-  stat('crit.damageFlat', { scope: { direct: 1, aoe: 1 }, op: 'ADD' }),
-  stat('crit.damageFinal', { scope: { direct: 1, aoe: 1 }, op: 'MULTIPLY' }),
-  stat('status.chance', { scope: { direct: 1 } }),
-  ...[
-    ...['fireRate', 'status.chanceFlat', 'status.duration', 'magazine', 'ammoMax', 'reload'],
-    ...['punchThrough', 'range', 'projectileSpeed', 'aoeRadius'],
-  ].map((id) => stat(id, { scope: {} })),
-  stat('ammoEfficiency', { scope: {}, op: 'ADD', max: 0.75 }),
-  { ...members('enemy', 'armor', 'damage'), scope: {}, stage: 'target', op: 'MULTIPLY' },
-);
 
 const factions = libraryFile('factions.json', faction, {
   ...faction,

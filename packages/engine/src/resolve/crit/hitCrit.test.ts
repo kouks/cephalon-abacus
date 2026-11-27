@@ -50,9 +50,9 @@ it('raises tiers where the part or the build does', () => {
 });
 
 it('shows Cold as a source of its own', () => {
-  const { multiplier } = measureCrit({ cold: 0.1 });
+  const { multiplier } = measureCrit({ coldStacks: 1 });
   const sources = multiplier.totals.flatMap(({ contributions }) =>
     contributions.map(({ source, value }) => `${source.name} ${value}`),
   );
-  expect(sources).toEqual(['Cold 0.1']);
+  expect(sources).toEqual(['freeze 0.1']);
 });

@@ -2,8 +2,10 @@ import { describe, expect, it } from 'vitest';
 
 import { enemy } from '@abacus/data/testing/fixtures';
 
-import { add, mod } from '@/testing/build';
+import { add, makeLibrary, mod } from '@/testing/build';
 import { AOE, attackOf, BLAST, GRENADE, measureBuild } from '@/testing/metrics';
+
+import { enemyStatuses } from './enemyStatuses';
 
 const BEAM = { rampStartPct: 0.3, rampTime: 0.6, decayDelay: 0.8, decayTime: 2 };
 
@@ -163,5 +165,52 @@ describe('the metrics warn of a layer the enemy lacks', () => {
       });
     expect(dummy('health')).toEqual([]);
     expect(dummy('overguard')).toEqual([{ code: 'missingLayer', layer: 'overguard' }]);
+  });
+});
+
+describe('the metrics warn of statuses on the enemy', () => {
+  const carrying = (statuses: object, change: object = {}) =>
+    measureBuild({
+      enemies: [{ ...enemy, ...change }],
+      scenario: {
+        enemy: { id: 'test-enemy', level: 1, steelPath: false, modifiers: [], statuses },
+      },
+    });
+
+  it('that the library lacks, and leave them out', () => {
+    const { warnings, perShot } = carrying({ 'brand-new': 2 });
+    expect(warnings).toEqual([{ code: 'unknownStatus', status: 'brand-new' }]);
+    expect(perShot).toBeCloseTo(carrying({}).perShot, 9);
+  });
+
+  it('above the most a status stacks to, and count the most', () => {
+    const { warnings, perShot } = carrying({ virus: 12 });
+    expect(warnings).toEqual([{ code: 'statusAboveMost', status: 'virus', stacks: 12, most: 10 }]);
+    expect(perShot).toBeCloseTo(carrying({ virus: 10 }).perShot, 9);
+    expect(carrying({ virus: 10 }).warnings).toEqual([]);
+  });
+
+  it('above the enemy’s own cap on it', () => {
+    const capped = carrying({ virus: 5 }, { statusCaps: { viral: 3 } });
+    expect(capped.warnings).toEqual([
+      { code: 'statusAboveMost', status: 'virus', stacks: 5, most: 3 },
+    ]);
+    expect(capped.perShot).toBeCloseTo(carrying({ virus: 3 }).perShot, 9);
+  });
+
+  it('above Cold’s 4 while the enemy has Overguard left (the wiki’s Cold page)', () => {
+    const library = makeLibrary([]);
+    const cold = {
+      id: 'neutral-dummy',
+      level: 1,
+      steelPath: false,
+      modifiers: [],
+      statuses: { freeze: 6 },
+    };
+    const left = (overguard: number) => ({ left: { overguard, shield: 0, health: 100 } });
+    expect(enemyStatuses(cold, library, left(50)).warnings).toEqual([
+      { code: 'statusAboveMost', status: 'freeze', stacks: 6, most: 4 },
+    ]);
+    expect(enemyStatuses(cold, library, left(0)).warnings).toEqual([]);
   });
 });

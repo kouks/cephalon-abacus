@@ -18,6 +18,8 @@ import { expectedShot } from '@/resolve/expectedShot';
 import type { HitResult } from '@/resolve/resolveHit';
 import { resolveHit } from '@/resolve/resolveHit';
 import type { Roller } from '@/resolve/roller';
+import type { Taken } from '@/resolve/taken';
+import { withTaken } from '@/resolve/taken';
 import type { Target, TargetPart } from '@/resolve/target';
 import type { FactorName } from '@/trace/hitTrace';
 
@@ -33,7 +35,8 @@ type Setup = {
   readonly distance?: number;
   readonly missBy?: number;
   readonly defence?: Defence;
-  readonly vulnerability?: number;
+  /** What statuses on the enemy do to the hit. */
+  readonly taken?: readonly Taken[];
   readonly roller?: Roller;
 };
 
@@ -79,9 +82,12 @@ export const loadoutOf = ({
 export const hit = (setup: Setup = {}, part: TargetPart = BODY): HitResult => {
   const loadout = loadoutOf(setup);
   const attack = must(loadout.weapon.attacks[0], 'no attack');
-  const built = buildAttack(loadout, attack, { bodyParts: part.bodyParts });
-  const { target = makeTarget(), distance = 10, missBy, defence, vulnerability, roller } = setup;
-  return resolveHit(built, { target, part, distance, missBy, defence, vulnerability, roller });
+  const built = withTaken(
+    buildAttack(loadout, attack, { bodyParts: part.bodyParts }),
+    setup.taken ?? [],
+  );
+  const { target = makeTarget(), distance = 10, missBy, defence, roller } = setup;
+  return resolveHit(built, { target, part, distance, missBy, defence, roller });
 };
 
 /** What one hit of each crit tier of the test rifle shows and applies on the defence's layers. */
@@ -91,7 +97,10 @@ export const dealt = (
 ): readonly TierDealt[] => {
   const loadout = loadoutOf(setup);
   const attack = must(loadout.weapon.attacks[0], 'no attack');
-  const built = buildAttack(loadout, attack, { bodyParts: part.bodyParts });
+  const built = withTaken(
+    buildAttack(loadout, attack, { bodyParts: part.bodyParts }),
+    setup.taken ?? [],
+  );
   const { target = makeTarget(), distance = 10, missBy } = setup;
   return dealtOnLayers(built, { target, part, distance, missBy }, setup.defence);
 };

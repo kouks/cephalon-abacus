@@ -53,6 +53,9 @@ const pull = (attacks: readonly object[], setup: Pull = {}) => {
   return pullTrigger(stateOf(fight.defence.left, setup.at), strikes, fight);
 };
 
+const amplifierOf = (factors: readonly { readonly name: string; readonly value: number }[]) =>
+  factors.find(({ name }) => name === 'amplifier')?.value;
+
 const layersOf = (dealt: readonly { readonly layer: string }[]) => dealt.map(({ layer }) => layer);
 
 describe('the pellets of one trigger pull', () => {
@@ -128,6 +131,21 @@ describe('the statuses they leave', () => {
     const { state } = pull([TAU], { modules: [lasting] });
     expect(stacksAt(state.statuses, VULNERABILITY, 15.9)).toBe(1);
     expect(stacksAt(pull([TAU]).state.statuses, VULNERABILITY, 8)).toBe(0);
+  });
+
+  it('amplify the pellets after them: the second hits health twice as hard after a Viral proc', () => {
+    const viral = { damage: { impact: 100 }, critChance: 0, statusChance: 0, multishot: 2 };
+    const attack = { ...viral, forcedProcs: [{ status: 'virus', count: 1 }] };
+    const { hits } = pull([attack]);
+    expect(hits.map(({ hit }) => hit.total)).toEqual([100, expect.closeTo(200, 9)]);
+    expect(hits.map(({ hit }) => amplifierOf(hit.trace.factors))).toEqual([1, 2]);
+  });
+
+  it('amplify on the layer each pellet meets: Magnetic on shields', () => {
+    const magnetic = { damage: { impact: 100 }, critChance: 0, statusChance: 0, multishot: 2 };
+    const attack = { ...magnetic, forcedProcs: [{ status: 'disrupt', count: 1 }] };
+    const { state } = pull([attack], { left: { shield: 1000 } });
+    expect(state.left.shield).toBeCloseTo(1000 - 100 - 200, 9);
   });
 
   it('can last until the enemy dies: Microwave', () => {
