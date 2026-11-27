@@ -46,5 +46,5 @@ export const measure = (setup: Setup = {}) => {
     selection: { ...selection, scope: 'proc' },
   });
   const stats = attackStats(rifle, fired, { totals, procTotals, assumptions });
-  return { stats, rates: attackRates(rifle, fired, stats) };
+  return { stats, rates: attackRates(rifle, fired, stats), attack: fired, weapon: rifle };
 };
