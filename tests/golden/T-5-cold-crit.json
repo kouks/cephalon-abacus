@@ -7,9 +7,13 @@
     {
       "on": "2026-11-27",
       "words": "Aklex at rank 30 with Deep Freeze at max (5) and Sure Shot at max (5), on a level 200 Runner, Steel Path off.\n| Part | Cold stacks before the shot | Colour | Number |\n| body | 0 | white | 254 |\n| body | 0 | yellow | 508 |\n| body | 1 | yellow | 533 |\n| body | 10 | yellow | 762 |\n| body | 6 | yellow | 597 |\n| head | 0 | white | 762 |\n| head | 0 | yellow | 3048 |\n| head | 1 | yellow | 3200 |\n| head | 10 | yellow | 4571 |\n| head | 6 | yellow | 3581 |"
+    },
+    {
+      "on": "2026-11-27",
+      "words": "I can also confirm that the shot that procs the cold status does not receive the bonus damage."
     }
   ],
-  "notes": "Asked for in the Simulacrum, AI paused, Steel Path off, on a plain Runner at level 200, with no aura, arcanes, companion, abilities or shards, and no numbers were predicted to Pavel. Sure Shot only makes Cold procs more frequent. The stacks are what the Cold icon showed just before each shot; at 10 the Runner was Frozen. The distance wasn't asked for: Aklex has no falloff. Every number fits Cold's crit damage added to the multiplier (coldCritDamageAbsolute) and multiplied by the headcrit with the rest of it (headcritScalesFlat), as the wiki's Cold page has it: a share of the base would show 559, 668 and 1016 on the body, and a headcrit that leaves it out 3124, 3390 and 3809 on the head.",
+  "notes": "Asked for in the Simulacrum, AI paused, Steel Path off, on a plain Runner at level 200, with no aura, arcanes, companion, abilities or shards, and no numbers were predicted to Pavel. Sure Shot only makes Cold procs more frequent. The stacks are what the Cold icon showed just before each shot, and a shot gets none of the Cold it procs itself, as each pellet in the engine reads the statuses before it lands; at 10 the Runner was Frozen. The distance wasn't asked for: Aklex has no falloff. Every number fits Cold's crit damage added to the multiplier (coldCritDamageAbsolute) and multiplied by the headcrit with the rest of it (headcritScalesFlat), as the wiki's Cold page has it: a share of the base would show 559, 668 and 1016 on the body, and a headcrit that leaves it out 3124, 3390 and 3809 on the head.",
   "weapons": [
     {
       "id": "aklex",
