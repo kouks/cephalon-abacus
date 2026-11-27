@@ -2,7 +2,6 @@ import { must } from '@abacus/data/assert';
 import type { Layer } from '@abacus/data/schema/damageTypeRule';
 import { LAYERS } from '@abacus/data/schema/damageTypeRule';
 
-import type { Assumptions } from '@/assumptions';
 import { aggregate, joinTotals } from '@/build/aggregate';
 import type { DotRule } from '@/build/dotRules';
 import { memberTotal } from '@/build/stats/moddedStat';
@@ -24,7 +23,6 @@ export type TickContext = {
   readonly totals: BucketTotals;
   readonly target: Target;
   readonly met: Met | undefined;
-  readonly assumptions: Assumptions;
 };
 
 const elementFactor = (procTotals: BucketTotals, { elements }: DotRule): Factor => {
@@ -59,15 +57,10 @@ const tickLayer = (dot: DotRule, { layer, rules }: Defence): Layer =>
     'Every type that ticks damages health',
   );
 
-const vulnerabilityOf = (dot: DotRule, { target, assumptions }: TickContext): Factor => {
-  const [weakness] =
-    assumptions.dotsTakeTypeWeakness && dot.procType !== undefined
-      ? vulnerabilityFactors([dot.procType], target)
-      : [];
-  return factor('vulnerability', weakness?.value ?? 1, weakness?.effects);
-};
-
-/** The enemy's side: the faction's weakness (T-8), the layer, armor, Viral or Magnetic, and reductions. */
+/**
+ * The enemy's side: the faction's weakness to the type the tick deals (T-8: Gas's to Gas, and none to
+ * a bleed's Cinematic, T-23), the layer, armor, Viral or Magnetic, and reductions.
+ */
 const targetSide = (dot: DotRule, context: TickContext): readonly Factor[] => {
   const { met, totals } = context;
   const at =
@@ -75,7 +68,7 @@ const targetSide = (dot: DotRule, context: TickContext): readonly Factor[] => {
       ? undefined
       : { ...met, defence: { ...met.defence, layer: tickLayer(dot, met.defence) } };
   return [
-    vulnerabilityOf(dot, context),
+    ...vulnerabilityFactors([dot.dealsAs], context.target),
     ...layerFactors([dot.dealsAs], at),
     amplifierFactor(totals, at),
     reductionFactor(totals),

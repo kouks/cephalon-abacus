@@ -49,4 +49,13 @@ describe('a tick', () => {
       'poison tick of a white hit: reported 10, computed nothing\nThe hit inflicts no poison of this tier',
     ]);
   });
+
+  it('can say how many times it ticked', () => {
+    const [, ticks] = ticksOf([{ status: 'bleed', of: 'white', shown: 69, count: 7 }]);
+    expect(ticks && [ticks.computed, isMatch(ticks), describeMismatch(ticks)]).toEqual([
+      6,
+      false,
+      'bleed ticks of a white hit: reported 7, computed 6',
+    ]);
+  });
 });

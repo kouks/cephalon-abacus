@@ -28,7 +28,7 @@ export const dotsOf = (built: BuiltAttack, inflicted: Inflicted): readonly DotTr
   const { procs, crit, chain, met, target } = inflicted;
   const { procTotals, totals, assumptions, stats } = built;
   const seed = seedOf(chain);
-  const context = { procTotals, totals, target, met, assumptions };
+  const context = { procTotals, totals, target, met };
   return procs.flatMap(({ status, count }) => {
     const dot = built.dots.get(status);
     if (dot === undefined) return [];

@@ -2,9 +2,10 @@ import type { Assumptions } from '@/assumptions';
 import type { DotRule } from '@/build/dotRules';
 
 /**
- * The seconds after the proc that a DoT ticks (the wiki's Damage over Time page): one a second from
- * its delay, ⌊D − 1⌋ + 1 of them with D the duration times status duration. Electricity and Gas tick
- * from the proc, and their tick at the end deals nothing, unless immediateDotsTickToTheEnd (T-8).
+ * The seconds after the proc that a DoT ticks (the wiki's Damage over Time page), one a second, with D
+ * the duration times status duration. Slash, Toxin and Heat wait a second and tick ⌊D − 1⌋ + 1 times.
+ * Electricity and Gas tick from the proc while it lasts, ⌈D⌉ times: a tick at the very end deals
+ * nothing (T-8, immediateDotsTickToTheEnd).
  */
 export const tickTimes = (
   { delay, duration }: Pick<DotRule, 'delay' | 'duration'>,

@@ -46,7 +46,7 @@ export const buildAttack = (loadout: Loadout, attack: Attack, where: Where = {})
   const totals = sumBuckets(contributions, library);
   const forProcs = { selection: { ...selection, scope: 'proc' as const }, moment };
   const procTotals = sumBuckets(contributionsTo(collected, library, forProcs), library);
-  const stats = attackStats(weapon, attack, { totals, assumptions });
+  const stats = attackStats(weapon, attack, { totals, procTotals, assumptions });
   return {
     attack,
     totals,

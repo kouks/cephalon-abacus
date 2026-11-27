@@ -39,8 +39,13 @@ const layeredSchema = object({
     .refine((shown) => Object.keys(shown).length > 0, 'Expected a number on some layer'),
 });
 
-/** A DoT tick's number, and the colour of the hit whose proc it is (BIBLE §8). */
-const tickSchema = object({ status: slugSchema, of: colourSchema, shown: nonNegative });
+/** A DoT tick's number, the colour of the hit whose proc it is, and how many it dealt (BIBLE §8). */
+const tickSchema = object({
+  status: slugSchema,
+  of: colourSchema,
+  shown: nonNegative,
+  count: positiveInt.exactOptional(),
+});
 
 /** What was seen in the game, exactly as it was reported. */
 const observedSchema = object({

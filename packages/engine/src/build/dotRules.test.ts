@@ -14,7 +14,7 @@ describe('the statuses that tick', () => {
     expect([...rules.keys()]).toEqual(['bleed', 'ignite', 'tesla-chain', 'poison', 'gas-cloud']);
   });
 
-  it('carry how long a stack lasts, the type that procs them, and how far they reach', () => {
+  it('carry how long a stack lasts, the type they deal, and how far they reach', () => {
     expect(rules.get('tesla-chain')).toEqual({
       status: 'tesla-chain',
       coefficient: 0.5,
@@ -23,12 +23,10 @@ describe('the statuses that tick', () => {
       reach: 3,
       duration: 6,
       elements: ['electricity'],
-      procType: 'electricity',
     });
     expect(rules.get('bleed')).toMatchObject({
       dealsAs: 'cinematic',
       elements: [],
-      procType: 'slash',
     });
   });
 

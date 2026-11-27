@@ -100,7 +100,7 @@ describe('what a tick takes, and what it doesn’t', () => {
       'element',
       'faction',
       'statusDamage',
-      'vulnerability',
+      'vulnerability toxin',
       'layer toxin',
       'armor toxin',
       'amplifier',

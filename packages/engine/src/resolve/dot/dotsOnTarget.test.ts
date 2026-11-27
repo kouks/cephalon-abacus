@@ -48,15 +48,14 @@ describe('a tick at the target', () => {
     expect(valueOf(meeting('shield', { slash: 40 }, { taken }), 'amplifier')).toBe(1);
   });
 
-  it('takes no faction weakness, unless T-8 says so', () => {
-    const target = makeTarget({ faction: makeFaction({ damageProfile: { slash: 1.5 } }) });
+  it('takes the faction’s weakness to the type it deals: Gas’s to Gas, none to a bleed (T-8, T-23)', () => {
+    const target = makeTarget({
+      faction: makeFaction({ damageProfile: { slash: 1.5, gas: 1.5 } }),
+    });
+    expect(valueOf(meeting('health', { gas: 40 }, { target }), 'vulnerability')).toBe(1.5);
     expect(valueOf(meeting('health', { slash: 40 }, { target }), 'vulnerability')).toBe(1);
-    const assumptions = { dotsTakeTypeWeakness: true };
-    const weak = meeting('health', { slash: 40 }, { target, assumptions });
-    expect(valueOf(weak, 'vulnerability')).toBe(1.5);
-    expect(
-      factorOf(hit({ attack: always({ slash: 40 }), target }), 'vulnerability', 'slash').value,
-    ).toBe(1.5);
+    const direct = hit({ attack: always({ slash: 40 }), target });
+    expect(factorOf(direct, 'vulnerability', 'slash').value).toBe(1.5);
   });
 
   it('is the same on the neutral dummy as on bare health', () => {

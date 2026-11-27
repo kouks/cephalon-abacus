@@ -39,17 +39,16 @@ export const ASSUMPTIONS = {
    */
   tauChanceMultiplied: { default: true, test: 'T-9', bible: '§8' },
   /**
-   * DoT ticks take the faction's weakness to the type that procs them. The wiki's formulas have no such
-   * term, and T-23's bleeds on an Infested Runner show none of its Slash weakness.
+   * A combined element's DoT, Gas, takes its components' bonuses too. If not, Gas mods alone, as the
+   * wiki says. Confirmed: Aklex with Scorch and Pistol Pestilence ticks 66 Gas, not 144.
    */
-  dotsTakeTypeWeakness: { default: false, test: 'T-8', bible: '§8' },
-  /** A combined element's DoT, Gas, takes its components' bonuses too. The wiki: Gas mods alone. */
   dotsTakeComponentBonuses: { default: false, test: 'T-8', bible: '§8' },
   /**
-   * Electricity and Gas tick every second from the proc while it lasts: ⌈D⌉ times. If not, ⌊D − 1⌋ + 1,
-   * as the DoTs that wait a second, and the tick at the end deals nothing (the wiki).
+   * Electricity and Gas tick every second from the proc while it lasts: ⌈D⌉ times, as the wiki's
+   * ⌊D⌋ + 1 less a tick at the very end. If not, ⌊D − 1⌋ + 1, as the DoTs that wait a second.
+   * Confirmed: with +90% status duration (11.4 s), one Gas proc deals 12 ticks.
    */
-  immediateDotsTickToTheEnd: { default: false, test: 'T-8', bible: '§8' },
+  immediateDotsTickToTheEnd: { default: true, test: 'T-8', bible: '§8' },
 } as const satisfies Readonly<Record<string, Assumption>>;
 
 export type Assumptions = Readonly<Record<keyof typeof ASSUMPTIONS, boolean>>;
@@ -64,7 +63,6 @@ export const DEFAULT_ASSUMPTIONS: Assumptions = {
   breakShownInOwnTerms: ASSUMPTIONS.breakShownInOwnTerms.default,
   armorCappedBeforeStrips: ASSUMPTIONS.armorCappedBeforeStrips.default,
   tauChanceMultiplied: ASSUMPTIONS.tauChanceMultiplied.default,
-  dotsTakeTypeWeakness: ASSUMPTIONS.dotsTakeTypeWeakness.default,
   dotsTakeComponentBonuses: ASSUMPTIONS.dotsTakeComponentBonuses.default,
   immediateDotsTickToTheEnd: ASSUMPTIONS.immediateDotsTickToTheEnd.default,
 };

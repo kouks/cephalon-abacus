@@ -33,8 +33,9 @@ export const buckets = libraryFile(
   stat('crit.damageFinal', { scope: { direct: 1, aoe: 1 }, op: 'MULTIPLY' }),
   stat('status.chance', { scope: { direct: 1 } }),
   { ...bucket, id: 'status.damage', scope: { proc: 1 }, stage: 'proc' },
+  stat('status.duration', { scope: { proc: 1 } }),
   ...[
-    ...['fireRate', 'status.chanceFlat', 'status.duration', 'magazine', 'ammoMax', 'reload'],
+    ...['fireRate', 'status.chanceFlat', 'magazine', 'ammoMax', 'reload'],
     ...['punchThrough', 'range', 'projectileSpeed', 'aoeRadius'],
   ].map((id) => stat(id, { scope: {} })),
   stat('ammoEfficiency', { scope: {}, op: 'ADD', max: 0.75 }),
