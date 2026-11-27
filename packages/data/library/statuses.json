@@ -45,6 +45,11 @@
       "stacking": {
         "kind": "independent"
       },
+      "dot": {
+        "coefficient": 0.35,
+        "delay": 1,
+        "dealsAs": "cinematic"
+      },
       "confidence": "W"
     },
     {
@@ -55,6 +60,12 @@
       "duration": 6,
       "stacking": {
         "kind": "merged"
+      },
+      "dot": {
+        "coefficient": 0.5,
+        "delay": 1,
+        "dealsAs": "heat",
+        "scaledBy": "heat"
       },
       "confidence": "W"
     },
@@ -90,6 +101,13 @@
       "stacking": {
         "kind": "independent"
       },
+      "dot": {
+        "coefficient": 0.5,
+        "delay": 0,
+        "dealsAs": "electricity",
+        "scaledBy": "electricity",
+        "reach": 3
+      },
       "confidence": "W"
     },
     {
@@ -100,6 +118,12 @@
       "duration": 6,
       "stacking": {
         "kind": "independent"
+      },
+      "dot": {
+        "coefficient": 0.5,
+        "delay": 1,
+        "dealsAs": "toxin",
+        "scaledBy": "toxin"
       },
       "confidence": "W"
     },
@@ -144,6 +168,13 @@
       "stacking": {
         "kind": "capped",
         "most": 10
+      },
+      "dot": {
+        "coefficient": 0.5,
+        "delay": 0,
+        "dealsAs": "gas",
+        "scaledBy": "gas",
+        "reach": 3
       },
       "confidence": "W"
     },

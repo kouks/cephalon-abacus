@@ -14,7 +14,7 @@ import { effectsOf, factor } from './factors/factor';
 import { falloffFactor } from './factors/falloffFactor';
 import { landingFactor } from './factors/landingFactor';
 import { radialFalloffFactor } from './factors/radialFalloffFactor';
-import { rangeFactor } from './factors/rangeFactor';
+import { rangeFactor, reachesTarget } from './factors/rangeFactor';
 import type { Met } from './factors/layerFactors';
 import { layerFactors } from './factors/layerFactors';
 import { reductionFactor } from './factors/reductionFactor';
@@ -22,6 +22,7 @@ import { damageFactors, vulnerabilityFactors } from './factors/typeFactors';
 import type { TypeDamage } from './leastDamage';
 import { leastFactors, tierTypes } from './leastDamage';
 import type { Defence } from './defence';
+import { dotsOf } from './dot/dotsOf';
 import { rollProcs } from './procs';
 import type { Roller } from './roller';
 import { EXPECTED_ROLLER } from './roller';
@@ -100,10 +101,12 @@ const typesOf = (types: readonly DamageType[], chain: readonly Factor[]): readon
 const reduced = (byType: ReadonlyMap<DamageType, number>, by: number) =>
   new Map([...byType].map(([type, damage]) => [type, damage * by]));
 
-type Traced = Pick<HitTrace, 'factors' | 'perType' | 'procs'> & { readonly met: Met | undefined };
+type Traced = Pick<HitTrace, 'factors' | 'perType' | 'procs' | 'dots'> & {
+  readonly met: Met | undefined;
+};
 
 /** The layer the hit met, and the armor on it after strips. */
-const traceOf = ({ factors, perType, procs, met }: Traced): HitTrace => {
+const traceOf = ({ factors, perType, procs, dots, met }: Traced): HitTrace => {
   const trace = {
     t: 0,
     pellet: 0,
@@ -111,6 +114,7 @@ const traceOf = ({ factors, perType, procs, met }: Traced): HitTrace => {
     perType,
     layer: met?.defence.layer ?? 'health',
     procs,
+    dots,
   };
   return met === undefined ? trace : { ...trace, armor: met.armor.value };
 };
@@ -134,7 +138,9 @@ export const resolveHit = (built: BuiltAttack, at: At): HitResult => {
     const byType = reduced(tierTypes(types, tier, multiplier), reduction.value);
     return { tier, chance, total: sum(byType.values()), perType: byType };
   });
-  const procs = rollProcs(built, at.distance, at.roller ?? EXPECTED_ROLLER);
-  const trace = traceOf({ factors, perType, procs, met });
+  const roller = at.roller ?? EXPECTED_ROLLER;
+  const procs = reachesTarget(chain) ? rollProcs(built, at.distance, roller) : [];
+  const dots = dotsOf(built, { procs, crit, chain, met, target: at.target });
+  const trace = traceOf({ factors, perType, procs, dots, met });
   return { perType, total: sum(perType.values()), crit, tiers, trace };
 };

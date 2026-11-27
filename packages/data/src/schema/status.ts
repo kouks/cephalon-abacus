@@ -1,7 +1,16 @@
 import { z } from 'zod';
 
+import { damageTypeSchema } from './damageType';
 import { bucketNameSchema, opSchema, scopeSchema } from './effect';
-import { itemShape, list, object, positive, positiveInt, slugSchema } from './primitives';
+import {
+  itemShape,
+  list,
+  nonNegative,
+  object,
+  positive,
+  positiveInt,
+  slugSchema,
+} from './primitives';
 
 /** How a new stack of a status joins the ones an enemy has (BIBLE §8). */
 const stackingSchema = z.discriminatedUnion('kind', [
@@ -29,6 +38,23 @@ const statusEffectSchema = object({
 });
 
 /**
+ * How a damage-over-time status ticks (BIBLE §8, the wiki's Damage over Time page): a tick is
+ * (seed + 1) × coefficient × the bonuses, a second apart, for as long as the stack lasts.
+ */
+const dotSchema = object({
+  /** The share of its seed a tick deals: 0.35 for Slash, 0.5 for the others. */
+  coefficient: positive,
+  /** Seconds before the first tick: 1 for Slash, Toxin and Heat, none for Electricity and Gas. */
+  delay: nonNegative,
+  /** The damage type of its ticks: Cinematic for Slash, which armor doesn't reduce. */
+  dealsAs: damageTypeSchema,
+  /** The element whose bonuses raise its ticks. Absent: none, as Slash. */
+  scaledBy: damageTypeSchema.exactOptional(),
+  /** Metres it reaches around the target: Electricity's chain, Gas's cloud. */
+  reach: positive.exactOptional(),
+});
+
+/**
  * A status effect, by the `proc` slug that damage types name in damageTypes.json, or that only some
  * attacks inflict: Microwave.
  */
@@ -40,12 +66,17 @@ export const statusSchema = object({
   /** The most stacks an enemy takes while it has Overguard left: Cold's 4. */
   overguardMost: positiveInt.exactOptional(),
   effects: list(statusEffectSchema).exactOptional(),
+  dot: dotSchema.exactOptional(),
   confidence: z.enum(['W', 'W?', 'C', 'T']),
+}).refine(({ dot, duration }) => dot === undefined || duration !== undefined, {
+  path: ['duration'],
+  error: 'A status that ticks lasts a while',
 });
 
 export type Status = z.infer<typeof statusSchema>;
 export type Stacking = z.infer<typeof stackingSchema>;
 export type StatusEffect = z.infer<typeof statusEffectSchema>;
+export type Dot = z.infer<typeof dotSchema>;
 
 /** A status a hit inflicts, by its id in statuses.json: a share of one in expected value. */
 export const procSchema = object({ status: slugSchema, count: positive });

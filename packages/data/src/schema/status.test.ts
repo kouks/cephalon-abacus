@@ -37,3 +37,21 @@ describe('the statuses on a scenario’s enemy', () => {
     expect(scenarioSchema.safeParse({ ...scenario, enemy }).success).toBe(isValid);
   });
 });
+
+describe('a status that ticks', () => {
+  const dot = { coefficient: 0.35, delay: 1, dealsAs: 'cinematic' };
+  const accepted = (value: object) => statusSchema.safeParse(value).success;
+
+  it.each([
+    ['as Slash does', { dot }, true],
+    ['raised by an element, with a reach', { dot: { ...dot, scaledBy: 'gas', reach: 3 } }, true],
+    ['as no damage type', { dot: { ...dot, dealsAs: 'bleeding' } }, false],
+    ['from before its proc', { dot: { ...dot, delay: -1 } }, false],
+    ['until the enemy dies', { dot, duration: undefined }, false],
+  ])('%s', (_name, change, isValid) => {
+    const changed = Object.fromEntries(
+      Object.entries({ ...status, ...change }).filter(([, value]) => value !== undefined),
+    );
+    expect(accepted(changed)).toBe(isValid);
+  });
+});

@@ -73,4 +73,31 @@ describe('statuses.json', () => {
       ]
     `);
   });
+
+  /** How the DoTs tick: the wiki's Damage over Time and Damage/Calculation pages (BIBLE §8). */
+  it('has the wiki’s ticks', () => {
+    const table = [...library.statuses.values()].flatMap(({ id, dot }) =>
+      dot === undefined
+        ? []
+        : [
+            [
+              id,
+              `${dot.coefficient} of the seed`,
+              `from ${dot.delay} s`,
+              `as ${dot.dealsAs}`,
+              dot.scaledBy === undefined ? 'no element' : `raised by ${dot.scaledBy}`,
+              dot.reach === undefined ? 'one target' : `${dot.reach} m`,
+            ].join(' | '),
+          ],
+    );
+    expect(table).toMatchInlineSnapshot(`
+      [
+        "bleed | 0.35 of the seed | from 1 s | as cinematic | no element | one target",
+        "ignite | 0.5 of the seed | from 1 s | as heat | raised by heat | one target",
+        "tesla-chain | 0.5 of the seed | from 0 s | as electricity | raised by electricity | 3 m",
+        "poison | 0.5 of the seed | from 1 s | as toxin | raised by toxin | one target",
+        "gas-cloud | 0.5 of the seed | from 0 s | as gas | raised by gas | 3 m",
+      ]
+    `);
+  });
 });

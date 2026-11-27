@@ -6,6 +6,8 @@ import type { Assumptions } from '@/assumptions';
 import type { Composition } from './composition/composeDamage';
 import { composeDamage } from './composition/composeDamage';
 import type { Moment } from './contributions';
+import type { DotRule } from './dotRules';
+import { dotRulesOf } from './dotRules';
 import type { Loadout } from './loadout';
 import { selectionOf } from './selectEffects';
 import type { AttackRates } from './stats/attackRates';
@@ -19,6 +21,10 @@ import { contributionsTo, startOf, sumBuckets } from './totalBuckets';
 export type BuiltAttack = {
   readonly attack: Attack;
   readonly totals: BucketTotals;
+  /** The totals for its procs: status damage, and faction once more (BIBLE §8). */
+  readonly procTotals: BucketTotals;
+  /** How the statuses that tick do, by status id. */
+  readonly dots: ReadonlyMap<string, DotRule>;
   readonly stats: AttackStats;
   readonly rates: AttackRates;
   readonly composition: Composition;
@@ -38,10 +44,14 @@ export const buildAttack = (loadout: Loadout, attack: Attack, where: Where = {})
   const selection = { ...selectionOf(weapon, attack), bodyParts: new Set(bodyParts) };
   const contributions = contributionsTo(collected, library, { selection, moment });
   const totals = sumBuckets(contributions, library);
+  const forProcs = { selection: { ...selection, scope: 'proc' as const }, moment };
+  const procTotals = sumBuckets(contributionsTo(collected, library, forProcs), library);
   const stats = attackStats(weapon, attack, { totals, assumptions });
   return {
     attack,
     totals,
+    procTotals,
+    dots: dotRulesOf(library, assumptions),
     stats,
     rates: attackRates(weapon, attack, stats),
     composition: composeDamage(weapon, attack, {

@@ -118,6 +118,7 @@ export const LAYER_RULES = new Map<DamageType, DamageTypeRule>([
   ['toxin', rule({ overguard: 1, health: 1 })],
   ['void', rule({ ...ALL, overguard: 1.5 })],
   ['true', rule({ overguard: 1, health: 1 }, true)],
+  ['cinematic', rule(ALL, true)],
 ]);
 
 /** One shot of the test rifle, on average. */

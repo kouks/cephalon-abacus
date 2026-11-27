@@ -21,7 +21,7 @@ export const buckets = libraryFile(
   stat('weakPoint.damage', { scope: { direct: 1 }, op: 'ADD', bodyPart: 'weakPoint' }),
   stat('headshot.damage', { scope: { direct: 1 }, bodyPart: 'head' }),
   members('damage.ips', 'impact', 'puncture', 'slash'),
-  members('damage.element', ...ELEMENTS),
+  { ...members('damage.element', ...ELEMENTS), scope: { direct: 1, proc: 1, aoe: 1 } },
   members('damage.elementNoCombine', ...ELEMENTS),
   stat('multishot', { scope: { direct: 1, aoe: 1 } }),
   stat('crit.chance', { scope: { direct: 1, proc: 1, aoe: 1 } }),
@@ -32,6 +32,7 @@ export const buckets = libraryFile(
   stat('crit.damageFlat', { scope: { direct: 1, aoe: 1 }, op: 'ADD' }),
   stat('crit.damageFinal', { scope: { direct: 1, aoe: 1 }, op: 'MULTIPLY' }),
   stat('status.chance', { scope: { direct: 1 } }),
+  { ...bucket, id: 'status.damage', scope: { proc: 1 }, stage: 'proc' },
   ...[
     ...['fireRate', 'status.chanceFlat', 'status.duration', 'magazine', 'ammoMax', 'reload'],
     ...['punchThrough', 'range', 'projectileSpeed', 'aoeRadius'],

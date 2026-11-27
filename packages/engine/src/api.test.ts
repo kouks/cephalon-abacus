@@ -93,6 +93,7 @@ describe('evaluate', () => {
     ]);
     expect(Object.keys(result.trace[0] ?? {}).sort()).toEqual([
       'armor',
+      'dots',
       'factors',
       'layer',
       'pellet',

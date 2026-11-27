@@ -38,6 +38,18 @@ export const ASSUMPTIONS = {
    * three stacks is 30% × 1.3. If not, it adds points: 30% + 30%.
    */
   tauChanceMultiplied: { default: true, test: 'T-9', bible: '§8' },
+  /**
+   * DoT ticks take the faction's weakness to the type that procs them. The wiki's formulas have no such
+   * term, and T-23's bleeds on an Infested Runner show none of its Slash weakness.
+   */
+  dotsTakeTypeWeakness: { default: false, test: 'T-8', bible: '§8' },
+  /** A combined element's DoT, Gas, takes its components' bonuses too. The wiki: Gas mods alone. */
+  dotsTakeComponentBonuses: { default: false, test: 'T-8', bible: '§8' },
+  /**
+   * Electricity and Gas tick every second from the proc while it lasts: ⌈D⌉ times. If not, ⌊D − 1⌋ + 1,
+   * as the DoTs that wait a second, and the tick at the end deals nothing (the wiki).
+   */
+  immediateDotsTickToTheEnd: { default: false, test: 'T-8', bible: '§8' },
 } as const satisfies Readonly<Record<string, Assumption>>;
 
 export type Assumptions = Readonly<Record<keyof typeof ASSUMPTIONS, boolean>>;
@@ -52,4 +64,7 @@ export const DEFAULT_ASSUMPTIONS: Assumptions = {
   breakShownInOwnTerms: ASSUMPTIONS.breakShownInOwnTerms.default,
   armorCappedBeforeStrips: ASSUMPTIONS.armorCappedBeforeStrips.default,
   tauChanceMultiplied: ASSUMPTIONS.tauChanceMultiplied.default,
+  dotsTakeTypeWeakness: ASSUMPTIONS.dotsTakeTypeWeakness.default,
+  dotsTakeComponentBonuses: ASSUMPTIONS.dotsTakeComponentBonuses.default,
+  immediateDotsTickToTheEnd: ASSUMPTIONS.immediateDotsTickToTheEnd.default,
 };

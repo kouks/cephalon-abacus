@@ -39,6 +39,9 @@ const layeredSchema = object({
     .refine((shown) => Object.keys(shown).length > 0, 'Expected a number on some layer'),
 });
 
+/** A DoT tick's number, and the colour of the hit whose proc it is (BIBLE §8). */
+const tickSchema = object({ status: slugSchema, of: colourSchema, shown: nonNegative });
+
 /** What was seen in the game, exactly as it was reported. */
 const observedSchema = object({
   /** The arsenal's damage per type, which is not quantized. */
@@ -60,6 +63,8 @@ const observedSchema = object({
   layered: z.array(layeredSchema).min(1).readonly().exactOptional(),
   /** Types that never proc'd. */
   neverProcs: list(damageTypeSchema).exactOptional(),
+  /** The ticks of procs the hits inflicted, by the status. */
+  ticks: list(tickSchema).exactOptional(),
 })
   .refine((observed) => Object.keys(observed).length > 0, 'Expected something observed')
   .refine(({ hits, hitsOf }) => hitsOf === undefined || hits !== undefined, 'hitsOf needs hits');
@@ -100,6 +105,7 @@ export const goldenFixtureSchema = object({
 export type Colour = z.infer<typeof colourSchema>;
 export type Depleted = z.infer<typeof depletedSchema>;
 export type Layered = z.infer<typeof layeredSchema>;
+export type Tick = z.infer<typeof tickSchema>;
 export type Observed = z.infer<typeof observedSchema>;
 export type Tolerance = z.infer<typeof toleranceSchema>;
 export type GoldenFixture = z.infer<typeof goldenFixtureSchema>;
