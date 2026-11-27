@@ -154,7 +154,7 @@ data  →  importers
 
 ## In-game tests
 
-- Pavel runs tests in the game on request. Ask in batches of 3–4, and only once the engine has the code a test exercises, so each report can be replayed at once.
+- Pavel runs tests in the game on request. Ask in batches of 3–4, and only once the engine has the code a test exercises, so each report can be replayed at once. Each batch is a sheet in `.cases/` at the repo root, which git ignores.
 - Use the request template in BIBLE §16: Simulacrum, enemy and level, weapon and rank, every mod and its rank, no arcanes, companion or abilities unless they are the variable, body or head, and what to report. Change one variable per test.
 - Each report becomes `tests/golden/T-<n>-<topic>.json` (`T-5-cold-crit.json`) with the report word for word (typos fixed), the observed values exactly as reported, the game version, and a tolerance (`schema/goldenFixture.ts`). Each case holds a whole `Scenario`, which the debug page takes as it is. A fixture brings the modules, weapons and enemies that the library lacks, such as a Riven, and `hitsOf` names the attack whose numbers were read if it isn't the shot itself: an explosion. Never edit an observed value to make a test pass.
 - **Health, shields and Overguard have no number:** ask for the hits by colour until each is gone (`depleted`). Shields are exact to 10 with one hit that breaks all of them (BIBLE §10): that hit's numbers go in `layered`, with the hits before it. The runner replays hits one at a time through `evaluate`, with what the enemy has left in `enemy.left`.
