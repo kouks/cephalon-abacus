@@ -70,3 +70,20 @@ export type DotTrace = {
   /** The seconds after the hit that it ticks. */
   readonly times: readonly number[];
 };
+
+/** One tick of a DoT proc in a fight over time, on the enemy as it was then (BIBLE §8, §9). */
+export type TickTrace = {
+  /** Simulated seconds. */
+  readonly t: number;
+  readonly status: string;
+  /** The crit tier of the hit that inflicted the proc. */
+  readonly tier: number;
+  /** How much of a proc it is: a share in expected value. */
+  readonly share: number;
+  readonly seed: number;
+  /** In the order of the tick formula, on the layer it met. A tick is their product. */
+  readonly factors: readonly Factor[];
+  /** One tick of a whole proc, not rounded. */
+  readonly damage: number;
+  readonly layer: Layer;
+};

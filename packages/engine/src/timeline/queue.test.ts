@@ -1,6 +1,8 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 
+import { procOf } from '@/testing/tick';
+
 import type { TimelineEvent } from './events';
 import { RANK } from './events';
 import type { Queue } from './queue';
@@ -29,8 +31,15 @@ describe('the event queue', () => {
 
   it('gives events at the same time in the order of their kinds', () => {
     const death: TimelineEvent = { kind: 'enemyDeath', at: 1 };
-    const kinds = inOrder([reloadStart(1), fire(1), reloadEnd(1), death]).map(({ kind }) => kind);
-    expect(kinds).toEqual(['enemyDeath', 'reloadEnd', 'fire', 'reloadStart']);
+    const tick: TimelineEvent = { kind: 'procTick', at: 1, proc: procOf() };
+    const events = [reloadStart(1), tick, fire(1), reloadEnd(1), death];
+    expect(inOrder(events).map(({ kind }) => kind)).toEqual([
+      'enemyDeath',
+      'reloadEnd',
+      'fire',
+      'procTick',
+      'reloadStart',
+    ]);
   });
 
   it('gives events of one kind at the same time first added first', () => {
@@ -49,7 +58,11 @@ describe('the event queue', () => {
     expect(drain(queue)).toEqual([fire(1)]);
   });
 
-  const kinds = fc.constantFrom<TimelineEvent['kind']>('fire', 'reloadStart', 'reloadEnd');
+  const kinds = fc.constantFrom<'fire' | 'reloadStart' | 'reloadEnd'>(
+    'fire',
+    'reloadStart',
+    'reloadEnd',
+  );
   const events = fc.array(
     fc.record({ kind: kinds, at: fc.integer({ min: 0, max: 5 }), weight: fc.constant(1) }),
   );

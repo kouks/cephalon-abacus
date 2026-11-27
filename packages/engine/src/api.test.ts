@@ -151,6 +151,7 @@ describe('simulate', () => {
       'lasted',
       'layer',
       'series',
+      'ticks',
       'trace',
       'warnings',
     ]);

@@ -51,6 +51,8 @@ export type PelletHit = {
   readonly amount: number;
   readonly hit: HitResult;
   readonly dealt: readonly TierDealt[];
+  /** The attack as built for the part, without the statuses on the enemy, which its procs' ticks read. */
+  readonly built: BuiltAttack;
 };
 
 /** Which pellet of the pull, and how much of one: 1, or a share of the last in expected value. */
@@ -82,18 +84,22 @@ const landed = (state: EnemyState, strike: Strike, { pellet, fight }: Struck): O
     const tiers = roller.pick(new Map(dealt.map((tier) => [tier, tier.chance])), amount);
     const trace = { ...hit.trace, t: state.at, pellet: pellet.index };
     return {
-      hits: [{ pellet: pellet.index, amount, hit: { ...hit, trace }, dealt }],
+      hits: [{ pellet: pellet.index, amount, hit: { ...hit, trace }, dealt, built: forPart }],
       left: [...tiers].map(([tier, share]) => [share, tier.left] as const),
     };
   });
   return { hits: outcomes.flatMap(({ hits }) => hits), left: outcomes.flatMap(({ left }) => left) };
 };
 
-/** What is left after the pellet: its outcomes mixed by share, and the rest of the pellet as none. */
-const leftAfter = (left: LayersLeft, outcomes: Outcome['left']): LayersLeft => {
+/**
+ * What is left after a pellet or a tick: its outcomes mixed by share, and the rest of it as none. All
+ * of it lands on the neutral dummy's endless health, which a share of none would make 0 × ∞.
+ */
+export const leftAfter = (left: LayersLeft, outcomes: Outcome['left']): LayersLeft => {
   const missed = 1 - outcomes.reduce((sum, [share]) => sum + share, 0);
+  const unhit = (layer: keyof LayersLeft) => (missed > 0 ? missed * left[layer] : 0);
   const mix = (layer: keyof LayersLeft) =>
-    outcomes.reduce((sum, [share, after]) => sum + share * after[layer], missed * left[layer]);
+    outcomes.reduce((sum, [share, after]) => sum + share * after[layer], unhit(layer));
   return { overguard: mix('overguard'), shield: mix('shield'), health: mix('health') };
 };
 

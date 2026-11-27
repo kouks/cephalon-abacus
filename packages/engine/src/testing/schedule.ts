@@ -17,6 +17,7 @@ export const scheduleOf = (
   const handle: Handler<CycleState> = (state, event) => {
     events.push(event);
     if (event.kind === 'enemyDeath') return { state, next: [], isOver: true };
+    if (event.kind === 'procTick') return { state, next: [] };
     return advance(cycle, { state, event }, roller);
   };
   const start = loaded(cycle, 0, roller);

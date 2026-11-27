@@ -23,26 +23,26 @@ const modes = [...library.weapons.values()].flatMap((weapon) =>
 describe('every seed weapon, in a fight over time', () => {
   it('kills a level 30 Lancer, unmodded, in this long', () => {
     const lines = modes.map(({ name, weapon, attack }) => {
-      const { timeToKill, direct } = fightWith(weapon.id, attack.id);
+      const { timeToKill, direct, dot } = fightWith(weapon.id, attack.id);
       const killed = timeToKill === undefined ? 'lives' : `${timeToKill.toFixed(3)} s`;
-      return `${name}: ${killed}, ${Math.round(direct)} damage`;
+      return `${name}: ${killed}, ${Math.round(direct)} direct, ${Math.round(dot)} DoT`;
     });
     expect(lines).toMatchInlineSnapshot(`
       [
-        "Braton, Normal Attack: 12.057 s, 2002 damage",
-        "Soma Prime, Fully Spooled: 8.067 s, 2008 damage",
-        "Tigris Prime, Normal Attack: 0.500 s, 2559 damage",
-        "Hek, Normal Attack: 3.846 s, 2329 damage",
-        "Vectis, Normal Attack: 8.000 s, 2197 damage",
-        "Vectis Prime, Normal Attack: 2.825 s, 2361 damage",
-        "Paris, Uncharged Shot: 21.450 s, 2159 damage",
-        "Paris, Charged Shot: 7.400 s, 2216 damage",
-        "Burston, Normal Attack: 9.467 s, 1999 damage",
-        "Amprex, Normal Attack: 7.667 s, 2011 damage",
-        "Penta, Grenade Impact: 7.500 s, 2166 damage",
-        "Nagantaka Prime, Semi-Auto: 7.100 s, 2136 damage",
-        "Lex, Normal Attack: 20.392 s, 2128 damage",
-        "Kuva Nukor, Normal Attack: 6.500 s, 2015 damage",
+        "Braton, Normal Attack: 11.714 s, 1933 direct, 65 DoT",
+        "Soma Prime, Fully Spooled: 7.600 s, 1878 direct, 142 DoT",
+        "Tigris Prime, Normal Attack: 0.500 s, 2559 direct, 0 DoT",
+        "Hek, Normal Attack: 3.846 s, 2329 direct, 43 DoT",
+        "Vectis, Normal Attack: 7.000 s, 1949 direct, 157 DoT",
+        "Vectis Prime, Normal Attack: 2.825 s, 2361 direct, 45 DoT",
+        "Paris, Uncharged Shot: 19.800 s, 2004 direct, 86 DoT",
+        "Paris, Charged Shot: 7.400 s, 2216 direct, 47 DoT",
+        "Burston, Normal Attack: 8.823 s, 1821 direct, 177 DoT",
+        "Amprex, Normal Attack: 5.583 s, 1471 direct, 545 DoT",
+        "Penta, Grenade Impact: 7.500 s, 2166 direct, 0 DoT",
+        "Nagantaka Prime, Semi-Auto: 4.000 s, 1805 direct, 458 DoT",
+        "Lex, Normal Attack: 19.469 s, 2008 direct, 41 DoT",
+        "Kuva Nukor, Normal Attack: 6.500 s, 2015 direct, 0 DoT",
       ]
     `);
   });
@@ -50,9 +50,11 @@ describe('every seed weapon, in a fight over time', () => {
   it.each(modes.map(({ name, weapon, attack }) => [name, weapon.id, attack.id]))(
     '%s has a series as long as the fight, which adds up to its damage',
     (_name, weaponId, attackId) => {
-      const { series, lasted, direct } = fightWith(weaponId, attackId);
+      const { series, lasted, direct, dot } = fightWith(weaponId, attackId);
       expect(series.direct).toHaveLength(Math.ceil(lasted / series.step - 1e-9));
+      expect(series.dot).toHaveLength(series.direct.length);
       expect(series.direct.reduce((sum, damage) => sum + damage, 0)).toBeCloseTo(direct, 6);
+      expect(series.dot.reduce((sum, damage) => sum + damage, 0)).toBeCloseTo(dot, 6);
       expect(direct).toBeGreaterThan(0);
     },
   );
