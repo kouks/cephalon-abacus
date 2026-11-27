@@ -16,6 +16,7 @@ export const scheduleOf = (
   const events: TimelineEvent[] = [];
   const handle: Handler<CycleState> = (state, event) => {
     events.push(event);
+    if (event.kind === 'enemyDeath') return { state, next: [], isOver: true };
     return advance(cycle, { state, event }, roller);
   };
   const start = loaded(cycle, 0, roller);

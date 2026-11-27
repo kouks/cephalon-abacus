@@ -13,7 +13,7 @@ import {
 } from '@/testing/build';
 import { attackOf } from '@/testing/metrics';
 
-import { API_VERSION, evaluate } from './api';
+import { API_VERSION, evaluate, simulate } from './api';
 
 const modules = [SERRATION, GALVANIZED_CHAMBER];
 const library = makeLibrary(modules);
@@ -134,5 +134,54 @@ describe('evaluate', () => {
     expect(() => evaluate(scenarioOf({ build }), library)).toThrow('No weapon "nothing"');
     const enemy = { ...scenarioOf().enemy, id: 'nobody' };
     expect(() => evaluate(scenarioOf({ enemy }), library)).toThrow('No enemy "nobody"');
+  });
+});
+
+describe('simulate', () => {
+  const short = scenarioOf({ duration: 2 });
+
+  it('has these fields, in this version', () => {
+    const result = simulate(short, library);
+    expect(result.apiVersion).toBe(API_VERSION);
+    expect(Object.keys(result).sort()).toEqual([
+      'apiVersion',
+      'attackId',
+      'direct',
+      'dot',
+      'lasted',
+      'layer',
+      'series',
+      'trace',
+      'warnings',
+    ]);
+    expect(Object.keys(result.series).sort()).toEqual(['direct', 'dot', 'step']);
+  });
+
+  it('gives plain data, the same for the same scenario, and leaves it as it is', () => {
+    const result = simulate(freeze(scenarioOf({ duration: 2 })), library);
+    expect(notPlain(result)).toEqual([]);
+    expect(result).toEqual(simulate(short, library));
+  });
+
+  it('fights with the firing mode the headline is for', () => {
+    expect(simulate(short, library).attackId).toBe(evaluate(short, library).attackId);
+  });
+
+  it('takes other assumptions', () => {
+    const vitalSense = mod('vital-sense', [add('crit.damage', 1.2)]);
+    const noProcs = { critChance: 1, statusChance: 0, flags: ['canCrit', 'canHeadshot'] };
+    const critical = makeLibrary([vitalSense], { attacks: [attackOf('normal', noProcs)] });
+    const build = { ...short.build, modules: [{ moduleId: 'vital-sense' }] };
+    const onHead = { ...short, build, aim: { head: 1, body: 0 } };
+    const assumptions = { headcritScalesModded: false };
+    const changed = simulate(onHead, critical, { assumptions }).direct;
+    expect(changed / simulate(onHead, critical).direct).toBeCloseTo(3.2 / 4.4, 9);
+  });
+
+  it('throws if there is nothing to fight with or against', () => {
+    const build = { ...short.build, weaponId: 'nothing' };
+    expect(() => simulate({ ...short, build }, library)).toThrow('No weapon "nothing"');
+    const enemy = { ...short.enemy, id: 'nobody' };
+    expect(() => simulate({ ...short, enemy }, library)).toThrow('No enemy "nobody"');
   });
 });

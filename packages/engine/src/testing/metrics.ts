@@ -3,6 +3,7 @@ import { weapon } from '@abacus/data/testing/fixtures';
 
 import type { Assumptions } from '@/assumptions';
 import { buildMetrics } from '@/metrics/buildMetrics';
+import { simulation } from '@/metrics/simulation';
 
 import { makeLibrary, makeScenario } from './build';
 
@@ -40,8 +41,8 @@ export const BLAST = attackOf('blast', {
   flags: ['isAoE'],
 });
 
-/** 8 shots/s, 45 rounds and 540 more, 2 s reload. */
-export const measureBuild = (setup: Setup = {}) => {
+/** The scenario and library of a setup: on the body of the neutral dummy, unless it says otherwise. */
+const fightOf = (setup: Setup) => {
   const { modules = [], attacks = [attackOf('normal')], weaponChange = {}, build = {} } = setup;
   const ids = modules.map(({ id }) => ({ moduleId: id }));
   const scenario = {
@@ -51,5 +52,17 @@ export const measureBuild = (setup: Setup = {}) => {
     ...setup.scenario,
   };
   const library = makeLibrary(modules, { attacks, ...weaponChange }, setup.enemies);
+  return { scenario, library };
+};
+
+/** 8 shots/s, 45 rounds and 540 more, 2 s reload. */
+export const measureBuild = (setup: Setup = {}) => {
+  const { scenario, library } = fightOf(setup);
   return buildMetrics(scenario, library, setup.assumptions);
+};
+
+/** The same build in a fight over time, for the scenario's duration (20 s) unless it says otherwise. */
+export const simulateBuild = (setup: Setup = {}) => {
+  const { scenario, library } = fightOf(setup);
+  return simulation(scenario, library, setup.assumptions);
 };

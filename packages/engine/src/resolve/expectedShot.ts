@@ -13,8 +13,8 @@ import { dotDamageOf } from './dot/dotDamage';
 
 import type { HitResult } from './resolveHit';
 import { resolveHit } from './resolveHit';
-import type { AimedPart, Target } from './target';
-import { aimAt, bodyOf } from './target';
+import type { Target } from './target';
+import { partsHit } from './target';
 
 /** One shot on average: its pellets, and where they land. */
 export type ExpectedShot = {
@@ -45,12 +45,6 @@ type Shot = {
   readonly defence?: Defence | undefined;
 };
 
-/** An attack that can't headshot hits the body, wherever it is aimed: most AoE. */
-const partsHit = ({ attack }: BuiltAttack, { target, aim }: Shot): readonly AimedPart[] =>
-  attack.flags?.includes('canHeadshot') === true
-    ? aimAt(aim, target)
-    : [{ part: bodyOf(target), share: 1 }];
-
 const addUp = (hits: ExpectedShot['hits'], pellets: number) => {
   const perType = new Map<DamageType, number>();
   for (const { share, hit } of hits) {
@@ -66,7 +60,7 @@ export const expectedShot = (shot: Shot): ExpectedShot => {
   const built = buildFor([]);
   const { stats } = built;
   const pellets = Math.max(stats.multishot.value, 0);
-  const hits = partsHit(built, shot).map(({ part, share }) => {
+  const hits = partsHit(built.attack, shot).map(({ part, share }) => {
     const at = { target, part, distance, reach, missBy: aim.missBy };
     const built = buildFor(part.bodyParts);
     const dealt = defence === undefined ? [] : dealtOnLayers(built, at, defence);

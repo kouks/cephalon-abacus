@@ -6,13 +6,19 @@ export type TimelineEvent =
   /** The trigger fires a shot: 1, or in expected value a share of the last of a magazine. */
   | { readonly kind: 'fire'; readonly at: number; readonly weight: number }
   | { readonly kind: 'reloadStart'; readonly at: number }
-  | { readonly kind: 'reloadEnd'; readonly at: number };
+  | { readonly kind: 'reloadEnd'; readonly at: number }
+  /** Its health is gone: the fight ends, and nothing else at that moment happens. */
+  | { readonly kind: 'enemyDeath'; readonly at: number };
 
 export type EventKind = TimelineEvent['kind'];
 
-/** Events at the same moment go in this order: a reload ends before the shot it lets fire. */
+/**
+ * Events at the same moment go in this order: the enemy dies before anything else can happen to it,
+ * and a reload ends before the shot it lets fire.
+ */
 export const RANK: Readonly<Record<EventKind, number>> = {
-  reloadEnd: 0,
-  fire: 1,
-  reloadStart: 2,
+  enemyDeath: 0,
+  reloadEnd: 1,
+  fire: 2,
+  reloadStart: 3,
 };

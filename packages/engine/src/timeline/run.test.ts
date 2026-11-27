@@ -32,6 +32,16 @@ describe('running the events', () => {
     ]);
   });
 
+  it('ends at an event that ends it, with others still waiting', () => {
+    const endsAtTwo: Handler<readonly number[]> = (seen, event) => ({
+      state: [...seen, event.at],
+      next: [],
+      isOver: event.at === 2,
+    });
+    const start = { state: [], events: [fire(1), fire(2), fire(3)] };
+    expect(runUntil(start, endsAtTwo, Infinity)).toEqual([1, 2]);
+  });
+
   it('ends when no event is left', () => {
     const once: Handler<number> = (count) => ({ state: count + 1, next: [] });
     expect(runUntil({ state: 0, events: [fire(0), fire(1)] }, once, Infinity)).toBe(2);

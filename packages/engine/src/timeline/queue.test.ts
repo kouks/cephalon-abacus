@@ -28,8 +28,9 @@ describe('the event queue', () => {
   });
 
   it('gives events at the same time in the order of their kinds', () => {
-    const kinds = inOrder([reloadStart(1), fire(1), reloadEnd(1)]).map(({ kind }) => kind);
-    expect(kinds).toEqual(['reloadEnd', 'fire', 'reloadStart']);
+    const death: TimelineEvent = { kind: 'enemyDeath', at: 1 };
+    const kinds = inOrder([reloadStart(1), fire(1), reloadEnd(1), death]).map(({ kind }) => kind);
+    expect(kinds).toEqual(['enemyDeath', 'reloadEnd', 'fire', 'reloadStart']);
   });
 
   it('gives events of one kind at the same time first added first', () => {
